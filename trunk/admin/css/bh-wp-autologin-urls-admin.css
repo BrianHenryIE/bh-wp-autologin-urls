@@ -1,0 +1,18 @@
+/**
+ * Wrapped in bh-wp-autologin-urls class
+ */
+
+
+.bh-wp-autologin-urls .url {
+    padding: 3px;
+    background-color: white;
+    font-family: courier;
+}
+
+.bh-wp-autologin-urls .regex td {
+    padding: 5px 0;
+}
+
+.bh-wp-autologin-urls .note {
+    width: 350px;
+}

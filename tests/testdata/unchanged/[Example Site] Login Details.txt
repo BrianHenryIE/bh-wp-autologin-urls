@@ -1,0 +1,7 @@
+Username: myuser
+
+To set your password, visit the following address:
+
+<http://example.org/wp-login.php?action=rp&key=1WV7flFdBnzyZvTvkpXs&login=myuser>
+
+http://example.org/wp-login.php

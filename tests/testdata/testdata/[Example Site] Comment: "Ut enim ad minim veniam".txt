@@ -1,0 +1,13 @@
+New comment on your post "Lorem ipsum dolor sit amet"
+Author: Username (IP address: 256.256.256.256, ip-256-256-256-256.isp.dublin.ie)
+Email: email@example.org
+URL:
+Comment:
+Ut enim ad minim veniam.
+
+You can see all comments on this post here:
+http://example.org/2018/08/lorem-ipsum-dolor-sit-amet/#comments
+
+Permalink: http://example.org/2018/08/lorem-ipsum-dolor-sit-amet/#comment-33
+Trash it: http://example.org/wp-admin/comment.php?action=trash&c=33#wpbody-content
+Spam it: http://example.org/wp-admin/comment.php?action=spam&c=33#wpbody-content

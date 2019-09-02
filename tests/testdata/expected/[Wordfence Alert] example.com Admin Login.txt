@@ -1,0 +1,19 @@
+This email was sent from your website "Example Site" by the Wordfence plugin at Thursday 11th of July 2019 at 07:08:09 AM
+The Wordfence administrative URL for this site is: http://example.org/wp-admin/admin.php?page=Wordfence&autologin=123~mockpassw0rd
+A user with username "myuser" who has administrator access signed in to your WordPress site.
+User IP: 256.256.256.256
+User hostname: 256-256-256-256.static.exampleisp.com
+User location: Dublin, Ireland
+
+
+
+--
+To change your alert options for Wordfence, visit:
+http://example.org/wp-admin/admin.php?page=Wordfence&subpage=global_options&autologin=123~mockpassw0rd
+To see current Wordfence alerts, visit:
+http://example.org/wp-admin/admin.php?page=Wordfence&autologin=123~mockpassw0rd
+
+
+
+
+No longer an administrator for this site? Click here to stop receiving security alerts: http://example.org/?_wfsf=removeAlertEmail&jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluQGFuYWJvbGljdHYuY29tIiwiX2V4cCI6MTU2MzQzMzY4OX0.8M9X-nci21DSl5KkSoaYuSL-md-1UDLadsShhD6gedI&autologin=123~mockpassw0rd

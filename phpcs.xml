@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<ruleset name="WordPress Coding Standards for Plugins">
+    <description>Generally-applicable sniffs for WordPress plugins</description>
+
+    <rule ref="WordPress" />
+
+    <!-- Check all PHP files in directory tree by default. -->
+    <arg name="extensions" value="php"/>
+    <file>.</file>
+
+    <!-- Show progress and sniff codes in all reports -->
+    <arg value="ps"/>
+
+    <exclude-pattern>*/vendor/*</exclude-pattern>
+    <exclude-pattern>*/scratch/*</exclude-pattern>
+    <exclude-pattern>*/trunk/lib/*</exclude-pattern>
+    <exclude-pattern>*/wordpress/*</exclude-pattern>
+    <exclude-pattern>*/wp-content/*</exclude-pattern>
+
+    <!-- PhpStorm is aligning Mockery code in a way WordPress CS doesn't like  -->
+    <rule ref="WordPress.WhiteSpace.PrecisionAlignment.Found">
+        <exclude-pattern>*/tests/*</exclude-pattern>
+    </rule>
+
+    <!-- A .php file with no code is being used in testing -->
+    <rule ref="Internal.NoCodeFound">
+        <exclude-pattern>*/tests/*</exclude-pattern>
+    </rule>
+
+    <rule ref="WordPress.Files.FileName.InvalidClassFileName">
+        <exclude-pattern>abstract*</exclude-pattern>
+    </rule>
+
+    <rule ref="Squiz.Commenting.FileComment.Missing">
+        <exclude-pattern>autoload.php</exclude-pattern>
+    </rule>
+
+</ruleset>

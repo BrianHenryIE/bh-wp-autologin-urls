@@ -1,0 +1,5 @@
+New user registration on your site Example Site:
+
+Username: myuser
+
+Email: myuser@example.org

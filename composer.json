@@ -1,0 +1,22 @@
+{
+  "repositories": [
+    {
+      "url": "https://github.com/WordPress/wordpress-develop",
+      "type": "git"
+    }
+  ],
+  "require-dev": {
+    "wordpress/wordpress": "dev-master",
+    "10up/wp_mock": "0.4.2",
+    "dealerdirect/phpcodesniffer-composer-installer": "*",
+    "wp-coding-standards/wpcs": "*",
+    "phpunit/phpcov": "^5.0"
+  },
+  "license": "GPL-2.0+-or-later",
+  "authors": [
+    {
+      "name": "Brian Henry",
+      "email": "BrianHenryIE@gmail.com"
+    }
+  ]
+}
