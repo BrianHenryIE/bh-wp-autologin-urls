@@ -1,6 +1,6 @@
 <?php
 /**
- * Tests for Regex_Subject_Filters
+ * Tests for Regex Subject Filters UI field.
  *
  * @see Regex_Subject_Filters
  *
@@ -10,10 +10,13 @@
 
 namespace BH_WP_Autologin_URLs\admin\partials;
 
+use BH_WP_Autologin_URLs\includes\Settings;
 use BH_WP_Autologin_URLs\includes\Settings_Interface;
 
 /**
  * Class Regex_Subject_Filters_Test
+ *
+ * phpcs:disable WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
  */
 class Regex_Subject_Filters_Test extends \WP_Mock\Tools\TestCase {
 
@@ -31,16 +34,75 @@ class Regex_Subject_Filters_Test extends \WP_Mock\Tools\TestCase {
 	 */
 	private $version = '1.0.0';
 
-
 	/**
-	 * Test: a table is returned.
+	 * Test the HTML output for the text field. -- when  there are none in the database.
 	 *
 	 * {"uid":"bh_wp_autologin_urls_subject_filter_regex_dictionary","label":"Regex subject filters:","type":"regex-dictionary-list","supplemental":"Take care to include leading and trailing \/ and use ^ and $ as appropriate.","default":[],"sanitize_callback":[{},"validation_callback_regex_filter_list"]}
+	 *
+	 * Uses DOMDocument to test the text output, check the HTML elements match those whitelisted
+	 * by wp_kses and confirm the id is correct.
 	 */
-	public function test_print_table() {
-		$this->markTestIncomplete( 'unimplemented' );
-	}
+	public function test_print_element() {
 
+		$disallowed_subjects_regex_dictionary = array();
+
+		$settings_mock = $this->createMock( Settings_Interface::class );
+		$settings_mock->method( 'get_disallowed_subjects_regex_dictionary' )->willReturn( $disallowed_subjects_regex_dictionary );
+
+		$sut = new Regex_Subject_Filters( $this->plugin_name, $this->version, 'settings_page', $settings_mock );
+
+		$args = array(
+			'helper'       => 'Emails whose subjects match these regex patterns will not have autologin codes added.',
+			'supplemental' => 'Take care to include leading and trailing / and use ^ and $ as appropriate. Use phpliveregex.comto test.',
+			'default'      => array(),
+		);
+
+		// Return the HTML passed through wp_kses.
+		\WP_Mock::userFunction(
+			'wp_kses',
+			array(
+				'return_arg' => 0,
+			)
+		);
+
+		ob_start();
+
+		$sut->print_field_callback( $args );
+
+		$output = ob_get_clean();
+
+		$dom = new \DOMDocument();
+
+		// phpcs:disable WordPress.PHP.NoSilencedErrors.Discouraged
+		@$dom->loadHtml( mb_convert_encoding( $output, 'HTML-ENTITIES', 'UTF-8' ) );
+
+		$nodes = $dom->childNodes;
+
+		// 0 is DOCTYPE, 1 is HTML
+		$html = $nodes->item( 1 );
+		$body = $html->childNodes->item( 0 );
+
+		// There should be two text inputs. One for a new regex and one for its subject.
+		$inputs = $body->getElementsByTagName( 'input' );
+		$this->assertEquals( 2, $inputs->length );
+
+		$regex_input   = $inputs->item( 0 );
+		$subject_input = $inputs->item( 1 );
+
+		$regex_input_type = $regex_input->getAttribute( 'type' );
+		$this->assertEquals( 'text', $regex_input_type );
+
+		$subject_input_type = $regex_input->getAttribute( 'type' );
+		$this->assertEquals( 'text', $subject_input_type );
+
+		$body_text = $body->textContent;
+		$this->assertEquals( $args['helper'] . $args['supplemental'], $body_text );
+
+		// Find the name by removing the arrays at the end.
+		$name = preg_replace( '/(.*)\[\d+\]\[.*\]/', '$1', $regex_input->getAttribute( 'name' ) );
+		$this->assertEquals( Settings::SUBJECT_FILTER_REGEX_DICTIONARY, $name );
+
+	}
 
 	/**
 	 * Tests the data POSTed to WordPress settings API is correctly restructured

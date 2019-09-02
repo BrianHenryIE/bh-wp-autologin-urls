@@ -3,3 +3,4 @@
 scratch*
 .DS_Store
 vendor/*
+releases
