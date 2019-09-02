@@ -38,7 +38,7 @@ class Regex_Subject_Filters extends Settings_Section_Element_Abstract {
 		$this->page  = $settings_page;
 
 		$this->add_settings_field_args['helper']       = __( 'Emails whose subjects match these regex patterns will not have autologin codes added.', 'bh-wp-autologin-urls' );
-		$this->add_settings_field_args['supplemental'] = __( ' Take care to include leading and trailing / and use ^ and $ as appropriate.', 'bh-wp-autologin-urls' ) . ' Use <a href="https://www.phpliveregex.com/#tab-preg-match">phpliveregex.com</a> to test.';
+		$this->add_settings_field_args['supplemental'] = __( 'Take care to include leading and trailing / and use ^ and $ as appropriate.', 'bh-wp-autologin-urls' ) . ' Use <a href="https://www.phpliveregex.com/#tab-preg-match">phpliveregex.com</a> to test.';
 		$this->add_settings_field_args['default']      = array();
 	}
 
