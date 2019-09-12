@@ -39,6 +39,12 @@ class Login_Test extends \WP_Mock\Tools\TestCase {
 		global $project_root_dir;
 
 		require_once $project_root_dir . '/vendor/wordpress/wordpress/src/wp-includes/class-wp-user.php';
+
+		$_SERVER['REMOTE_ADDR'] = '127.0.0.1';
+
+		if ( ! defined( 'DAY_IN_SECONDS' ) ) {
+			define( 'DAY_IN_SECONDS', 24 * 60 * 60 );
+		}
 	}
 
 	/**
@@ -124,8 +130,6 @@ class Login_Test extends \WP_Mock\Tools\TestCase {
 
 		$login = new Login( $this->plugin_name, $this->version, $api );
 
-		$_GET['autologin'] = null;
-
 		$success = $login->wp_init_process_autologin();
 
 		$this->assertFalse( $success );
@@ -143,6 +147,8 @@ class Login_Test extends \WP_Mock\Tools\TestCase {
 		$autologin_querystring = 'brian~testpassword';
 
 		$_GET['autologin'] = $autologin_querystring;
+
+		$_SERVER['REMOTE_ADDR'] = '127.0.0.1';
 
 		\WP_Mock::userFunction(
 			'wp_unslash',
