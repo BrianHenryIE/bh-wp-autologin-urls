@@ -72,6 +72,22 @@ class Login extends \WPPB_Object {
 
 		$autologin_querystring = sanitize_text_field( wp_unslash( $_GET[ self::QUERYSTRING_PARAMETER_NAME ] ) );
 
+		list( $user_id, $password ) = explode( '~', $autologin_querystring, 2 );
+
+		if ( empty( $user_id ) || empty( $password ) || ! is_numeric( $user_id ) || ! ctype_alnum( $password ) ) {
+
+			$this->record_bad_attempts( $autologin_querystring );
+
+			return false;
+		}
+
+		$user_id = intval( $user_id );
+
+		if ( get_current_user_id() === $user_id ) {
+			// Already logged in.
+			return false;
+		}
+
 		// Check for blocked IP.
 		if ( ! empty( $_SERVER['REMOTE_ADDR'] ) ) {
 
@@ -92,25 +108,9 @@ class Login extends \WPPB_Object {
 			}
 		}
 
-		list( $user_id, $password ) = explode( '~', $autologin_querystring, 2 );
+		$failure_transient_name_for_user = self::FAILURE_TRANSIENT_PREFIX . $user_id;
 
-		if ( empty( $user_id ) || empty( $password ) || ! is_numeric( $user_id ) || ! ctype_alnum( $password ) ) {
-
-			$this->record_bad_attempts( $autologin_querystring );
-
-			return false;
-		}
-
-		$user_id = intval( $user_id );
-
-		if ( get_current_user_id() === $user_id ) {
-			// Already logged in.
-			return false;
-		}
-
-			$failure_transient_name_for_user = self::FAILURE_TRANSIENT_PREFIX . $user_id;
-
-			$user_failures = get_transient( $failure_transient_name_for_user );
+		$user_failures = get_transient( $failure_transient_name_for_user );
 
 		if ( ! empty( $user_failures ) && is_array( $user_failures ) && isset( $user_failures['count'] ) ) {
 
@@ -155,6 +155,7 @@ class Login extends \WPPB_Object {
 
 		// This is how WordPress gets the IP in WP_Session_Tokens().
 		if ( ! empty( $_SERVER['REMOTE_ADDR'] ) ) {
+			// filter_var($domain, FILTER_VALIDATE_IP)
 			$ip_address = wp_unslash( $_SERVER['REMOTE_ADDR'] );
 		}
 
