@@ -191,6 +191,10 @@ Code coverage will be output in the console, and as HTML under `/tests/reports/h
 ./vendor/bin/phpcs -p ./trunk --standard=PHPCompatibilityWP --runtime-set testVersion 5.7-
 ```
 
+### Minimum WordPress Version
+
+The minimum WordPress version was determined using [wpseek.com's Plugin Doctor](https://wpseek.com/pluginfilecheck/).
+
 ## TODO
 
 * Regex for URLs with trailing brackets e.g. "(https://example.org)" 
