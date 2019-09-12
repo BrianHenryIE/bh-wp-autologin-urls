@@ -91,7 +91,7 @@ class Login extends \WPPB_Object {
 		// Check for blocked IP.
 		if ( ! empty( $_SERVER['REMOTE_ADDR'] ) ) {
 
-			$ip_address = wp_unslash( $_SERVER['REMOTE_ADDR'] );
+			$ip_address = filter_var( wp_unslash( $_SERVER['REMOTE_ADDR'] ), FILTER_VALIDATE_IP );
 
 			$failure_transient_name_for_ip = self::FAILURE_TRANSIENT_PREFIX . str_replace( '.', '-', $ip_address );
 
@@ -155,8 +155,8 @@ class Login extends \WPPB_Object {
 
 		// This is how WordPress gets the IP in WP_Session_Tokens().
 		if ( ! empty( $_SERVER['REMOTE_ADDR'] ) ) {
-			// filter_var($domain, FILTER_VALIDATE_IP)
-			$ip_address = wp_unslash( $_SERVER['REMOTE_ADDR'] );
+
+			$ip_address = filter_var( wp_unslash( $_SERVER['REMOTE_ADDR'] ), FILTER_VALIDATE_IP );
 		}
 
 		// TODO: What to do when there's no IP address?
