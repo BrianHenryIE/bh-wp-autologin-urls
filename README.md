@@ -51,12 +51,15 @@ The plugin conforms to all the suggesitions in the StackExchange discussion, [Im
 * Codes are single use
 * Codes automatically expire
 
+Additionally, authentication via Autologin URLs is disabled for 24 hours for users whose accounts have had five failed login attempts through an autologin URL and for IPs which have attempted and failed five times.
+
 **Warning:** *If you use any plugin to save copies of outgoing mail, those saved emails will contain autologin URLs.*
 
 ### Performant
 
 * The additional rows added as transients to the `wp_options` table will be proportionate to the number of emails sent
 * Additional database queries only occur when a URL with `autologin=` is visited
+* No database queries are performed if the autologin user is already logged in
 * Transients are queried by `wp_options.option_name` which is a [UNIQUE](http://www.mysqltutorial.org/mysql-unique-constraint/) column, i.e. indexed
 * Transients are deleted when they are used to login
 * WordPress, [since v4.9](https://core.trac.wordpress.org/ticket/41699#comment:17), automatically purges expired transients

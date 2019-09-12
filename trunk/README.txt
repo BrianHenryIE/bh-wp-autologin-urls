@@ -39,5 +39,8 @@ unit & integration tested.
 
 == Changelog ==
 
+= 1.1 =
+* Rate limiting added for multiple failed login attempts against user accounts and from IPs. This only affects Autologin URLs logins and does not affect other authentication. 2019-September-11.
+
 = 1.0 =
 * First release. 2019-September-01.
