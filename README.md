@@ -55,7 +55,7 @@ The plugin conforms to all the suggesitions in the StackExchange discussion, [Im
 
 ### Performant
 
-* The additional rows added as transients to the `wp_options` table will be equal to the number of emails sent
+* The additional rows added as transients to the `wp_options` table will be proportionate to the number of emails sent
 * Additional database queries only occur when a URL with `autologin=` is visited
 * Transients are queried by `wp_options.option_name` which is a [UNIQUE](http://www.mysqltutorial.org/mysql-unique-constraint/) column, i.e. indexed
 * Transients are deleted when they are used to login
