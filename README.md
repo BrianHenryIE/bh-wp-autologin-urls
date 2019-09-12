@@ -183,6 +183,14 @@ vendor/bin/phpcov merge --clover tests/reports/clover.xml --html tests/reports/h
 
 Code coverage will be output in the console, and as HTML under `/tests/reports/html/`.
 
+### Minimum PHP Version
+
+[PHPCompatibilityWP](https://github.com/PHPCompatibility/PHPCompatibilityWP) is installed by Composer to check the minimum PHP version required. 
+
+```
+./vendor/bin/phpcs -p ./trunk --standard=PHPCompatibilityWP --runtime-set testVersion 5.7-
+```
+
 ## TODO
 
 * Regex for URLs with trailing brackets e.g. "(https://example.org)" 
