@@ -17,7 +17,7 @@ Autologin URLs adds login codes to emails sent to registered users and automatic
 
 Users are automatically logged in after receiving:
 
-* Comment reply notifications
+* Comment reply emails
 * Abandoned cart emails
 * Membership reminder emails
 * etc.
@@ -26,7 +26,7 @@ No configuration is required. Default settings:
 
 * Autologin URLs work for one week
 * Emails to administrators are excluded
-* User emails on exclusion shortlist are not modified
+* Emails on exclusion shortlist are not modified
 
 An API is available for developers to use autologin codes elsewhere in WordPress, e.g. push notifications. Code is
 published on GitHub, uses WordPress Plugin Boilerplate, conforms (mostly) to WordPress Coding Standards, and is
