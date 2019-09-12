@@ -84,7 +84,7 @@ Instances of classes hooked in actions and filters are exposed as properties of 
 $autologin_urls = $GLOBALS['bh-wp-autologin-urls'];
 ```
 
-API functions can be accessed through the `api` property of the main plugin class:
+[API functions](https://github.com/BrianHenryIE/BH-WP-Autologin-URLs/blob/master/trunk/api/interface-api.php) can be accessed through the `api` property of the main plugin class:
 
 ```
 /** @var BH_WP_Autologin_URLs\api\API_Interface $autologin_urls_api */
