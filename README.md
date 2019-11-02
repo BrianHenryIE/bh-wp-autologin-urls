@@ -143,7 +143,7 @@ Create the database and user, granting the user full permissions:
 
 ```
 CREATE DATABASE wordpress_tests;
-CREATE USER 'wordpress-develop'@'%' IDENTIFIED WITH mysql_native_password BY 'wordpress-develop'
+CREATE USER 'wordpress-develop'@'%' IDENTIFIED WITH mysql_native_password BY 'wordpress-develop';
 GRANT ALL PRIVILEGES ON wordpress_tests.* TO 'wordpress-develop'@'%';
 ```
 
