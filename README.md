@@ -183,6 +183,10 @@ vendor/bin/phpcov merge --clover tests/reports/clover.xml --html tests/reports/h
 
 Code coverage will be output in the console, and as HTML under `/tests/reports/html/`.
 
+### Minimum WordPress Version
+
+The minimum WordPress version was determined using [wpseek.com's Plugin Doctor](https://wpseek.com/pluginfilecheck/).
+
 ## TODO
 
 * Regex for URLs with trailing brackets e.g. "(https://example.org)" 

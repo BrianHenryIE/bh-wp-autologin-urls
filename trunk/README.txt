@@ -2,7 +2,7 @@
 Contributors: BrianHenryIE
 Donate link: https://BrianHenry.ie
 Tags: login, email, links, users, newsletter, notification, simple, wp_mail
-Requires at least: 5.0.0
+Requires at least: 4.5.0
 Tested up to: 5.2.2
 Stable tag: trunk
 License: GPLv2 or later
