@@ -1,4 +1,4 @@
-[![WordPress tested 5.2](https://img.shields.io/badge/WordPress-v5.2%20tested-0073aa.svg)](https://wordpress.org/plugins/bh-wp-autologin-urls) [![PHPCS WPCS](https://img.shields.io/badge/PHPCS-WordPress%20Coding%20Standards-8892BF.svg)](https://github.com/WordPress-Coding-Standards/WordPress-Coding-Standards) [![License: GPL v2 or later](https://img.shields.io/badge/License-GPL%20v2%20or%20later-bd0000.svg)](https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html) [![PHPUnit ](https://img.shields.io/badge/PHPUnit-98%25%20coverage-28a745.svg)]()
+[![WordPress tested 5.2](https://img.shields.io/badge/WordPress-v5.2%20tested-0073aa.svg)](https://wordpress.org/plugins/bh-wp-autologin-urls) [![PHPCS WPCS](https://img.shields.io/badge/PHPCS-WordPress%20Coding%20Standards-8892BF.svg)](https://github.com/WordPress-Coding-Standards/WordPress-Coding-Standards) [![License: GPL v2 or later](https://img.shields.io/badge/License-GPL%20v2%20or%20later-bd0000.svg)](https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html) [![PHPUnit ](https://img.shields.io/badge/PHPUnit-98%25%20coverage-28a745.svg)]() [![Active installs](https://img.shields.io/badge/Active%20Installs-%3C%2010-ffb900.svg)]()
 
 # Autologin URLs
 
@@ -59,7 +59,7 @@ Additionally, authentication via Autologin URLs is disabled for 24 hours for use
 
 * The additional rows added as transients to the `wp_options` table will be proportionate to the number of emails sent
 * Additional database queries only occur when a URL with `autologin=` is visited
-* No database queries are performed if the autologin user is already logged in
+* No database queries (beyond autoloaded settings) are performed if the autologin user is already logged in
 * Transients are queried by `wp_options.option_name` which is a [UNIQUE](http://www.mysqltutorial.org/mysql-unique-constraint/) column, i.e. indexed
 * Transients are deleted when they are used to login
 * WordPress, [since v4.9](https://core.trac.wordpress.org/ticket/41699#comment:17), automatically purges expired transients
@@ -146,7 +146,7 @@ Create the database and user, granting the user full permissions:
 
 ```
 CREATE DATABASE wordpress_tests;
-CREATE USER 'wordpress-develop'@'%' IDENTIFIED WITH mysql_native_password BY 'wordpress-develop'
+CREATE USER 'wordpress-develop'@'%' IDENTIFIED WITH mysql_native_password BY 'wordpress-develop';
 GRANT ALL PRIVILEGES ON wordpress_tests.* TO 'wordpress-develop'@'%';
 ```
 
@@ -198,6 +198,10 @@ Code coverage will be output in the console, and as HTML under `/tests/reports/h
 
 The minimum WordPress version was determined using [wpseek.com's Plugin Doctor](https://wpseek.com/pluginfilecheck/).
 
+### WordPress.org Deployment
+
+https://zerowp.com/use-github-actions-to-publish-wordpress-plugins-on-wp-org-repository/
+
 ## TODO
 
 * Regex for URLs with trailing brackets e.g. "(https://example.org)" 
@@ -208,6 +212,7 @@ The minimum WordPress version was determined using [wpseek.com's Plugin Doctor](
 * Error messages on settings page validation failures
 * Sanitize out regex pattern that would entirely disable the plugin
 * Client-side settings page validation
+* Test adding an autologin code to a URL which already has one overwrites the old one (and leaves only the one).
 
 ## Licence
 
