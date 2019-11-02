@@ -11,6 +11,8 @@
 
 namespace BH_WP_Autologin_URLs\login;
 
+use BH_WP_Autologin_URLs\api\API_Interface;
+
 /**
  * The actual logging in functionality of the plugin.
  *
@@ -32,9 +34,9 @@ class Login extends \WPPB_Object {
 	/**
 	 * Initialize the class and set its properties.
 	 *
-	 * @param   string $plugin_name The name of this plugin.
-	 * @param   string $version     The version of this plugin.
-	 * @param   API    $api The core plugin functions.
+	 * @param   string        $plugin_name The name of this plugin.
+	 * @param   string        $version     The version of this plugin.
+	 * @param   API_Interface $api The core plugin functions.
 	 *
 	 * @since   1.0.0
 	 */
