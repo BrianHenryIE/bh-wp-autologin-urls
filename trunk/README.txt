@@ -1,4 +1,4 @@
-=== BH WP Autologin URLs ===
+=== Autologin URLs ===
 Contributors: BrianHenryIE
 Donate link: https://BrianHenry.ie
 Tags: login, email, links, users, newsletter, notification, simple, wp_mail
@@ -13,24 +13,20 @@ Logs in users through URLs in emails sent from WordPress.
 
 == Description ==
 
-Autologin URLs adds login codes to emails sent to registered users and automatically logs the user in when the link is clicked.
-
-Users are automatically logged in after receiving:
+Users will be automatically logged in when clicking links in emails sent from WordPress.
 
 * Comment reply notifications
 * Abandoned cart emails
 * Membership reminder emails
 * etc.
 
-No configuration is required. Default settings:
+No configuration is required, by default,
 
 * Autologin URLs work for one week
 * Emails to administrators are excluded
 * User emails on exclusion shortlist are not modified
 
-An API is available for developers to use autologin codes elsewhere in WordPress, e.g. push notifications. Code is
-published on GitHub, uses WordPress Plugin Boilerplate, conforms (mostly) to WordPress Coding Standards, and is
-unit & integration tested.
+An API is available for developers to use autologin codes elsewhere in WordPress, e.g. push notifications, and to conditionally disable the plugin's use. Code is published on GitHub, uses WordPress Plugin Boilerplate, conforms (mostly) to WordPress Coding Standards, and is unit & integration tested.
 
 == Screenshots ==
 
@@ -38,6 +34,10 @@ unit & integration tested.
 2. The settings interface.
 
 == Changelog ==
+
+= 1.1 =
+
+
 
 = 1.0 =
 * First release. 2019-September-01.

@@ -57,6 +57,7 @@ The plugin conforms to all the suggesitions in the StackExchange discussion, [Im
 
 * The additional rows added as transients to the `wp_options` table will be equal to the number of emails sent
 * Additional database queries only occur when a URL with `autologin=` is visited
+* No database queries (beyond autoloaded settings) are performed if the autologin user is already logged in
 * Transients are queried by `wp_options.option_name` which is a [UNIQUE](http://www.mysqltutorial.org/mysql-unique-constraint/) column, i.e. indexed
 * Transients are deleted when they are used to login
 * WordPress, [since v4.9](https://core.trac.wordpress.org/ticket/41699#comment:17), automatically purges expired transients
@@ -195,6 +196,10 @@ Code coverage will be output in the console, and as HTML under `/tests/reports/h
 
 The minimum WordPress version was determined using [wpseek.com's Plugin Doctor](https://wpseek.com/pluginfilecheck/).
 
+### WordPress.org Deployment
+
+https://zerowp.com/use-github-actions-to-publish-wordpress-plugins-on-wp-org-repository/
+
 ## TODO
 
 * Regex for URLs with trailing brackets e.g. "(https://example.org)" 
@@ -205,6 +210,7 @@ The minimum WordPress version was determined using [wpseek.com's Plugin Doctor](
 * Error messages on settings page validation failures
 * Sanitize out regex pattern that would entirely disable the plugin
 * Client-side settings page validation
+* Test adding an autologin code to a URL which already has one overwrites the old one (and leaves only the one).
 
 ## Licence
 
