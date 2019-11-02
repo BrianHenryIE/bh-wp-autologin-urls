@@ -3,4 +3,5 @@
 scratch*
 .DS_Store
 vendor/*
-releases
+releases/*
+svn/*

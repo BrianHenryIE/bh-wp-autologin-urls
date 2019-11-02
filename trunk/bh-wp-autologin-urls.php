@@ -10,7 +10,7 @@
  * Plugin Name:       Autologin URLs
  * Plugin URI:        https://wordpress.org/plugins/bh-wp-autologin-urls
  * Description:       Adds autologin credentials to URLs to this site in emails sent to users.
- * Version:           1.1.0
+ * Version:           1.1.1
  * Author:            BrianHenryIE
  * Author URI:        https://BrianHenry.ie
  * License:           GPL-2.0+
@@ -34,7 +34,7 @@ namespace BH_WP_Autologin_URLs {
 	/**
 	 * Currently plugin version.
 	 */
-	define( 'BH_WP_AUTOLOGIN_URLS_VERSION', '1.0.0' );
+	define( 'BH_WP_AUTOLOGIN_URLS_VERSION', '1.1.1' );
 
 	/**
 	 * Function to keep the loader and settings objects out of the namespace.
