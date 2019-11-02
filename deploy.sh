@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 # https://zerowp.com/?p=55
 
-# Get the plugin slug from this git repository.
-PLUGIN_SLUG="${PWD##*/}"
+# Get the plugin slug from this git repository + convert to lowercase.
+PLUGIN_SLUG="`echo "${PWD##*/}" | perl -ne 'print lc'`"
 
 # Get the current release version
 TAG=$(sed -e "s/refs\/tags\///g" <<< $GITHUB_REF)
