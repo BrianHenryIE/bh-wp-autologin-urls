@@ -51,11 +51,13 @@ The plugin conforms to all the suggesitions in the StackExchange discussion, [Im
 * Codes are single use
 * Codes automatically expire
 
+Additionally, authentication via Autologin URLs is disabled for 24 hours for users whose accounts have had five failed login attempts through an autologin URL and for IPs which have attempted and failed five times.
+
 **Warning:** *If you use any plugin to save copies of outgoing mail, those saved emails will contain autologin URLs.*
 
 ### Performant
 
-* The additional rows added as transients to the `wp_options` table will be equal to the number of emails sent
+* The additional rows added as transients to the `wp_options` table will be proportionate to the number of emails sent
 * Additional database queries only occur when a URL with `autologin=` is visited
 * No database queries (beyond autoloaded settings) are performed if the autologin user is already logged in
 * Transients are queried by `wp_options.option_name` which is a [UNIQUE](http://www.mysqltutorial.org/mysql-unique-constraint/) column, i.e. indexed
@@ -82,7 +84,7 @@ Instances of classes hooked in actions and filters are exposed as properties of 
 $autologin_urls = $GLOBALS['bh-wp-autologin-urls'];
 ```
 
-API functions can be accessed through the `api` property of the main plugin class:
+[API functions](https://github.com/BrianHenryIE/BH-WP-Autologin-URLs/blob/master/trunk/api/interface-api.php) can be accessed through the `api` property of the main plugin class:
 
 ```
 /** @var BH_WP_Autologin_URLs\api\API_Interface $autologin_urls_api */
