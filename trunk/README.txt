@@ -35,6 +35,9 @@ An API is available for developers to use autologin codes elsewhere in WordPress
 
 == Changelog ==
 
+= 1.1.1 =
+* Auto-deploying to WordPress.org
+
 = 1.1.0 =
 * Rate limiting added for multiple failed login attempts against user accounts and from IPs. This only affects Autologin URLs logins and does not affect other authentication. 2019-September-11.
 
