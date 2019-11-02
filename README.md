@@ -1,4 +1,4 @@
-[![WordPress tested 5.2](https://img.shields.io/badge/WordPress-v5.2%20tested-0073aa.svg)](https://wordpress.org/plugins/bh-wp-autologin-urls) [![PHPCS WPCS](https://img.shields.io/badge/PHPCS-WordPress%20Coding%20Standards-8892BF.svg)](https://github.com/WordPress-Coding-Standards/WordPress-Coding-Standards) [![License: GPL v2 or later](https://img.shields.io/badge/License-GPL%20v2%20or%20later-bd0000.svg)](https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html) [![PHPUnit ](https://img.shields.io/badge/PHPUnit-98%25%20coverage-28a745.svg)]()
+[![WordPress tested 5.2](https://img.shields.io/badge/WordPress-v5.2%20tested-0073aa.svg)](https://wordpress.org/plugins/bh-wp-autologin-urls) [![PHPCS WPCS](https://img.shields.io/badge/PHPCS-WordPress%20Coding%20Standards-8892BF.svg)](https://github.com/WordPress-Coding-Standards/WordPress-Coding-Standards) [![License: GPL v2 or later](https://img.shields.io/badge/License-GPL%20v2%20or%20later-bd0000.svg)](https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html) [![PHPUnit ](https://img.shields.io/badge/PHPUnit-98%25%20coverage-28a745.svg)]() [![Active installs](https://img.shields.io/badge/Active%20Installs-%3C%2010-ffb900.svg)]()
 
 # Autologin URLs
 
@@ -51,12 +51,15 @@ The plugin conforms to all the suggesitions in the StackExchange discussion, [Im
 * Codes are single use
 * Codes automatically expire
 
+Additionally, authentication via Autologin URLs is disabled for 24 hours for users whose accounts have had five failed login attempts through an autologin URL and for IPs which have attempted and failed five times.
+
 **Warning:** *If you use any plugin to save copies of outgoing mail, those saved emails will contain autologin URLs.*
 
 ### Performant
 
-* The additional rows added as transients to the `wp_options` table will be equal to the number of emails sent
+* The additional rows added as transients to the `wp_options` table will be proportionate to the number of emails sent
 * Additional database queries only occur when a URL with `autologin=` is visited
+* No database queries (beyond autoloaded settings) are performed if the autologin user is already logged in
 * Transients are queried by `wp_options.option_name` which is a [UNIQUE](http://www.mysqltutorial.org/mysql-unique-constraint/) column, i.e. indexed
 * Transients are deleted when they are used to login
 * WordPress, [since v4.9](https://core.trac.wordpress.org/ticket/41699#comment:17), automatically purges expired transients
@@ -81,7 +84,7 @@ Instances of classes hooked in actions and filters are exposed as properties of 
 $autologin_urls = $GLOBALS['bh-wp-autologin-urls'];
 ```
 
-API functions can be accessed through the `api` property of the main plugin class:
+[API functions](https://github.com/BrianHenryIE/BH-WP-Autologin-URLs/blob/master/trunk/api/interface-api.php) can be accessed through the `api` property of the main plugin class:
 
 ```
 /** @var BH_WP_Autologin_URLs\api\API_Interface $autologin_urls_api */
@@ -143,7 +146,7 @@ Create the database and user, granting the user full permissions:
 
 ```
 CREATE DATABASE wordpress_tests;
-CREATE USER 'wordpress-develop'@'%' IDENTIFIED WITH mysql_native_password BY 'wordpress-develop'
+CREATE USER 'wordpress-develop'@'%' IDENTIFIED WITH mysql_native_password BY 'wordpress-develop';
 GRANT ALL PRIVILEGES ON wordpress_tests.* TO 'wordpress-develop'@'%';
 ```
 
@@ -183,6 +186,22 @@ vendor/bin/phpcov merge --clover tests/reports/clover.xml --html tests/reports/h
 
 Code coverage will be output in the console, and as HTML under `/tests/reports/html/`.
 
+### Minimum PHP Version
+
+[PHPCompatibilityWP](https://github.com/PHPCompatibility/PHPCompatibilityWP) is installed by Composer to check the minimum PHP version required. 
+
+```
+./vendor/bin/phpcs -p ./trunk --standard=PHPCompatibilityWP --runtime-set testVersion 5.7-
+```
+
+### Minimum WordPress Version
+
+The minimum WordPress version was determined using [wpseek.com's Plugin Doctor](https://wpseek.com/pluginfilecheck/).
+
+### WordPress.org Deployment
+
+https://zerowp.com/use-github-actions-to-publish-wordpress-plugins-on-wp-org-repository/
+
 ## TODO
 
 * Regex for URLs with trailing brackets e.g. "(https://example.org)" 
@@ -193,6 +212,7 @@ Code coverage will be output in the console, and as HTML under `/tests/reports/h
 * Error messages on settings page validation failures
 * Sanitize out regex pattern that would entirely disable the plugin
 * Client-side settings page validation
+* Test adding an autologin code to a URL which already has one overwrites the old one (and leaves only the one).
 
 ## Licence
 

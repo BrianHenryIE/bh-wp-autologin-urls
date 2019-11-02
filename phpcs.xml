@@ -11,6 +11,7 @@
     <!-- Show progress and sniff codes in all reports -->
     <arg value="ps"/>
 
+    <exclude-pattern>*/releases/*</exclude-pattern>
     <exclude-pattern>*/vendor/*</exclude-pattern>
     <exclude-pattern>*/scratch/*</exclude-pattern>
     <exclude-pattern>*/trunk/lib/*</exclude-pattern>

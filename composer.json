@@ -10,7 +10,8 @@
     "10up/wp_mock": "0.4.2",
     "dealerdirect/phpcodesniffer-composer-installer": "*",
     "wp-coding-standards/wpcs": "*",
-    "phpunit/phpcov": "^5.0"
+    "phpunit/phpcov": "^5.0",
+    "phpcompatibility/phpcompatibility-wp": "*"
   },
   "license": "GPL-2.0+-or-later",
   "authors": [
