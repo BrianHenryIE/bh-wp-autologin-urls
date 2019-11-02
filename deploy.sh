@@ -8,8 +8,8 @@ PLUGIN_SLUG="${PWD##*/}"
 TAG=$(sed -e "s/refs\/tags\///g" <<< $GITHUB_REF)
 
 # Replace the version in these 2 files.
-sed -i -e "s/__STABLE_TAG__/$TAG/g" ./trunk/readme.txt
-sed -i -e "s/__STABLE_TAG__/$TAG/g" "./trunk/$PLUGIN_SLUG.php"
+#sed -i -e "s/__STABLE_TAG__/$TAG/g" ./trunk/readme.txt
+#sed -i -e "s/__STABLE_TAG__/$TAG/g" "./trunk/$PLUGIN_SLUG.php"
 
 # Get the SVN data from wp.org in a folder named `svn`
 svn co --depth immediates "https://plugins.svn.wordpress.org/$PLUGIN_SLUG" ./svn
@@ -38,7 +38,4 @@ svn cp trunk tags/$TAG
 svn add --force tags
 
 # Commit files to wordpress.org.
-svn ci  --message "Release $TAG" \
-        --username $SVN_USERNAME \
-        --password $SVN_PASSWORD \
-        --non-interactive
+svn ci --message "Release $TAG" --username $SVN_USERNAME --password $SVN_PASSWORD --non-interactive
