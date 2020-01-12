@@ -16,6 +16,7 @@ use BH_WP_Autologin_URLs\admin\partials\Settings_Section_Element_Abstract;
 use BH_WP_Autologin_URLs\admin\partials\Admin_Enable;
 use BH_WP_Autologin_URLs\admin\partials\Expiry_Age;
 use BH_WP_Autologin_URLs\admin\partials\Regex_Subject_Filters;
+use BH_WP_Autologin_URLs\WPPB\WPPB_Object;
 
 
 /**
@@ -25,7 +26,7 @@ use BH_WP_Autologin_URLs\admin\partials\Regex_Subject_Filters;
  * @subpackage bh-wp-autologin-urls/admin
  * @author     BrianHenryIE <BrianHenryIE@gmail.com>
  */
-class Settings_Page extends \WPPB_Object {
+class Settings_Page extends WPPB_Object {
 
 	/**
 	 * The settings, to pass to the individual fields for populating.

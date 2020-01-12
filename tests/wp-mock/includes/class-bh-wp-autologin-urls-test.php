@@ -8,6 +8,8 @@
 
 namespace BH_WP_Autologin_URLs\includes;
 
+use BH_WP_Autologin_URLs\WPPB\WPPB_Loader_Interface;
+
 /**
  * Class Test
  */
@@ -34,7 +36,7 @@ class BH_WP_Autologin_URLs_Test extends \WP_Mock\Tools\TestCase {
 
 		global $plugin_root_dir;
 
-		$mock_loader   = $this->createMock( '\WPPB_Loader_Interface' );
+		$mock_loader   = $this->createMock( WPPB_Loader_Interface::class );
 		$mock_settings = $this->createMock( Settings_Interface::class );
 
 		\WP_Mock::userFunction(
@@ -60,7 +62,7 @@ class BH_WP_Autologin_URLs_Test extends \WP_Mock\Tools\TestCase {
 
 		global $plugin_root_dir;
 
-		$mock_loader   = $this->createMock( '\WPPB_Loader_Interface' );
+		$mock_loader   = $this->createMock( WPPB_Loader_Interface::class );
 		$mock_settings = $this->createMock( Settings_Interface::class );
 
 		\WP_Mock::userFunction(
@@ -88,7 +90,7 @@ class BH_WP_Autologin_URLs_Test extends \WP_Mock\Tools\TestCase {
 
 		global $plugin_root_dir;
 
-		$mock_loader   = $this->createMock( '\WPPB_Loader_Interface' );
+		$mock_loader   = $this->createMock( WPPB_Loader_Interface::class );
 		$mock_settings = $this->createMock( Settings_Interface::class );
 
 		\WP_Mock::userFunction(
@@ -122,7 +124,7 @@ class BH_WP_Autologin_URLs_Test extends \WP_Mock\Tools\TestCase {
 		 * phpcs:disable Squiz.Commenting.FunctionComment.Missing
 		 * phpcs:disable Squiz.Commenting.VariableComment.Missing
 		 */
-		$mock_loader = new class() implements \WPPB_Loader_Interface {
+		$mock_loader = new class() implements WPPB_Loader_Interface {
 
 			public $action_hooks   = array();
 			public $action_methods = array();

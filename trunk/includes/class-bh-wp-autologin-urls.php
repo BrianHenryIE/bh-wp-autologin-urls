@@ -21,6 +21,7 @@ use BH_WP_Autologin_URLs\admin\Settings_Page;
 use BH_WP_Autologin_URLs\admin\Plugins_Page;
 use BH_WP_Autologin_URLs\login\Login;
 use BH_WP_Autologin_URLs\wp_mail\WP_Mail;
+use BH_WP_Autologin_URLs\WPPB\WPPB_Loader_Interface;
 
 /**
  * The core plugin class.
@@ -96,7 +97,7 @@ class BH_WP_Autologin_URLs {
 	 *
 	 * @since    1.0.0
 	 * @access   protected
-	 * @var      \WPPB_Loader_Interface    $loader    Maintains and registers all hooks for the plugin.
+	 * @var      WPPB_Loader_Interface    $loader    Maintains and registers all hooks for the plugin.
 	 */
 	protected $loader;
 
@@ -127,8 +128,8 @@ class BH_WP_Autologin_URLs {
 	 *
 	 * @since    1.0.0
 	 *
-	 * @param \WPPB_Loader_Interface $loader The class which adds the actions and filters.
-	 * @param Settings_Interface     $settings The plugin settings.
+	 * @param WPPB_Loader_Interface $loader The class which adds the actions and filters.
+	 * @param Settings_Interface    $settings The plugin settings.
 	 */
 	public function __construct( $loader, $settings ) {
 		if ( defined( 'BH_WP_AUTOLOGIN_URLS_VERSION' ) ) {
@@ -263,7 +264,7 @@ class BH_WP_Autologin_URLs {
 	/**
 	 * The reference to the class that orchestrates the hooks with the plugin.
 	 *
-	 * @return    \WPPB_Loader_Interface    Orchestrates the hooks of the plugin.
+	 * @return    WPPB_Loader_Interface    Orchestrates the hooks of the plugin.
 	 * @since     1.0.0
 	 */
 	public function get_loader() {

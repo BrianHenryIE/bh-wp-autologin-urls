@@ -12,6 +12,7 @@
 namespace BH_WP_Autologin_URLs\login;
 
 use BH_WP_Autologin_URLs\api\API_Interface;
+use BH_WP_Autologin_URLs\WPPB\WPPB_Object;
 
 /**
  * The actual logging in functionality of the plugin.
@@ -20,7 +21,7 @@ use BH_WP_Autologin_URLs\api\API_Interface;
  * @subpackage bh-wp-autologin-urls/includes
  * @author     BrianHenryIE <BrianHenryIE@gmail.com>
  */
-class Login extends \WPPB_Object {
+class Login extends WPPB_Object {
 
 	const QUERYSTRING_PARAMETER_NAME = 'autologin';
 

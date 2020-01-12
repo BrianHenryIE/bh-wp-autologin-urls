@@ -21,6 +21,7 @@
 
 namespace BH_WP_Autologin_URLs {
 
+	use BH_WP_Autologin_URLs\WPPB\WPPB_Loader;
 	use BH_WP_Autologin_URLs\includes\BH_WP_Autologin_URLs;
 	use BH_WP_Autologin_URLs\includes\Settings;
 
@@ -43,7 +44,7 @@ namespace BH_WP_Autologin_URLs {
 	 */
 	function instantiate_bh_wp_autologin_urls() {
 
-		$loader = new \WPPB_Loader();
+		$loader = new WPPB_Loader();
 
 		$settings = new Settings();
 

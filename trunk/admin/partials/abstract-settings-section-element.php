@@ -11,6 +11,8 @@
 
 namespace BH_WP_Autologin_URLs\admin\partials;
 
+use BH_WP_Autologin_URLs\WPPB\WPPB_Object;
+
 /**
  * Code common across setting elements.
  *
@@ -20,7 +22,7 @@ namespace BH_WP_Autologin_URLs\admin\partials;
  *
  * Class Settings_Section_Element
  */
-abstract class Settings_Section_Element_Abstract extends \WPPB_Object {
+abstract class Settings_Section_Element_Abstract extends WPPB_Object {
 
 	/**
 	 * The unique setting id, as used in the wp_options table.
