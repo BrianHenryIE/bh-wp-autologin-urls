@@ -56,7 +56,7 @@ class Admin_Enable extends Settings_Section_Element_Abstract {
 		$is_checked     = 'admin_is_enabled' === $value ? 'checked ' : '';
 		$label          = $arguments['helper'];
 
-		printf( '<fieldset><label for="%1$s"><input id="%1$s" name="%1$s" type="checkbox" value="%2$s" %3$s />%4$s</label></fieldset>', esc_attr( $this->id ), esc_attr( $checkbox_value ), esc_attr( $is_checked ), wp_kses( $label, [ 'i' => [] ] ) );
+		printf( '<fieldset><label for="%1$s"><input id="%1$s" name="%1$s" type="checkbox" value="%2$s" %3$s />%4$s</label></fieldset>', esc_attr( $this->id ), esc_attr( $checkbox_value ), esc_attr( $is_checked ), wp_kses( $label, array( 'i' => array() ) ) );
 
 		printf( '<p class="description">%s</p>', esc_html( $arguments['supplemental'] ) );
 	}
