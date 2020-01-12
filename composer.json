@@ -34,4 +34,12 @@
       "classmap_directory": "/classes/dependencies/",
       "classmap_prefix": "BH_WP_Autologin_URLs_"
     },
+  "scripts": {
+    "post-install-cmd": [
+      "\"vendor/bin/mozart\" compose",
+    ],
+    "post-update-cmd": [
+      "\"vendor/bin/mozart\" compose",
+    ]
+  }
 }
