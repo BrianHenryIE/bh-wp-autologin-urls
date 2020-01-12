@@ -11,6 +11,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@master
+      - uses: php-actions/composer@v1
       - name: Deploy
         run: chmod +x ./deploy.sh && ./deploy.sh
         env:
