@@ -14,7 +14,6 @@ convertWarningsToExceptions="true">
     <whitelist>
         <directory suffix=".php">../../trunk/</directory>
         <exclude>
-            <directory suffix=".php">../../trunk/lib/</directory>
             <file>../../trunk/index.php</file>
             <file>../../trunk/autoload.php</file>
             <file>../../trunk/api/index.php</file>
