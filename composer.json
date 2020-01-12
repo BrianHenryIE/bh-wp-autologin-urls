@@ -3,8 +3,14 @@
     {
       "url": "https://github.com/WordPress/wordpress-develop",
       "type": "git"
+    {
+      "url": "https://github.com/BrianHenryIE/wp-namespace-autoloader",
+      "type": "git"
     }
   ],
+  "require": {
+    "pablo-sg-pacheco/wp-namespace-autoloader": "dev-brianhenryie"
+  },
   "require-dev": {
     "wordpress/wordpress": "dev-master",
     "cweagans/composer-patches": "~1.0",
