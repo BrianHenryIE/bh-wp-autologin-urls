@@ -7,6 +7,7 @@
   ],
   "require-dev": {
     "wordpress/wordpress": "dev-master",
+    "coenjacobs/mozart": "^0.4.0",
     "10up/wp_mock": "0.4.2",
     "dealerdirect/phpcodesniffer-composer-installer": "*",
     "wp-coding-standards/wpcs": "*",
@@ -20,4 +21,10 @@
       "email": "BrianHenryIE@gmail.com"
     }
   ]
+    "mozart": {
+      "dep_namespace": "BH_WP_Autologin_URLs\\",
+      "dep_directory": "/trunk/vendor/",
+      "classmap_directory": "/classes/dependencies/",
+      "classmap_prefix": "BH_WP_Autologin_URLs_"
+    },
 }
