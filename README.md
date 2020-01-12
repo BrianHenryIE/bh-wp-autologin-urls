@@ -1,4 +1,4 @@
-[![WordPress tested 5.2](https://img.shields.io/badge/WordPress-v5.2%20tested-0073aa.svg)](https://wordpress.org/plugins/bh-wp-autologin-urls) [![PHPCS WPCS](https://img.shields.io/badge/PHPCS-WordPress%20Coding%20Standards-8892BF.svg)](https://github.com/WordPress-Coding-Standards/WordPress-Coding-Standards) [![License: GPL v2 or later](https://img.shields.io/badge/License-GPL%20v2%20or%20later-bd0000.svg)](https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html) [![PHPUnit ](https://img.shields.io/badge/PHPUnit-98%25%20coverage-28a745.svg)]() [![Active installs](https://img.shields.io/badge/Active%20Installs-%3C%2010-ffb900.svg)]()
+[![WordPress tested 5.3](https://img.shields.io/badge/WordPress-v5.3%20tested-0073aa.svg)](https://wordpress.org/plugins/bh-wp-autologin-urls) [![PHPCS WPCS](https://img.shields.io/badge/PHPCS-WordPress%20Coding%20Standards-8892BF.svg)](https://github.com/WordPress-Coding-Standards/WordPress-Coding-Standards) [![License: GPL v2 or later](https://img.shields.io/badge/License-GPL%20v2%20or%20later-bd0000.svg)](https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html) [![PHPUnit ](https://img.shields.io/badge/PHPUnit-98%25%20coverage-28a745.svg)]() [![Active installs](https://img.shields.io/badge/Active%20Installs-%3C%2010-ffb900.svg)](https://wordpress.org/plugins/bh-wp-autologin-urls/advanced/)
 
 # Autologin URLs
 
@@ -64,6 +64,10 @@ Additionally, authentication via Autologin URLs is disabled for 24 hours for use
 * Transients are deleted when they are used to login
 * WordPress, [since v4.9](https://core.trac.wordpress.org/ticket/41699#comment:17), automatically purges expired transients
 
+### Tested
+
+PHPUnit has been run with WordPress 5.3 on PHP 7.1 to 98% coverage.
+
 ## API
 
 Two filters are added to expose the main functionality to developers of other plugins (which don't use `wp_mail()`), e.g. for push notifications:
@@ -93,9 +97,9 @@ $autologin_urls_api = $GLOBALS['bh-wp-autologin-urls']->api;
 
 ## Develop
 
-The plugin uses [WordPress Plugin Boilerplate](https://github.com/DevinVinson/WordPress-Plugin-Boilerplate), [WordPress Coding Standards](https://github.com/WordPress-Coding-Standards/WordPress-Coding-Standards) and [wp-namespace-autoloader](https://github.com/pablo-sg-pacheco/wp-namespace-autoloader/). The code has been tested using WordPress 5.2 on PHP 7.1.
+The plugin uses [WordPress Plugin Boilerplate](https://github.com/DevinVinson/WordPress-Plugin-Boilerplate), [wp-namespace-autoloader](https://github.com/pablo-sg-pacheco/wp-namespace-autoloader/) and [Mozart](https://github.com/coenjacobs/mozart) composer dependency namespace prefixer, and follows [WordPress Coding Standards](https://github.com/WordPress-Coding-Standards/WordPress-Coding-Standards). 
 
-To install [PHP_CodeSniffer](https://github.com/squizlabs/PHP_CodeSniffer), the  [WordPress Coding Standards](https://github.com/WordPress-Coding-Standards/WordPress-Coding-Standards), [WP_Mock](https://github.com/10up/wp_mock) (and its [PHP Unit 7](https://github.com/sebastianbergmann/phpunit) dependency) and wordpress-develop testing environment run:
+To set up the development environment, run:
 
 ```
 composer install
@@ -103,7 +107,7 @@ composer install
 
 ### WordPress Coding Standards
 
-The code mostly conforms to WPCS rules, except for :
+The code mostly conforms to [WPCS](https://github.com/WordPress-Coding-Standards/WordPress-Coding-Standards) rules, except for :
 
 * `Squiz.PHP.DisallowMultipleAssignments.Found` used when making the plugin's hooked objects public for other plugins
 * `WordPress.Security.NonceVerification.Recommended` when validating the autologin code to log the user in
@@ -112,13 +116,13 @@ The code mostly conforms to WPCS rules, except for :
 
 Some other rules are disabled in the test code.
 
-To see WordPress Coding Standards errors run:
+To see [PHP_CodeSniffer](https://github.com/squizlabs/PHP_CodeSniffer) WPCS errors run:
 
 ```
 vendor/bin/phpcs
 ```
 
-To automatically correct them where possible run:
+Use PHP Code Beautifier and Fixer to automatically correct them where possible:
 
 ```
 vendor/bin/phpcbf
@@ -126,7 +130,7 @@ vendor/bin/phpcbf
 
 ### WP_Mock Tests
 
-WP_Mock tests can be run with:
+[WP_Mock](https://github.com/10up/wp_mock) tests can be run with:
 
 ```
 phpunit -c tests/wp-mock/phpunit.xml
@@ -134,7 +138,7 @@ phpunit -c tests/wp-mock/phpunit.xml
 
 ### WordPress-Develop Tests
 
-The wordpress-develop tests are configured to require a local [MySQL database](https://dev.mysql.com/downloads/mysql/) (which gets wiped each time) and this plugin is set to require a database called `wordpress_tests` and a user named `wordpress-develop` with the password `wordpress-develop`. 
+The [wordpress-develop](https://github.com/wordpress/wordpress-develop) tests are configured to require a local [MySQL database](https://dev.mysql.com/downloads/mysql/) (which gets wiped each time) and this plugin is set to require a database called `wordpress_tests` and a user named `wordpress-develop` with the password `wordpress-develop`. 
 
 To setup the database, open MySQL shell:
 
@@ -186,6 +190,14 @@ vendor/bin/phpcov merge --clover tests/reports/clover.xml --html tests/reports/h
 
 Code coverage will be output in the console, and as HTML under `/tests/reports/html/`.
 
+### Symlinks
+
+Composer [Symlink Handler](https://github.com/kporras07/composer-symlinks) is used to create a symlink to WordPress src directory in the project root, for convenience.
+
+### Composer-Patches
+
+[composer-patches](https://github.com/cweagans/composer-patches) is used to apply PRs to composer dependencies while waiting for the repository owners to accept the required changes.
+
 ### Minimum PHP Version
 
 [PHPCompatibilityWP](https://github.com/PHPCompatibility/PHPCompatibilityWP) is installed by Composer to check the minimum PHP version required. 
@@ -201,6 +213,8 @@ The minimum WordPress version was determined using [wpseek.com's Plugin Doctor](
 ### WordPress.org Deployment
 
 https://zerowp.com/use-github-actions-to-publish-wordpress-plugins-on-wp-org-repository/
+
+https://github.com/marketplace/actions/composer-php-actions
 
 ## TODO
 

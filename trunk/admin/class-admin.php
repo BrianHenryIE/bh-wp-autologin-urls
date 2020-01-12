@@ -11,6 +11,8 @@
 
 namespace BH_WP_Autologin_URLs\admin;
 
+use BH_WP_Autologin_URLs\WPPB\WPPB_Object;
+
 /**
  * The admin area functionality of the plugin.
  *
@@ -18,7 +20,7 @@ namespace BH_WP_Autologin_URLs\admin;
  * @subpackage bh-wp-autologin-urls/admin
  * @author     BrianHenryIE <BrianHenryIE@gmail.com>
  */
-class Admin extends \WPPB_Object {
+class Admin extends WPPB_Object {
 
 	/**
 	 * Register the stylesheets for the admin area.

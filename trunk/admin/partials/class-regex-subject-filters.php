@@ -80,27 +80,27 @@ class Regex_Subject_Filters extends Settings_Section_Element_Abstract {
 		$options_markup .= '</table>';
 
 		$allowed_html = array(
-			'p'     => [],
-			'table' => [ 'class' => [] ],
-			'tbody' => [],
-			'tr'    => [],
-			'td'    => [],
-			'input' => [
-				'class'       => [],
-				'name'        => [],
-				'type'        => [],
-				'placeholder' => [],
-				'value'       => [],
-			],
+			'p'     => array(),
+			'table' => array( 'class' => array() ),
+			'tbody' => array(),
+			'tr'    => array(),
+			'td'    => array(),
+			'input' => array(
+				'class'       => array(),
+				'name'        => array(),
+				'type'        => array(),
+				'placeholder' => array(),
+				'value'       => array(),
+			),
 		);
 
 		printf( '<fieldset>%s</fieldset>', wp_kses( $options_markup, $allowed_html ) );
 
 		$allow_anchor_html = array(
-			'a' => [
-				'href'   => [],
-				'target' => [],
-			],
+			'a' => array(
+				'href'   => array(),
+				'target' => array(),
+			),
 		);
 
 		printf( '<p class="description">%s</p>', wp_kses( $arguments['supplemental'], $allow_anchor_html ) );

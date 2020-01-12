@@ -3,15 +3,30 @@
     {
       "url": "https://github.com/WordPress/wordpress-develop",
       "type": "git"
+    },
+    {
+      "url": "https://github.com/BrianHenryIE/WPPB-lib",
+      "type": "git"
+    },
+    {
+      "url": "https://github.com/BrianHenryIE/wp-namespace-autoloader",
+      "type": "git"
     }
   ],
+  "require": {
+    "brianhenryie/wppb-lib": "dev-master",
+    "pablo-sg-pacheco/wp-namespace-autoloader": "dev-brianhenryie"
+  },
   "require-dev": {
-    "wordpress/wordpress": "dev-master",
+    "cweagans/composer-patches": "~1.0",
+    "coenjacobs/mozart": "^0.4.0",
+    "wordpress/wordpress": "5.3.2",
     "10up/wp_mock": "0.4.2",
     "dealerdirect/phpcodesniffer-composer-installer": "*",
     "wp-coding-standards/wpcs": "*",
     "phpunit/phpcov": "^5.0",
-    "phpcompatibility/phpcompatibility-wp": "*"
+    "phpcompatibility/phpcompatibility-wp": "*",
+    "kporras07/composer-symlinks": "dev-master"
   },
   "license": "GPL-2.0+-or-later",
   "authors": [
@@ -19,5 +34,33 @@
       "name": "Brian Henry",
       "email": "BrianHenryIE@gmail.com"
     }
-  ]
+  ],
+  "extra": {
+    "patches": {
+      "coenjacobs/mozart": {
+        "Allow default packages" : "https://github.com/coenjacobs/mozart/pull/34.patch"
+      }
+    },
+    "mozart": {
+      "dep_namespace": "BH_WP_Autologin_URLs\\",
+      "dep_directory": "/trunk/vendor/",
+      "classmap_directory": "/classes/dependencies/",
+      "classmap_prefix": "BH_WP_Autologin_URLs_"
+    },
+    "symlinks": {
+      "vendor/wordpress/wordpress/src": "wordpress"
+    }
+  },
+  "scripts": {
+    "post-install-cmd": [
+      "\"vendor/bin/mozart\" compose",
+      "Kporras07\\ComposerSymlinks\\ScriptHandler::createSymlinks",
+      "mkdir -p vendor/wordpress/wordpress/src/wp-content/uploads"
+    ],
+    "post-update-cmd": [
+      "\"vendor/bin/mozart\" compose",
+      "Kporras07\\ComposerSymlinks\\ScriptHandler::createSymlinks",
+      "mkdir -p vendor/wordpress/wordpress/src/wp-content/uploads"
+    ]
+  }
 }

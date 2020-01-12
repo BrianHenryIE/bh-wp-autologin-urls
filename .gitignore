@@ -5,3 +5,5 @@ scratch*
 vendor/*
 releases/*
 svn/*
+wordpress
+trunk/vendor/*

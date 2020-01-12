@@ -20,6 +20,8 @@ class Uninstall_WP_Mock_Test extends \WP_Mock\Tools\TestCase {
 	 */
 	public function test_exit_without_defined() {
 
+		$this->markTestSkipped( "Can't test for exit();" );
+
 		global $plugin_root_dir;
 
 		global $wpdb;
@@ -32,9 +34,6 @@ class Uninstall_WP_Mock_Test extends \WP_Mock\Tools\TestCase {
 			 ->never();
 
 		require_once $plugin_root_dir . '/uninstall.php';
-
-		// TODO: This test is passing and it should be failing.
-		$this->assertEquals( 500, $wpdb->mockery_getExpectationCount() );
 
 	}
 
