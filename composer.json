@@ -25,7 +25,8 @@
     "dealerdirect/phpcodesniffer-composer-installer": "*",
     "wp-coding-standards/wpcs": "*",
     "phpunit/phpcov": "^5.0",
-    "phpcompatibility/phpcompatibility-wp": "*"
+    "phpcompatibility/phpcompatibility-wp": "*",
+    "kporras07/composer-symlinks": "dev-master"
   },
   "license": "GPL-2.0+-or-later",
   "authors": [
@@ -46,12 +47,18 @@
       "classmap_directory": "/classes/dependencies/",
       "classmap_prefix": "BH_WP_Autologin_URLs_"
     },
+    "symlinks": {
+      "vendor/wordpress/wordpress/src": "wordpress"
+    }
+  },
   "scripts": {
     "post-install-cmd": [
       "\"vendor/bin/mozart\" compose",
+      "Kporras07\\ComposerSymlinks\\ScriptHandler::createSymlinks",
     ],
     "post-update-cmd": [
       "\"vendor/bin/mozart\" compose",
+      "Kporras07\\ComposerSymlinks\\ScriptHandler::createSymlinks",
     ]
   }
 }
