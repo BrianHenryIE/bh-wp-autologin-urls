@@ -55,10 +55,12 @@
     "post-install-cmd": [
       "\"vendor/bin/mozart\" compose",
       "Kporras07\\ComposerSymlinks\\ScriptHandler::createSymlinks",
+      "mkdir -p vendor/wordpress/wordpress/src/wp-content/uploads"
     ],
     "post-update-cmd": [
       "\"vendor/bin/mozart\" compose",
       "Kporras07\\ComposerSymlinks\\ScriptHandler::createSymlinks",
+      "mkdir -p vendor/wordpress/wordpress/src/wp-content/uploads"
     ]
   }
 }
