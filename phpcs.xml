@@ -19,7 +19,7 @@
     <exclude-pattern>*/wordpress/*</exclude-pattern>
     <exclude-pattern>*/wp-content/*</exclude-pattern>
 
-    <!-- PhpStorm is aligning Mockery code in a way WordPress CS doesn't like  -->
+    <!-- PhpStorm is aligning Mockery code in a way WPCS doesn't like  -->
     <rule ref="WordPress.WhiteSpace.PrecisionAlignment.Found">
         <exclude-pattern>*/tests/*</exclude-pattern>
     </rule>
@@ -31,10 +31,6 @@
 
     <rule ref="WordPress.Files.FileName.InvalidClassFileName">
         <exclude-pattern>abstract*</exclude-pattern>
-    </rule>
-
-    <rule ref="Squiz.Commenting.FileComment.Missing">
-        <exclude-pattern>autoload.php</exclude-pattern>
     </rule>
 
 </ruleset>
