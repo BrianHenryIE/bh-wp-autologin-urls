@@ -3,12 +3,18 @@
     {
       "url": "https://github.com/WordPress/wordpress-develop",
       "type": "git"
+    },
+    {
+      "url": "https://github.com/BrianHenryIE/WPPB-lib",
+      "type": "git"
+    },
     {
       "url": "https://github.com/BrianHenryIE/wp-namespace-autoloader",
       "type": "git"
     }
   ],
   "require": {
+    "brianhenryie/wppb-lib": "dev-master",
     "pablo-sg-pacheco/wp-namespace-autoloader": "dev-brianhenryie"
   },
   "require-dev": {
