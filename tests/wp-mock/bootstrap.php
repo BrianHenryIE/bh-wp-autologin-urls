@@ -14,7 +14,7 @@ $plugin_path_php    = $plugin_root_dir . '/' . $plugin_name_php;
 $plugin_basename    = $plugin_name . '/' . $plugin_name_php;
 $wordpress_root_dir = $project_root_dir . '/vendor/wordpress/wordpress/src';
 
-require_once $project_root_dir . '/vendor/autoload.php'; // Composer autoloader.
+require_once $project_root_dir . '/vendor/autoload.php'; // Composer require-dev autoloader.
 
 require_once $plugin_root_dir . '/autoload.php';
 

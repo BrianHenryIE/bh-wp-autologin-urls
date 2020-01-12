@@ -13,6 +13,7 @@ namespace BH_WP_Autologin_URLs\wp_mail;
 
 use BH_WP_Autologin_URLs\api\API_Interface;
 use BH_WP_Autologin_URLs\includes\Settings_Interface;
+use BH_WP_Autologin_URLs\WPPB\WPPB_Object;
 
 /**
  * The wp_mail hooked functionality of the plugin.
@@ -21,7 +22,7 @@ use BH_WP_Autologin_URLs\includes\Settings_Interface;
  * @subpackage bh-wp-autologin-urls/wp_mail
  * @author     BrianHenryIE <BrianHenryIE@gmail.com>
  */
-class WP_Mail extends \WPPB_Object {
+class WP_Mail extends WPPB_Object {
 
 	/**
 	 * The class which adds the autologin codes to the emails.

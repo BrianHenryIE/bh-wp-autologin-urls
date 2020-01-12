@@ -15,6 +15,7 @@ namespace BH_WP_Autologin_URLs\api;
 
 use BH_WP_Autologin_URLs\includes\Settings_Interface;
 use BH_WP_Autologin_URLs\login\Login;
+use BH_WP_Autologin_URLs\WPPB\WPPB_Object;
 
 
 /**
@@ -25,7 +26,7 @@ use BH_WP_Autologin_URLs\login\Login;
  * @subpackage bh-wp-autologin-urls/api
  * @author     BrianHenryIE <BrianHenryIE@gmail.com>
  */
-class API extends \WPPB_Object implements API_Interface {
+class API extends WPPB_Object implements API_Interface {
 
 	const TRANSIENT_PREFIX = 'bh_autologin_';
 
