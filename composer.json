@@ -7,6 +7,7 @@
   ],
   "require-dev": {
     "wordpress/wordpress": "dev-master",
+    "cweagans/composer-patches": "~1.0",
     "coenjacobs/mozart": "^0.4.0",
     "10up/wp_mock": "0.4.2",
     "dealerdirect/phpcodesniffer-composer-installer": "*",
@@ -20,7 +21,13 @@
       "name": "Brian Henry",
       "email": "BrianHenryIE@gmail.com"
     }
-  ]
+  ],
+  "extra": {
+    "patches": {
+      "coenjacobs/mozart": {
+        "Allow default packages" : "https://github.com/coenjacobs/mozart/pull/34.patch"
+      }
+    },
     "mozart": {
       "dep_namespace": "BH_WP_Autologin_URLs\\",
       "dep_directory": "/trunk/vendor/",
