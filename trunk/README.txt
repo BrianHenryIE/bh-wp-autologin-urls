@@ -13,14 +13,14 @@ Logs in users through URLs in emails sent from WordPress.
 
 == Description ==
 
-Users will be automatically logged in when clicking links in emails sent from WordPress.
+Users will be automatically logged in when clicking links in emails sent from WordPress:
 
 * Comment reply emails
 * Abandoned cart emails
 * Membership reminder emails
 * etc.
 
-No configuration is required, by default,
+No configuration is required, by default:
 
 * Autologin URLs work for one week
 * Emails to administrators are excluded
@@ -34,6 +34,10 @@ An API is available for developers to use autologin codes elsewhere in WordPress
 2. The settings interface.
 
 == Changelog ==
+
+= 1.1.2 =
+
+* Improved dependency management with Mozart for Composer.
 
 = 1.1.1 =
 * Auto-deploying to WordPress.org
