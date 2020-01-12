@@ -18,9 +18,9 @@
     "pablo-sg-pacheco/wp-namespace-autoloader": "dev-brianhenryie"
   },
   "require-dev": {
-    "wordpress/wordpress": "dev-master",
     "cweagans/composer-patches": "~1.0",
     "coenjacobs/mozart": "^0.4.0",
+    "wordpress/wordpress": "5.3.2",
     "10up/wp_mock": "0.4.2",
     "dealerdirect/phpcodesniffer-composer-installer": "*",
     "wp-coding-standards/wpcs": "*",
