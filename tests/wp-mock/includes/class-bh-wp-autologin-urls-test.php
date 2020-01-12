@@ -23,11 +23,11 @@ class BH_WP_Autologin_URLs_Test extends \WP_Mock\Tools\TestCase {
 	private $plugin_name = 'bh-wp-autologin-urls';
 
 	/**
-	 * The plugin version, matching the version these tests were written against.
+	 * The plugin version, matching the version these tests were run against.
 	 *
 	 * @var string Plugin version.
 	 */
-	private $version = '1.0.0';
+	private $version = '1.1.2';
 
 	/**
 	 * Verifies the plugin name, version and loader are correctly set.

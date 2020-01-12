@@ -135,7 +135,7 @@ class BH_WP_Autologin_URLs {
 		if ( defined( 'BH_WP_AUTOLOGIN_URLS_VERSION' ) ) {
 			$this->version = BH_WP_AUTOLOGIN_URLS_VERSION;
 		} else {
-			$this->version = '1.1.1';
+			$this->version = '1.1.2';
 		}
 		$this->plugin_name = 'bh-wp-autologin-urls';
 
