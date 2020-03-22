@@ -85,6 +85,9 @@ class Login extends WPPB_Object {
 		$user_id = intval( $user_id );
 
 		if ( get_current_user_id() === $user_id ) {
+
+			// TODO: Add an option "always expire codes when used".
+
 			// Already logged in.
 			return false;
 		}
@@ -135,6 +138,9 @@ class Login extends WPPB_Object {
 				wp_set_current_user( $user_id, $user->user_login );
 				wp_set_auth_cookie( $user_id );
 				do_action( 'wp_login', $user->user_login, $user );
+
+				// TODO: Action to allow logging.
+				// Could we save what email the user clicked?
 
 				return true;
 

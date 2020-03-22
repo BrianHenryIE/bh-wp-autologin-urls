@@ -12,17 +12,17 @@ convertWarningsToExceptions="true">
 </testsuites>
 <filter>
     <whitelist>
-        <directory suffix=".php">../../trunk/</directory>
+        <directory suffix=".php">../../src/</directory>
         <exclude>
-            <directory suffix=".php">../../trunk/vendor/</directory>
-            <file>../../trunk/index.php</file>
-            <file>../../trunk/autoload.php</file>
-            <file>../../trunk/api/index.php</file>
-            <file>../../trunk/admin/index.php</file>
-            <file>../../trunk/admin/partials/index.php</file>
-            <file>../../trunk/includes/index.php</file>
-            <file>../../trunk/login/index.php</file>
-            <file>../../trunk/wp_mail/index.php</file>
+            <directory suffix=".php">../../src/vendor/</directory>
+            <file>../../src/index.php</file>
+            <file>../../src/autoload.php</file>
+            <file>../../src/api/index.php</file>
+            <file>../../src/admin/index.php</file>
+            <file>../../src/admin/partials/index.php</file>
+            <file>../../src/includes/index.php</file>
+            <file>../../src/login/index.php</file>
+            <file>../../src/wp_mail/index.php</file>
         </exclude>
     </whitelist>
 </filter>

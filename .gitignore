@@ -6,4 +6,5 @@ vendor/*
 releases/*
 svn/*
 wordpress
-trunk/vendor/*
+src/vendor/*
+src/dependencies
