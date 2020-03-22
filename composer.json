@@ -11,6 +11,10 @@
     {
       "url": "https://github.com/BrianHenryIE/wp-namespace-autoloader",
       "type": "git"
+    },
+    {
+      "url": "https://github.com/BrianHenryIE/composer-phpstorm",
+      "type": "git"
     }
   ],
   "require": {
@@ -26,7 +30,8 @@
     "wp-coding-standards/wpcs": "*",
     "phpunit/phpcov": "^5.0",
     "phpcompatibility/phpcompatibility-wp": "*",
-    "kporras07/composer-symlinks": "dev-master"
+    "kporras07/composer-symlinks": "dev-master",
+    "brianhenryie/composer-phpstorm": "dev-master"
   },
   "license": "GPL-2.0+-or-later",
   "authors": [
@@ -51,18 +56,33 @@
       "vendor/wordpress/wordpress/src": "wordpress",
       "src": "wp-content/plugins/bh-wp-autologin-urls",
       "wp-content/plugins": "vendor/wordpress/wordpress/src/wp-content/plugins"
+    },
+    "phpstorm": {
+      "exclude_folders": {
+        "folders": [
+          "vendor/wordpress/wordpress/src",
+          "wordpress/wp-content/plugins",
+          "wp-content/plugins/bh-wp-autologin-urls"
+        ],
+        "composer-symlinks": false,
+        "mozart":  true
+      }
     }
   },
   "scripts": {
     "post-install-cmd": [
       "\"vendor/bin/mozart\" compose",
       "Kporras07\\ComposerSymlinks\\ScriptHandler::createSymlinks",
-      "mkdir -p vendor/wordpress/wordpress/src/wp-content/uploads"
+      "mkdir -p vendor/wordpress/wordpress/src/wp-content/uploads",
+      "BrianHenryIE\\ComposerPhpStorm\\ExcludeFolders::update",
+      "BrianHenryIE\\ComposerPhpStorm\\PHPUnitRunConfigurations::update"
     ],
     "post-update-cmd": [
       "\"vendor/bin/mozart\" compose",
       "Kporras07\\ComposerSymlinks\\ScriptHandler::createSymlinks",
-      "mkdir -p vendor/wordpress/wordpress/src/wp-content/uploads"
+      "mkdir -p wordpress/wp-content/uploads",
+      "BrianHenryIE\\ComposerPhpStorm\\ExcludeFolders::update",
+      "BrianHenryIE\\ComposerPhpStorm\\PHPUnitRunConfigurations::update"
     ]
   }
 }
