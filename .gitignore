@@ -8,3 +8,4 @@ svn/*
 wordpress
 src/vendor/*
 src/dependencies
+wp-content/plugins/bh-wp-autologin-urls
