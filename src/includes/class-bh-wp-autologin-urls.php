@@ -22,6 +22,7 @@ use BH_WP_Autologin_URLs\admin\Plugins_Page;
 use BH_WP_Autologin_URLs\login\Login;
 use BH_WP_Autologin_URLs\wp_mail\WP_Mail;
 use BH_WP_Autologin_URLs\WPPB\WPPB_Loader_Interface;
+use BH_WP_Autologin_URLs\WPPB\WPPB_Object;
 
 /**
  * The core plugin class.
@@ -39,7 +40,7 @@ use BH_WP_Autologin_URLs\WPPB\WPPB_Loader_Interface;
  *
  * phpcs:disable Squiz.PHP.DisallowMultipleAssignments.Found
  */
-class BH_WP_Autologin_URLs {
+class BH_WP_Autologin_URLs extends WPPB_Object {
 
 	/**
 	 * Instance member of API class to expose to WordPress to allow users unhook actions.
@@ -97,27 +98,9 @@ class BH_WP_Autologin_URLs {
 	 *
 	 * @since    1.0.0
 	 * @access   protected
-	 * @var      WPPB_Loader_Interface    $loader    Maintains and registers all hooks for the plugin.
+	 * @var      WPPB_Loader_Interface $loader Maintains and registers all hooks for the plugin.
 	 */
 	protected $loader;
-
-	/**
-	 * The unique identifier of this plugin.
-	 *
-	 * @since    1.0.0
-	 * @access   protected
-	 * @var      string    $plugin_name    The string used to uniquely identify this plugin.
-	 */
-	protected $plugin_name;
-
-	/**
-	 * The current version of the plugin.
-	 *
-	 * @since    1.0.0
-	 * @access   protected
-	 * @var      string    $version    The current version of the plugin.
-	 */
-	protected $version;
 
 	/**
 	 * Define the core functionality of the plugin.
@@ -126,10 +109,11 @@ class BH_WP_Autologin_URLs {
 	 * Load the dependencies, define the locale, and set the hooks for the admin area and
 	 * the public-facing side of the site.
 	 *
+	 * @param WPPB_Loader_Interface $loader The class which adds the actions and filters.
+	 * @param Settings_Interface $settings The plugin settings.
+	 *
 	 * @since    1.0.0
 	 *
-	 * @param WPPB_Loader_Interface $loader The class which adds the actions and filters.
-	 * @param Settings_Interface    $settings The plugin settings.
 	 */
 	public function __construct( $loader, $settings ) {
 		if ( defined( 'BH_WP_AUTOLOGIN_URLS_VERSION' ) ) {
@@ -138,6 +122,8 @@ class BH_WP_Autologin_URLs {
 			$this->version = '1.1.2';
 		}
 		$this->plugin_name = 'bh-wp-autologin-urls';
+
+		parent::__construct( $this->plugin_name, $this->version );
 
 		$this->loader = $loader;
 
@@ -240,7 +226,6 @@ class BH_WP_Autologin_URLs {
 
 	}
 
-
 	/**
 	 * Run the loader to execute all of the hooks with WordPress.
 	 *
@@ -248,17 +233,6 @@ class BH_WP_Autologin_URLs {
 	 */
 	public function run() {
 		$this->loader->run();
-	}
-
-	/**
-	 * The name of the plugin used to uniquely identify it within the context of
-	 * WordPress and to define internationalization functionality.
-	 *
-	 * @since     1.0.0
-	 * @return    string    The name of the plugin.
-	 */
-	public function get_plugin_name() {
-		return $this->plugin_name;
 	}
 
 	/**
@@ -270,15 +244,4 @@ class BH_WP_Autologin_URLs {
 	public function get_loader() {
 		return $this->loader;
 	}
-
-	/**
-	 * Retrieve the version number of the plugin.
-	 *
-	 * @since     1.0.0
-	 * @return    string    The version number of the plugin.
-	 */
-	public function get_version() {
-		return $this->version;
-	}
-
 }
