@@ -48,7 +48,9 @@
       "classmap_prefix": "BH_WP_Autologin_URLs_"
     },
     "symlinks": {
-      "vendor/wordpress/wordpress/src": "wordpress"
+      "vendor/wordpress/wordpress/src": "wordpress",
+      "src": "wp-content/plugins/bh-wp-autologin-urls",
+      "wp-content/plugins": "vendor/wordpress/wordpress/src/wp-content/plugins"
     }
   },
   "scripts": {
