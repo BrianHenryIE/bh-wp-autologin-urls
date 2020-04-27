@@ -48,6 +48,8 @@ class Login_Develop_Test extends \Codeception\TestCase\WPTestCase {
 
 	/**
 	 * Simple unsuccessful login.
+	 *
+	 * TODO: This test fails naturally; a pre-assert would be useful to add confidence.
 	 */
 	public function test_login_failure() {
 

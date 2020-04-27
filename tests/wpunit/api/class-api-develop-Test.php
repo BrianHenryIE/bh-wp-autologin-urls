@@ -9,19 +9,51 @@
 namespace BH_WP_Autologin_URLs\api;
 
 use \BH_WP_Autologin_URLs\includes\BH_WP_Autologin_URLs;
+use BH_WP_Autologin_URLs\includes\Settings_Interface;
 
 /**
  * Class API_Develop_Test
  */
 class API_Develop_Test extends \Codeception\TestCase\WPTestCase {
 
+	protected $plugin_name;
+
+	protected $version;
+
+	/** @var Settings_Interface */
+	protected $settings;
+
 	public function _setUp() {
 		parent::_setUp();
 
+		// Codeception/WP-Browser tests return localhost as the site_url, whereas WP_UnitTestCase was returning example.org.
 		add_filter( 'site_url', function( $url, $path, $scheme, $blog_id ) {
 			return str_replace('localhost', 'example.org', $url );
 		}, 10, 4 );
 
+		$this->plugin_name = 'bh-wp-autologin-urls';
+		$this->version = '1.2.0';
+
+		$this->settings = new class() implements Settings_Interface {
+
+			public function get_expiry_age() {
+				return WEEK_IN_SECONDS;
+			}
+
+			public function get_add_autologin_for_admins_is_enabled() {
+				return false;
+			}
+
+			public function get_disallowed_subjects_regex_array() {
+				return [];
+			}
+
+			public function get_disallowed_subjects_regex_dictionary() {
+				return [];
+			}
+		};
+
+		$this->set_return_password_for_test_user();
 	}
 
 	/**
@@ -87,14 +119,7 @@ class API_Develop_Test extends \Codeception\TestCase\WPTestCase {
 	 */
 	public function test_generate_code() {
 
-		/**
-		 * Get the main plugin class.
-		 *
-		 * @var BH_WP_Autologin_URLs $bh_wp_autologin_urls
-		 */
-		$bh_wp_autologin_urls = $GLOBALS['bh-wp-autologin-urls'];
-
-		$api = $bh_wp_autologin_urls->api;
+		$api = new API( $this->plugin_name, $this->version, $this->settings );
 
 		$user_id = $this->factory->user->create();
 		$user    = get_user_by( 'id', $user_id );
@@ -119,13 +144,7 @@ class API_Develop_Test extends \Codeception\TestCase\WPTestCase {
 	 */
 	public function test_user_not_exist() {
 
-		/**
-		 * Get the main plugin class.
-		 *
-		 * @var BH_WP_Autologin_URLs $bh_wp_autologin_urls
-		 */
-		$bh_wp_autologin_urls = $GLOBALS['bh-wp-autologin-urls'];
-		$api                  = $bh_wp_autologin_urls->api;
+		$api = new API( $this->plugin_name, $this->version, $this->settings );
 
 		$generated_code = $api->generate_code( null, 3600 );
 
@@ -137,13 +156,7 @@ class API_Develop_Test extends \Codeception\TestCase\WPTestCase {
 	 */
 	public function test_verify_autologin_password() {
 
-		/**
-		 * Get the main plugin class.
-		 *
-		 * @var BH_WP_Autologin_URLs $bh_wp_autologin_urls
-		 */
-		$bh_wp_autologin_urls = $GLOBALS['bh-wp-autologin-urls'];
-		$api                  = $bh_wp_autologin_urls->api;
+		$api = new API( $this->plugin_name, $this->version, $this->settings );
 
 		$user_id = $this->factory->user->create();
 		$user    = get_user_by( 'id', $user_id );
@@ -175,15 +188,7 @@ class API_Develop_Test extends \Codeception\TestCase\WPTestCase {
 
 		$expected = 'http://example.org/product/woocommerce-product/?autologin=123~mockpassw0rd';
 
-		$this->set_return_password_for_test_user();
-
-		/**
-		 * Get the main plugin class.
-		 *
-		 * @var BH_WP_Autologin_URLs $bh_wp_autologin_urls
-		 */
-		$bh_wp_autologin_urls = $GLOBALS['bh-wp-autologin-urls'];
-		$api                  = $bh_wp_autologin_urls->api;
+		$api = new API( $this->plugin_name, $this->version, $this->settings );
 
 		$actual = $api->add_autologin_to_url( $url, 123 );
 
@@ -200,16 +205,7 @@ class API_Develop_Test extends \Codeception\TestCase\WPTestCase {
 
 		$expected = null;
 
-		// This doesn't matter.
-		$this->set_return_password_for_test_user();
-
-		/**
-		 * Get the main plugin class.
-		 *
-		 * @var BH_WP_Autologin_URLs $bh_wp_autologin_urls
-		 */
-		$bh_wp_autologin_urls = $GLOBALS['bh-wp-autologin-urls'];
-		$api                  = $bh_wp_autologin_urls->api;
+		$api = new API( $this->plugin_name, $this->version, $this->settings );
 
 		$actual = $api->add_autologin_to_url( $url, 123 );
 
@@ -224,15 +220,7 @@ class API_Develop_Test extends \Codeception\TestCase\WPTestCase {
 		$url      = 'http://example.com/test_add_autologin_to_url/';
 		$expected = 'http://example.com/test_add_autologin_to_url/';
 
-		$this->set_return_password_for_test_user();
-
-		/**
-		 * Get the main plugin class.
-		 *
-		 * @var BH_WP_Autologin_URLs $bh_wp_autologin_urls
-		 */
-		$bh_wp_autologin_urls = $GLOBALS['bh-wp-autologin-urls'];
-		$api                  = $bh_wp_autologin_urls->api;
+		$api = new API( $this->plugin_name, $this->version, $this->settings );
 
 		$actual = $api->add_autologin_to_url( $url, 123 );
 
@@ -248,15 +236,7 @@ class API_Develop_Test extends \Codeception\TestCase\WPTestCase {
 		$url      = 'http://example.org/test_add_autologin_to_url/';
 		$expected = 'http://example.org/test_add_autologin_to_url/';
 
-		$this->set_return_password_for_test_user();
-
-		/**
-		 * Get the main plugin class.
-		 *
-		 * @var BH_WP_Autologin_URLs $bh_wp_autologin_urls
-		 */
-		$bh_wp_autologin_urls = $GLOBALS['bh-wp-autologin-urls'];
-		$api                  = $bh_wp_autologin_urls->api;
+		$api = new API( $this->plugin_name, $this->version, $this->settings );
 
 		$actual = $api->add_autologin_to_url( $url, null );
 
@@ -272,15 +252,7 @@ class API_Develop_Test extends \Codeception\TestCase\WPTestCase {
 		$url      = 'http://example.org/test_add_autologin_to_url/';
 		$expected = 'http://example.org/test_add_autologin_to_url/';
 
-		$this->set_return_password_for_test_user();
-
-		/**
-		 * Get the main plugin class.
-		 *
-		 * @var BH_WP_Autologin_URLs $bh_wp_autologin_urls
-		 */
-		$bh_wp_autologin_urls = $GLOBALS['bh-wp-autologin-urls'];
-		$api                  = $bh_wp_autologin_urls->api;
+		$api = new API( $this->plugin_name, $this->version, $this->settings );
 
 		$actual = $api->add_autologin_to_url( $url, 321 );
 
@@ -295,15 +267,7 @@ class API_Develop_Test extends \Codeception\TestCase\WPTestCase {
 		$url      = 'http://example.org/test_add_autologin_to_url/';
 		$expected = 'http://example.org/test_add_autologin_to_url/?autologin=123~mockpassw0rd';
 
-		$this->set_return_password_for_test_user();
-
-		/**
-		 * Get the main plugin class.
-		 *
-		 * @var BH_WP_Autologin_URLs $bh_wp_autologin_urls
-		 */
-		$bh_wp_autologin_urls = $GLOBALS['bh-wp-autologin-urls'];
-		$api                  = $bh_wp_autologin_urls->api;
+		$api = new API( $this->plugin_name, $this->version, $this->settings );
 
 		$actual = $api->add_autologin_to_url( $url, 123 );
 
@@ -318,15 +282,7 @@ class API_Develop_Test extends \Codeception\TestCase\WPTestCase {
 		$url      = 'http://example.org/test_add_autologin_to_url/';
 		$expected = 'http://example.org/test_add_autologin_to_url/?autologin=123~mockpassw0rd';
 
-		$this->set_return_password_for_test_user();
-
-		/**
-		 * Get the main plugin class.
-		 *
-		 * @var BH_WP_Autologin_URLs $bh_wp_autologin_urls
-		 */
-		$bh_wp_autologin_urls = $GLOBALS['bh-wp-autologin-urls'];
-		$api                  = $bh_wp_autologin_urls->api;
+		$api = new API( $this->plugin_name, $this->version, $this->settings );
 
 		$actual = $api->add_autologin_to_url( $url, '123' );
 
@@ -342,15 +298,7 @@ class API_Develop_Test extends \Codeception\TestCase\WPTestCase {
 		$url      = 'http://example.org/test_add_autologin_to_url/';
 		$expected = 'http://example.org/test_add_autologin_to_url/';
 
-		$this->set_return_password_for_test_user();
-
-		/**
-		 * Get the main plugin class.
-		 *
-		 * @var BH_WP_Autologin_URLs $bh_wp_autologin_urls
-		 */
-		$bh_wp_autologin_urls = $GLOBALS['bh-wp-autologin-urls'];
-		$api                  = $bh_wp_autologin_urls->api;
+		$api = new API( $this->plugin_name, $this->version, $this->settings );
 
 		$actual = $api->add_autologin_to_url( $url, 'brian@example.org', null );
 
@@ -367,15 +315,7 @@ class API_Develop_Test extends \Codeception\TestCase\WPTestCase {
 		$url      = 'http://example.org/test_add_autologin_to_url/';
 		$expected = 'http://example.org/test_add_autologin_to_url/?autologin=123~mockpassw0rd';
 
-		$this->set_return_password_for_test_user();
-
-		/**
-		 * Get the main plugin class.
-		 *
-		 * @var BH_WP_Autologin_URLs $bh_wp_autologin_urls
-		 */
-		$bh_wp_autologin_urls = $GLOBALS['bh-wp-autologin-urls'];
-		$api                  = $bh_wp_autologin_urls->api;
+		$api = new API( $this->plugin_name, $this->version, $this->settings );
 
 		$actual = $api->add_autologin_to_url( $url, 'brianhenryie@gmail.com' );
 
@@ -392,15 +332,7 @@ class API_Develop_Test extends \Codeception\TestCase\WPTestCase {
 		$url      = 'http://example.org/test_add_autologin_to_url/';
 		$expected = 'http://example.org/test_add_autologin_to_url/';
 
-		$this->set_return_password_for_test_user();
-
-		/**
-		 * Get the main plugin class.
-		 *
-		 * @var BH_WP_Autologin_URLs $bh_wp_autologin_urls
-		 */
-		$bh_wp_autologin_urls = $GLOBALS['bh-wp-autologin-urls'];
-		$api                  = $bh_wp_autologin_urls->api;
+		$api = new API( $this->plugin_name, $this->version, $this->settings );
 
 		$actual = $api->add_autologin_to_url( $url, 'nouserpresent' );
 
@@ -416,15 +348,7 @@ class API_Develop_Test extends \Codeception\TestCase\WPTestCase {
 		$url      = 'http://example.org/test_add_autologin_to_url/';
 		$expected = 'http://example.org/test_add_autologin_to_url/?autologin=123~mockpassw0rd';
 
-		$this->set_return_password_for_test_user();
-
-		/**
-		 * Get the main plugin class.
-		 *
-		 * @var BH_WP_Autologin_URLs $bh_wp_autologin_urls
-		 */
-		$bh_wp_autologin_urls = $GLOBALS['bh-wp-autologin-urls'];
-		$api                  = $bh_wp_autologin_urls->api;
+		$api = new API( $this->plugin_name, $this->version, $this->settings );
 
 		$actual = $api->add_autologin_to_url( $url, 'brian' );
 
@@ -442,15 +366,7 @@ class API_Develop_Test extends \Codeception\TestCase\WPTestCase {
 		$url      = 'http://example.org/test_add_autologin_to_url/';
 		$expected = 'http://example.org/test_add_autologin_to_url/';
 
-		$this->set_return_password_for_test_user();
-
-		/**
-		 * Get the main plugin class.
-		 *
-		 * @var BH_WP_Autologin_URLs $bh_wp_autologin_urls
-		 */
-		$bh_wp_autologin_urls = $GLOBALS['bh-wp-autologin-urls'];
-		$api                  = $bh_wp_autologin_urls->api;
+		$api = new API( $this->plugin_name, $this->version, $this->settings );
 
 		$actual = $api->add_autologin_to_url( $url, new \stdClass() );
 
@@ -464,16 +380,7 @@ class API_Develop_Test extends \Codeception\TestCase\WPTestCase {
 	 */
 	public function test_add_autologin_to_messages() {
 
-		/**
-		 * Get the main plugin class.
-		 *
-		 * @var BH_WP_Autologin_URLs $bh_wp_autologin_urls
-		 */
-		$bh_wp_autologin_urls = $GLOBALS['bh-wp-autologin-urls'];
-
-		$api = $bh_wp_autologin_urls->api;
-
-		$this->set_return_password_for_test_user();
+		$api = new API( $this->plugin_name, $this->version, $this->settings );
 
 		global $project_root_dir;
 
@@ -500,52 +407,4 @@ class API_Develop_Test extends \Codeception\TestCase\WPTestCase {
 
 	}
 
-	/**
-	 * Test the global function is working.
-	 */
-	public function test_public_function_add_autologin_to_url() {
-
-		$this->set_return_password_for_test_user();
-
-		$url      = 'http://example.org/test_public_function_add_autologin_to_url/';
-		$expected = 'http://example.org/test_public_function_add_autologin_to_url/?autologin=123~mockpassw0rd';
-
-		$actual = add_autologin_to_url( $url, 123, 3600 );
-
-		$this->assertEquals( $expected, $actual );
-
-	}
-
-
-	/**
-	 * Test autologin URLs can be added using the url filter.
-	 */
-	public function test_filter_add_autologin_to_url() {
-
-		$url      = 'http://example.org/test_public_function_add_autologin_to_url/';
-		$expected = 'http://example.org/test_public_function_add_autologin_to_url/?autologin=123~mockpassw0rd';
-
-		$this->set_return_password_for_test_user();
-
-		$actual = apply_filters( 'add_autologin_to_url', $url, 123 );
-
-		$this->assertEquals( $expected, $actual );
-
-	}
-
-	/**
-	 * Test autologin URLs can be added using the message filter.
-	 */
-	public function test_filter_add_autologin_to_message() {
-
-		$message      = 'Hello http://example.org/test_public_function_add_autologin_to_url/ Goodbye';
-		$expected = 'Hello http://example.org/test_public_function_add_autologin_to_url/?autologin=123~mockpassw0rd Goodbye';
-
-		$this->set_return_password_for_test_user();
-
-		$actual = apply_filters( 'add_autologin_to_message', $message, 123 );
-
-		$this->assertEquals( $expected, $actual );
-
-	}
 }
