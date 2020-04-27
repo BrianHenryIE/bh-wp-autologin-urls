@@ -110,10 +110,9 @@ class BH_WP_Autologin_URLs extends WPPB_Object {
 	 * the public-facing side of the site.
 	 *
 	 * @param WPPB_Loader_Interface $loader The class which adds the actions and filters.
-	 * @param Settings_Interface $settings The plugin settings.
+	 * @param Settings_Interface    $settings The plugin settings.
 	 *
 	 * @since    1.0.0
-	 *
 	 */
 	public function __construct( $loader, $settings ) {
 		if ( defined( 'BH_WP_AUTOLOGIN_URLS_VERSION' ) ) {

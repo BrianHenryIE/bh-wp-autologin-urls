@@ -1,11 +1,51 @@
+# Numerous always-ignore extensions
+*.diff
+*.err
+*.orig
+*.log
+*.rej
+*.swo
+*.swp
+*.vi
+*~
+*.sass-cache
+
+# OS or Editor folders
+.DS_Store
+Thumbs.db
+.cache
+.project
+.settings
+.tmproj
+*.esproj
+nbproject
+*.sublime-project
+*.sublime-workspace
+
+# Dreamweaver added files
+_notes
+dwsync.xml
+
+# Komodo
+*.komodoproject
+.komodotools
+
+# Folders to ignore
+.hg
+.svn
+.CVS
+intermediate
 .idea
+cache
+
 *.phar
 scratch*
-.DS_Store
 vendor/*
 releases/*
 svn/*
+
 wordpress
-src/vendor/*
+src/vendor
 src/dependencies
-wp-content/plugins/bh-wp-autologin-urls
+wp-content/plugins
+wp-content/themes

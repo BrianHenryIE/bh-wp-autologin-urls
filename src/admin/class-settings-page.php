@@ -106,6 +106,7 @@ class Settings_Page extends WPPB_Object {
 
 		$settings_page_slug_name = $this->plugin_name;
 
+		/** @var Settings_Section_Element_Abstract[] $fields */
 		$fields = array();
 
 		$fields[] = new Expiry_Age( $this->plugin_name, $this->version, $settings_page_slug_name, $this->settings );

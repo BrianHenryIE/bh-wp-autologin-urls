@@ -15,23 +15,46 @@
     {
       "url": "https://github.com/BrianHenryIE/composer-phpstorm",
       "type": "git"
+    },
+    {
+      "type":"composer",
+      "url":"https://wpackagist.org"
     }
   ],
   "require": {
+    "php": ">=7.2",
     "brianhenryie/wppb-lib": "dev-master",
     "pablo-sg-pacheco/wp-namespace-autoloader": "dev-brianhenryie"
   },
   "require-dev": {
-    "cweagans/composer-patches": "~1.0",
-    "coenjacobs/mozart": "^0.4.0",
-    "wordpress/wordpress": "^5",
     "10up/wp_mock": "0.4.2",
+    "coenjacobs/mozart": "0.5.1",
+    "cweagans/composer-patches": "^1.0",
     "dealerdirect/phpcodesniffer-composer-installer": "*",
-    "wp-coding-standards/wpcs": "*",
+    "phpunit/phpunit": ">=7.0",
     "phpunit/phpcov": "^5.0",
+    "wordpress/wordpress": "^5.4",
+    "wp-coding-standards/wpcs": "*",
+
+    "codeception/module-asserts": "^1.0",
+    "codeception/module-db": "^1.0.0",
+    "codeception/module-phpbrowser": "^1.0.0",
+    "codeception/module-webdriver": "^1.0",
+    "codeception/module-filesystem": "^1.0",
+    "codeception/module-cli": "^1.0",
+    "codeception/util-universalframework": "^1.0",
+
+    "brianhenryie/composer-phpstorm": "dev-master",
+
+    "lucatume/wp-browser": "2.4.2",
     "phpcompatibility/phpcompatibility-wp": "*",
+
     "kporras07/composer-symlinks": "dev-master",
-    "brianhenryie/composer-phpstorm": "dev-master"
+
+    "voku/portable-ascii": "dev-master",
+
+    "woocommerce/woocommerce": ">4",
+    "wpackagist-theme/storefront":"*"
   },
   "license": "GPL-2.0+-or-later",
   "authors": [
@@ -43,46 +66,56 @@
   "extra": {
     "patches": {
       "coenjacobs/mozart": {
-        "Allow default packages" : "https://github.com/coenjacobs/mozart/pull/34.patch"
+        "Allow default packages": "https://github.com/coenjacobs/mozart/pull/34.patch",
+        "Add config option to disable deleting vendor directories": "https://github.com/coenjacobs/mozart/pull/38.patch",
+        "Classmap replacing change str_replace to regex": "https://github.com/coenjacobs/mozart/pull/39.patch",
+        "Fixed escaping of backslash": "https://github.com/coenjacobs/mozart/pull/40.patch",
+        "Override Autoload": "https://github.com/coenjacobs/mozart/pull/41.patch",
+        "Run wide update for classmap": "https://github.com/coenjacobs/mozart/pull/42.patch"
       }
     },
     "mozart": {
       "dep_namespace": "BH_WP_Autologin_URLs\\",
       "dep_directory": "/src/vendor/",
+      "classmap_prefix": "BH_WP_Autologin_URLs_",
       "classmap_directory": "/src/dependencies/",
-      "classmap_prefix": "BH_WP_Autologin_URLs_"
-    },
+      "delete_vendor_directories": false
+      },
     "symlinks": {
-      "vendor/wordpress/wordpress/src": "wordpress",
       "src": "wp-content/plugins/bh-wp-autologin-urls",
+      "wp-content": "vendor/wordpress/wordpress/build/wp-content",
+      "vendor/wordpress/wordpress/src": "wordpress",
       "wp-content/plugins": "vendor/wordpress/wordpress/src/wp-content/plugins"
     },
     "phpstorm": {
       "exclude_folders": {
         "folders": [
           "vendor/wordpress/wordpress/src",
-          "wordpress/wp-content/plugins",
-          "wp-content/plugins/bh-wp-autologin-urls"
+          "vendor/wordpress/wordpress/build",
+          "wp-content/plugins/bh-wp-autologin-urls",
+          "wordpress/wp-content/plugins"
         ],
-        "composer-symlinks": false,
-        "mozart":  true
+        "include_folders": [
+          "vendor/wordpress/wordpress/"
+        ],
+        "composer-symlinks": false
       }
     }
   },
   "scripts": {
     "post-install-cmd": [
       "\"vendor/bin/mozart\" compose",
-      "Kporras07\\ComposerSymlinks\\ScriptHandler::createSymlinks",
       "mkdir -p vendor/wordpress/wordpress/src/wp-content/uploads",
       "BrianHenryIE\\ComposerPhpStorm\\ExcludeFolders::update",
-      "BrianHenryIE\\ComposerPhpStorm\\PHPUnitRunConfigurations::update"
+      "BrianHenryIE\\ComposerPhpStorm\\PHPUnitRunConfigurations::update",
+      "Kporras07\\ComposerSymlinks\\ScriptHandler::createSymlinks"
     ],
     "post-update-cmd": [
       "\"vendor/bin/mozart\" compose",
-      "Kporras07\\ComposerSymlinks\\ScriptHandler::createSymlinks",
       "mkdir -p wordpress/wp-content/uploads",
       "BrianHenryIE\\ComposerPhpStorm\\ExcludeFolders::update",
-      "BrianHenryIE\\ComposerPhpStorm\\PHPUnitRunConfigurations::update"
+      "BrianHenryIE\\ComposerPhpStorm\\PHPUnitRunConfigurations::update",
+      "Kporras07\\ComposerSymlinks\\ScriptHandler::createSymlinks"
     ]
   }
 }
