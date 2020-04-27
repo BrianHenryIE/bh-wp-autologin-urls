@@ -49,3 +49,5 @@ src/vendor
 src/dependencies
 wp-content/plugins
 wp-content/themes
+wp-content/uploads/woocommerce*
+wp-content/uploads/wc-logs/*
