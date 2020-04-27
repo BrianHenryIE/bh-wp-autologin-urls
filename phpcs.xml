@@ -13,11 +13,14 @@
 
     <exclude-pattern>*/releases/*</exclude-pattern>
     <exclude-pattern>*/svn/*</exclude-pattern>
-    <exclude-pattern>*/vendor/*</exclude-pattern>
-    <exclude-pattern>*/scratch/*</exclude-pattern>
-    <exclude-pattern>*/src/lib/*</exclude-pattern>
-    <exclude-pattern>*/wordpress/*</exclude-pattern>
-    <exclude-pattern>*/wp-content/*</exclude-pattern>
+    <exclude-pattern>/assets/</exclude-pattern>
+    <exclude-pattern>/scratch/</exclude-pattern>
+    <exclude-pattern>/src/dependencies/*</exclude-pattern>
+    <exclude-pattern>/src/vendor/*</exclude-pattern>
+    <exclude-pattern>/tests/</exclude-pattern>
+    <exclude-pattern>/vendor/*</exclude-pattern>
+    <exclude-pattern>/wordpress/</exclude-pattern>
+    <exclude-pattern>/wp-content/</exclude-pattern>
 
     <!-- PhpStorm is aligning Mockery code in a way WPCS doesn't like  -->
     <rule ref="WordPress.WhiteSpace.PrecisionAlignment.Found">
@@ -27,6 +30,11 @@
     <!-- A .php file with no code is being used in testing -->
     <rule ref="Internal.NoCodeFound">
         <exclude-pattern>*/tests/*</exclude-pattern>
+    </rule>
+
+    <rule ref="Squiz.PHP.DisallowMultipleAssignments.Found">
+        <exclude-pattern>bh-wp-autologin-urls.php</exclude-pattern>
+        <exclude-pattern>class-bh-wp-autologin-urls.php</exclude-pattern>
     </rule>
 
     <rule ref="WordPress.Files.FileName.InvalidClassFileName">
