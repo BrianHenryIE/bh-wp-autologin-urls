@@ -20,7 +20,6 @@ use BH_WP_Autologin_URLs\admin\Admin;
 use BH_WP_Autologin_URLs\admin\Settings_Page;
 use BH_WP_Autologin_URLs\admin\Plugins_Page;
 use BH_WP_Autologin_URLs\login\Login;
-use BH_WP_Autologin_URLs\wp_mail\WP_Mail;
 use BH_WP_Autologin_URLs\WPPB\WPPB_Loader_Interface;
 use BH_WP_Autologin_URLs\WPPB\WPPB_Object;
 

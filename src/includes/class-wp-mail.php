@@ -9,7 +9,7 @@
  * @subpackage bh-wp-autologin-urls/wp_mail
  */
 
-namespace BH_WP_Autologin_URLs\wp_mail;
+namespace BH_WP_Autologin_URLs\includes;
 
 use BH_WP_Autologin_URLs\api\API_Interface;
 use BH_WP_Autologin_URLs\includes\Settings_Interface;
