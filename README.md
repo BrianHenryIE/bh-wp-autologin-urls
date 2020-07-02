@@ -1,4 +1,4 @@
-[![WordPress tested 5.3](https://img.shields.io/badge/WordPress-v5.3%20tested-0073aa.svg)](https://wordpress.org/plugins/bh-wp-autologin-urls) [![PHPCS WPCS](https://img.shields.io/badge/PHPCS-WordPress%20Coding%20Standards-8892BF.svg)](https://github.com/WordPress-Coding-Standards/WordPress-Coding-Standards) [![PHPUnit ](https://img.shields.io/badge/PHPUnit-98%25%20coverage-28a745.svg)]() [![Active installs](https://img.shields.io/badge/Active%20Installs-%3C%2010-ffb900.svg)](https://wordpress.org/plugins/bh-wp-autologin-urls/advanced/)
+[![WordPress tested 5.4](https://img.shields.io/badge/WordPress-v5.4%20tested-0073aa.svg)](https://wordpress.org/plugins/bh-wp-autologin-urls) [![PHPCS WPCS](https://img.shields.io/badge/PHPCS-WordPress%20Coding%20Standards-8892BF.svg)](https://github.com/WordPress-Coding-Standards/WordPress-Coding-Standards) [![PHPUnit ](https://img.shields.io/badge/PHPUnit-98%25%20coverage-28a745.svg)]() [![Active installs](https://img.shields.io/badge/Active%20Installs-%3C%2010-ffb900.svg)](https://wordpress.org/plugins/bh-wp-autologin-urls/advanced/)
 
 # Autologin URLs
 
@@ -44,7 +44,7 @@ Links take the form: `https://brianhenry.ie/?autologin=582~Yxu1UQG8IwJO`
 
 ### Secure
 
-The plugin conforms to all the suggesitions in the StackExchange discussion, [Implementing an autologin link in an email](https://security.stackexchange.com/questions/129846/implementing-an-autologin-link-in-an-email):
+The plugin conforms to all the suggestions in the StackExchange discussion, [Implementing an autologin link in an email](https://security.stackexchange.com/questions/129846/implementing-an-autologin-link-in-an-email):
 
 * Cryptographically Secure PseudoRandom Number Generation (via [wp_rand](https://core.trac.wordpress.org/ticket/28633))
 * Stored as SHA-256 hash
@@ -54,6 +54,8 @@ The plugin conforms to all the suggesitions in the StackExchange discussion, [Im
 Additionally, authentication via Autologin URLs is disabled for 24 hours for users whose accounts have had five failed login attempts through an autologin URL and for IPs which have attempted and failed five times.
 
 **Warning:** *If you use any plugin to save copies of outgoing mail, those saved emails will contain autologin URLs.*
+
+**Warning:** *If a user forwards the email to their friend, the autologin links may still work.* The autologin codes only expire if used to log the user in, i.e. if the user is already logged in, the code is never used/validated/expired, so continues to work until its expiry time. This behaviour was a performance choice (but could be revisited via AJAX and not affect page load time). 
 
 ### Performant
 
@@ -88,7 +90,7 @@ Instances of classes hooked in actions and filters are exposed as properties of 
 $autologin_urls = $GLOBALS['bh-wp-autologin-urls'];
 ```
 
-[API functions](https://github.com/BrianHenryIE/BH-WP-Autologin-URLs/blob/master/trunk/api/interface-api.php) can be accessed through the `api` property of the main plugin class:
+[API functions](https://github.com/BrianHenryIE/BH-WP-Autologin-URLs/blob/master/src/api/interface-api.php) can be accessed through the `api` property of the main plugin class:
 
 ```
 /** @var BH_WP_Autologin_URLs\api\API_Interface $autologin_urls_api */
@@ -203,7 +205,7 @@ Composer [Symlink Handler](https://github.com/kporras07/composer-symlinks) is us
 [PHPCompatibilityWP](https://github.com/PHPCompatibility/PHPCompatibilityWP) is installed by Composer to check the minimum PHP version required. 
 
 ```
-./vendor/bin/phpcs -p ./trunk --standard=PHPCompatibilityWP --runtime-set testVersion 5.7-
+./vendor/bin/phpcs -p ./src --standard=PHPCompatibilityWP --runtime-set testVersion 5.7-
 ```
 
 ### Minimum WordPress Version
@@ -227,7 +229,8 @@ https://github.com/marketplace/actions/composer-php-actions
 * Sanitize out regex pattern that would entirely disable the plugin
 * Client-side settings page validation
 * Test adding an autologin code to a URL which already has one overwrites the old one (and leaves only the one).
-
+* The Newsletter Plugin integration – and any plugin that doesn't use wp_mail
+ 
 ## Licence
 
 GPLv2 or later.
