@@ -1,4 +1,12 @@
 {
+  "name": "brianhenryie/bh-wp-autologin-urls",
+  "description": "Adds sinlge-use password to emails to WordPress users.",
+  "type": "wordpress-plugin",
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "config": {
+    "process-timeout": 0
+  },
   "repositories": [
     {
       "url": "https://github.com/WordPress/wordpress-develop",
@@ -26,9 +34,10 @@
     "brianhenryie/wppb-lib": "dev-master",
     "pablo-sg-pacheco/wp-namespace-autoloader": "dev-brianhenryie"
   },
+
   "require-dev": {
     "10up/wp_mock": "0.4.2",
-    "coenjacobs/mozart": "0.5.1",
+    "coenjacobs/mozart": "dev-master",
     "cweagans/composer-patches": "^1.0",
     "dealerdirect/phpcodesniffer-composer-installer": "*",
     "phpunit/phpunit": ">=7.0",
@@ -54,7 +63,9 @@
     "voku/portable-ascii": "dev-master",
 
     "woocommerce/woocommerce": ">4",
-    "wpackagist-theme/storefront":"*"
+    "wpackagist-theme/storefront":"^2",
+    "wpackagist-plugin/wp-super-cache": "*",
+    "wpackagist-plugin/wp-mail-smtp": "^2.3"
   },
   "license": "GPL-2.0+-or-later",
   "authors": [
@@ -66,12 +77,9 @@
   "extra": {
     "patches": {
       "coenjacobs/mozart": {
-        "Allow default packages": "https://github.com/coenjacobs/mozart/pull/34.patch",
-        "Add config option to disable deleting vendor directories": "https://github.com/coenjacobs/mozart/pull/38.patch",
-        "Classmap replacing change str_replace to regex": "https://github.com/coenjacobs/mozart/pull/39.patch",
-        "Fixed escaping of backslash": "https://github.com/coenjacobs/mozart/pull/40.patch",
-        "Override Autoload": "https://github.com/coenjacobs/mozart/pull/41.patch",
-        "Run wide update for classmap": "https://github.com/coenjacobs/mozart/pull/42.patch"
+        "DIRECTORY_SEPARATOR": "https://github.com/coenjacobs/mozart/pull/61.patch",
+        "Generate classmap": "https://github.com/coenjacobs/mozart/pull/60.patch",
+        "Delete empty directories": "https://github.com/coenjacobs/mozart/pull/59.patch"
       }
     },
     "mozart": {
@@ -83,9 +91,7 @@
       },
     "symlinks": {
       "src": "wp-content/plugins/bh-wp-autologin-urls",
-      "wp-content": "vendor/wordpress/wordpress/build/wp-content",
-      "vendor/wordpress/wordpress/src": "wordpress",
-      "wp-content/plugins": "vendor/wordpress/wordpress/src/wp-content/plugins"
+      "wp-content": "wordpress/wp-content"
     },
     "phpstorm": {
       "exclude_folders": {
@@ -105,6 +111,8 @@
   "scripts": {
     "post-install-cmd": [
       "\"vendor/bin/mozart\" compose",
+      "vendor/bin/wp core download --path=wordpress || true;",
+      "export $(grep -v '^#' .env.testing | xargs); vendor/bin/wp config create --dbname=$TEST_SITE_DB_NAME --dbuser=$TEST_SITE_DB_USER --dbpass=$TEST_SITE_DB_PASSWORD --path=wordpress || true",
       "mkdir -p vendor/wordpress/wordpress/src/wp-content/uploads",
       "BrianHenryIE\\ComposerPhpStorm\\ExcludeFolders::update",
       "BrianHenryIE\\ComposerPhpStorm\\PHPUnitRunConfigurations::update",
@@ -112,10 +120,13 @@
     ],
     "post-update-cmd": [
       "\"vendor/bin/mozart\" compose",
+      "vendor/bin/wp core download --path=wordpress || true;",
+      "export $(grep -v '^#' .env.testing | xargs); vendor/bin/wp config create --dbname=$TEST_SITE_DB_NAME --dbuser=$TEST_SITE_DB_USER --dbpass=$TEST_SITE_DB_PASSWORD --path=wordpress || true",
       "mkdir -p wordpress/wp-content/uploads",
       "BrianHenryIE\\ComposerPhpStorm\\ExcludeFolders::update",
       "BrianHenryIE\\ComposerPhpStorm\\PHPUnitRunConfigurations::update",
       "Kporras07\\ComposerSymlinks\\ScriptHandler::createSymlinks"
     ]
+
   }
 }
