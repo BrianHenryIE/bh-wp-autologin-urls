@@ -52,9 +52,9 @@ class Plugins_Page extends WPPB_Object {
 	 */
 	public function row_meta( $plugin_meta, $plugin_file_name, $plugin_data, $status ) {
 
-		if ( $this->plugin_name . '/' . $this->plugin_name . '.php' === $plugin_file_name ) {
+		if ( $this->get_plugin_name() . '/' . $this->get_plugin_name() . '.php' === $plugin_file_name ) {
 
-			$plugin_meta[] = '<a target="_blank" href="https://github.com/BrianHenryIE/BH-WP-Autologin-URLs">View plugin on GitHub</a>';
+			$plugin_meta[] = '<a target="_blank" href="https://github.com/BrianHenryIE/' . $this->get_plugin_name() . '">View plugin on GitHub</a>';
 		}
 
 		return $plugin_meta;
