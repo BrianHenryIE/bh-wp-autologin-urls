@@ -72,19 +72,19 @@ class User_Edit extends WPPB_Object {
 
 					<?php
 
-                    // TODO: If WooCommerce is installed, this should go to my-account.
-                    $append = '/';
-                    $autologin_url = $this->api->add_autologin_to_url( get_site_url() . $append, $profileuser, WEEK_IN_SECONDS );
+					// TODO: If WooCommerce is installed, this should go to my-account.
+					$append        = '/';
+					$autologin_url = $this->api->add_autologin_to_url( get_site_url() . $append, $profileuser, WEEK_IN_SECONDS );
 
-                    ?>
+					?>
 
-                    <div class="user-edit-single-use-login-url">
+					<div class="user-edit-single-use-login-url">
 
-	                    <span>
-                            <span class="text"><?php echo $autologin_url; ?></span>
-                            <input type="text" id="autologin-url" name="autologin-url" value="<?php echo $autologin_url; ?>"/>
-                        </span>
-                    </div>
+						<span>
+							<span class="text"><?php echo $autologin_url; ?></span>
+							<input type="text" id="autologin-url" name="autologin-url" value="<?php echo $autologin_url; ?>"/>
+						</span>
+					</div>
 				</td>
 
 			</tr>
@@ -92,7 +92,7 @@ class User_Edit extends WPPB_Object {
 
 	</tbody></table>
 
-	<?php
+		<?php
 	}
 
 }

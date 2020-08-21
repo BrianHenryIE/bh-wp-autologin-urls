@@ -195,8 +195,7 @@ class BH_WP_Autologin_URLs extends WPPB_Object {
 		$this->loader->add_filter( 'plugin_row_meta', $plugins_page, 'row_meta', 20, 4 );
 
 		$this->user_edit = new User_Edit( $this->get_plugin_name(), $this->get_version(), $this->api );
-		$this->loader->add_action( 'edit_user_profile', $this->user_edit, 'make_password_available_on_user_page', 1, 1  );
-
+		$this->loader->add_action( 'edit_user_profile', $this->user_edit, 'make_password_available_on_user_page', 1, 1 );
 
 	}
 
