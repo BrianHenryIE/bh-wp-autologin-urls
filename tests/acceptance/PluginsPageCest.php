@@ -17,7 +17,7 @@ class PluginsPageCest
     public function testPluginsPageForName(AcceptanceTester $I) {
 
 
-    	$I->canSee('BH WP Autologin URLs' );
+    	$I->canSee('Autologin URLs' );
     }
 
 	/**
