@@ -62,10 +62,13 @@
 
     "voku/portable-ascii": "dev-master",
 
-    "woocommerce/woocommerce": ">4",
+    "wpackagist-plugin/woocommerce": ">4",
     "wpackagist-theme/storefront":"^2",
+    
     "wpackagist-plugin/wp-super-cache": "*",
-    "wpackagist-plugin/wp-mail-smtp": "^2.3"
+    "wpackagist-plugin/wp-mail-smtp": "^2.3",
+    "wpackagist-theme/twentytwenty": "^1.5",
+    "ericmartel/codeception-email-mailtrap": "^1.0"
   },
   "license": "GPL-2.0+-or-later",
   "authors": [
@@ -80,6 +83,9 @@
         "DIRECTORY_SEPARATOR": "https://github.com/coenjacobs/mozart/pull/61.patch",
         "Generate classmap": "https://github.com/coenjacobs/mozart/pull/60.patch",
         "Delete empty directories": "https://github.com/coenjacobs/mozart/pull/59.patch"
+      },
+      "ericmartel/codeception-email-mailtrap": {
+        "Fixed undefined property ": "https://github.com/ericmartel/codeception-email-mailtrap/pull/7.patch"
       }
     },
     "mozart": {
