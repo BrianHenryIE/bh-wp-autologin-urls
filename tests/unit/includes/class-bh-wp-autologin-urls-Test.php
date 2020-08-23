@@ -177,6 +177,7 @@ class BH_WP_Autologin_URLs_Test extends \Codeception\Test\Unit {
 			'admin_enqueue_scripts',
 			'admin_menu',
 			'admin_init',
+			'edit_user_profile',
 		);
 		$expected_action_methods = array(
 			'wp_init_process_autologin',
@@ -186,6 +187,7 @@ class BH_WP_Autologin_URLs_Test extends \Codeception\Test\Unit {
 			'enqueue_styles',
 			'enqueue_scripts',
 			'add_settings_page',
+			'make_password_available_on_user_page',
 		);
 
 		$expected_filters        = array(
