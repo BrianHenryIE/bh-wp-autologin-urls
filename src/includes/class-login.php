@@ -9,7 +9,7 @@
  * @subpackage bh-wp-autologin-urls/login
  */
 
-namespace BH_WP_Autologin_URLs\login;
+namespace BH_WP_Autologin_URLs\includes;
 
 use BH_WP_Autologin_URLs\api\API_Interface;
 use BH_WP_Autologin_URLs\WPPB\WPPB_Object;
