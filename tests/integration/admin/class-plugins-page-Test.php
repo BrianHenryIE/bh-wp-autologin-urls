@@ -68,7 +68,7 @@ class Plugins_Page_Test extends \Codeception\TestCase\WPTestCase {
 	 */
 	public function test_plugin_meta_github_link() {
 
-		$expected = '<a target="_blank" href="https://github.com/BrianHenryIE/BH-WP-Autologin-URLs">View plugin on GitHub</a>';
+		$expected = '<a target="_blank" href="https://github.com/BrianHenryIE/bh-wp-autologin-urls">View plugin on GitHub</a>';
 
 		$filter_name = 'plugin_row_meta';
 

@@ -9,7 +9,7 @@
 namespace BH_WP_Autologin_URLs\includes;
 
 /**
- * Class BH_WP_Autlogin_URLs_Login_Develop_Test
+ * Class Login_Develop_Test
  *
  * @see Login
  */
