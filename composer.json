@@ -1,6 +1,6 @@
 {
   "name": "brianhenryie/bh-wp-autologin-urls",
-  "description": "Adds sinlge-use password to emails to WordPress users.",
+  "description": "Adds single-use passwords to emails to WordPress users.",
   "type": "wordpress-plugin",
   "minimum-stability": "dev",
   "prefer-stable": true,
@@ -40,7 +40,7 @@
     "coenjacobs/mozart": "dev-master",
     "cweagans/composer-patches": "^1.0",
     "dealerdirect/phpcodesniffer-composer-installer": "*",
-    "phpunit/phpunit": ">=7.0",
+
     "phpunit/phpcov": "^5.0",
     "wordpress/wordpress": "^5.4",
     "wp-coding-standards/wpcs": "*",
@@ -55,7 +55,7 @@
 
     "brianhenryie/composer-phpstorm": "dev-master",
 
-    "lucatume/wp-browser": "2.4.2",
+    "lucatume/wp-browser": "*",
     "phpcompatibility/phpcompatibility-wp": "*",
 
     "kporras07/composer-symlinks": "dev-master",
@@ -68,7 +68,13 @@
     "wpackagist-plugin/wp-super-cache": "*",
     "wpackagist-plugin/wp-mail-smtp": "^2.3",
     "wpackagist-theme/twentytwenty": "^1.5",
-    "ericmartel/codeception-email-mailtrap": "^1.0"
+    "ericmartel/codeception-email-mailtrap": "^1.0",
+
+    "phpoption/phpoption": "^1.7",
+
+    "mheap/phpunit-github-actions-printer": "dev-master",
+    "jaschilz/php-coverage-badger": "^2.0"
+
   },
   "license": "GPL-2.0+-or-later",
   "authors": [
@@ -81,7 +87,6 @@
     "patches": {
       "coenjacobs/mozart": {
         "DIRECTORY_SEPARATOR": "https://github.com/coenjacobs/mozart/pull/61.patch",
-        "Generate classmap": "https://github.com/coenjacobs/mozart/pull/60.patch",
         "Delete empty directories": "https://github.com/coenjacobs/mozart/pull/59.patch"
       },
       "ericmartel/codeception-email-mailtrap": {
