@@ -68,7 +68,7 @@ jobs:
           sleep 5
 
       - name: Run acceptance tests
-        run: vendor/bin/codecept run acceptance || true
+        run: vendor/bin/codecept run acceptance
 
       - uses: actions/upload-artifact@v2
         with:
