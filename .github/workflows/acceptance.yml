@@ -51,8 +51,8 @@ jobs:
           find . -depth \( -name '.env.testing' \) -exec sed -i "s/=\"127.0.0.1\"/=\"127.0.0.1:${{ job.services.mysql.ports['3306'] }}\"/g" {} +
           find . -depth \( -name 'composer.json' \) -exec sed -i "s/127.0.0.1/127.0.0.1:${{ job.services.mysql.ports['3306'] }}/g" {} +
           find . -depth \( -name '.env.testing' \) -exec sed -i "s/\"localhost\"/\"localhost:8000\"/g" {} +
-          find . -depth \( -name '.env.testing' -o -name '*.cest' \) -exec sed -i "s/localhost\/bh-wp-github-actions-tests/localhost:8000/g" {} +
-          find . -depth \( -name 'dump.sql' \) -exec sed -i "s/localhost\/bh-wp-github-actions-tests/localhost:8000/g" {} +
+          find . -depth \( -name '.env.testing' -o -name '*.cest' \) -exec sed -i "s/localhost\/bh-wp-autologin-urls/localhost:8000/g" {} +
+          find . -depth \( -name 'dump.sql' \) -exec sed -i "s/localhost\/bh-wp-autologin-urls/localhost:8000/g" {} +
 
       - name: Run composer install
         uses: php-actions/composer@v1
