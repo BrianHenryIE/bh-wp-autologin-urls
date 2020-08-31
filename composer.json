@@ -54,13 +54,21 @@
   "scripts": {
     "post-install-cmd": [
       "\"vendor/bin/mozart\" compose",
-      "Kporras07\\ComposerSymlinks\\ScriptHandler::createSymlinks",
-      "mkdir -p vendor/wordpress/wordpress/src/wp-content/uploads"
+      "vendor/bin/wp core download --path=wordpress || true;",
+      "export $(grep -v '^#' .env.testing | xargs); vendor/bin/wp config create --dbname=$TEST_SITE_DB_NAME --dbuser=$TEST_SITE_DB_USER --dbpass=$TEST_SITE_DB_PASSWORD --dbhost=127.0.0.1 --allow-root || true",
+      "mkdir -p vendor/wordpress/wordpress/src/wp-content/uploads",
+      "BrianHenryIE\\ComposerPhpStorm\\ExcludeFolders::update",
+      "BrianHenryIE\\ComposerPhpStorm\\PHPUnitRunConfigurations::update",
+      "Kporras07\\ComposerSymlinks\\ScriptHandler::createSymlinks"
     ],
     "post-update-cmd": [
       "\"vendor/bin/mozart\" compose",
-      "Kporras07\\ComposerSymlinks\\ScriptHandler::createSymlinks",
-      "mkdir -p vendor/wordpress/wordpress/src/wp-content/uploads"
+      "vendor/bin/wp core download --path=wordpress || true;",
+      "export $(grep -v '^#' .env.testing | xargs); vendor/bin/wp config create --dbname=$TEST_SITE_DB_NAME --dbuser=$TEST_SITE_DB_USER --dbpass=$TEST_SITE_DB_PASSWORD --dbhost=127.0.0.1 --allow-root || true",
+      "mkdir -p wordpress/wp-content/uploads",
+      "BrianHenryIE\\ComposerPhpStorm\\ExcludeFolders::update",
+      "BrianHenryIE\\ComposerPhpStorm\\PHPUnitRunConfigurations::update",
+      "Kporras07\\ComposerSymlinks\\ScriptHandler::createSymlinks"
     ]
   }
 }
