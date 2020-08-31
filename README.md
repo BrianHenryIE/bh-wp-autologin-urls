@@ -1,4 +1,4 @@
-[![WordPress tested 5.3](https://img.shields.io/badge/WordPress-v5.3%20tested-0073aa.svg)](https://wordpress.org/plugins/bh-wp-autologin-urls) [![PHPCS WPCS](https://img.shields.io/badge/PHPCS-WordPress%20Coding%20Standards-8892BF.svg)](https://github.com/WordPress-Coding-Standards/WordPress-Coding-Standards) [![License: GPL v2 or later](https://img.shields.io/badge/License-GPL%20v2%20or%20later-bd0000.svg)](https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html) [![PHPUnit ](https://img.shields.io/badge/PHPUnit-98%25%20coverage-28a745.svg)]() [![Active installs](https://img.shields.io/badge/Active%20Installs-%3C%2010-ffb900.svg)](https://wordpress.org/plugins/bh-wp-autologin-urls/advanced/)
+[![WordPress tested 5.5](https://img.shields.io/badge/WordPress-v5.5%20tested-0073aa.svg)](https://wordpress.org/plugins/bh-wp-autologin-urls) [![PHPCS WPCS](https://img.shields.io/badge/PHPCS-WordPress%20Coding%20Standards-8892BF.svg)](https://github.com/WordPress-Coding-Standards/WordPress-Coding-Standards) [![PHPUnit ](.github/coverage.svg)](https://brianhenryie.github.io/bh-wp-autologin-urls/) [![Active installs](https://img.shields.io/badge/Active%20Installs-30%2B-ffb900.svg)](https://wordpress.org/plugins/bh-wp-autologin-urls/advanced/)
 
 # Autologin URLs
 
@@ -44,7 +44,7 @@ Links take the form: `https://brianhenry.ie/?autologin=582~Yxu1UQG8IwJO`
 
 ### Secure
 
-The plugin conforms to all the suggesitions in the StackExchange discussion, [Implementing an autologin link in an email](https://security.stackexchange.com/questions/129846/implementing-an-autologin-link-in-an-email):
+The plugin conforms to all the suggestions in the StackExchange discussion, [Implementing an autologin link in an email](https://security.stackexchange.com/questions/129846/implementing-an-autologin-link-in-an-email):
 
 * Cryptographically Secure PseudoRandom Number Generation (via [wp_rand](https://core.trac.wordpress.org/ticket/28633))
 * Stored as SHA-256 hash
@@ -54,6 +54,8 @@ The plugin conforms to all the suggesitions in the StackExchange discussion, [Im
 Additionally, authentication via Autologin URLs is disabled for 24 hours for users whose accounts have had five failed login attempts through an autologin URL and for IPs which have attempted and failed five times.
 
 **Warning:** *If you use any plugin to save copies of outgoing mail, those saved emails will contain autologin URLs.*
+
+**Warning:** *If a user forwards the email to their friend, the autologin links may still work.* The autologin codes only expire if used to log the user in, i.e. if the user is already logged in, the code is never used/validated/expired, so continues to work until its expiry time. This behaviour was a performance choice (but could be revisited via AJAX and not affect page load time). 
 
 ### Performant
 
@@ -88,7 +90,7 @@ Instances of classes hooked in actions and filters are exposed as properties of 
 $autologin_urls = $GLOBALS['bh-wp-autologin-urls'];
 ```
 
-[API functions](https://github.com/BrianHenryIE/BH-WP-Autologin-URLs/blob/master/trunk/api/interface-api.php) can be accessed through the `api` property of the main plugin class:
+[API functions](https://github.com/BrianHenryIE/BH-WP-Autologin-URLs/blob/master/src/api/interface-api.php) can be accessed through the `api` property of the main plugin class:
 
 ```
 /** @var BH_WP_Autologin_URLs\api\API_Interface $autologin_urls_api */
@@ -128,82 +130,91 @@ Use PHP Code Beautifier and Fixer to automatically correct them where possible:
 vendor/bin/phpcbf
 ```
 
-### WP_Mock Tests
+## Contributing
 
-[WP_Mock](https://github.com/10up/wp_mock) tests can be run with:
-
-```
-phpunit -c tests/wp-mock/phpunit.xml
-```
-
-### WordPress-Develop Tests
-
-The [wordpress-develop](https://github.com/wordpress/wordpress-develop) tests are configured to require a local [MySQL database](https://dev.mysql.com/downloads/mysql/) (which gets wiped each time) and this plugin is set to require a database called `wordpress_tests` and a user named `wordpress-develop` with the password `wordpress-develop`. 
-
-To setup the database, open MySQL shell:
+Clone this repo, open PhpStorm, then run `composer install` to install the dependencies.
 
 ```
-mysql -u root -p
+git clone https://github.com/brianhenryie/plugin_slug.git;
+open -a PhpStorm ./;
+composer install;
 ```
 
-Create the database and user, granting the user full permissions:
+For integration and acceptance tests, a local webserver must be running with `localhost/plugin_slug/` pointing at the root of the repo. MySQL must also be running locally – with two databases set up with:
 
 ```
-CREATE DATABASE wordpress_tests;
-CREATE USER 'wordpress-develop'@'%' IDENTIFIED WITH mysql_native_password BY 'wordpress-develop';
-GRANT ALL PRIVILEGES ON wordpress_tests.* TO 'wordpress-develop'@'%';
+mysql_username="root"
+mysql_password="secret"
+
+# export PATH=${PATH}:/usr/local/mysql/bin
+
+# Make .env available to bash.
+export $(grep -v '^#' .env.testing | xargs)
+
+# Create the databases.
+mysql -u $mysql_username -p$mysql_password -e "CREATE USER '"$TEST_DB_USER"'@'%' IDENTIFIED WITH mysql_native_password BY '"$TEST_DB_PASSWORD"';";
+mysql -u $mysql_username -p$mysql_password -e "CREATE DATABASE "$TEST_SITE_DB_NAME"; USE "$TEST_SITE_DB_NAME"; GRANT ALL PRIVILEGES ON "$TEST_SITE_DB_NAME".* TO '"$TEST_DB_USER"'@'%';";
+mysql -u $mysql_username -p$mysql_password -e "CREATE DATABASE "$TEST_DB_NAME"; USE "$TEST_DB_NAME"; GRANT ALL PRIVILEGES ON "$TEST_DB_NAME".* TO '"$TEST_DB_USER"'@'%';";
 ```
 
-```
-quit
-```
+### WordPress Coding Standards
 
-The wordpress-develop tests can then be run with:
+See documentation on [WordPress.org](https://make.wordpress.org/core/handbook/best-practices/coding-standards/) and [GitHub.com](https://github.com/WordPress/WordPress-Coding-Standards).
 
-```
-phpunit -c tests/wordpress-develop/phpunit.xml 
-```
-
-### Code Coverage
-
-Code coverage reporting requires [Xdebug](https://xdebug.org/) installed.
-
-Adding `--coverage-text` to `phpunit` commands displays their individual coverage in the console. 
-
-Adding `--coverage-php tests/reports/wordpress-develop.cov` to each allows their coverage stats to be merged using:
+Correct errors where possible and list the remaining with:
 
 ```
-vendor/bin/phpcov merge --clover tests/reports/clover.xml --html tests/reports/html tests/reports
-```
- 
-### All Together
-
-To fix WPCS fixable errors, display the remaining, run WP_Mock and WordPress-develop test suites and output code coverage, run:
-
-```
-vendor/bin/phpcbf; 
-vendor/bin/phpcs; 
-phpunit -c tests/wordpress-develop/phpunit.xml --coverage-php tests/reports/wordpress-develop.cov --coverage-text; 
-phpunit -c tests/wp-mock/phpunit.xml --coverage-php tests/reports/wp-mock.cov --coverage-text; 
-vendor/bin/phpcov merge --clover tests/reports/clover.xml --html tests/reports/html tests/reports --text
+vendor/bin/phpcbf; vendor/bin/phpcs
 ```
 
-Code coverage will be output in the console, and as HTML under `/tests/reports/html/`.
+### Tests
 
-### Symlinks
+Tests use the [Codeception](https://codeception.com/) add-on [WP-Browser](https://github.com/lucatume/wp-browser) and include vanilla PHPUnit tests with [WP_Mock](https://github.com/10up/wp_mock). 
 
-Composer [Symlink Handler](https://github.com/kporras07/composer-symlinks) is used to create a symlink to WordPress src directory in the project root, for convenience.
+Run tests with:
 
-### Composer-Patches
+```
+vendor/bin/codecept run unit;
+vendor/bin/codecept run wpunit;
+vendor/bin/codecept run integration;
+vendor/bin/codecept run acceptance;
+```
 
-[composer-patches](https://github.com/cweagans/composer-patches) is used to apply PRs to composer dependencies while waiting for the repository owners to accept the required changes.
+Codecoverage
+
+```
+vendor/bin/codecept run unit --coverage unit.cov;
+vendor/bin/codecept run wpunit --coverage wpunit.cov;
+vendor/bin/phpcov merge --clover tests/_output/clover.xml --html tests/_output/html tests/_output --text;
+```
+
+
+To save changes made to the acceptance database:
+
+```
+export $(grep -v '^#' .env.testing | xargs)
+mysqldump -u $TEST_SITE_DB_USER -p$TEST_SITE_DB_PASSWORD $TEST_SITE_DB_NAME > tests/_data/dump.sql
+```
+
+To clear Codeception cache after moving/removing test files:
+
+```
+vendor/bin/codecept clean
+```
+
+### More Information
+
+See [github.com/BrianHenryIE/WordPress-Plugin-Boilerplate](https://github.com/BrianHenryIE/WordPress-Plugin-Boilerplate) for initial setup rationale. 
+
+
+
 
 ### Minimum PHP Version
 
 [PHPCompatibilityWP](https://github.com/PHPCompatibility/PHPCompatibilityWP) is installed by Composer to check the minimum PHP version required. 
 
 ```
-./vendor/bin/phpcs -p ./trunk --standard=PHPCompatibilityWP --runtime-set testVersion 5.7-
+./vendor/bin/phpcs -p ./src --standard=PHPCompatibilityWP --runtime-set testVersion 5.7-
 ```
 
 ### Minimum WordPress Version
@@ -227,7 +238,8 @@ https://github.com/marketplace/actions/composer-php-actions
 * Sanitize out regex pattern that would entirely disable the plugin
 * Client-side settings page validation
 * Test adding an autologin code to a URL which already has one overwrites the old one (and leaves only the one).
-
+* The Newsletter Plugin integration – and any plugin that doesn't use wp_mail
+ 
 ## Licence
 
 GPLv2 or later.
