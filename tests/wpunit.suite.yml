@@ -20,3 +20,4 @@ modules:
             title: "bh-wp-autologin-urls"
             plugins: []
             activatePlugins: []
+bootstrap: _bootstrap.php

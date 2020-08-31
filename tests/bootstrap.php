@@ -17,3 +17,17 @@ $GLOBALS['wordpress_root_dir']                      = $project_root_dir . '/vend
 //require_once $project_root_dir . '/vendor/autoload.php'; // Composer require-dev autoloader.
 
 require_once $plugin_root_dir . '/autoload.php';
+
+// If there is a secrets file, load it here.
+// Unsure how to define it in codeception.yml while also not committing to GitHub.
+$env_secret = __DIR__ . '/../.env.secret';
+if( file_exists( $env_secret ) ) {
+
+	$env_secret_fullpath      = realpath( $env_secret );
+	$env_secret_relative_path = str_replace( codecept_root_dir(), '', $env_secret_fullpath );
+
+	$secret_params = new \Dotenv\Dotenv( codecept_root_dir(), $env_secret_relative_path );
+	$secret_params->load();
+
+	\Codeception\Configuration::config( $env_secret_fullpath );
+}
