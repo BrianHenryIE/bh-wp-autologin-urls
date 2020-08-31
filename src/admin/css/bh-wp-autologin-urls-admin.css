@@ -1,0 +1,42 @@
+/**
+ * Wrapped in bh-wp-autologin-urls class
+ */
+
+
+.bh-wp-autologin-urls .url {
+    padding: 3px;
+    background-color: white;
+    font-family: courier;
+}
+
+.bh-wp-autologin-urls .regex td {
+    padding: 5px 0;
+}
+
+.bh-wp-autologin-urls .note {
+    width: 350px;
+}
+
+
+.bh-wp-autologin-urls .user-edit-single-use-login-url {
+    font-family: monospace;
+    display: inline-block;
+}
+
+.bh-wp-autologin-urls .user-edit-single-use-login-url input {
+    display:block;
+    background: transparent;
+    border: none;
+    width: 100%;
+    margin-top: -15px;
+}
+
+.bh-wp-autologin-urls .user-edit-single-use-login-url .text {
+    font-family: monospace;
+    font-size: 14px;
+    margin: 0 20px;
+    height: 0;
+    color: transparent;
+
+    display:inline-block;
+}
