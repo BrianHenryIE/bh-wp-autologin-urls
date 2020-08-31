@@ -31,10 +31,10 @@ class EmailCest
 	 */
     public function testWpMailSmtp(AcceptanceTester $I) {
 
-    	$smtp_server = env( 'SMTP_SERVER' );
-    	$tls_port = env( 'SMTP_PORT' );
-		$smtp_username = env ( 'MAILTRAP_USERNAME' );
-		$smtp_password = env( 'MAILTRAP_PASSWORD' );
+    	$smtp_server = $_ENV[ 'SMTP_SERVER' ];
+    	$tls_port = $_ENV[ 'SMTP_PORT' ];
+		$smtp_username = $_ENV[ 'MAILTRAP_USERNAME' ];
+		$smtp_password = $_ENV['MAILTRAP_PASSWORD' ];
 
 	    $I->activatePlugin( 'wp-mail-smtp' );
 
