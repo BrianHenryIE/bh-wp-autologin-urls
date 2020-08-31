@@ -129,7 +129,7 @@
       "BrianHenryIE\\ComposerPhpStorm\\PHPUnitRunConfigurations::update",
       "Kporras07\\ComposerSymlinks\\ScriptHandler::createSymlinks"
     ],
-    
+
     "post-update-cmd": [
       "\"vendor/bin/mozart\" compose",
       "vendor/bin/wp core download --path=wordpress --allow-root || true;",
