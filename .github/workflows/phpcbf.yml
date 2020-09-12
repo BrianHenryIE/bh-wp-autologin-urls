@@ -1,0 +1,53 @@
+name: Run PHP CodeSniffer
+
+# Run PHPCBF to fix changes then PHPCS with GitHubActionsAnnotations report
+# https://github.com/squizlabs/PHP_CodeSniffer/pull/2918
+#
+# NB: Pull requests from forks do not have access to repository secrets so cannot commit changes.
+#
+# @author BrianHenryIE
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  php-codesniffer:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Make envfile from secrets
+        uses: SpicyPizza/create-envfile@v1
+        with:
+          envkey_SECRET_KEY: ${{ secrets.SECRET_KEY }}
+          envkey_MAILTRAP_USERNAME: ${{ secrets.MAILTRAP_USERNAME }}
+          envkey_MAILTRAP_PASSWORD: ${{ secrets.MAILTRAP_PASSWORD }}
+          envkey_SMTP_SERVER: ${{ secrets.SMTP_SERVER }}
+          envkey_SMTP_PORT: ${{ secrets.SMTP_PORT }}
+          envkey_MAILTRAP_API_TOKEN: ${{ secrets.MAILTRAP_API_TOKEN }}
+          envkey_MAILTRAP_INBOX: ${{ secrets.MAILTRAP_INBOX }}
+          file_name: .env.secret
+
+      - name: Read .env.testing
+        uses: c-py/action-dotenv-to-setenv@v1
+        with:
+          env-file: .env.testing
+
+      - name: Run Composer install
+        uses: php-actions/composer@v1
+
+      - name: Run PHPCBF to fix what it can
+        continue-on-error: true
+        run: vendor/bin/phpcbf
+
+      - name: Commit PHPCBF changes
+        uses: stefanzweifel/git-auto-commit-action@v4.1.1
+        with:
+          commit_message: "PHPCBF"
+
+      - name: Run PHPCS to add annotations to the commit
+        continue-on-error: true
+        run: vendor/bin/phpcs --report=GitHubActionsAnnotations

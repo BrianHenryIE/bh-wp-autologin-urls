@@ -53,3 +53,6 @@ wp-content/uploads/woocommerce*
 wp-content/uploads/wc-logs/*
 
 .env.secret
+auth.json
+
+*.zip

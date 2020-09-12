@@ -2,3 +2,7 @@ RewriteEngine on
 RewriteCond %{HTTP_HOST} ^.*bh-wp-autologin-urls$ [NC,OR]
 RewriteCond %{REQUEST_URI} !wordpress/
 RewriteRule (.*) wordpress/$1 [L]
+
+php_flag log_errors On
+php_value error_log "wp-content/php_errors.log"
+

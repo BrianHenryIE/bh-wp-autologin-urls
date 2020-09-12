@@ -26,7 +26,7 @@ class PluginsPageCest
 	 */
 	public function testSettingsLink(AcceptanceTester $I) {
 
-		$I->canSeeLink('Settings', 'http://localhost/bh-wp-autologin-urls/wp-admin/options-general.php?page=bh-wp-autologin-urls' );
+		$I->canSeeLink('Settings', $_ENV['TEST_SITE_WP_URL'] . 'wp-admin/options-general.php?page=bh-wp-autologin-urls' );
 
 	}
 

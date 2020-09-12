@@ -1,17 +1,11 @@
-
 name: Codecoverage
 
-
-# https://github.com/appleboy/gh-pages-action
-
-# https://github.com/RubbaBoy/BYOB (badges)
-
-# read:
-# https://help.github.com/en/articles/metadata-syntax-for-github-actions#inputs
-# https://github.com/actions/starter-workflows/issues/68
-# https://github.com/firepress-org/rclone-in-docker/blob/master/.github/workflows/ci_dockerfile_is_master.yml
-# https://github.com/firepress-org/rclone-in-docker/blob/master/.github/workflows/ci_dockerfile_not_master.yml
+# Runs codeception unit and wpunit tests, merges the code coverage, commits the html report to
+# GitHub Pages, generates a README badge with the coverage percentage.
 #
+# Requires a gh-pages branch already created.
+#
+# @author BrianHenryIE
 
 on:
   push:
@@ -19,7 +13,7 @@ on:
       - master
 
 jobs:
-  # should maybe split this into phpcs, phpunit, release
+
   ci:
     runs-on: ubuntu-latest
 
@@ -68,12 +62,8 @@ jobs:
           mysql -h 127.0.0.1 --port ${{ job.services.mysql.ports['3306'] }} -u root -ppassword -e "CREATE DATABASE "$TEST_SITE_DB_NAME"; USE "$TEST_SITE_DB_NAME"; GRANT ALL PRIVILEGES ON "$TEST_SITE_DB_NAME".* TO '"$TEST_DB_USER"'@'%';";
           mysql -h 127.0.0.1 --port ${{ job.services.mysql.ports['3306'] }} -u root -ppassword -e "CREATE DATABASE "$TEST_DB_NAME"; USE "$TEST_DB_NAME"; GRANT ALL PRIVILEGES ON "$TEST_DB_NAME".* TO '"$TEST_DB_USER"'@'%';";
 
-      - name: Test database creation
-        run: |
-          mysql -h 127.0.0.1 --port ${{ job.services.mysql.ports['3306'] }} -u root -ppassword -e "SHOW DATABASES";
-          echo ${{ job.services.mysql.ports['3306'] }}
-          find . -depth \( -name '.env.testing' \) -exec sed -i "s/=\"127.0.0.1\"/=\"127.0.0.1:${{ job.services.mysql.ports['3306'] }}\"/g" {} +
-          tail .env.testing -n 1000
+      - name: Add MySQL port to .env.testing
+        run: find . -depth \( -name '.env.testing' \) -exec sed -i "s/=\"127.0.0.1\"/=\"127.0.0.1:${{ job.services.mysql.ports['3306'] }}\"/g" {} +
 
       - name: Run composer install
         uses: php-actions/composer@v1

@@ -24,7 +24,7 @@ class LoginCest
 
 	    $I->amOnPage( $url_with_password );
 
-	    $I->amOnPage( 'index.php/my-account/' );
+	    $I->amOnPage( '/?p=10' );
 
 	    $I->see('Hello bob' );
 

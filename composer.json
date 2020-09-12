@@ -2,6 +2,13 @@
   "name": "brianhenryie/bh-wp-autologin-urls",
   "description": "Adds single-use passwords to emails to WordPress users.",
   "type": "wordpress-plugin",
+  "license": "GPL-2.0+-or-later",
+  "authors": [
+    {
+      "name": "Brian Henry",
+      "email": "BrianHenryIE@gmail.com"
+    }
+  ],
   "minimum-stability": "dev",
   "prefer-stable": true,
   "config": {
@@ -34,60 +41,48 @@
     "brianhenryie/wppb-lib": "dev-master",
     "pablo-sg-pacheco/wp-namespace-autoloader": "dev-brianhenryie"
   },
-
   "require-dev": {
     "10up/wp_mock": "0.4.2",
+    "brianhenryie/composer-phpstorm": "dev-master",
+    "codeception/module-asserts": "^1.0",
+    "codeception/module-db": "^1.0.0",
+    "codeception/module-cli": "^1.0",
+    "codeception/module-filesystem": "^1.0",
+    "codeception/module-phpbrowser": "^1.0.0",
+    "codeception/module-webdriver": "^1.0",
+    "codeception/util-universalframework": "^1.0",
     "coenjacobs/mozart": "dev-master",
     "cweagans/composer-patches": "^1.0",
     "dealerdirect/phpcodesniffer-composer-installer": "*",
-
-    "phpunit/phpcov": "^5.0",
-    "wordpress/wordpress": "^5.4",
-    "wp-coding-standards/wpcs": "*",
-
-    "codeception/module-asserts": "^1.0",
-    "codeception/module-db": "^1.0.0",
-    "codeception/module-phpbrowser": "^1.0.0",
-    "codeception/module-webdriver": "^1.0",
-    "codeception/module-filesystem": "^1.0",
-    "codeception/module-cli": "^1.0",
-    "codeception/util-universalframework": "^1.0",
-
-    "brianhenryie/composer-phpstorm": "dev-master",
-
-    "lucatume/wp-browser": "*",
-    "phpcompatibility/phpcompatibility-wp": "*",
-
+    "ericmartel/codeception-email-mailtrap": "^1.0",
+    "jaschilz/php-coverage-badger": "^2.0",
     "kporras07/composer-symlinks": "dev-master",
-
+    "lucatume/wp-browser": "*",
+    "mheap/phpunit-github-actions-printer": "dev-master",
+    "phpcompatibility/phpcompatibility-wp": "*",
+    "phpoption/phpoption": "^1.7",
+    "phpunit/phpcov": "^5.0",
+    "squizlabs/php_codesniffer": "dev-master#1371c59bd5da5cfc877ab8478753362edc9bbc9b",
     "voku/portable-ascii": "dev-master",
-
+    "wordpress/wordpress": "^5.5",
+    "wp-coding-standards/wpcs": "*",
     "wpackagist-plugin/woocommerce": ">4",
-    "wpackagist-theme/storefront":"^2",
-    
     "wpackagist-plugin/wp-super-cache": "*",
     "wpackagist-plugin/wp-mail-smtp": "^2.3",
     "wpackagist-theme/twentytwenty": "^1.5",
-    "ericmartel/codeception-email-mailtrap": "^1.0",
-
-    "phpoption/phpoption": "^1.7",
-
-    "mheap/phpunit-github-actions-printer": "dev-master",
-    "jaschilz/php-coverage-badger": "^2.0"
-
+    "wpackagist-theme/storefront":"^2"
   },
-  "license": "GPL-2.0+-or-later",
-  "authors": [
-    {
-      "name": "Brian Henry",
-      "email": "BrianHenryIE@gmail.com"
-    }
-  ],
   "extra": {
     "patches": {
       "coenjacobs/mozart": {
         "DIRECTORY_SEPARATOR": "https://github.com/coenjacobs/mozart/pull/61.patch",
         "Delete empty directories": "https://github.com/coenjacobs/mozart/pull/59.patch"
+      },
+      "jaschilz/php-coverage-badger": {
+        "Allow customising the text": "https://github.com/JASchilz/PHPCoverageBadge/pull/1.patch"
+      },
+      "squizlabs/php_codesniffer": {
+        "Add GitHub Actions Annotations report type": "https://github.com/squizlabs/PHP_CodeSniffer/pull/2918.patch"
       },
       "ericmartel/codeception-email-mailtrap": {
         "Fixed undefined property ": "https://github.com/ericmartel/codeception-email-mailtrap/pull/7.patch"
@@ -110,7 +105,7 @@
           "vendor/wordpress/wordpress/src",
           "vendor/wordpress/wordpress/build",
           "wp-content/plugins/bh-wp-autologin-urls",
-          "wordpress/wp-content/plugins"
+          "wordpress/wp-content"
         ],
         "include_folders": [
           "vendor/wordpress/wordpress/"
@@ -129,7 +124,6 @@
       "BrianHenryIE\\ComposerPhpStorm\\PHPUnitRunConfigurations::update",
       "Kporras07\\ComposerSymlinks\\ScriptHandler::createSymlinks"
     ],
-
     "post-update-cmd": [
       "\"vendor/bin/mozart\" compose",
       "vendor/bin/wp core download --path=wordpress --allow-root || true;",
