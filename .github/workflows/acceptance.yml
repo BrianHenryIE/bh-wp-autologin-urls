@@ -74,7 +74,7 @@ jobs:
       - uses: actions/upload-artifact@v2
         if: ${{ failure() }}
         with:
-          name: my-artifact
+          name: failed-acceptance-test
           path: |
             tests/_output/*fail.html
             composer.json
