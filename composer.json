@@ -70,7 +70,8 @@
     "wpackagist-plugin/wp-super-cache": "*",
     "wpackagist-plugin/wp-mail-smtp": "^2.3",
     "wpackagist-theme/twentytwenty": "^1.5",
-    "wpackagist-theme/storefront":"^2"
+    "wpackagist-theme/storefront":"^2",
+    "wpackagist-plugin/newsletter": "^6.8"
   },
   "extra": {
     "patches": {

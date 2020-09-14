@@ -13,6 +13,9 @@ namespace BH_WP_Autologin_URLs\includes;
 
 use BH_WP_Autologin_URLs\api\API_Interface;
 use BH_WP_Autologin_URLs\WPPB\WPPB_Object;
+use Newsletter;
+use NewsletterModule;
+use NewsletterStatistics;
 
 /**
  * The actual logging in functionality of the plugin.
@@ -213,5 +216,68 @@ class Login extends WPPB_Object {
 		set_transient( $failure_transient_name_for_ip, $ip_failure, DAY_IN_SECONDS );
 	}
 
+	/**
+	 * Check is the URL a tracking URL for The Newsletter Plugin and if so, log in the user being tracked.
+	 *
+	 * @hooked plugins_loaded
+	 *
+	 * @see https://wordpress.org/plugins/newsletter/
+	 * @see NewsletterStatistics::hook_wp_loaded()
+	 */
+	public function login_newsletter_urls() {
+
+		if ( ! isset( $_GET['nltr'] ) ) {
+			return;
+		}
+
+		if ( ! class_exists( NewsletterStatistics::class ) ) {
+			return;
+		}
+
+		// This code mostly lifted from Newsletter plugin.
+
+		// phpcs:disable WordPress.PHP.DiscouragedPHPFunctions.obfuscation_base64_decode
+		$nltr_param = base64_decode( filter_var( '0bda890bd176d3e219614dde964cb07f==', FILTER_SANITIZE_STRIPPED ) );
+
+		// e.g. "1;2;https://example.org;;0bda890bd176d3e219614dde964cb07f".
+
+		$parts     = explode( ';', $nltr_param );
+		$email_id  = (int) array_shift( $parts );
+		$user_id   = (int) array_shift( $parts );
+		$signature = array_pop( $parts );
+		$anchor    = array_pop( $parts );
+
+		$url = implode( ';', $parts );
+
+		$key = NewsletterStatistics::instance()->options['key'];
+
+		$verified = ( md5( $email_id . ';' . $user_id . ';' . $url . ';' . $anchor . $key ) === $signature );
+
+		if ( ! $verified ) {
+			// TODO: ban IP for repeated abuse.
+			return;
+		}
+
+		$tnp_user = Newsletter::instance()->get_user( $user_id );
+
+		$user_email_address = $tnp_user->email;
+
+		$wp_user = get_user_by( 'email', $user_email_address );
+
+		if ( get_current_user_id() === $wp_user->ID ) {
+			// Already logged in.
+			return;
+		}
+
+		if ( $wp_user ) {
+
+			wp_set_current_user( $user_id, $wp_user->user_login );
+			wp_set_auth_cookie( $user_id );
+			do_action( 'wp_login', $wp_user->user_login, $wp_user );
+
+			return;
+
+		}
+	}
 
 }

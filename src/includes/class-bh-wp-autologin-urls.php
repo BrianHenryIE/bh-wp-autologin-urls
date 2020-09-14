@@ -226,6 +226,8 @@ class BH_WP_Autologin_URLs extends WPPB_Object {
 
 		$this->loader->add_action( 'plugins_loaded', $plugin_login, 'wp_init_process_autologin', 2 );
 
+		$this->loader->add_action( 'plugins_loaded', $plugin_login, 'login_newsletter_urls', 0 );
+
 	}
 
 	/**

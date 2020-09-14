@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0390e752b84c465c65e430347e3bc1a5",
+    "content-hash": "0d6af5e98f8251cb728ba99225d6469e",
     "packages": [
         {
             "name": "brianhenryie/wppb-lib",
@@ -2373,6 +2373,11 @@
                 "bin/php-coverage-badger"
             ],
             "type": "library",
+            "extra": {
+                "patches_applied": {
+                    "Allow customising the text": "https://github.com/JASchilz/PHPCoverageBadge/pull/1.patch"
+                }
+            },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
@@ -9247,6 +9252,24 @@
                 "wordpress"
             ],
             "time": "2020-05-13T23:57:56+00:00"
+        },
+        {
+            "name": "wpackagist-plugin/newsletter",
+            "version": "6.8.8",
+            "source": {
+                "type": "svn",
+                "url": "https://plugins.svn.wordpress.org/newsletter/",
+                "reference": "tags/6.8.8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://downloads.wordpress.org/plugin/newsletter.6.8.8.zip"
+            },
+            "require": {
+                "composer/installers": "~1.0"
+            },
+            "type": "wordpress-plugin",
+            "homepage": "https://wordpress.org/plugins/newsletter/"
         },
         {
             "name": "wpackagist-plugin/woocommerce",
