@@ -1,6 +1,10 @@
 #!/usr/bin/env bash
 # https://zerowp.com/?p=55
 
+# Requires your WordPress.org username and password added to the repo's GitHub Secrets as:
+# SVN_USERNAME
+# SVN_PASSWORD
+
 # Get the plugin slug from this git repository + convert to lowercase.
 PLUGIN_SLUG="`echo "${PWD##*/}" | perl -ne 'print lc'`"
 
