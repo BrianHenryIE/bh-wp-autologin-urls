@@ -13,6 +13,10 @@ namespace BH_WP_Autologin_URLs\includes;
 
 use BH_WP_Autologin_URLs\api\API_Interface;
 use BH_WP_Autologin_URLs\WPPB\WPPB_Object;
+use MailPoet\Models\Subscriber;
+use MailPoet\Newsletter\Links\Links;
+use MailPoet\Router\Router;
+use MailPoet\Subscribers\LinkTokens;
 use Newsletter;
 use NewsletterModule;
 use NewsletterStatistics;
@@ -271,8 +275,8 @@ class Login extends WPPB_Object {
 
 		if ( $wp_user ) {
 
-			wp_set_current_user( $user_id, $wp_user->user_login );
-			wp_set_auth_cookie( $user_id );
+			wp_set_current_user( $wp_user->ID, $wp_user->user_login );
+			wp_set_auth_cookie( $wp_user->ID );
 			do_action( 'wp_login', $wp_user->user_login, $wp_user );
 
 			return;
@@ -280,4 +284,76 @@ class Login extends WPPB_Object {
 		}
 	}
 
+	/**
+	 * Check is the URL a tracking URL for MailPoet plugin and if so, log in the user being tracked.
+	 *
+	 * @hooked plugins_loaded
+	 *
+	 * @see https://wordpress.org/plugins/mailpoet/
+	 */
+	public function login_mailpoet_urls() {
+
+		// https://staging.redmeatsupplement.com/?mailpoet_router&endpoint=track&action=click&data=WyI0IiwiZDAzYWE3IiwiMiIsImFlNzViYjI5YjVjOSIsZmFsc2Vd
+		// TODO: verify this works!
+		if ( ! isset( $_GET['mailpoet_router'] ) ) {
+			return;
+		}
+
+		if ( ! isset( $_GET['data'] ) ) {
+			return;
+		}
+
+		if ( ! class_exists( Router::class ) ) {
+			return;
+		}
+
+		// phpcs:disable WordPress.PHP.DiscouragedPHPFunctions.obfuscation_base64_decode
+		$data = Router::decodeRequestData( filter_var( wp_unslash( $_GET['data'] ), FILTER_SANITIZE_STRIPPED ) );
+
+		$transformed_data = Links::transformUrlDataObject( $data );
+
+		if ( ! isset( $transformed_data['subscriber_id'] ) ) {
+			return;
+		}
+
+		// "["4","d03aa7","2","ae75bb29b5c9",false]"
+		//
+		// https://staging.redmeatsupplement.com/?mailpoet_router&endpoint=track&action=click&data=WyI0IiwiZDAzYWE3IiwiMiIsIjVjMGU5YWRlMjNjZCIsZmFsc2Vd
+		//
+		// Links::transformUrlDataObject()
+		//
+		// $this->linkTokens->verifyToken($subscriber, $data['subscriber_token']))
+
+		$subscriber = Subscriber::where( 'id', $transformed_data['subscriber_id'] )->findOne();
+
+		if ( ! $subscriber ) {
+			return;
+		}
+
+		$link_tokens = new LinkTokens();
+		$valid       = $link_tokens->verifyToken( $subscriber, $transformed_data['subscriber_token'] );
+
+		if ( ! $valid ) {
+			return;
+		}
+
+		$user_email_address = $subscriber->email;
+
+		$wp_user = get_user_by( 'email', $user_email_address );
+
+		if ( get_current_user_id() === $wp_user->ID ) {
+			// Already logged in.
+			return;
+		}
+
+		if ( $wp_user ) {
+
+			wp_set_current_user( $wp_user->ID, $wp_user->user_login );
+			wp_set_auth_cookie( $wp_user->ID );
+			do_action( 'wp_login', $wp_user->user_login, $wp_user );
+
+			return;
+
+		}
+	}
 }
