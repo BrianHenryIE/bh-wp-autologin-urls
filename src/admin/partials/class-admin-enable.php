@@ -11,8 +11,8 @@
 
 namespace BH_WP_Autologin_URLs\admin\partials;
 
-use BH_WP_Autologin_URLs\includes\Settings_Interface;
-use BH_WP_Autologin_URLs\includes\Settings;
+use BH_WP_Autologin_URLs\api\Settings_Interface;
+use BH_WP_Autologin_URLs\api\Settings;
 
 /**
  * Class Admin_Enable
@@ -47,7 +47,7 @@ class Admin_Enable extends Settings_Section_Element_Abstract {
 	 *
 	 * @param array $arguments The data registered with add_settings_field().
 	 */
-	public function print_field_callback( $arguments ) {
+	public function print_field_callback( $arguments ): void {
 
 		$value = $this->value;
 

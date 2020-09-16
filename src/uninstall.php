@@ -30,13 +30,13 @@ if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
 }
 
 // Require files for constants.
-require_once plugin_dir_path( __FILE__ ) . 'includes/interface-settings.php';
-require_once plugin_dir_path( __FILE__ ) . 'includes/class-settings.php';
+require_once plugin_dir_path( __FILE__ ) . 'api/interface-settings.php';
+require_once plugin_dir_path( __FILE__ ) . 'api/class-settings.php';
 require_once plugin_dir_path( __FILE__ ) . 'api/interface-api.php';
 require_once plugin_dir_path( __FILE__ ) . 'api/class-api.php';
 
-use BH_WP_Autologin_URLs\api\API;
-use BH_WP_Autologin_URLs\includes\Settings;
+use BH_WP_Autologin_URLs\api\Transient_Data_Store;
+use BH_WP_Autologin_URLs\api\Settings;
 
 /**
  * Delete the passwords stored as transients in wp_options.
@@ -50,8 +50,8 @@ function bh_wp_autologin_urls_clear_transients() {
 	$wpdb->query(
 		$wpdb->prepare(
 			"DELETE FROM {$wpdb->options} WHERE option_name LIKE %s OR option_name LIKE %s",
-			$wpdb->esc_like( '_transient_' . API::TRANSIENT_PREFIX . '%' ),
-			$wpdb->esc_like( '_transient_timeout_' . API::TRANSIENT_PREFIX . '%' )
+			$wpdb->esc_like( '_transient_bh_autologin_' . Transient_Data_Store::TRANSIENT_PREFIX . '%' ),
+			$wpdb->esc_like( '_transient_timeout_' . Transient_Data_Store::TRANSIENT_PREFIX . '%' )
 		)
 	);
 

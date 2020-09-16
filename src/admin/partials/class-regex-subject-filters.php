@@ -11,8 +11,8 @@
 
 namespace BH_WP_Autologin_URLs\admin\partials;
 
-use BH_WP_Autologin_URLs\includes\Settings_Interface;
-use BH_WP_Autologin_URLs\includes\Settings;
+use BH_WP_Autologin_URLs\api\Settings_Interface;
+use BH_WP_Autologin_URLs\api\Settings;
 
 /**
  * Class Regex_Subject_Filters
@@ -47,7 +47,7 @@ class Regex_Subject_Filters extends Settings_Section_Element_Abstract {
 	 *
 	 * @param array $arguments The data registered with add_settings_field().
 	 */
-	public function print_field_callback( $arguments ) {
+	public function print_field_callback( $arguments ): void {
 
 		$value = $this->value;
 
@@ -116,7 +116,7 @@ class Regex_Subject_Filters extends Settings_Section_Element_Abstract {
 	 *
 	 * @return string The table row HTML.
 	 */
-	private function input_pair_table_row( $id, $iterator, $regex = '', $note = '' ) {
+	protected function input_pair_table_row( $id, $iterator, $regex = '', $note = '' ): string {
 
 		$regex_placeholder = '/^myRegex$/';
 		$note_placeholder  = __( 'Sample subject the regex pattern should apply to.', 'bh-wp-autologin-urls' );

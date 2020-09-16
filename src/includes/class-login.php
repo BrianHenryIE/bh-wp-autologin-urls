@@ -42,7 +42,7 @@ class Login extends WPPB_Object {
 	 *
 	 * @var API_Interface
 	 */
-	private $api;
+	protected $api;
 
 	/**
 	 * Initialize the class and set its properties.
@@ -167,7 +167,7 @@ class Login extends WPPB_Object {
 	 *
 	 * @param string $autologin_querystring The autologin code which did not work.
 	 */
-	private function record_bad_attempts( $autologin_querystring ) {
+	protected function record_bad_attempts( $autologin_querystring ): void {
 
 		// This is how WordPress gets the IP in WP_Session_Tokens().
 		if ( ! empty( $_SERVER['REMOTE_ADDR'] ) ) {
@@ -230,7 +230,7 @@ class Login extends WPPB_Object {
 	 * @see https://wordpress.org/plugins/newsletter/
 	 * @see NewsletterStatistics::hook_wp_loaded()
 	 */
-	public function login_newsletter_urls() {
+	public function login_newsletter_urls(): void {
 
 		if ( ! isset( $_GET['nltr'] ) ) {
 			return;
@@ -270,22 +270,22 @@ class Login extends WPPB_Object {
 
 		$wp_user = get_user_by( 'email', $user_email_address );
 
-		if ( get_current_user_id() === $wp_user->ID ) {
-
-			Logger::get_instance()->debug( "User {$wp_user->user_login} already logged in." );
-
-			return;
-		}
 
 		if ( $wp_user ) {
 
-			wp_set_current_user( $wp_user->ID, $wp_user->user_login );
-			wp_set_auth_cookie( $wp_user->ID );
+			if ( get_current_user_id() === $wp_user->ID ) {
+
+				Logger::get_instance()->debug( "User {$wp_user->user_login} already logged in." );
+
+				return;
+			}
+
+			wp_set_current_user( $user_id, $wp_user->user_login );
+			wp_set_auth_cookie( $user_id );
+
 			do_action( 'wp_login', $wp_user->user_login, $wp_user );
 
 			Logger::get_instance()->info( "User {$wp_user->user_login} logged in via Newsletter URL." );
-
-			return;
 
 		} else {
 
@@ -307,7 +307,7 @@ class Login extends WPPB_Object {
 	 *
 	 * @see https://wordpress.org/plugins/mailpoet/
 	 */
-	public function login_mailpoet_urls() {
+	public function login_mailpoet_urls(): void {
 
 		// https://staging.redmeatsupplement.com/?mailpoet_router&endpoint=track&action=click&data=WyI0IiwiZDAzYWE3IiwiMiIsImFlNzViYjI5YjVjOSIsZmFsc2Vd
 		// TODO: verify this works!
@@ -357,14 +357,15 @@ class Login extends WPPB_Object {
 
 		$wp_user = get_user_by( 'email', $user_email_address );
 
-		if ( get_current_user_id() === $wp_user->ID ) {
-
-			Logger::get_instance()->debug( "User {$wp_user->user_login} already logged in." );
-
-			return;
-		}
 
 		if ( $wp_user ) {
+
+			if ( get_current_user_id() === $wp_user->ID ) {
+
+				Logger::get_instance()->debug( "User {$wp_user->user_login} already logged in." );
+
+				return;
+			}
 
 			wp_set_current_user( $wp_user->ID, $wp_user->user_login );
 			wp_set_auth_cookie( $wp_user->ID );
