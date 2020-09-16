@@ -67,7 +67,7 @@
     "voku/portable-ascii": "dev-master",
     "wordpress/wordpress": "^5.5",
     "wp-coding-standards/wpcs": "*",
-    "wpackagist-plugin/woocommerce": ">4",
+    "wpackagist-plugin/woocommerce": "^4.5",
     "wpackagist-plugin/wp-super-cache": "*",
     "wpackagist-plugin/wp-mail-smtp": "^2.3",
     "wpackagist-theme/twentytwenty": "^1.5",

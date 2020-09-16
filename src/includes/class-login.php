@@ -102,6 +102,7 @@ class Login extends WPPB_Object {
 		}
 
 		// Check for blocked IP.
+		// TODO: Fix for proxies (Cloudflare)
 		if ( ! empty( $_SERVER['REMOTE_ADDR'] ) ) {
 
 			$ip_address = filter_var( wp_unslash( $_SERVER['REMOTE_ADDR'] ), FILTER_VALIDATE_IP );
@@ -286,6 +287,16 @@ class Login extends WPPB_Object {
 
 			return;
 
+		} else {
+
+			// We have their email address but they have no account,
+			// if WooCommerce is installed, record the email address for
+			// UX and abandoned cart.
+			$user_info = array(
+				'first_name' => $tnp_user->name,
+				'last_name'  => $tnp_user->surname,
+			);
+			$this->woocommerce_ux( $user_email_address, $user_info );
 		}
 	}
 
@@ -363,6 +374,74 @@ class Login extends WPPB_Object {
 
 			return;
 
+		} else {
+
+			// We have their email address but they have no account,
+			// if WooCommerce is installed, record the email address for
+			// UX and abandoned cart.
+			$user_info = array(
+				'first_name' => $subscriber->firstName,
+				'last_name'  => $subscriber->lastName,
+			);
+			$this->woocommerce_ux( $user_email_address, $user_info );
 		}
+	}
+
+	/**
+	 * If WooCommerce is installed, when there is no WP_User, attempt to populate the user checkout
+	 * fields using data from Newsletter/MailPoet and from past orders by that email address.
+	 *
+	 * @param string $email_address The user's email address.
+	 * @param array  $user_info Information e.g. first name, last name that might be available from MailPoet/Newsletter.
+	 */
+	protected function woocommerce_ux( $email_address, $user_info ) {
+
+		if ( ! function_exists( 'WC' ) ) {
+			return;
+		}
+
+		WC()->initialize_cart();
+
+		WC()->customer->set_billing_email( $email_address );
+
+		if ( ! empty( $user_info['first_name'] ) ) {
+			WC()->customer->set_first_name( $user_info['first_name'] );
+			WC()->customer->set_billing_first_name( $user_info['first_name'] );
+			WC()->customer->set_shipping_first_name( $user_info['first_name'] );
+		}
+
+		if ( ! empty( $user_info['last_name'] ) ) {
+			WC()->customer->set_last_name( $user_info['last_name'] );
+			WC()->customer->set_billing_last_name( $user_info['last_name'] );
+			WC()->customer->set_shipping_last_name( $user_info['last_name'] );
+		}
+
+		// Try to get one past order placed by this email address.
+		$customer_orders = wc_get_orders(
+			array(
+				'customer' => $email_address,
+				'limit'    => 1,
+				'order'    => 'DESC',
+				'orderby'  => 'id',
+			)
+		);
+
+		if ( count( $customer_orders ) > 0  ) {
+
+			$order = $customer_orders[0];
+
+			WC()->customer->set_billing_country( $order->get_billing_country() );
+			WC()->customer->set_billing_postcode( $order->get_billing_postcode() );
+			WC()->customer->set_billing_state( $order->get_billing_state() );
+			WC()->customer->set_billing_last_name( $order->get_billing_last_name() );
+			WC()->customer->set_billing_first_name( $order->get_billing_first_name() );
+			WC()->customer->set_billing_address_1( $order->get_billing_address_1() );
+			WC()->customer->set_billing_address_2( $order->get_billing_address_2() );
+			WC()->customer->set_billing_city( $order->get_billing_city() );
+			WC()->customer->set_billing_company( $order->get_billing_company() );
+			WC()->customer->set_billing_phone( $order->get_billing_phone() );
+
+		}
+
 	}
 }

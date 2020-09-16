@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "845a48cd1082159f0de2744e4ffb69d1",
+    "content-hash": "303b2dddc90d6bbf3bfa23dafffb061a",
     "packages": [
         {
             "name": "brianhenryie/wppb-lib",
@@ -2561,12 +2561,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/kporras07/composer-symlinks.git",
-                "reference": "cda2e2059646b06a490092893563af5b70b569bd"
+                "reference": "57fc135ce67be0c9bab613b5239eef3c71a25fb9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kporras07/composer-symlinks/zipball/cda2e2059646b06a490092893563af5b70b569bd",
-                "reference": "cda2e2059646b06a490092893563af5b70b569bd",
+                "url": "https://api.github.com/repos/kporras07/composer-symlinks/zipball/57fc135ce67be0c9bab613b5239eef3c71a25fb9",
+                "reference": "57fc135ce67be0c9bab613b5239eef3c71a25fb9",
                 "shasum": ""
             },
             "require": {
@@ -2608,7 +2608,7 @@
                 "script",
                 "symlink"
             ],
-            "time": "2020-05-08T00:09:07+00:00"
+            "time": "2020-09-15T18:27:34+00:00"
         },
         {
             "name": "league/flysystem",
@@ -2754,16 +2754,16 @@
         },
         {
             "name": "lucatume/wp-browser",
-            "version": "2.6.10",
+            "version": "2.6.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/lucatume/wp-browser.git",
-                "reference": "2a838a67428904ab1bfa0a50515e185f7bc6b5fd"
+                "reference": "a974a621602045c0907ce74762836887378890dc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/lucatume/wp-browser/zipball/2a838a67428904ab1bfa0a50515e185f7bc6b5fd",
-                "reference": "2a838a67428904ab1bfa0a50515e185f7bc6b5fd",
+                "url": "https://api.github.com/repos/lucatume/wp-browser/zipball/a974a621602045c0907ce74762836887378890dc",
+                "reference": "a974a621602045c0907ce74762836887378890dc",
                 "shasum": ""
             },
             "require": {
@@ -2833,7 +2833,7 @@
                 "codeception",
                 "wordpress"
             ],
-            "time": "2020-08-25T11:24:27+00:00"
+            "time": "2020-09-15T11:58:52+00:00"
         },
         {
             "name": "mck89/peast",
