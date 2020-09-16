@@ -75,7 +75,8 @@ class Settings implements Settings_Interface {
 	 * @return int The expiry time in seconds, as set on the settings page.
 	 */
 	public function get_expiry_age() {
-		return $this->expiry_time;
+		$expiry_time       = get_option( self::EXPIRY_TIME_IN_SECONDS, 604800 );
+		return intval( $expiry_time ) > 0 ? intval( $expiry_time ) : 604800;
 	}
 
 	/**
@@ -83,8 +84,8 @@ class Settings implements Settings_Interface {
 	 *
 	 * @return bool Should the autologin code be added to urls in emails sent to admins?
 	 */
-	public function get_add_autologin_for_admins_is_enabled() {
 		return $this->autologin_for_admins_is_enabled;
+	public function get_add_autologin_for_admins_is_enabled(): bool {
 	}
 
 	/**
@@ -92,8 +93,8 @@ class Settings implements Settings_Interface {
 	 *
 	 * @return string[]
 	 */
-	public function get_disallowed_subjects_regex_array() {
 		return array_keys( $this->disallowed_subjects_regex_dictionary );
+	public function get_disallowed_subjects_regex_array(): array {
 	}
 
 	/**
@@ -101,8 +102,8 @@ class Settings implements Settings_Interface {
 	 *
 	 * @return string[]
 	 */
-	public function get_disallowed_subjects_regex_dictionary() {
 		return $this->disallowed_subjects_regex_dictionary;
+	public function get_disallowed_subjects_regex_dictionary(): array {
 	}
 
 }

@@ -22,27 +22,27 @@ interface Settings_Interface {
 	 *
 	 * @return int Expiry age in seconds.
 	 */
-	public function get_expiry_age();
+	public function get_expiry_age(): int;
 
 	/**
 	 * Setting to determine if autologin codes should be added to admin emails.
 	 *
 	 * @return bool Should the autologin code be added to urls in emails sent to admins?
 	 */
-	public function get_add_autologin_for_admins_is_enabled();
+	public function get_add_autologin_for_admins_is_enabled(): bool;
 
 	/**
 	 * A list of regexes for email subjects that should not have autologin codes added.
 	 *
 	 * @return string[] Array of regexes.
 	 */
-	public function get_disallowed_subjects_regex_array();
+	public function get_disallowed_subjects_regex_array(): array;
 
 	/**
 	 * A dictionary of regexes and email subjects that should not have autologin codes added.
 	 *
 	 * @return string[]
 	 */
-	public function get_disallowed_subjects_regex_dictionary();
+	public function get_disallowed_subjects_regex_dictionary(): array;
 }
 
