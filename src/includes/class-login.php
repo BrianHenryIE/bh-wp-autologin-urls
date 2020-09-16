@@ -100,6 +100,7 @@ class Login extends WPPB_Object {
 		}
 
 		// Check for blocked IP.
+		// TODO: Fix for proxies (Cloudflare)
 		if ( ! empty( $_SERVER['REMOTE_ADDR'] ) ) {
 
 			$ip_address = filter_var( wp_unslash( $_SERVER['REMOTE_ADDR'] ), FILTER_VALIDATE_IP );
