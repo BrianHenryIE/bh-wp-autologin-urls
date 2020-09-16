@@ -29,14 +29,14 @@ class WP_Mail extends WPPB_Object {
 	 *
 	 * @var API_Interface
 	 */
-	private $api;
+	protected $api;
 
 	/**
 	 * The settings, as configured in the WordPress admin UI.
 	 *
 	 * @var Settings_Interface
 	 */
-	private $settings;
+	protected $settings;
 
 	/**
 	 * WP_Mail constructor.
@@ -62,7 +62,7 @@ class WP_Mail extends WPPB_Object {
 	 * @return array
 	 * @see wp_mail()
 	 */
-	public function add_autologin_links_to_email( $wp_mail_args ) {
+	public function add_autologin_links_to_email( $wp_mail_args ): array {
 
 		$user = get_user_by( 'email', $wp_mail_args['to'] );
 

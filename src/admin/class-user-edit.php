@@ -58,7 +58,7 @@ class User_Edit extends WPPB_Object {
 	 *
 	 * @param WP_User $profileuser The current WP_User object.
 	 */
-	public function make_password_available_on_user_page( $profileuser ) {
+	public function make_password_available_on_user_page( $profileuser ): void {
 
 		?>
 

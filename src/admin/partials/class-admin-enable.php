@@ -47,7 +47,7 @@ class Admin_Enable extends Settings_Section_Element_Abstract {
 	 *
 	 * @param array $arguments The data registered with add_settings_field().
 	 */
-	public function print_field_callback( $arguments ) {
+	public function print_field_callback( $arguments ): void {
 
 		$value = $this->value;
 

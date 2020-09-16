@@ -11,7 +11,7 @@
 
 namespace BH_WP_Autologin_URLs\admin;
 
-use BH_WP_Autologin_URLs\includes\Settings_Interface;
+use BH_WP_Autologin_URLs\api\Settings_Interface;
 use BH_WP_Autologin_URLs\admin\partials\Settings_Section_Element_Abstract;
 use BH_WP_Autologin_URLs\admin\partials\Admin_Enable;
 use BH_WP_Autologin_URLs\admin\partials\Expiry_Age;
@@ -55,7 +55,7 @@ class Settings_Page extends WPPB_Object {
 	 *
 	 * @hooked admin_menu
 	 */
-	public function add_settings_page() {
+	public function add_settings_page(): void {
 
 		add_options_page(
 			'Autologin URLs',
@@ -69,7 +69,7 @@ class Settings_Page extends WPPB_Object {
 	/**
 	 * Registered above, called by WordPress to display the admin settings page.
 	 */
-	public function display_plugin_admin_page() {
+	public function display_plugin_admin_page(): void {
 
 		$example_url = site_url() . '/?autologin=' . get_current_user_id() . '~Yxu1UQG8IwJO';
 
@@ -81,7 +81,7 @@ class Settings_Page extends WPPB_Object {
 	 *
 	 * @hooked admin_init
 	 */
-	public function setup_sections() {
+	public function setup_sections(): void {
 
 		$settings_page_slug_name = $this->plugin_name;
 
@@ -102,7 +102,7 @@ class Settings_Page extends WPPB_Object {
 	 *
 	 * @since    1.0.0
 	 */
-	public function setup_fields() {
+	public function setup_fields(): void {
 
 		$settings_page_slug_name = $this->plugin_name;
 

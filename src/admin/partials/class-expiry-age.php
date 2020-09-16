@@ -51,7 +51,7 @@ class Expiry_Age extends Settings_Section_Element_Abstract {
 	 *
 	 * @param array $arguments Settings passed from WordPress do_settings_fields() function.
 	 */
-	public function print_field_callback( $arguments ) {
+	public function print_field_callback( $arguments ): void {
 
 		$value = $this->value;
 
