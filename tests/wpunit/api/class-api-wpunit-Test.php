@@ -8,13 +8,12 @@
 
 namespace BH_WP_Autologin_URLs\api;
 
-use \BH_WP_Autologin_URLs\includes\BH_WP_Autologin_URLs;
 use BH_WP_Autologin_URLs\includes\Settings_Interface;
 
 /**
- * Class API_Develop_Test
+ * Class API_WPUnit_Test
  */
-class API_Develop_Test extends \Codeception\TestCase\WPTestCase {
+class API_WPUnit_Test extends \Codeception\TestCase\WPTestCase {
 
 	protected $plugin_name;
 
@@ -34,24 +33,14 @@ class API_Develop_Test extends \Codeception\TestCase\WPTestCase {
 		$this->plugin_name = 'bh-wp-autologin-urls';
 		$this->version = '1.2.0';
 
-		$this->settings = new class() implements Settings_Interface {
-
-			public function get_expiry_age() {
-				return WEEK_IN_SECONDS;
-			}
-
-			public function get_add_autologin_for_admins_is_enabled() {
-				return false;
-			}
-
-			public function get_disallowed_subjects_regex_array() {
-				return [];
-			}
-
-			public function get_disallowed_subjects_regex_dictionary() {
-				return [];
-			}
-		};
+		$this->settings = $this->makeEmpty( Settings_Interface::class,
+			array(
+				'get_expiry_age' => WEEK_IN_SECONDS,
+				'get_add_autologin_for_admins_is_enabled' => false,
+				'get_disallowed_subjects_regex_array' => [],
+				'get_disallowed_subjects_regex_dictionary' => [],
+			)
+		);
 
 		$this->set_return_password_for_test_user();
 	}
@@ -82,16 +71,10 @@ class API_Develop_Test extends \Codeception\TestCase\WPTestCase {
 		wp_cache_flush();
 
 		// Specify the password for later comparing.
-		add_filter(
-			'random_password',
-			function( $password, $length, $special_chars, $extra_special_chars ) {
-
-				return 'mockpassw0rd';
-
-			},
-			10,
-			4
-		);
+		$specify_password = function( $password, $length, $special_chars, $extra_special_chars ) {
+			return 'mockpassw0rd';
+		};
+		add_filter( 'random_password', $specify_password, 10, 4 );
 
 	}
 
@@ -187,23 +170,6 @@ class API_Develop_Test extends \Codeception\TestCase\WPTestCase {
 		$url = 'http://example.org/product/woocommerce-product/';
 
 		$expected = 'http://example.org/product/woocommerce-product/?autologin=123~mockpassw0rd';
-
-		$api = new API( $this->plugin_name, $this->version, $this->settings );
-
-		$actual = $api->add_autologin_to_url( $url, 123 );
-
-		$this->assertEquals( $expected, $actual );
-	}
-
-
-	/**
-	 * When a null url is passed in, the method should just return it.
-	 */
-	public function test_add_autologin_to_url_null_url() {
-
-		$url = null;
-
-		$expected = null;
 
 		$api = new API( $this->plugin_name, $this->version, $this->settings );
 
