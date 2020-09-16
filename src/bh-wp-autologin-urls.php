@@ -23,7 +23,7 @@ namespace BH_WP_Autologin_URLs {
 
 	use BH_WP_Autologin_URLs\WPPB\WPPB_Loader;
 	use BH_WP_Autologin_URLs\includes\BH_WP_Autologin_URLs;
-	use BH_WP_Autologin_URLs\includes\Settings;
+	use BH_WP_Autologin_URLs\api\Settings;
 
 	// If this file is called directly, abort.
 	if ( ! defined( 'WPINC' ) ) {

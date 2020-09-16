@@ -12,7 +12,7 @@
 namespace BH_WP_Autologin_URLs\includes;
 
 use BH_WP_Autologin_URLs\api\API_Interface;
-use BH_WP_Autologin_URLs\includes\Settings_Interface;
+use BH_WP_Autologin_URLs\api\Settings_Interface;
 use BH_WP_Autologin_URLs\WPPB\WPPB_Object;
 
 /**

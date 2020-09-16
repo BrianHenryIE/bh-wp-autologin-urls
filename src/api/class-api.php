@@ -13,11 +13,8 @@
 
 namespace BH_WP_Autologin_URLs\api;
 
-use BH_WP_Autologin_URLs\includes\Settings_Interface;
 use BH_WP_Autologin_URLs\includes\Login;
-use BH_WP_Autologin_URLs\WPPB\WPPB_Object;
 use WP_User;
-
 
 /**
  * The core plugin functionality.

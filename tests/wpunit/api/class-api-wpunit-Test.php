@@ -8,7 +8,6 @@
 
 namespace BH_WP_Autologin_URLs\api;
 
-use BH_WP_Autologin_URLs\includes\Settings_Interface;
 use Codeception\Stub\Expected;
 
 /**

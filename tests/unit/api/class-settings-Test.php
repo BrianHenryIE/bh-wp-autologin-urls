@@ -9,7 +9,7 @@
  * @author Brian Henry <BrianHenryIE@gmail.com>
  */
 
-namespace BH_WP_Autologin_URLs\includes;
+namespace BH_WP_Autologin_URLs\api;
 
 /**
  * Class Settings_Test

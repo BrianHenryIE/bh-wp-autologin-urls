@@ -30,13 +30,13 @@ if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
 }
 
 // Require files for constants.
-require_once plugin_dir_path( __FILE__ ) . 'includes/interface-settings.php';
-require_once plugin_dir_path( __FILE__ ) . 'includes/class-settings.php';
+require_once plugin_dir_path( __FILE__ ) . 'api/interface-settings.php';
+require_once plugin_dir_path( __FILE__ ) . 'api/class-settings.php';
 require_once plugin_dir_path( __FILE__ ) . 'api/interface-api.php';
 require_once plugin_dir_path( __FILE__ ) . 'api/class-api.php';
 
 use BH_WP_Autologin_URLs\api\Transient_Data_Store;
-use BH_WP_Autologin_URLs\includes\Settings;
+use BH_WP_Autologin_URLs\api\Settings;
 
 /**
  * Delete the passwords stored as transients in wp_options.

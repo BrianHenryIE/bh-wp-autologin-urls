@@ -8,8 +8,6 @@
 
 namespace BH_WP_Autologin_URLs\api;
 
-use \BH_WP_Autologin_URLs\includes\BH_WP_Autologin_URLs;
-use BH_WP_Autologin_URLs\includes\Settings_Interface;
 
 /**
  * Class API_Integration_Test
