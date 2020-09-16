@@ -426,7 +426,7 @@ class Login extends WPPB_Object {
 			)
 		);
 
-		if ( count( $customer_orders ) > 0  ) {
+		if ( count( $customer_orders ) > 0 ) {
 
 			$order = $customer_orders[0];
 
@@ -441,6 +441,7 @@ class Login extends WPPB_Object {
 			WC()->customer->set_billing_company( $order->get_billing_company() );
 			WC()->customer->set_billing_phone( $order->get_billing_phone() );
 
+			Logger::get_instance()->info( "Set customer checkout details from past order #{$order->get_id()}" );
 		}
 
 	}
