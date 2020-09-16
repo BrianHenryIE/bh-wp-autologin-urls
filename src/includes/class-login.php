@@ -12,6 +12,7 @@
 namespace BH_WP_Autologin_URLs\includes;
 
 use BH_WP_Autologin_URLs\api\API_Interface;
+use BH_WP_Autologin_URLs\Logger;
 use BH_WP_Autologin_URLs\WPPB\WPPB_Object;
 use MailPoet\Models\Subscriber;
 use MailPoet\Newsletter\Links\Links;
@@ -95,7 +96,8 @@ class Login extends WPPB_Object {
 
 			// TODO: Add an option "always expire codes when used".
 
-			// Already logged in.
+			Logger::get_instance()->debug( "User {$user_id} already logged in." );
+
 			return false;
 		}
 
@@ -146,8 +148,7 @@ class Login extends WPPB_Object {
 				wp_set_auth_cookie( $user_id );
 				do_action( 'wp_login', $user->user_login, $user );
 
-				// TODO: Action to allow logging.
-				// Could we save what email the user clicked?
+				Logger::get_instance()->info( "User {$user->user_login} logged in via Autologin URL." );
 
 				return true;
 
@@ -269,7 +270,9 @@ class Login extends WPPB_Object {
 		$wp_user = get_user_by( 'email', $user_email_address );
 
 		if ( get_current_user_id() === $wp_user->ID ) {
-			// Already logged in.
+
+			Logger::get_instance()->debug( "User {$wp_user->user_login} already logged in." );
+
 			return;
 		}
 
@@ -278,6 +281,8 @@ class Login extends WPPB_Object {
 			wp_set_current_user( $wp_user->ID, $wp_user->user_login );
 			wp_set_auth_cookie( $wp_user->ID );
 			do_action( 'wp_login', $wp_user->user_login, $wp_user );
+
+			Logger::get_instance()->info( "User {$wp_user->user_login} logged in via Newsletter URL." );
 
 			return;
 
@@ -342,7 +347,9 @@ class Login extends WPPB_Object {
 		$wp_user = get_user_by( 'email', $user_email_address );
 
 		if ( get_current_user_id() === $wp_user->ID ) {
-			// Already logged in.
+
+			Logger::get_instance()->debug( "User {$wp_user->user_login} already logged in." );
+
 			return;
 		}
 
@@ -351,6 +358,8 @@ class Login extends WPPB_Object {
 			wp_set_current_user( $wp_user->ID, $wp_user->user_login );
 			wp_set_auth_cookie( $wp_user->ID );
 			do_action( 'wp_login', $wp_user->user_login, $wp_user );
+
+			Logger::get_instance()->info( "User {$wp_user->user_login} logged in via MailPoet URL." );
 
 			return;
 

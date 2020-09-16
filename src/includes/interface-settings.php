@@ -44,5 +44,13 @@ interface Settings_Interface {
 	 * @return string[]
 	 */
 	public function get_disallowed_subjects_regex_dictionary();
+
+	/**
+	 *
+	 * @see LogLevel;
+	 *
+	 * @return string
+	 */
+	public function get_log_level();
 }
 

@@ -13,6 +13,8 @@
 
 namespace BH_WP_Autologin_URLs\includes;
 
+use BH_WP_Autologin_URLs\Psr\Log\LogLevel;
+
 /**
  * Class Settings
  */
@@ -21,6 +23,7 @@ class Settings implements Settings_Interface {
 	const EXPIRY_TIME_IN_SECONDS          = 'bh_wp_autologin_urls_seconds_until_expiry';
 	const ADMIN_ENABLED                   = 'bh_wp_autologin_urls_is_admin_enabled';
 	const SUBJECT_FILTER_REGEX_DICTIONARY = 'bh_wp_autologin_urls_subject_filter_regex_dictionary';
+	const LOG_LEVEL                       = 'bh_wp_autologin_urls_log_level';
 
 	/**
 	 * The expiry time as set on the settings page.
@@ -105,4 +108,13 @@ class Settings implements Settings_Interface {
 		return $this->disallowed_subjects_regex_dictionary;
 	}
 
+	/**
+	 * The PSR log level to print, defaults to Info.
+	 *
+	 * @return string
+	 */
+	public function get_log_level() {
+
+		return get_option( self::LOG_LEVEL, LogLevel::INFO );
+	}
 }

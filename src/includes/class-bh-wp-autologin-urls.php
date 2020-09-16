@@ -20,6 +20,7 @@ use BH_WP_Autologin_URLs\api\API;
 use BH_WP_Autologin_URLs\admin\Admin;
 use BH_WP_Autologin_URLs\admin\Settings_Page;
 use BH_WP_Autologin_URLs\admin\Plugins_Page;
+use BH_WP_Autologin_URLs\Logger;
 use BH_WP_Autologin_URLs\WPPB\WPPB_Loader_Interface;
 use BH_WP_Autologin_URLs\WPPB\WPPB_Object;
 
@@ -126,6 +127,8 @@ class BH_WP_Autologin_URLs extends WPPB_Object {
 		$this->loader = $loader;
 
 		$this->settings = $settings;
+
+		Logger::set_log_level( $settings->get_log_level() );
 
 		$this->setup_api();
 

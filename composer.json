@@ -39,7 +39,8 @@
   "require": {
     "php": ">=7.2",
     "brianhenryie/wppb-lib": "dev-master",
-    "pablo-sg-pacheco/wp-namespace-autoloader": "dev-brianhenryie"
+    "pablo-sg-pacheco/wp-namespace-autoloader": "dev-brianhenryie",
+    "katzgrau/klogger": "dev-master"
   },
   "require-dev": {
     "10up/wp_mock": "0.4.2",
@@ -96,7 +97,14 @@
       "dep_directory": "/src/vendor/",
       "classmap_prefix": "BH_WP_Autologin_URLs_",
       "classmap_directory": "/src/dependencies/",
-      "delete_vendor_directories": false
+      "delete_vendor_directories": false,
+      "override_autoload": {
+        "katzgrau/klogger": {
+          "psr-4": {
+            "Katzgrau\\KLogger\\": "src/"
+          }
+        }
+      }
       },
     "symlinks": {
       "src": "wp-content/plugins/bh-wp-autologin-urls",
