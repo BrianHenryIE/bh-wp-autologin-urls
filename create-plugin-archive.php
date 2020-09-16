@@ -7,6 +7,7 @@
  * The version number is read from the plugin file at "src/plugin-slug.php".
  *
  * composer require nelexa/zip --dev --no-scripts
+ *
  * @see https://github.com/Ne-Lexa/php-zip
  */
 
@@ -17,7 +18,7 @@ require_once 'vendor/autoload.php';
 // TODO: If Mozart is in composer.json, check vendor or dependencies directories have been created (i.e. was
 // `mozart compose` run before this?).
 
-if( ! file_exists( 'src' ) ) {
+if ( ! file_exists( 'src' ) ) {
 	echo 'No "src" directory to add to zip file. Check current working directory.';
 	exit();
 }
@@ -27,7 +28,7 @@ $plugin_slug = basename( dirname( __FILE__ ) );
 
 $plugin_file = __DIR__ . "/src/{$plugin_slug}.php";
 
-if ( !file_exists( $plugin_file ) ) {
+if ( ! file_exists( $plugin_file ) ) {
 	echo "Plugin file missing at \"/src/{$plugin_slug}.php\". Current directory name is used to infer plugin slug and filename.";
 	exit();
 }
