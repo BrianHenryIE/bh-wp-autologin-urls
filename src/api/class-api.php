@@ -27,21 +27,21 @@ use WP_User;
  * @subpackage bh-wp-autologin-urls/api
  * @author     BrianHenryIE <BrianHenryIE@gmail.com>
  */
-class API extends WPPB_Object implements API_Interface {
+class API implements API_Interface {
 
 	/**
 	 * Plugin settings as [maybe] configured by the user.
 	 *
 	 * @var Settings_Interface $settings The plugin settings from the database.
 	 */
-	private $settings;
+	protected $settings;
 
 	/**
 	 * Briefly caches generated codes to save regenerating multiple codes per email.
 	 *
 	 * @var array Dictionary ["user_id~seconds_valid" : code]
 	 */
-	private $cache = array();
+	protected $cache = array();
 
 	/**
 	 * @var Data_Store_Interface
@@ -51,14 +51,12 @@ class API extends WPPB_Object implements API_Interface {
 	/**
 	 * API constructor.
 	 *
-	 * @param string             $plugin_name The name of this plugin.
-	 * @param string             $version     The version of this plugin.
-	 * @param Settings_Interface $settings The plugin settings from the database.
+	 * @param Settings_Interface        $settings The plugin settings from the database.
+	 * @param Data_Store_Interface|null $data_store Class for saving, retrieving and expiring passwords.
 	 */
-	public function __construct( string $plugin_name, string $version, Settings_Interface $settings ) {
-		parent::__construct( $plugin_name, $version );
+	public function __construct( Settings_Interface $settings, Data_Store_Interface $data_store = null ) {
 
-		$this->data_store = new Transient_Data_Store();
+		$this->data_store = $data_store ?? new Transient_Data_Store();
 
 		$this->settings = $settings;
 	}

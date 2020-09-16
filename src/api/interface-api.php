@@ -13,6 +13,8 @@
 
 namespace BH_WP_Autologin_URLs\api;
 
+use WP_User;
+
 /**
  * Interface API_Interface
  */
@@ -21,9 +23,9 @@ interface API_Interface {
 	/**
 	 * Adds autologin code to all URLs in a long string for a user.
 	 *
-	 * @param string|string[]     $message The text presumably containing URLs.
-	 * @param int|string|\WP_User $user     A user id, email, username or user object.
-	 * @param int                 $expires_in Number ofs econds the password should work for.
+	 * @param string|string[]    $message The text presumably containing URLs.
+	 * @param int|string|WP_User $user     A user id, email, username or user object.
+	 * @param int                $expires_in Number ofs econds the password should work for.
 	 *
 	 * @return string|string[]
 	 */
@@ -32,9 +34,9 @@ interface API_Interface {
 	/**
 	 * Public function for other plugins to use on links.
 	 *
-	 * @param string              $url         The url to append the autologin code to. This must be a link to this site.
-	 * @param int|string|\WP_User $user        A valid user id, email, login or user object.
-	 * @param int                 $expires_in  The number of seconds the code will work for.
+	 * @param string             $url         The url to append the autologin code to. This must be a link to this site.
+	 * @param int|string|WP_User $user        A valid user id, email, login or user object.
+	 * @param int                $expires_in  The number of seconds the code will work for.
 	 *
 	 * @return string The URL with added autologin code if possible, or the unchanged url.
 	 */

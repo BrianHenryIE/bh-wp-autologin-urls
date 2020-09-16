@@ -159,7 +159,7 @@ class BH_WP_Autologin_URLs extends WPPB_Object {
 	 */
 	private function setup_api() {
 
-		$this->api = $plugin_api = new API( $this->plugin_name, $this->version, $this->settings );
+		$this->api = $plugin_api = new API( $this->settings );
 
 		$this->loader->add_filter( 'add_autologin_to_message', $plugin_api, 'add_autologin_to_message', 10, 2 );
 		$this->loader->add_filter( 'add_autologin_to_url', $plugin_api, 'add_autologin_to_url', 10, 2 );

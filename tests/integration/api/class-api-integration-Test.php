@@ -12,9 +12,9 @@ use \BH_WP_Autologin_URLs\includes\BH_WP_Autologin_URLs;
 use BH_WP_Autologin_URLs\includes\Settings_Interface;
 
 /**
- * Class API_Develop_Test
+ * Class API_Integration_Test
  */
-class API_Develop_Test extends \Codeception\TestCase\WPTestCase {
+class API_Integration_Test extends \Codeception\TestCase\WPTestCase {
 
 	protected $plugin_name;
 
