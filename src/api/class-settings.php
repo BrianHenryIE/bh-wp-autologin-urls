@@ -24,6 +24,7 @@ class Settings implements Settings_Interface {
 	const ADMIN_ENABLED                   = 'bh_wp_autologin_urls_is_admin_enabled';
 	const SUBJECT_FILTER_REGEX_DICTIONARY = 'bh_wp_autologin_urls_subject_filter_regex_dictionary';
 	const LOG_LEVEL                       = 'bh_wp_autologin_urls_log_level';
+	const SHOULD_USE_WP_LOGIN             = 'bh_wp_autologin_urls_should_use_wp_login';
 
 	/**
 	 * A dictionary of regex:notes, where the regex is applied to the email subject to
@@ -100,8 +101,17 @@ class Settings implements Settings_Interface {
 	 *
 	 * @return string
 	 */
-	public function get_log_level() {
+	public function get_log_level(): bool {
 
 		return get_option( self::LOG_LEVEL, LogLevel::INFO );
+	}
+
+	/**
+	 * Change links to redirect form wp-login.php rather than going directly to the link.
+	 *
+	 * @return bool
+	 */
+	public function get_should_use_wp_login(): bool {
+		return get_option( self::SHOULD_USE_WP_LOGIN, false );
 	}
 }

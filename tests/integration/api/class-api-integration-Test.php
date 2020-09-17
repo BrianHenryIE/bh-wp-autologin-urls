@@ -9,6 +9,8 @@
 namespace BH_WP_Autologin_URLs\api;
 
 
+use BH_WP_Autologin_URLs\Psr\Log\LogLevel;
+
 /**
  * Class API_Integration_Test
  */
@@ -34,20 +36,24 @@ class API_Integration_Test extends \Codeception\TestCase\WPTestCase {
 
 		$this->settings = new class() implements Settings_Interface {
 
-			public function get_expiry_age() {
+			public function get_expiry_age(): int {
 				return WEEK_IN_SECONDS;
 			}
 
-			public function get_add_autologin_for_admins_is_enabled() {
+			public function get_add_autologin_for_admins_is_enabled(): bool {
 				return false;
 			}
 
-			public function get_disallowed_subjects_regex_array() {
+			public function get_disallowed_subjects_regex_array(): array {
 				return [];
 			}
 
-			public function get_disallowed_subjects_regex_dictionary() {
+			public function get_disallowed_subjects_regex_dictionary():array {
 				return [];
+			}
+
+			public function get_log_level(): string {
+				return LogLevel::INFO;
 			}
 		};
 

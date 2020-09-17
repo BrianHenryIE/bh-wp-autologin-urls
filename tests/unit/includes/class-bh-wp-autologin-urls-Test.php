@@ -44,7 +44,9 @@ class BH_WP_Autologin_URLs_Test extends \Codeception\Test\Unit {
 		global $plugin_root_dir;
 
 		$mock_loader   = $this->createMock( WPPB_Loader_Interface::class );
-		$mock_settings = $this->createMock( Settings_Interface::class );
+		$mock_settings = $this->makeEmpty( Settings_Interface::class,
+			array( 'get_log_level' => 'info' )
+		);
 
 		\WP_Mock::userFunction(
 			'plugin_dir_path',
@@ -70,7 +72,9 @@ class BH_WP_Autologin_URLs_Test extends \Codeception\Test\Unit {
 		global $plugin_root_dir;
 
 		$mock_loader   = $this->createMock( WPPB_Loader_Interface::class );
-		$mock_settings = $this->createMock( Settings_Interface::class );
+		$mock_settings = $this->makeEmpty( Settings_Interface::class,
+			array( 'get_log_level' => 'info' )
+		);
 
 		\WP_Mock::userFunction(
 			'plugin_dir_path',
@@ -157,7 +161,9 @@ class BH_WP_Autologin_URLs_Test extends \Codeception\Test\Unit {
 
 		};
 
-		$mock_settings = $this->createMock( Settings_Interface::class );
+		$mock_settings = $this->makeEmpty( Settings_Interface::class,
+			array( 'get_log_level' => 'info' )
+		);
 
 		\WP_Mock::userFunction(
 			'plugin_dir_path',
