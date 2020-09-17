@@ -51,7 +51,7 @@ interface Settings_Interface {
 	 *
 	 * @return string
 	 */
-	public function get_log_level(): bool;
+	public function get_log_level(): string;
 
 	/**
 	 * In troublesome cases, potential issues with caching, user wp-login.php to land on and redirect from.

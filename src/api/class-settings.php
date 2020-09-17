@@ -101,7 +101,7 @@ class Settings implements Settings_Interface {
 	 *
 	 * @return string
 	 */
-	public function get_log_level(): bool {
+	public function get_log_level(): string {
 
 		return get_option( self::LOG_LEVEL, LogLevel::INFO );
 	}
