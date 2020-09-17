@@ -201,9 +201,8 @@ class API implements API_Interface {
 		// Length of 12 was chosen arbitrarily.
 		$password = wp_generate_password( 12, false );
 
-		$expires_at = time() + $seconds_valid;
 
-		$this->data_store->save( $user_id, $password, $expires_at );
+		$this->data_store->save( $user_id, $password, $seconds_valid );
 
 		return $password;
 	}
