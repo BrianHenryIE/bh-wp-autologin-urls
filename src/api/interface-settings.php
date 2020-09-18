@@ -44,5 +44,12 @@ interface Settings_Interface {
 	 * @return string[]
 	 */
 	public function get_disallowed_subjects_regex_dictionary(): array;
+
+	/**
+	 * In troublesome cases, potential issues with caching, user wp-login.php to land on and redirect from.
+	 *
+	 * @return bool
+	 */
+	public function get_should_use_wp_login(): bool;
 }
 

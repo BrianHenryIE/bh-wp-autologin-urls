@@ -93,6 +93,16 @@ class Login extends WPPB_Object {
 
 		if ( get_current_user_id() === $user_id ) {
 
+			$wp_login_endpoint = str_replace( get_site_url(), '', wp_login_url() );
+			if( stristr( $_SERVER['REQUEST_URI'], $wp_login_endpoint )
+			    && isset( $_GET['redirect_to'] ) ) {
+
+				$redirect_to = urldecode( $_GET['redirect_to' ]);
+				wp_redirect( $redirect_to );
+				exit();
+
+			}
+
 			// TODO: Add an option "always expire codes when used".
 
 			// Already logged in.
@@ -146,6 +156,16 @@ class Login extends WPPB_Object {
 				wp_set_current_user( $user_id, $user->user_login );
 				wp_set_auth_cookie( $user_id );
 				do_action( 'wp_login', $user->user_login, $user );
+
+				$wp_login_endpoint = str_replace( get_site_url(), '', wp_login_url() );
+				if( stristr( $_SERVER['REQUEST_URI'], $wp_login_endpoint )
+					&& isset( $_GET['redirect_to'] ) ) {
+
+					$redirect_to = urldecode( $_GET['redirect_to' ]);
+					wp_redirect( $redirect_to );
+					exit();
+
+				}
 
 				// TODO: Action to allow logging.
 				// Could we save what email the user clicked?

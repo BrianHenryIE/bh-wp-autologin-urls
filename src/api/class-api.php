@@ -141,7 +141,11 @@ class API implements API_Interface {
 		// taken place in this method.
 		$autologin_code = $this->generate_code( $user, $expires_in );
 
-		$user_link = add_query_arg( Login::QUERYSTRING_PARAMETER_NAME, $autologin_code, $url );
+		if ( ! $this->settings->get_should_use_wp_login() ) {
+			$user_link = add_query_arg( Login::QUERYSTRING_PARAMETER_NAME, $autologin_code, $url );
+		} else {
+			$user_link = add_query_arg( Login::QUERYSTRING_PARAMETER_NAME, $autologin_code, wp_login_url( $url ) );
+		}
 
 		return $user_link;
 
