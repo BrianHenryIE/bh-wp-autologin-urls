@@ -94,6 +94,16 @@ class Login extends WPPB_Object {
 
 		if ( get_current_user_id() === $user_id ) {
 
+			$wp_login_endpoint = str_replace( get_site_url(), '', wp_login_url() );
+			if( stristr( $_SERVER['REQUEST_URI'], $wp_login_endpoint )
+			    && isset( $_GET['redirect_to'] ) ) {
+
+				$redirect_to = urldecode( $_GET['redirect_to' ]);
+				wp_redirect( $redirect_to );
+				exit();
+
+			}
+
 			// TODO: Add an option "always expire codes when used".
 
 			Logger::get_instance()->debug( "User {$user_id} already logged in." );

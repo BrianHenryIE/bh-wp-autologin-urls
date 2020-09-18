@@ -85,7 +85,7 @@ class Expiry_Age_Test extends \Codeception\Test\Unit {
 		$this->assertEquals( 'text', $type );
 
 		$id = $input->getAttribute( 'id' );
-		$this->assertEquals( Settings::EXPIRY_TIME_IN_SECONDS, $id );
+		$this->assertEquals( 'bh_wp_autologin_urls_seconds_until_expiry', $id );
 
 		$value = $input->getAttribute( 'value' );
 		$this->assertEquals( 12345, $value );
