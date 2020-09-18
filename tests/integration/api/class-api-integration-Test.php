@@ -55,6 +55,10 @@ class API_Integration_Test extends \Codeception\TestCase\WPTestCase {
 			public function get_log_level(): string {
 				return LogLevel::INFO;
 			}
+
+			public function get_should_use_wp_login(): bool {
+				return false;
+			}
 		};
 
 		$this->set_return_password_for_test_user();
