@@ -18,7 +18,6 @@ namespace BH_WP_Autologin_URLs\api;
  */
 class Settings implements Settings_Interface {
 
-	const EXPIRY_TIME_IN_SECONDS          = 'bh_wp_autologin_urls_seconds_until_expiry';
 	const ADMIN_ENABLED                   = 'bh_wp_autologin_urls_is_admin_enabled';
 	const SUBJECT_FILTER_REGEX_DICTIONARY = 'bh_wp_autologin_urls_subject_filter_regex_dictionary';
 	const SHOULD_USE_WP_LOGIN             = 'bh_wp_autologin_urls_should_use_wp_login';
@@ -54,7 +53,7 @@ class Settings implements Settings_Interface {
 	 * @return int The expiry time in seconds, as set on the settings page.
 	 */
 	public function get_expiry_age(): int {
-		$expiry_time       = get_option( self::EXPIRY_TIME_IN_SECONDS, 604800 );
+		$expiry_time       = get_option( 'bh_wp_autologin_urls_seconds_until_expiry', 604800 );
 		return intval( $expiry_time ) > 0 ? intval( $expiry_time ) : 604800;
 	}
 

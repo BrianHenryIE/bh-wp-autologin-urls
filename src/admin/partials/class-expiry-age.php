@@ -34,7 +34,7 @@ class Expiry_Age extends Settings_Section_Element_Abstract {
 
 		$this->value = $settings->get_expiry_age();
 
-		$this->id    = Settings::EXPIRY_TIME_IN_SECONDS;
+		$this->id    = 'bh_wp_autologin_urls_seconds_until_expiry';
 		$this->title = 'Expiry age:';
 		$this->page  = $settings_page;
 
