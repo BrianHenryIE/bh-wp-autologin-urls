@@ -11,7 +11,7 @@
 
 namespace BH_WP_Autologin_URLs\admin\partials;
 
-use BH_WP_Autologin_URLs\WPPB\WPPB_Object;
+use BH_WP_Autologin_URLs\BrianHenryIE\WPPB\WPPB_Object;
 
 /**
  * Code common across setting elements.

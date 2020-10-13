@@ -12,7 +12,7 @@
 namespace BH_WP_Autologin_URLs\includes;
 
 use BH_WP_Autologin_URLs\api\API_Interface;
-use BH_WP_Autologin_URLs\WPPB\WPPB_Object;
+use BH_WP_Autologin_URLs\BrianHenryIE\WPPB\WPPB_Object;
 use MailPoet\Models\Subscriber;
 use MailPoet\Newsletter\Links\Links;
 use MailPoet\Router\Router;

@@ -12,7 +12,7 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/BrianHenryIE/WPPB-lib",
-                "reference": "771f970ce469ff91bbba88d6653be45cad9aec25"
+                "reference": "74b48310ebb2b8a7b7d1ee44528caf8d299884d1"
             },
             "require": {
                 "php": ">=5.6"
@@ -20,14 +20,14 @@
             "type": "library",
             "autoload": {
                 "psr-4": {
-                    "WPPB\\": "src"
+                    "BrianHenryIE\\WPPB\\": "src"
                 }
             },
             "license": [
                 "GPL-2.0-or-later"
             ],
             "description": "Common files from WordPress Plugin Boilerplate",
-            "time": "2020-02-17T23:06:06+00:00"
+            "time": "2020-09-19T05:31:42+00:00"
         },
         {
             "name": "pablo-sg-pacheco/wp-namespace-autoloader",
@@ -901,12 +901,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/coenjacobs/mozart.git",
-                "reference": "00da9e0633655d405c417a6c9898ee9810971d98"
+                "reference": "f7786bbffd3847403f9dc4d7f75d6bf8ef62919c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/coenjacobs/mozart/zipball/00da9e0633655d405c417a6c9898ee9810971d98",
-                "reference": "00da9e0633655d405c417a6c9898ee9810971d98",
+                "url": "https://api.github.com/repos/coenjacobs/mozart/zipball/f7786bbffd3847403f9dc4d7f75d6bf8ef62919c",
+                "reference": "f7786bbffd3847403f9dc4d7f75d6bf8ef62919c",
                 "shasum": ""
             },
             "require": {
@@ -923,12 +923,6 @@
                 "bin/mozart"
             ],
             "type": "library",
-            "extra": {
-                "patches_applied": {
-                    "DIRECTORY_SEPARATOR": "https://github.com/coenjacobs/mozart/pull/61.patch",
-                    "Delete empty directories": "https://github.com/coenjacobs/mozart/pull/59.patch"
-                }
-            },
             "autoload": {
                 "psr-4": {
                     "CoenJacobs\\Mozart\\": "src/"
@@ -951,7 +945,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2020-07-01T21:53:03+00:00"
+            "time": "2020-09-12T12:53:49+00:00"
         },
         {
             "name": "composer/ca-bundle",
@@ -2470,12 +2464,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/kporras07/composer-symlinks.git",
-                "reference": "cda2e2059646b06a490092893563af5b70b569bd"
+                "reference": "57fc135ce67be0c9bab613b5239eef3c71a25fb9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kporras07/composer-symlinks/zipball/cda2e2059646b06a490092893563af5b70b569bd",
-                "reference": "cda2e2059646b06a490092893563af5b70b569bd",
+                "url": "https://api.github.com/repos/kporras07/composer-symlinks/zipball/57fc135ce67be0c9bab613b5239eef3c71a25fb9",
+                "reference": "57fc135ce67be0c9bab613b5239eef3c71a25fb9",
                 "shasum": ""
             },
             "require": {
@@ -2517,7 +2511,7 @@
                 "script",
                 "symlink"
             ],
-            "time": "2020-05-08T00:09:07+00:00"
+            "time": "2020-09-15T18:27:34+00:00"
         },
         {
             "name": "league/flysystem",
@@ -2663,16 +2657,16 @@
         },
         {
             "name": "lucatume/wp-browser",
-            "version": "2.6.10",
+            "version": "2.6.12",
             "source": {
                 "type": "git",
                 "url": "https://github.com/lucatume/wp-browser.git",
-                "reference": "2a838a67428904ab1bfa0a50515e185f7bc6b5fd"
+                "reference": "31c723b52a578dabd7cb31fe7dcc1518e0ee0778"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/lucatume/wp-browser/zipball/2a838a67428904ab1bfa0a50515e185f7bc6b5fd",
-                "reference": "2a838a67428904ab1bfa0a50515e185f7bc6b5fd",
+                "url": "https://api.github.com/repos/lucatume/wp-browser/zipball/31c723b52a578dabd7cb31fe7dcc1518e0ee0778",
+                "reference": "31c723b52a578dabd7cb31fe7dcc1518e0ee0778",
                 "shasum": ""
             },
             "require": {
@@ -2742,7 +2736,7 @@
                 "codeception",
                 "wordpress"
             ],
-            "time": "2020-08-25T11:24:27+00:00"
+            "time": "2020-09-17T08:27:46+00:00"
         },
         {
             "name": "mck89/peast",
@@ -2795,12 +2789,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/mheap/phpunit-github-actions-printer.git",
-                "reference": "5c2511af15591c4e9484e28db8d6e050737aa6d7"
+                "reference": "93107fd9eec7e5bffd122be8f1e6988cc525ac59"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mheap/phpunit-github-actions-printer/zipball/5c2511af15591c4e9484e28db8d6e050737aa6d7",
-                "reference": "5c2511af15591c4e9484e28db8d6e050737aa6d7",
+                "url": "https://api.github.com/repos/mheap/phpunit-github-actions-printer/zipball/93107fd9eec7e5bffd122be8f1e6988cc525ac59",
+                "reference": "93107fd9eec7e5bffd122be8f1e6988cc525ac59",
                 "shasum": ""
             },
             "require-dev": {
@@ -2824,7 +2818,7 @@
                 }
             ],
             "description": "PHPUnit Printer for adding test failures as annotations on GitHub Actions",
-            "time": "2020-07-16T15:12:56+00:00"
+            "time": "2020-09-13T20:37:37+00:00"
         },
         {
             "name": "mikemclin/laravel-wp-password",
@@ -3164,16 +3158,16 @@
         },
         {
             "name": "nesbot/carbon",
-            "version": "2.39.2",
+            "version": "2.40.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/briannesbitt/Carbon.git",
-                "reference": "326efde1bc09077a26cb77f6e2e32e13f06c27f2"
+                "reference": "6c7646154181013ecd55e80c201b9fd873c6ee5d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/326efde1bc09077a26cb77f6e2e32e13f06c27f2",
-                "reference": "326efde1bc09077a26cb77f6e2e32e13f06c27f2",
+                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/6c7646154181013ecd55e80c201b9fd873c6ee5d",
+                "reference": "6c7646154181013ecd55e80c201b9fd873c6ee5d",
                 "shasum": ""
             },
             "require": {
@@ -3249,7 +3243,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-09-10T12:16:42+00:00"
+            "time": "2020-09-11T19:00:58+00:00"
         },
         {
             "name": "paragonie/random_compat",
@@ -3674,16 +3668,16 @@
         },
         {
             "name": "phpdocumentor/reflection-docblock",
-            "version": "5.2.1",
+            "version": "5.2.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpDocumentor/ReflectionDocBlock.git",
-                "reference": "d870572532cd70bc3fab58f2e23ad423c8404c44"
+                "reference": "069a785b2141f5bcf49f3e353548dc1cce6df556"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpDocumentor/ReflectionDocBlock/zipball/d870572532cd70bc3fab58f2e23ad423c8404c44",
-                "reference": "d870572532cd70bc3fab58f2e23ad423c8404c44",
+                "url": "https://api.github.com/repos/phpDocumentor/ReflectionDocBlock/zipball/069a785b2141f5bcf49f3e353548dc1cce6df556",
+                "reference": "069a785b2141f5bcf49f3e353548dc1cce6df556",
                 "shasum": ""
             },
             "require": {
@@ -3722,20 +3716,20 @@
                 }
             ],
             "description": "With this component, a library can provide support for annotations via DocBlocks or otherwise retrieve information that is embedded in a DocBlock.",
-            "time": "2020-08-15T11:14:08+00:00"
+            "time": "2020-09-03T19:13:55+00:00"
         },
         {
             "name": "phpdocumentor/type-resolver",
-            "version": "1.3.0",
+            "version": "1.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpDocumentor/TypeResolver.git",
-                "reference": "e878a14a65245fbe78f8080eba03b47c3b705651"
+                "reference": "6a467b8989322d92aa1c8bf2bebcc6e5c2ba55c0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpDocumentor/TypeResolver/zipball/e878a14a65245fbe78f8080eba03b47c3b705651",
-                "reference": "e878a14a65245fbe78f8080eba03b47c3b705651",
+                "url": "https://api.github.com/repos/phpDocumentor/TypeResolver/zipball/6a467b8989322d92aa1c8bf2bebcc6e5c2ba55c0",
+                "reference": "6a467b8989322d92aa1c8bf2bebcc6e5c2ba55c0",
                 "shasum": ""
             },
             "require": {
@@ -3767,7 +3761,7 @@
                 }
             ],
             "description": "A PSR-5 based resolver of Class names, Types and Structural Element Names",
-            "time": "2020-06-27T10:12:23+00:00"
+            "time": "2020-09-17T18:55:26+00:00"
         },
         {
             "name": "phpoption/phpoption",
@@ -5288,12 +5282,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/squizlabs/PHP_CodeSniffer.git",
-                "reference": "b86b6a857798d66c2c6470f6ed6ce2272eadcf17"
+                "reference": "9cce6859a595b3fa77fc823d9b0d451951dcf9d2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/squizlabs/PHP_CodeSniffer/zipball/b86b6a857798d66c2c6470f6ed6ce2272eadcf17",
-                "reference": "b86b6a857798d66c2c6470f6ed6ce2272eadcf17",
+                "url": "https://api.github.com/repos/squizlabs/PHP_CodeSniffer/zipball/9cce6859a595b3fa77fc823d9b0d451951dcf9d2",
+                "reference": "9cce6859a595b3fa77fc823d9b0d451951dcf9d2",
                 "shasum": ""
             },
             "require": {
@@ -5331,7 +5325,7 @@
                 "phpcs",
                 "standards"
             ],
-            "time": "2020-09-09T22:56:01+00:00"
+            "time": "2020-09-13T22:46:36+00:00"
         },
         {
             "name": "symfony/browser-kit",
@@ -9321,15 +9315,15 @@
         },
         {
             "name": "wpackagist-plugin/mailpoet",
-            "version": "3.50.0",
+            "version": "3.50.1",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/mailpoet/",
-                "reference": "tags/3.50.0"
+                "reference": "trunk"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/mailpoet.3.50.0.zip"
+                "url": "https://downloads.wordpress.org/plugin/mailpoet.zip?timestamp=1600328792"
             },
             "require": {
                 "composer/installers": "~1.0"
@@ -9357,15 +9351,15 @@
         },
         {
             "name": "wpackagist-plugin/woocommerce",
-            "version": "4.5.1",
+            "version": "4.5.2",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/woocommerce/",
-                "reference": "tags/4.5.1"
+                "reference": "tags/4.5.2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/woocommerce.4.5.1.zip"
+                "url": "https://downloads.wordpress.org/plugin/woocommerce.4.5.2.zip"
             },
             "require": {
                 "composer/installers": "~1.0"
@@ -9375,15 +9369,15 @@
         },
         {
             "name": "wpackagist-plugin/wp-mail-smtp",
-            "version": "2.3.1",
+            "version": "2.4.0",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/wp-mail-smtp/",
-                "reference": "tags/2.3.1"
+                "reference": "tags/2.4.0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/wp-mail-smtp.2.3.1.zip"
+                "url": "https://downloads.wordpress.org/plugin/wp-mail-smtp.2.4.0.zip"
             },
             "require": {
                 "composer/installers": "~1.0"

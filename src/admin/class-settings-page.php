@@ -17,7 +17,7 @@ use BH_WP_Autologin_URLs\admin\partials\Settings_Section_Element_Abstract;
 use BH_WP_Autologin_URLs\admin\partials\Admin_Enable;
 use BH_WP_Autologin_URLs\admin\partials\Expiry_Age;
 use BH_WP_Autologin_URLs\admin\partials\Regex_Subject_Filters;
-use BH_WP_Autologin_URLs\WPPB\WPPB_Object;
+use BH_WP_Autologin_URLs\BrianHenryIE\WPPB\WPPB_Object;
 
 
 /**
