@@ -94,10 +94,10 @@ class Login extends WPPB_Object {
 		if ( get_current_user_id() === $user_id ) {
 
 			$wp_login_endpoint = str_replace( get_site_url(), '', wp_login_url() );
-			if( stristr( $_SERVER['REQUEST_URI'], $wp_login_endpoint )
-			    && isset( $_GET['redirect_to'] ) ) {
+			if ( stristr( $_SERVER['REQUEST_URI'], $wp_login_endpoint )
+				&& isset( $_GET['redirect_to'] ) ) {
 
-				$redirect_to = urldecode( $_GET['redirect_to' ]);
+				$redirect_to = urldecode( $_GET['redirect_to'] );
 				wp_redirect( $redirect_to );
 				exit();
 
@@ -158,10 +158,10 @@ class Login extends WPPB_Object {
 				do_action( 'wp_login', $user->user_login, $user );
 
 				$wp_login_endpoint = str_replace( get_site_url(), '', wp_login_url() );
-				if( stristr( $_SERVER['REQUEST_URI'], $wp_login_endpoint )
+				if ( stristr( $_SERVER['REQUEST_URI'], $wp_login_endpoint )
 					&& isset( $_GET['redirect_to'] ) ) {
 
-					$redirect_to = urldecode( $_GET['redirect_to' ]);
+					$redirect_to = urldecode( $_GET['redirect_to'] );
 					wp_redirect( $redirect_to );
 					exit();
 

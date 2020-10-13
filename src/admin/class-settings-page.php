@@ -19,7 +19,6 @@ use BH_WP_Autologin_URLs\admin\partials\Expiry_Age;
 use BH_WP_Autologin_URLs\admin\partials\Regex_Subject_Filters;
 use BH_WP_Autologin_URLs\BrianHenryIE\WPPB\WPPB_Object;
 
-
 /**
  * The setting page of the plugin.
  *
@@ -107,7 +106,12 @@ class Settings_Page extends WPPB_Object {
 
 		$settings_page_slug_name = $this->plugin_name;
 
-		/** @var Settings_Section_Element_Abstract[] $fields */
+		/**
+		 * Other plugins (WooCommerce, WP Affiliate) handle this by using an array here, where each array element has
+		 * a 'type' which is instantiated, then the defaults are overwritten from other properties in the array.
+		 *
+		 * @var Settings_Section_Element_Abstract[] $fields Each element to be displayed.
+		 */
 		$fields = array();
 
 		$fields[] = new Expiry_Age( $this->plugin_name, $this->version, $settings_page_slug_name, $this->settings );

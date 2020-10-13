@@ -81,8 +81,8 @@ class User_Edit extends WPPB_Object {
 					<div class="user-edit-single-use-login-url">
 
 						<span>
-							<span class="text"><?php echo $autologin_url; ?></span>
-							<input type="text" id="autologin-url" name="autologin-url" value="<?php echo $autologin_url; ?>"/>
+							<span class="text"><?php echo esc_url( $autologin_url ); ?></span>
+							<input type="text" id="autologin-url" name="autologin-url" value="<?php echo esc_url( $autologin_url ); ?>"/>
 						</span>
 					</div>
 				</td>
