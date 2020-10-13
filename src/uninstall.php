@@ -64,3 +64,18 @@ function bh_wp_autologin_urls_delete_settings() {
 
 }
 bh_wp_autologin_urls_delete_settings();
+
+
+/**
+ * Delete the database table used to save the passwords.
+ *
+ * phpcs:disable WordPress.DB.DirectDatabaseQuery.SchemaChange
+ */
+function bh_wp_autologin_urls_drop_table() {
+	global $wpdb;
+
+	$wpdb->query(
+		"DROP TABLE {$wpdb->prefix}autologin_urls"
+	);
+}
+bh_wp_autologin_urls_drop_table();

@@ -20,6 +20,7 @@ use BH_WP_Autologin_URLs\api\API;
 use BH_WP_Autologin_URLs\admin\Admin;
 use BH_WP_Autologin_URLs\admin\Settings_Page;
 use BH_WP_Autologin_URLs\admin\Plugins_Page;
+use BH_WP_Autologin_URLs\api\DB_Data_Store;
 use BH_WP_Autologin_URLs\api\Settings_Interface;
 use BH_WP_Autologin_URLs\BrianHenryIE\WPPB\WPPB_Loader_Interface;
 use BH_WP_Autologin_URLs\BrianHenryIE\WPPB\WPPB_Object;
@@ -151,7 +152,11 @@ class BH_WP_Autologin_URLs extends WPPB_Plugin_Abstract {
 	 */
 	private function setup_api() {
 
-		$this->api = $plugin_api = new API( $this->settings );
+		$datastore = new DB_Data_Store();
+
+		$this->loader->add_action( 'plugins_loaded', $datastore, 'create_db', 1 );
+
+		$this->api = $plugin_api = new API( $this->settings, $datastore );
 
 		$this->loader->add_filter( 'add_autologin_to_message', $plugin_api, 'add_autologin_to_message', 10, 2 );
 		$this->loader->add_filter( 'add_autologin_to_url', $plugin_api, 'add_autologin_to_url', 10, 2 );

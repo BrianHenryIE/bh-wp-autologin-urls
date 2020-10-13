@@ -8,6 +8,8 @@
 
 namespace BH_WP_Autologin_URLs\includes;
 
+use BH_WP_Autologin_URLs\api\DB_Data_Store;
+
 /**
  * Class Login_Develop_Test
  *
@@ -35,8 +37,6 @@ class Login_Develop_Test extends \Codeception\TestCase\WPTestCase {
 
 		$this->go_to( $url );
 
-		// This is needed for the test to pass... I guess because the
-		// plugin is loaded in bootstrap.php and not by WordPress.
 		do_action( 'plugins_loaded' );
 
 		// Check is user logged in.

@@ -34,7 +34,7 @@ class BH_WP_Autologin_URLs_Test extends \Codeception\Test\Unit {
 	 *
 	 * @var string Plugin version.
 	 */
-	private $version = '1.1.2';
+	private $version = '1.2.1';
 
 	/**
 	 * Verifies the plugin name, version and loader are correctly set.
