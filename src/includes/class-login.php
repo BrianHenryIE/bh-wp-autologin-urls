@@ -94,23 +94,23 @@ class Login extends WPPB_Object {
 		if ( get_current_user_id() === $user_id ) {
 
 			$wp_login_endpoint = str_replace( get_site_url(), '', wp_login_url() );
-			if ( stristr( $_SERVER['REQUEST_URI'], $wp_login_endpoint )
+			if ( stristr( filter_input( INPUT_SERVER, 'REQUEST_URI' ), $wp_login_endpoint )
 				&& isset( $_GET['redirect_to'] ) ) {
 
-				$redirect_to = urldecode( $_GET['redirect_to'] );
-				wp_redirect( $redirect_to );
+				$redirect_to = urldecode( filter_input( INPUT_GET, wp_unslash( $_GET['redirect_to'] ) ) );
+				wp_safe_redirect( $redirect_to );
 				exit();
 
 			}
 
-			// TODO: Add an option "always expire codes when used".
+			// TODO: Expire the code even when already logged in.
 
 			// Already logged in.
 			return false;
 		}
 
 		// Check for blocked IP.
-		// TODO: Fix for proxies (Cloudflare)
+		// TODO: Fix for proxies (Cloudflare).
 		if ( ! empty( $_SERVER['REMOTE_ADDR'] ) ) {
 
 			$ip_address = filter_var( wp_unslash( $_SERVER['REMOTE_ADDR'] ), FILTER_VALIDATE_IP );
@@ -158,11 +158,11 @@ class Login extends WPPB_Object {
 				do_action( 'wp_login', $user->user_login, $user );
 
 				$wp_login_endpoint = str_replace( get_site_url(), '', wp_login_url() );
-				if ( stristr( $_SERVER['REQUEST_URI'], $wp_login_endpoint )
+				if ( stristr( filter_input( INPUT_SERVER, 'REQUEST_URI' ), $wp_login_endpoint )
 					&& isset( $_GET['redirect_to'] ) ) {
 
-					$redirect_to = urldecode( $_GET['redirect_to'] );
-					wp_redirect( $redirect_to );
+					$redirect_to = urldecode( filter_input( INPUT_GET, wp_unslash( $_GET['redirect_to'] ) ) );
+					wp_safe_redirect( $redirect_to );
 					exit();
 
 				}
@@ -313,7 +313,7 @@ class Login extends WPPB_Object {
 	 */
 	public function login_mailpoet_urls(): void {
 
-		// https://staging.redmeatsupplement.com/?mailpoet_router&endpoint=track&action=click&data=WyI0IiwiZDAzYWE3IiwiMiIsImFlNzViYjI5YjVjOSIsZmFsc2Vd
+		// https://staging.example.com/?mailpoet_router&endpoint=track&action=click&data=WyI0IiwiZDAzYWE3IiwiMiIsImFlNzViYjI5YjVjOSIsZmFsc2Vd
 		// TODO: verify this works!
 		if ( ! isset( $_GET['mailpoet_router'] ) ) {
 			return;
