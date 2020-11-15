@@ -11,6 +11,7 @@
 
 namespace BH_WP_Autologin_URLs\admin;
 
+use BH_WP_Autologin_URLs\admin\partials\Log_Level;
 use BH_WP_Autologin_URLs\admin\partials\Use_WP_Login;
 use BH_WP_Autologin_URLs\api\Settings_Interface;
 use BH_WP_Autologin_URLs\admin\partials\Settings_Section_Element_Abstract;
@@ -118,6 +119,7 @@ class Settings_Page extends WPPB_Object {
 		$fields[] = new Admin_Enable( $this->plugin_name, $this->version, $settings_page_slug_name, $this->settings );
 		$fields[] = new Regex_Subject_Filters( $this->plugin_name, $this->version, $settings_page_slug_name, $this->settings );
 		$fields[] = new Use_WP_Login( $this->plugin_name, $this->version, $settings_page_slug_name, $this->settings );
+		$fields[] = new Log_Level( $this->plugin_name, $this->version, $settings_page_slug_name, $this->settings );
 
 		foreach ( $fields as $field ) {
 

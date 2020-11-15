@@ -145,17 +145,19 @@ class Settings_Page_Test extends \Codeception\Test\Unit {
 
 		$settings_page = new Settings_Page( $this->plugin_name, $this->version, $settings_mock );
 
+		$number_of_settings_elements = 5;
+
 		\WP_Mock::userFunction(
 			'add_settings_field',
 			array(
-				'times' => 3,
+				'times' => $number_of_settings_elements,
 			)
 		);
 
 		\WP_Mock::userFunction(
 			'register_setting',
 			array(
-				'times' => 3,
+				'times' => $number_of_settings_elements,
 			)
 		);
 
