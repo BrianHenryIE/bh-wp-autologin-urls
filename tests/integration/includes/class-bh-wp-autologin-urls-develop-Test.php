@@ -8,6 +8,9 @@
 
 namespace BH_WP_Autologin_URLs\includes;
 
+use BH_WP_Autologin_URLs\admin\Admin;
+use BH_WP_Autologin_URLs\admin\Plugins_Page;
+
 /**
  * Class Develop_Test
  */
@@ -21,18 +24,12 @@ class BH_WP_Autologin_URLs_Develop_Test extends \Codeception\TestCase\WPTestCase
 		$action_name       = 'admin_enqueue_scripts';
 		$expected_priority = 10;
 
-		$bh_wp_autologin_urls = $GLOBALS['bh-wp-autologin-urls'];
+		$class_type = Admin::class;
+		$method_name = 'enqueue_styles';
 
-		$class = $bh_wp_autologin_urls->admin;
+		$function_is_hooked = $this->is_function_hooked_on_action( $class_type, $method_name, $action_name, $expected_priority );
 
-		$function = array( $class, 'enqueue_styles' );
-
-		$actual_action_priority = has_action( $action_name, $function );
-
-		$this->assertNotFalse( $actual_action_priority );
-
-		$this->assertEquals( $expected_priority, $actual_action_priority );
-
+		$this->assertNotFalse( $function_is_hooked );
 	}
 
 	/**
@@ -40,21 +37,15 @@ class BH_WP_Autologin_URLs_Develop_Test extends \Codeception\TestCase\WPTestCase
 	 */
 	public function test_action_admin_enqueue_scripts_scripts() {
 
-		$filter_name       = 'admin_enqueue_scripts';
+		$action_name       = 'admin_enqueue_scripts';
 		$expected_priority = 10;
 
-		$bh_wp_autologin_urls = $GLOBALS['bh-wp-autologin-urls'];
+		$class_type = Admin::class;
+		$method_name = 'enqueue_scripts';
 
-		$class = $bh_wp_autologin_urls->admin;
+		$function_is_hooked = $this->is_function_hooked_on_action( $class_type, $method_name, $action_name, $expected_priority );
 
-		$function = array( $class, 'enqueue_scripts' );
-
-		$actual_filter_priority = has_filter( $filter_name, $function );
-
-		$this->assertNotFalse( $actual_filter_priority );
-
-		$this->assertEquals( $expected_priority, $actual_filter_priority );
-
+		$this->assertNotFalse( $function_is_hooked );
 	}
 
 	/**
@@ -62,21 +53,15 @@ class BH_WP_Autologin_URLs_Develop_Test extends \Codeception\TestCase\WPTestCase
 	 */
 	public function test_filter_wp_mail_add_autologin_links_to_email() {
 
-		$filter_name       = 'wp_mail';
+		$action_name       = 'wp_mail';
 		$expected_priority = 3;
 
-		$bh_wp_autologin_urls = $GLOBALS['bh-wp-autologin-urls'];
+		$class_type = WP_Mail::class;
+		$method_name = 'add_autologin_links_to_email';
 
-		$plugin_wp_mail = $bh_wp_autologin_urls->wp_mail;
+		$function_is_hooked = $this->is_function_hooked_on_action( $class_type, $method_name, $action_name, $expected_priority );
 
-		$function = array( $plugin_wp_mail, 'add_autologin_links_to_email' );
-
-		$actual_filter_priority = has_filter( $filter_name, $function );
-
-		$this->assertNotFalse( $actual_filter_priority );
-
-		$this->assertEquals( $expected_priority, $actual_filter_priority );
-
+		$this->assertNotFalse( $function_is_hooked );
 	}
 
 	/**
@@ -88,18 +73,12 @@ class BH_WP_Autologin_URLs_Develop_Test extends \Codeception\TestCase\WPTestCase
 		$action_name       = 'plugins_loaded';
 		$expected_priority = 2;
 
-		$bh_wp_autologin_urls = $GLOBALS['bh-wp-autologin-urls'];
+		$class_type = Login::class;
+		$method_name = 'wp_init_process_autologin';
 
-		$plugin_login = $bh_wp_autologin_urls->login;
+		$function_is_hooked = $this->is_function_hooked_on_action( $class_type, $method_name, $action_name, $expected_priority );
 
-		$function = array( $plugin_login, 'wp_init_process_autologin' );
-
-		$actual_action_priority = has_action( $action_name, $function );
-
-		$this->assertNotFalse( $actual_action_priority );
-
-		$this->assertEquals( $expected_priority, $actual_action_priority );
-
+		$this->assertNotFalse( $function_is_hooked );
 	}
 
 	/**
@@ -110,18 +89,12 @@ class BH_WP_Autologin_URLs_Develop_Test extends \Codeception\TestCase\WPTestCase
 		$action_name       = 'plugins_loaded';
 		$expected_priority = 10;
 
-		$bh_wp_autologin_urls = $GLOBALS['bh-wp-autologin-urls'];
+		$class_type = I18n::class;
+		$method_name = 'load_plugin_textdomain';
 
-		$class = $bh_wp_autologin_urls->i18n;
+		$function_is_hooked = $this->is_function_hooked_on_action( $class_type, $method_name, $action_name, $expected_priority );
 
-		$function = array( $class, 'load_plugin_textdomain' );
-
-		$actual_action_priority = has_action( $action_name, $function );
-
-		$this->assertNotFalse( $actual_action_priority );
-
-		$this->assertEquals( $expected_priority, $actual_action_priority );
-
+		$this->assertNotFalse( $function_is_hooked );
 	}
 
 
@@ -132,18 +105,46 @@ class BH_WP_Autologin_URLs_Develop_Test extends \Codeception\TestCase\WPTestCase
 
 		global $plugin_basename;
 
-		$filter_name       = 'plugin_action_links_' . $plugin_basename;
+		$action_name       = 'plugin_action_links_' . $plugin_basename;
 		$expected_priority = 10;
 
-		$bh_wp_autologin_urls = $GLOBALS['bh-wp-autologin-urls'];
+		$class_type = Plugins_Page::class;
+		$method_name = 'action_links';
 
-		$function = array( $bh_wp_autologin_urls->plugins_page, 'action_links' );
+		$function_is_hooked = $this->is_function_hooked_on_action( $class_type, $method_name, $action_name, $expected_priority );
 
-		$actual_filter_priority = has_filter( $filter_name, $function );
+		$this->assertNotFalse( $function_is_hooked );
 
-		$this->assertNotFalse( $actual_filter_priority );
-
-		$this->assertEquals( $expected_priority, $actual_filter_priority );
 	}
 
+
+	protected function is_function_hooked_on_action( $class_type, $method_name, $action_name, $expected_priority = 10 ) {
+
+		global $wp_filter;
+
+		$this->assertArrayHasKey( $action_name, $wp_filter, "$method_name definitely not hooked to $action_name" );
+
+		$actions_hooked = $wp_filter[ $action_name ];
+
+		$this->assertArrayHasKey( $expected_priority, $actions_hooked, "$method_name definitely not hooked to $action_name priority $expected_priority" );
+
+		$hooked_method = null;
+		foreach ( $actions_hooked[ $expected_priority ] as $action ) {
+			$action_function = $action['function'];
+			if ( is_array( $action_function ) ) {
+				if ( $action_function[0] instanceof $class_type ) {
+					if( $method_name === $action_function[1] ) {
+						$hooked_method = $action_function[1];
+						break;
+					}
+				}
+			}
+		}
+
+		$this->assertNotNull( $hooked_method, "No methods on an instance of $class_type hooked to $action_name" );
+
+		$this->assertEquals( $method_name, $hooked_method, "Unexpected method name for $class_type class hooked to $action_name" );
+
+		return true;
+	}
 }

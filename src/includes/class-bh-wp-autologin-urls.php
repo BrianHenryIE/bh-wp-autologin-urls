@@ -22,8 +22,9 @@ use BH_WP_Autologin_URLs\admin\Settings_Page;
 use BH_WP_Autologin_URLs\admin\Plugins_Page;
 use BH_WP_Autologin_URLs\Logger;
 use BH_WP_Autologin_URLs\api\Settings_Interface;
-use BH_WP_Autologin_URLs\WPPB\WPPB_Loader_Interface;
-use BH_WP_Autologin_URLs\WPPB\WPPB_Object;
+use BH_WP_Autologin_URLs\BrianHenryIE\WPPB\WPPB_Loader_Interface;
+use BH_WP_Autologin_URLs\BrianHenryIE\WPPB\WPPB_Object;
+use BH_WP_Autologin_URLs\BrianHenryIE\WPPB\WPPB_Plugin_Abstract;
 
 /**
  * The core plugin class.
@@ -41,7 +42,7 @@ use BH_WP_Autologin_URLs\WPPB\WPPB_Object;
  *
  * phpcs:disable Squiz.PHP.DisallowMultipleAssignments.Found
  */
-class BH_WP_Autologin_URLs extends WPPB_Object {
+class BH_WP_Autologin_URLs extends WPPB_Plugin_Abstract {
 
 	/**
 	 * Instance member of API class to expose to WordPress to allow users unhook actions.
@@ -92,16 +93,6 @@ class BH_WP_Autologin_URLs extends WPPB_Object {
 	 * @var WP_Mail
 	 */
 	public $wp_mail;
-
-	/**
-	 * The loader that's responsible for maintaining and registering all hooks that power
-	 * the plugin.
-	 *
-	 * @since    1.0.0
-	 * @access   protected
-	 * @var      WPPB_Loader_Interface $loader Maintains and registers all hooks for the plugin.
-	 */
-	protected $loader;
 
 	/**
 	 * Define the core functionality of the plugin.
@@ -235,22 +226,5 @@ class BH_WP_Autologin_URLs extends WPPB_Object {
 
 	}
 
-	/**
-	 * Run the loader to execute all of the hooks with WordPress.
-	 *
-	 * @since    1.0.0
-	 */
-	public function run() {
-		$this->loader->run();
-	}
 
-	/**
-	 * The reference to the class that orchestrates the hooks with the plugin.
-	 *
-	 * @return    WPPB_Loader_Interface    Orchestrates the hooks of the plugin.
-	 * @since     1.0.0
-	 */
-	public function get_loader() {
-		return $this->loader;
-	}
 }

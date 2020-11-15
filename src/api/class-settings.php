@@ -8,7 +8,7 @@
  * @since      1.0.0
  *
  * @package    bh-wp-autologin-urls
- * @subpackage bh-wp-autologin-urls/includes
+ * @subpackage bh-wp-autologin-urls/api
  */
 
 namespace BH_WP_Autologin_URLs\api;
@@ -56,7 +56,7 @@ class Settings implements Settings_Interface {
 	 * @return int The expiry time in seconds, as set on the settings page.
 	 */
 	public function get_expiry_age(): int {
-		$expiry_time       = get_option( 'bh_wp_autologin_urls_seconds_until_expiry', 604800 );
+		$expiry_time = get_option( 'bh_wp_autologin_urls_seconds_until_expiry', 604800 );
 		return intval( $expiry_time ) > 0 ? intval( $expiry_time ) : 604800;
 	}
 
@@ -68,7 +68,7 @@ class Settings implements Settings_Interface {
 	public function get_add_autologin_for_admins_is_enabled(): bool {
 
 		$autologin_for_admins_is_enabled = get_option( self::ADMIN_ENABLED, 'admin_is_not_enabled' );
-		return  'admin_is_enabled' === $autologin_for_admins_is_enabled;
+		return 'admin_is_enabled' === $autologin_for_admins_is_enabled;
 	}
 
 	/**

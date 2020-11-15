@@ -9,7 +9,7 @@
 namespace BH_WP_Autologin_URLs\includes;
 
 use BH_WP_Autologin_URLs\api\Settings_Interface;
-use BH_WP_Autologin_URLs\WPPB\WPPB_Loader_Interface;
+use BH_WP_Autologin_URLs\BrianHenryIE\WPPB\WPPB_Loader_Interface;
 
 /**
  * Class Test

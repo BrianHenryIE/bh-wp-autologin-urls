@@ -13,7 +13,7 @@ namespace BH_WP_Autologin_URLs\includes;
 
 use BH_WP_Autologin_URLs\api\API_Interface;
 use BH_WP_Autologin_URLs\Logger;
-use BH_WP_Autologin_URLs\WPPB\WPPB_Object;
+use BH_WP_Autologin_URLs\BrianHenryIE\WPPB\WPPB_Object;
 use MailPoet\Models\Subscriber;
 use MailPoet\Newsletter\Links\Links;
 use MailPoet\Router\Router;
@@ -95,10 +95,10 @@ class Login extends WPPB_Object {
 		if ( get_current_user_id() === $user_id ) {
 
 			$wp_login_endpoint = str_replace( get_site_url(), '', wp_login_url() );
-			if( stristr( $_SERVER['REQUEST_URI'], $wp_login_endpoint )
-			    && isset( $_GET['redirect_to'] ) ) {
+			if ( stristr( $_SERVER['REQUEST_URI'], $wp_login_endpoint )
+				&& isset( $_GET['redirect_to'] ) ) {
 
-				$redirect_to = urldecode( $_GET['redirect_to' ]);
+				$redirect_to = urldecode( $_GET['redirect_to'] );
 				wp_redirect( $redirect_to );
 				exit();
 
@@ -162,10 +162,10 @@ class Login extends WPPB_Object {
 				Logger::get_instance()->info( "User {$user->user_login} logged in via Autologin URL." );
 
 				$wp_login_endpoint = str_replace( get_site_url(), '', wp_login_url() );
-				if( stristr( $_SERVER['REQUEST_URI'], $wp_login_endpoint )
+				if ( stristr( $_SERVER['REQUEST_URI'], $wp_login_endpoint )
 					&& isset( $_GET['redirect_to'] ) ) {
 
-					$redirect_to = urldecode( $_GET['redirect_to' ]);
+					$redirect_to = urldecode( $_GET['redirect_to'] );
 					wp_redirect( $redirect_to );
 					exit();
 

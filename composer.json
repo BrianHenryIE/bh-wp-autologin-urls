@@ -73,8 +73,7 @@
     "wpackagist-theme/twentytwenty": "^1.5",
     "wpackagist-theme/storefront":"^2",
     "wpackagist-plugin/newsletter": "^6.8",
-    "wpackagist-plugin/mailpoet": "^3.50",
-    "nelexa/zip": "^3.3"
+    "wpackagist-plugin/mailpoet": "^3.50"
   },
   "extra": {
     "patches": {
