@@ -14,6 +14,7 @@ namespace BH_WP_Autologin_URLs\includes;
 use BH_WP_Autologin_URLs\api\API_Interface;
 use BH_WP_Autologin_URLs\Logger;
 use BH_WP_Autologin_URLs\BrianHenryIE\WPPB\WPPB_Object;
+use BH_WP_Autologin_URLs\Psr\Log\LoggerInterface;
 use MailPoet\Models\Subscriber;
 use MailPoet\Newsletter\Links\Links;
 use MailPoet\Router\Router;
@@ -45,19 +46,28 @@ class Login extends WPPB_Object {
 	protected $api;
 
 	/**
+	 * PSR logger.
+	 *
+	 * @var LoggerInterface
+	 */
+	protected $logger;
+
+	/**
 	 * Initialize the class and set its properties.
 	 *
-	 * @param   string        $plugin_name The name of this plugin.
-	 * @param   string        $version     The version of this plugin.
-	 * @param   API_Interface $api The core plugin functions.
+	 * @param   string          $plugin_name The name of this plugin.
+	 * @param   string          $version     The version of this plugin.
+	 * @param   API_Interface   $api The core plugin functions.
+	 * @param   LoggerInterface $logger The logger instance.
 	 *
 	 * @since   1.0.0
 	 */
-	public function __construct( $plugin_name, $version, $api ) {
+	public function __construct( $plugin_name, $version, $api, $logger ) {
 
 		parent::__construct( $plugin_name, $version );
 
-		$this->api = $api;
+		$this->api    = $api;
+		$this->logger = $logger;
 	}
 
 	/**
@@ -94,6 +104,8 @@ class Login extends WPPB_Object {
 
 		if ( get_current_user_id() === $user_id ) {
 
+			$this->logger->debug( "User {$user_id} already logged in." );
+
 			$wp_login_endpoint = str_replace( get_site_url(), '', wp_login_url() );
 			if ( stristr( $_SERVER['REQUEST_URI'], $wp_login_endpoint )
 				&& isset( $_GET['redirect_to'] ) ) {
@@ -105,8 +117,6 @@ class Login extends WPPB_Object {
 			}
 
 			// TODO: Add an option "always expire codes when used".
-
-			Logger::get_instance()->debug( "User {$user_id} already logged in." );
 
 			return false;
 		}
@@ -295,7 +305,7 @@ class Login extends WPPB_Object {
 
 			if ( get_current_user_id() === $wp_user->ID ) {
 
-				Logger::get_instance()->debug( "User {$wp_user->user_login} already logged in." );
+				$this->logger->debug( "User {$wp_user->user_login} already logged in." );
 
 				return;
 			}
@@ -305,7 +315,7 @@ class Login extends WPPB_Object {
 
 			do_action( 'wp_login', $wp_user->user_login, $wp_user );
 
-			Logger::get_instance()->info( "User {$wp_user->user_login} logged in via Newsletter URL." );
+			$this->logger->info( "User {$wp_user->user_login} logged in via Newsletter URL." );
 
 		} else {
 
@@ -382,7 +392,7 @@ class Login extends WPPB_Object {
 
 			if ( get_current_user_id() === $wp_user->ID ) {
 
-				Logger::get_instance()->debug( "User {$wp_user->user_login} already logged in." );
+				$this->logger->debug( "User {$wp_user->user_login} already logged in." );
 
 				return;
 			}
@@ -391,7 +401,7 @@ class Login extends WPPB_Object {
 			wp_set_auth_cookie( $wp_user->ID );
 			do_action( 'wp_login', $wp_user->user_login, $wp_user );
 
-			Logger::get_instance()->info( "User {$wp_user->user_login} logged in via MailPoet URL." );
+			$this->logger->info( "User {$wp_user->user_login} logged in via MailPoet URL." );
 
 			return;
 
@@ -462,7 +472,7 @@ class Login extends WPPB_Object {
 			WC()->customer->set_billing_company( $order->get_billing_company() );
 			WC()->customer->set_billing_phone( $order->get_billing_phone() );
 
-			Logger::get_instance()->info( "Set customer checkout details from past order #{$order->get_id()}" );
+			$this->logger->info( "Set customer checkout details from past order #{$order->get_id()}" );
 		}
 
 	}

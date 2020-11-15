@@ -46,8 +46,9 @@ interface Settings_Interface {
 	public function get_disallowed_subjects_regex_dictionary(): array;
 
 	/**
+	 * PSR log level. Ideally Error or Notice. Info or Debug for more detail.
 	 *
-	 * @see LogLevel;
+	 * @see LogLevel
 	 *
 	 * @return string
 	 */

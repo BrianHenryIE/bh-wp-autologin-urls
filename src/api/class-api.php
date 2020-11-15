@@ -14,6 +14,7 @@
 namespace BH_WP_Autologin_URLs\api;
 
 use BH_WP_Autologin_URLs\includes\Login;
+use BH_WP_Autologin_URLs\Psr\Log\LoggerInterface;
 use WP_User;
 
 /**
@@ -41,6 +42,8 @@ class API implements API_Interface {
 	protected $cache = array();
 
 	/**
+	 * Class for saving, retrieving and expiring passwords.
+	 *
 	 * @var Data_Store_Interface
 	 */
 	protected $data_store;
@@ -48,10 +51,11 @@ class API implements API_Interface {
 	/**
 	 * API constructor.
 	 *
-	 * @param Settings_Interface        $settings The plugin settings from the database.
+	 * @param Settings_Interface        $settings   The plugin settings from the database.
+	 * @param LoggerInterface           $logger     The logger instance.
 	 * @param Data_Store_Interface|null $data_store Class for saving, retrieving and expiring passwords.
 	 */
-	public function __construct( Settings_Interface $settings, Data_Store_Interface $data_store = null ) {
+	public function __construct( Settings_Interface $settings, LoggerInterface $logger, Data_Store_Interface $data_store = null ) {
 
 		$this->data_store = $data_store ?? new Transient_Data_Store();
 
@@ -200,7 +204,6 @@ class API implements API_Interface {
 		// Generate a password using only alphanumerics (to avoid urlencoding worries).
 		// Length of 12 was chosen arbitrarily.
 		$password = wp_generate_password( 12, false );
-
 
 		$this->data_store->save( $user_id, $password, $seconds_valid );
 

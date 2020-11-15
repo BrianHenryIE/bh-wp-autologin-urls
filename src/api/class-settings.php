@@ -13,17 +13,20 @@
 
 namespace BH_WP_Autologin_URLs\api;
 
+use BH_WP_Autologin_URLs\BrianHenryIE\WP_Logger\Logger_Settings_Interface;
 use BH_WP_Autologin_URLs\Psr\Log\LogLevel;
 
 /**
  * Class Settings
  */
-class Settings implements Settings_Interface {
+class Settings implements Settings_Interface, Logger_Settings_Interface {
 
 	const ADMIN_ENABLED                   = 'bh_wp_autologin_urls_is_admin_enabled';
 	const SUBJECT_FILTER_REGEX_DICTIONARY = 'bh_wp_autologin_urls_subject_filter_regex_dictionary';
 	const LOG_LEVEL                       = 'bh_wp_autologin_urls_log_level';
 	const SHOULD_USE_WP_LOGIN             = 'bh_wp_autologin_urls_should_use_wp_login';
+
+	const DEFAULT_LOG_LEVEL = LogLevel::NOTICE;
 
 	/**
 	 * A dictionary of regex:notes, where the regex is applied to the email subject to
@@ -96,21 +99,30 @@ class Settings implements Settings_Interface {
 	}
 
 	/**
-	 * The PSR log level to print, defaults to Info.
-	 *
-	 * @return string
-	 */
-	public function get_log_level(): string {
-
-		return get_option( self::LOG_LEVEL, LogLevel::INFO );
-	}
-
-	/**
 	 * Change links to redirect form wp-login.php rather than going directly to the link.
 	 *
 	 * @return bool
 	 */
 	public function get_should_use_wp_login(): bool {
 		return get_option( self::SHOULD_USE_WP_LOGIN, false );
+	}
+
+	/**
+	 * The PSR log level to print, defaults to Info.
+	 *
+	 * @return string
+	 */
+	public function get_log_level(): string {
+
+		return get_option( self::LOG_LEVEL, self::DEFAULT_LOG_LEVEL );
+	}
+
+	/**
+	 * The plugin slug as required by the logger.
+	 *
+	 * @return string
+	 */
+	public function get_plugin_slug(): string {
+		return 'bh-wp-autologin-urls';
 	}
 }

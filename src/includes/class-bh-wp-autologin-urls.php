@@ -25,6 +25,8 @@ use BH_WP_Autologin_URLs\api\Settings_Interface;
 use BH_WP_Autologin_URLs\BrianHenryIE\WPPB\WPPB_Loader_Interface;
 use BH_WP_Autologin_URLs\BrianHenryIE\WPPB\WPPB_Object;
 use BH_WP_Autologin_URLs\BrianHenryIE\WPPB\WPPB_Plugin_Abstract;
+use BH_WP_Autologin_URLs\Psr\Log\Test\LoggerInterfaceTest;
+use Psr\Log\LoggerInterface;
 
 /**
  * The core plugin class.
@@ -43,6 +45,13 @@ use BH_WP_Autologin_URLs\BrianHenryIE\WPPB\WPPB_Plugin_Abstract;
  * phpcs:disable Squiz.PHP.DisallowMultipleAssignments.Found
  */
 class BH_WP_Autologin_URLs extends WPPB_Plugin_Abstract {
+
+	/**
+	 * Instance of PSR logger to record logins and issues.
+	 *
+	 * @var LoggerInterface
+	 */
+	protected $logger;
 
 	/**
 	 * Instance member of API class to expose to WordPress to allow users unhook actions.
@@ -103,24 +112,22 @@ class BH_WP_Autologin_URLs extends WPPB_Plugin_Abstract {
 	 *
 	 * @param WPPB_Loader_Interface $loader The class which adds the actions and filters.
 	 * @param Settings_Interface    $settings The plugin settings.
+	 * @param LoggerInterface       $logger PSR Logger.
 	 *
 	 * @since    1.0.0
 	 */
-	public function __construct( $loader, $settings ) {
+	public function __construct( $loader, $settings, $logger ) {
 		if ( defined( 'BH_WP_AUTOLOGIN_URLS_VERSION' ) ) {
-			$this->version = BH_WP_AUTOLOGIN_URLS_VERSION;
+			$version = BH_WP_AUTOLOGIN_URLS_VERSION;
 		} else {
-			$this->version = '1.1.2';
+			$version = '1.1.2';
 		}
-		$this->plugin_name = 'bh-wp-autologin-urls';
+		$plugin_name = 'bh-wp-autologin-urls';
 
-		parent::__construct( $this->plugin_name, $this->version );
-
-		$this->loader = $loader;
+		parent::__construct( $loader, $plugin_name, $version );
 
 		$this->settings = $settings;
-
-		Logger::set_log_level( $settings->get_log_level() );
+		$this->logger   = $logger;
 
 		$this->setup_api();
 
@@ -154,7 +161,7 @@ class BH_WP_Autologin_URLs extends WPPB_Plugin_Abstract {
 	 */
 	private function setup_api() {
 
-		$this->api = $plugin_api = new API( $this->settings );
+		$this->api = $plugin_api = new API( $this->settings, $this->logger );
 
 		$this->loader->add_filter( 'add_autologin_to_message', $plugin_api, 'add_autologin_to_message', 10, 2 );
 		$this->loader->add_filter( 'add_autologin_to_url', $plugin_api, 'add_autologin_to_url', 10, 2 );
@@ -217,7 +224,7 @@ class BH_WP_Autologin_URLs extends WPPB_Plugin_Abstract {
 	 */
 	private function define_login_hooks() {
 
-		$this->login = $plugin_login = new Login( $this->get_plugin_name(), $this->get_version(), $this->api );
+		$this->login = $plugin_login = new Login( $this->get_plugin_name(), $this->get_version(), $this->api, $this->logger );
 
 		$this->loader->add_action( 'plugins_loaded', $plugin_login, 'wp_init_process_autologin', 2 );
 
@@ -225,6 +232,5 @@ class BH_WP_Autologin_URLs extends WPPB_Plugin_Abstract {
 		$this->loader->add_action( 'plugins_loaded', $plugin_login, 'login_mailpoet_urls', 0 );
 
 	}
-
 
 }

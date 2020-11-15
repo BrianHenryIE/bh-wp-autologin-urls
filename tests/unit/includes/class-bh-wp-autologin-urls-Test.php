@@ -10,6 +10,7 @@ namespace BH_WP_Autologin_URLs\includes;
 
 use BH_WP_Autologin_URLs\api\Settings_Interface;
 use BH_WP_Autologin_URLs\BrianHenryIE\WPPB\WPPB_Loader_Interface;
+use BH_WP_Autologin_URLs\Psr\Log\LoggerInterface;
 
 /**
  * Class Test
@@ -18,7 +19,7 @@ class BH_WP_Autologin_URLs_Test extends \Codeception\Test\Unit {
 
 	protected function _before() {
 
-		\WP_Mock::setUp();
+//		\WP_Mock::setUp();
 	}
 
 
@@ -34,7 +35,7 @@ class BH_WP_Autologin_URLs_Test extends \Codeception\Test\Unit {
 	 *
 	 * @var string Plugin version.
 	 */
-	private $version = '1.1.2';
+	private $version = '1.2.1';
 
 	/**
 	 * Verifies the plugin name, version and loader are correctly set.
@@ -44,6 +45,7 @@ class BH_WP_Autologin_URLs_Test extends \Codeception\Test\Unit {
 		global $plugin_root_dir;
 
 		$mock_loader   = $this->createMock( WPPB_Loader_Interface::class );
+		$mock_logger   = $this->makeEmpty( LoggerInterface::class );
 		$mock_settings = $this->makeEmpty( Settings_Interface::class,
 			array( 'get_log_level' => 'info' )
 		);
@@ -55,7 +57,7 @@ class BH_WP_Autologin_URLs_Test extends \Codeception\Test\Unit {
 			)
 		);
 
-		$bh_wp_autologin_urls = new BH_WP_Autologin_URLs( $mock_loader, $mock_settings );
+		$bh_wp_autologin_urls = new BH_WP_Autologin_URLs( $mock_loader, $mock_settings, $mock_logger );
 
 		$this->assertEquals( $this->plugin_name, $bh_wp_autologin_urls->get_plugin_name() );
 		$this->assertEquals( $this->version, $bh_wp_autologin_urls->get_version() );
@@ -72,6 +74,7 @@ class BH_WP_Autologin_URLs_Test extends \Codeception\Test\Unit {
 		global $plugin_root_dir;
 
 		$mock_loader   = $this->createMock( WPPB_Loader_Interface::class );
+		$mock_logger   = $this->makeEmpty( LoggerInterface::class );
 		$mock_settings = $this->makeEmpty( Settings_Interface::class,
 			array( 'get_log_level' => 'info' )
 		);
@@ -83,7 +86,7 @@ class BH_WP_Autologin_URLs_Test extends \Codeception\Test\Unit {
 			)
 		);
 
-		$bh_wp_autologin_urls = new BH_WP_Autologin_URLs( $mock_loader, $mock_settings );
+		$bh_wp_autologin_urls = new BH_WP_Autologin_URLs( $mock_loader, $mock_settings, $mock_logger );
 
 		$mock_loader->expects( $this->once() )
 					->method( 'run' );
@@ -165,6 +168,8 @@ class BH_WP_Autologin_URLs_Test extends \Codeception\Test\Unit {
 			array( 'get_log_level' => 'info' )
 		);
 
+		$mock_logger = $this->makeEmpty( LoggerInterface::class );
+
 		\WP_Mock::userFunction(
 			'plugin_dir_path',
 			array(
@@ -175,7 +180,7 @@ class BH_WP_Autologin_URLs_Test extends \Codeception\Test\Unit {
 		/**
 		 * The action and filter hooks are added in the constructor.
 		 */
-		$bh_wp_autologin_urls = new BH_WP_Autologin_URLs( $mock_loader, $mock_settings );
+		$bh_wp_autologin_urls = new BH_WP_Autologin_URLs( $mock_loader, $mock_settings, $mock_logger );
 
 		global $plugin_basename;
 

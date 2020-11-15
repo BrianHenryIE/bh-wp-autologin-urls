@@ -34,13 +34,17 @@
     {
       "type":"composer",
       "url":"https://wpackagist.org"
+    },
+    {
+      "type": "path",
+      "url": "../bh-wp-logger"
     }
   ],
   "require": {
     "php": ">=7.2",
     "brianhenryie/wppb-lib": "dev-master",
     "pablo-sg-pacheco/wp-namespace-autoloader": "dev-brianhenryie",
-    "katzgrau/klogger": "dev-master"
+    "brianhenryie/wp-logger": "dev-master"
   },
   "require-dev": {
     "10up/wp_mock": "0.4.2",
