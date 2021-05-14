@@ -127,7 +127,15 @@
       "BrianHenryIE\\ComposerPhpStorm\\ExcludeFolders::update",
       "BrianHenryIE\\ComposerPhpStorm\\PHPUnitRunConfigurations::update",
       "Kporras07\\ComposerSymlinks\\ScriptHandler::createSymlinks"
+    ],
+    "save-acceptance-database": [
+      "export $(grep -v '^#' .env.testing | xargs); mysqldump -u $TEST_SITE_DB_USER -p$TEST_SITE_DB_PASSWORD  $TEST_SITE_DB_NAME > tests/_data/dump.sql;"
+    ],
+    "coverage-tests": [
+      "vendor/bin/codecept run unit --coverage unit.cov",
+      "vendor/bin/codecept run wpunit --coverage wpunit.cov",
+      "vendor/bin/phpcov merge --clover tests/_output/clover.xml --html tests/_output/html tests/_output;",
+      "open tests/_output/html/index.html"
     ]
-
   }
 }
