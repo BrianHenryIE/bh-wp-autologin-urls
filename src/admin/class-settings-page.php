@@ -9,15 +9,15 @@
  * @subpackage bh-wp-autologin-urls/admin
  */
 
-namespace BH_WP_Autologin_URLs\admin;
+namespace BrianHenryIE\WP_Autologin_URLs\admin;
 
-use BH_WP_Autologin_URLs\admin\partials\Use_WP_Login;
-use BH_WP_Autologin_URLs\api\Settings_Interface;
-use BH_WP_Autologin_URLs\admin\partials\Settings_Section_Element_Abstract;
-use BH_WP_Autologin_URLs\admin\partials\Admin_Enable;
-use BH_WP_Autologin_URLs\admin\partials\Expiry_Age;
-use BH_WP_Autologin_URLs\admin\partials\Regex_Subject_Filters;
-use BH_WP_Autologin_URLs\BrianHenryIE\WPPB\WPPB_Object;
+use BrianHenryIE\WP_Autologin_URLs\admin\partials\Use_WP_Login;
+use BrianHenryIE\WP_Autologin_URLs\api\Settings_Interface;
+use BrianHenryIE\WP_Autologin_URLs\admin\partials\Settings_Section_Element_Abstract;
+use BrianHenryIE\WP_Autologin_URLs\admin\partials\Admin_Enable;
+use BrianHenryIE\WP_Autologin_URLs\admin\partials\Expiry_Age;
+use BrianHenryIE\WP_Autologin_URLs\admin\partials\Regex_Subject_Filters;
+use BrianHenryIE\WP_Autologin_URLs\BrianHenryIE\WPPB\WPPB_Object;
 
 /**
  * The setting page of the plugin.

@@ -1,7 +1,7 @@
 <?php
 
 
-namespace BH_WP_Autologin_URLs\api;
+namespace BrianHenryIE\WP_Autologin_URLs\api;
 
 class Transient_Data_Store implements Data_Store_Interface {
 

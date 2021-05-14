@@ -8,7 +8,7 @@
 
 namespace BH_WP_Autologin_URLs\includes;
 
-use BH_WP_Autologin_URLs\api\API_Interface;
+use BrianHenryIE\WP_Autologin_URLs\api\API_Interface;
 
 
 /**

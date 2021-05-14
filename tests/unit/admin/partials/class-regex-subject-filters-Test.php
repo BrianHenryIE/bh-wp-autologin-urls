@@ -10,8 +10,8 @@
 
 namespace BH_WP_Autologin_URLs\admin\partials;
 
-use BH_WP_Autologin_URLs\api\Settings;
-use BH_WP_Autologin_URLs\api\Settings_Interface;
+use BrianHenryIE\WP_Autologin_URLs\api\Settings;
+use BrianHenryIE\WP_Autologin_URLs\api\Settings_Interface;
 
 /**
  * Class Regex_Subject_Filters_Test

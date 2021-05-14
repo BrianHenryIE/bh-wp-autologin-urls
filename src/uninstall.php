@@ -29,7 +29,7 @@ if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
 	exit;
 }
 
-use BH_WP_Autologin_URLs\api\Settings_Interface;
+use BrianHenryIE\WP_Autologin_URLs\api\Settings_Interface;
 
 /**
  * Delete the passwords stored as transients in wp_options.

@@ -8,8 +8,8 @@
 
 namespace BH_WP_Autologin_URLs\includes;
 
-use BH_WP_Autologin_URLs\admin\Admin;
-use BH_WP_Autologin_URLs\admin\Plugins_Page;
+use BrianHenryIE\WP_Autologin_URLs\admin\Admin;
+use BrianHenryIE\WP_Autologin_URLs\admin\Plugins_Page;
 
 /**
  * Class Develop_Test

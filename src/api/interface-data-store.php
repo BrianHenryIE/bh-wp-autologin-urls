@@ -3,7 +3,7 @@
  * Interface for classes saving, retrieving and expiring passwords.
  */
 
-namespace BH_WP_Autologin_URLs\api;
+namespace BrianHenryIE\WP_Autologin_URLs\api;
 
 /**
  * Interface Data_Store_Interface

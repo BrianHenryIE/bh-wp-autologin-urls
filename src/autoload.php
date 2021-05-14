@@ -13,7 +13,7 @@
 
 namespace BH_WP_Autologin_URLs;
 
-use BH_WP_Autologin_URLs\Pablo_Pacheco\WP_Namespace_Autoloader\WP_Namespace_Autoloader;
+use BrianHenryIE\WP_Autologin_URLs\Pablo_Pacheco\WP_Namespace_Autoloader\WP_Namespace_Autoloader;
 
 
 // The plugin-scoped namespace for composer required libraries, as specified in composer.json Mozart config.

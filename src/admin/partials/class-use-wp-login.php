@@ -9,10 +9,10 @@
  * @subpackage bh-wp-autologin-urls/admin/partials
  */
 
-namespace BH_WP_Autologin_URLs\admin\partials;
+namespace BrianHenryIE\WP_Autologin_URLs\admin\partials;
 
-use BH_WP_Autologin_URLs\api\Settings_Interface;
-use BH_WP_Autologin_URLs\api\Settings;
+use BrianHenryIE\WP_Autologin_URLs\api\Settings_Interface;
+use BrianHenryIE\WP_Autologin_URLs\api\Settings;
 
 /**
  * Class

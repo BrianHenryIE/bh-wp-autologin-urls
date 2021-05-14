@@ -12,18 +12,18 @@
  * @subpackage bh-wp-autologin-urls/includes
  */
 
-namespace BH_WP_Autologin_URLs\includes;
+namespace BrianHenryIE\WP_Autologin_URLs\includes;
 
-use BH_WP_Autologin_URLs\admin\User_Edit;
-use BH_WP_Autologin_URLs\api\API_Interface;
-use BH_WP_Autologin_URLs\api\API;
-use BH_WP_Autologin_URLs\admin\Admin;
-use BH_WP_Autologin_URLs\admin\Settings_Page;
-use BH_WP_Autologin_URLs\admin\Plugins_Page;
-use BH_WP_Autologin_URLs\api\Settings_Interface;
-use BH_WP_Autologin_URLs\BrianHenryIE\WPPB\WPPB_Loader_Interface;
-use BH_WP_Autologin_URLs\BrianHenryIE\WPPB\WPPB_Object;
-use BH_WP_Autologin_URLs\BrianHenryIE\WPPB\WPPB_Plugin_Abstract;
+use BrianHenryIE\WP_Autologin_URLs\admin\User_Edit;
+use BrianHenryIE\WP_Autologin_URLs\api\API_Interface;
+use BrianHenryIE\WP_Autologin_URLs\api\API;
+use BrianHenryIE\WP_Autologin_URLs\admin\Admin;
+use BrianHenryIE\WP_Autologin_URLs\admin\Settings_Page;
+use BrianHenryIE\WP_Autologin_URLs\admin\Plugins_Page;
+use BrianHenryIE\WP_Autologin_URLs\api\Settings_Interface;
+use BrianHenryIE\WP_Autologin_URLs\BrianHenryIE\WPPB\WPPB_Loader_Interface;
+use BrianHenryIE\WP_Autologin_URLs\BrianHenryIE\WPPB\WPPB_Object;
+use BrianHenryIE\WP_Autologin_URLs\BrianHenryIE\WPPB\WPPB_Plugin_Abstract;
 
 /**
  * The core plugin class.

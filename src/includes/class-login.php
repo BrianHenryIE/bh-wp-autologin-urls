@@ -9,10 +9,10 @@
  * @subpackage bh-wp-autologin-urls/login
  */
 
-namespace BH_WP_Autologin_URLs\includes;
+namespace BrianHenryIE\WP_Autologin_URLs\includes;
 
-use BH_WP_Autologin_URLs\api\API_Interface;
-use BH_WP_Autologin_URLs\BrianHenryIE\WPPB\WPPB_Object;
+use BrianHenryIE\WP_Autologin_URLs\api\API_Interface;
+use BrianHenryIE\WP_Autologin_URLs\BrianHenryIE\WPPB\WPPB_Object;
 use MailPoet\Models\Subscriber;
 use MailPoet\Newsletter\Links\Links;
 use MailPoet\Router\Router;

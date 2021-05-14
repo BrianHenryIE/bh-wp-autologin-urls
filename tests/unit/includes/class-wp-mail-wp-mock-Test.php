@@ -8,8 +8,8 @@
 
 namespace BH_WP_Autologin_URLs\includes;
 
-use BH_WP_Autologin_URLs\api\Settings_Interface;
-use BH_WP_Autologin_URLs\api\API_Interface;
+use BrianHenryIE\WP_Autologin_URLs\api\Settings_Interface;
+use BrianHenryIE\WP_Autologin_URLs\api\API_Interface;
 
 /**
  * Class WP_Mail_WP_Mock_Test

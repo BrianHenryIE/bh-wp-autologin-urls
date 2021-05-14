@@ -9,10 +9,10 @@
  * @subpackage bh-wp-autologin-urls/admin
  */
 
-namespace BH_WP_Autologin_URLs\admin;
+namespace BrianHenryIE\WP_Autologin_URLs\admin;
 
-use BH_WP_Autologin_URLs\api\API_Interface;
-use BH_WP_Autologin_URLs\BrianHenryIE\WPPB\WPPB_Object;
+use BrianHenryIE\WP_Autologin_URLs\api\API_Interface;
+use BrianHenryIE\WP_Autologin_URLs\BrianHenryIE\WPPB\WPPB_Object;
 use WP_User;
 
 
