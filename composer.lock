@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9455337ba66b4fae0de111d243d5e886",
+    "content-hash": "f431624acef64727315fc61e485bb326",
     "packages": [
         {
             "name": "brianhenryie/wppb-lib",
@@ -10240,15 +10240,15 @@
         },
         {
             "name": "wpackagist-plugin/newsletter",
-            "version": "6.9.9",
+            "version": "7.1.7",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/newsletter/",
-                "reference": "tags/6.9.9"
+                "reference": "tags/7.1.7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/newsletter.6.9.9.zip"
+                "url": "https://downloads.wordpress.org/plugin/newsletter.7.1.7.zip"
             },
             "require": {
                 "composer/installers": "~1.0"
