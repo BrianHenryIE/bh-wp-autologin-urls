@@ -23,11 +23,11 @@ coverage:
     include:
         - src/*
     exclude:
-        - src/dependencies/*
-        - src/vendor/*
+        - src/strauss/*
         - /*/index.php
         - /*/*.txt
         - src/autoload.php
+        - src/autoload-classmap.php
         - /*/*.css
         - /*/*.js
 bootstrap: bootstrap.php
