@@ -6,7 +6,7 @@
  * @author Brian Henry <BrianHenryIE@gmail.com>
  */
 
-namespace BH_WP_Autologin_URLs\includes;
+namespace BrianHenryIE\WP_Autologin_URLs\includes;
 
 use BrianHenryIE\WP_Autologin_URLs\api\API_Interface;
 

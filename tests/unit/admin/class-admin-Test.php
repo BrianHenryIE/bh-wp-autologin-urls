@@ -8,7 +8,7 @@
  * @author Brian Henry <BrianHenryIE@gmail.com>
  */
 
-namespace BH_WP_Autologin_URLs\admin;
+namespace BrianHenryIE\WP_Autologin_URLs\admin;
 
 /**
  * Class Admin_Test

@@ -11,7 +11,7 @@
  * @see https://github.com/pablo-sg-pacheco/wp-namespace-autoloader/
  */
 
-namespace BH_WP_Autologin_URLs;
+namespace BrianHenryIE\WP_Autologin_URLs;
 
 use BrianHenryIE\WP_Autologin_URLs\Pablo_Pacheco\WP_Namespace_Autoloader\WP_Namespace_Autoloader;
 

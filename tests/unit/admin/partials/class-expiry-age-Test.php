@@ -8,7 +8,7 @@
  * @author Brian Henry <BrianHenryIE@gmail.com>
  */
 
-namespace BH_WP_Autologin_URLs\admin\partials;
+namespace BrianHenryIE\WP_Autologin_URLs\admin\partials;
 
 use BrianHenryIE\WP_Autologin_URLs\api\Settings;
 use BrianHenryIE\WP_Autologin_URLs\api\Settings_Interface;
