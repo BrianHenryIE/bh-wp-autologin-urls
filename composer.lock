@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0390e752b84c465c65e430347e3bc1a5",
+    "content-hash": "9f2194cd7456a4816999e86db2bd5730",
     "packages": [
         {
             "name": "brianhenryie/wppb-lib",
@@ -20,7 +20,7 @@
             "type": "library",
             "autoload": {
                 "psr-4": {
-                    "WPPB\\": "src"
+                    "BrianHenryIE\\WPPB\\": "src"
                 }
             },
             "license": [
@@ -1824,11 +1824,6 @@
                 "guzzlehttp/guzzle": "^6.1"
             },
             "type": "library",
-            "extra": {
-                "patches_applied": {
-                    "Fixed undefined property ": "https://github.com/ericmartel/codeception-email-mailtrap/pull/7.patch"
-                }
-            },
             "autoload": {
                 "psr-4": {
                     "Codeception\\Module\\": "src"
@@ -1845,7 +1840,12 @@
                 }
             ],
             "description": "Provides test helpers for Codeception when testing email functionality with Mailtrap",
-            "time": "2017-04-21T13:22:18+00:00"
+            "time": "2017-04-21T13:22:18+00:00",
+            "extra": {
+                "patches_applied": {
+                    "Fixed undefined property ": "https://github.com/ericmartel/codeception-email-mailtrap/pull/7.patch"
+                }
+            }
         },
         {
             "name": "gettext/gettext",
@@ -2465,12 +2465,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/kporras07/composer-symlinks.git",
-                "reference": "cda2e2059646b06a490092893563af5b70b569bd"
+                "reference": "57fc135ce67be0c9bab613b5239eef3c71a25fb9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kporras07/composer-symlinks/zipball/cda2e2059646b06a490092893563af5b70b569bd",
-                "reference": "cda2e2059646b06a490092893563af5b70b569bd",
+                "url": "https://api.github.com/repos/kporras07/composer-symlinks/zipball/57fc135ce67be0c9bab613b5239eef3c71a25fb9",
+                "reference": "57fc135ce67be0c9bab613b5239eef3c71a25fb9",
                 "shasum": ""
             },
             "require": {
@@ -2512,20 +2512,20 @@
                 "script",
                 "symlink"
             ],
-            "time": "2020-05-08T00:09:07+00:00"
+            "time": "2020-09-15T18:27:34+00:00"
         },
         {
             "name": "league/flysystem",
-            "version": "1.1.3",
+            "version": "1.1.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/flysystem.git",
-                "reference": "9be3b16c877d477357c015cec057548cf9b2a14a"
+                "reference": "f3ad69181b8afed2c9edf7be5a2918144ff4ea32"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/9be3b16c877d477357c015cec057548cf9b2a14a",
-                "reference": "9be3b16c877d477357c015cec057548cf9b2a14a",
+                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/f3ad69181b8afed2c9edf7be5a2918144ff4ea32",
+                "reference": "f3ad69181b8afed2c9edf7be5a2918144ff4ea32",
                 "shasum": ""
             },
             "require": {
@@ -2541,7 +2541,6 @@
                 "phpunit/phpunit": "^8.5.8"
             },
             "suggest": {
-                "ext-fileinfo": "Required for MimeType",
                 "ext-ftp": "Allows you to use FTP server storage",
                 "ext-openssl": "Allows you to use FTPS server storage",
                 "league/flysystem-aws-s3-v2": "Allows you to use S3 storage with AWS SDK v2",
@@ -2603,20 +2602,20 @@
                     "type": "other"
                 }
             ],
-            "time": "2020-08-23T07:39:11+00:00"
+            "time": "2021-06-23T21:56:05+00:00"
         },
         {
             "name": "league/mime-type-detection",
-            "version": "1.4.0",
+            "version": "1.7.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/mime-type-detection.git",
-                "reference": "fda190b62b962d96a069fcc414d781db66d65b69"
+                "reference": "3b9dff8aaf7323590c1d2e443db701eb1f9aa0d3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/mime-type-detection/zipball/fda190b62b962d96a069fcc414d781db66d65b69",
-                "reference": "fda190b62b962d96a069fcc414d781db66d65b69",
+                "url": "https://api.github.com/repos/thephpleague/mime-type-detection/zipball/3b9dff8aaf7323590c1d2e443db701eb1f9aa0d3",
+                "reference": "3b9dff8aaf7323590c1d2e443db701eb1f9aa0d3",
                 "shasum": ""
             },
             "require": {
@@ -2624,8 +2623,9 @@
                 "php": "^7.2 || ^8.0"
             },
             "require-dev": {
-                "phpstan/phpstan": "^0.12.36",
-                "phpunit/phpunit": "^8.5.8"
+                "friendsofphp/php-cs-fixer": "^2.18",
+                "phpstan/phpstan": "^0.12.68",
+                "phpunit/phpunit": "^8.5.8 || ^9.3"
             },
             "type": "library",
             "autoload": {
@@ -2654,7 +2654,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-08-09T10:34:01+00:00"
+            "time": "2021-01-18T20:58:21+00:00"
         },
         {
             "name": "lucatume/wp-browser",
@@ -2790,12 +2790,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/mheap/phpunit-github-actions-printer.git",
-                "reference": "5c2511af15591c4e9484e28db8d6e050737aa6d7"
+                "reference": "138aef8fff0159dc21d23a5a230df614a0e873e4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mheap/phpunit-github-actions-printer/zipball/5c2511af15591c4e9484e28db8d6e050737aa6d7",
-                "reference": "5c2511af15591c4e9484e28db8d6e050737aa6d7",
+                "url": "https://api.github.com/repos/mheap/phpunit-github-actions-printer/zipball/138aef8fff0159dc21d23a5a230df614a0e873e4",
+                "reference": "138aef8fff0159dc21d23a5a230df614a0e873e4",
                 "shasum": ""
             },
             "require-dev": {
@@ -2804,6 +2804,9 @@
             },
             "type": "library",
             "autoload": {
+                "files": [
+                    "src/Functions/helpers.php"
+                ],
                 "psr-4": {
                     "mheap\\GithubActionsReporter\\": "src"
                 }
@@ -2819,7 +2822,7 @@
                 }
             ],
             "description": "PHPUnit Printer for adding test failures as annotations on GitHub Actions",
-            "time": "2020-07-16T15:12:56+00:00"
+            "time": "2021-02-28T17:24:22+00:00"
         },
         {
             "name": "mikemclin/laravel-wp-password",
@@ -5217,12 +5220,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/squizlabs/PHP_CodeSniffer.git",
-                "reference": "b86b6a857798d66c2c6470f6ed6ce2272eadcf17"
+                "reference": "bf08940c11f5c1c08040c3235ab45207f7088970"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/squizlabs/PHP_CodeSniffer/zipball/b86b6a857798d66c2c6470f6ed6ce2272eadcf17",
-                "reference": "b86b6a857798d66c2c6470f6ed6ce2272eadcf17",
+                "url": "https://api.github.com/repos/squizlabs/PHP_CodeSniffer/zipball/bf08940c11f5c1c08040c3235ab45207f7088970",
+                "reference": "bf08940c11f5c1c08040c3235ab45207f7088970",
                 "shasum": ""
             },
             "require": {
@@ -5260,7 +5263,7 @@
                 "phpcs",
                 "standards"
             ],
-            "time": "2020-09-09T22:56:01+00:00"
+            "time": "2021-06-24T22:42:21+00:00"
         },
         {
             "name": "symfony/browser-kit",
@@ -7020,19 +7023,19 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/voku/portable-ascii.git",
-                "reference": "d3caa339bedeb189d03dfccee32704805694f0c7"
+                "reference": "14e3224c1a32e9a9653d2f91a425696029c45426"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/voku/portable-ascii/zipball/d3caa339bedeb189d03dfccee32704805694f0c7",
-                "reference": "d3caa339bedeb189d03dfccee32704805694f0c7",
+                "url": "https://api.github.com/repos/voku/portable-ascii/zipball/14e3224c1a32e9a9653d2f91a425696029c45426",
+                "reference": "14e3224c1a32e9a9653d2f91a425696029c45426",
                 "shasum": ""
             },
             "require": {
                 "php": ">=7.0.0"
             },
             "require-dev": {
-                "phpunit/phpunit": "~6.0 || ~7.0"
+                "phpunit/phpunit": "~6.0 || ~7.0 || ~9.0"
             },
             "suggest": {
                 "ext-intl": "Use Intl for transliterator_transliterate() support"
@@ -7082,7 +7085,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-08-23T00:54:01+00:00"
+            "time": "2021-04-12T21:31:37+00:00"
         },
         {
             "name": "vria/nodiacritic",
@@ -7137,12 +7140,12 @@
             "version": "1.9.1",
             "source": {
                 "type": "git",
-                "url": "https://github.com/webmozart/assert.git",
+                "url": "https://github.com/webmozarts/assert.git",
                 "reference": "bafc69caeb4d49c39fd0779086c03a3738cbb389"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/webmozart/assert/zipball/bafc69caeb4d49c39fd0779086c03a3738cbb389",
+                "url": "https://api.github.com/repos/webmozarts/assert/zipball/bafc69caeb4d49c39fd0779086c03a3738cbb389",
                 "reference": "bafc69caeb4d49c39fd0779086c03a3738cbb389",
                 "shasum": ""
             },
