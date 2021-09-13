@@ -9,7 +9,7 @@ class NewsletterPluginCest {
 	 */
 	public function _before( AcceptanceTester $I ) {
 
-		define( 'WP_CRON_LOCK_TIMEOUT', 1 /* second */ );
+//		define( 'WP_CRON_LOCK_TIMEOUT', 1 /* second */ );
 
 		$I->loginAsAdmin();
 
@@ -96,10 +96,12 @@ class NewsletterPluginCest {
 	public function testSendANewsletter( AcceptanceTester $I ) {
 
 		// Visit the "Create newsletter" page.
-		$I->amOnAdminPage( 'admin.php?page=newsletter_emails_theme' );
+		$I->amOnAdminPage( 'admin.php?page=newsletter_emails_composer' );
+
+
 
 		// Click the create newsletter from "Raw HTML" option.
-		$I->click( 'div.tnp-theme-preview:nth-child(2) > a:nth-child(2)' );
+		$I->click( 'Raw HTML' );
 
 		// The page served is actually a JS page, but we can just visit the URL we know we'll be sent to...
 
@@ -157,7 +159,9 @@ class NewsletterPluginCest {
 //		$I->amOnCronPage();
 //		$I->amOnPage( '/wp-cron.php' );
 //		$I->amOnPage( '/' ); // tried with define( alternative cron )
-//		exec('wget http://localhost:8080/bh-wp-autologin-urls/wp-cron.php  &');
+		exec('wget http://localhost:8080/bh-wp-autologin-urls/wordpress/wp-cron.php  &');
+
+//		spawn_cron();
 
 		// As soon as this process has ended, the cron can be run.
 		// with `wget http://localhost:8080/bh-wp-autologin-urls/wp-cron.php`
