@@ -24,7 +24,7 @@ class BH_WP_Autologin_URLs_Develop_Test extends \Codeception\TestCase\WPTestCase
 		$action_name       = 'admin_enqueue_scripts';
 		$expected_priority = 10;
 
-		$class_type = Admin::class;
+		$class_type  = Admin::class;
 		$method_name = 'enqueue_styles';
 
 		$function_is_hooked = $this->is_function_hooked_on_action( $class_type, $method_name, $action_name, $expected_priority );
@@ -40,7 +40,7 @@ class BH_WP_Autologin_URLs_Develop_Test extends \Codeception\TestCase\WPTestCase
 		$action_name       = 'admin_enqueue_scripts';
 		$expected_priority = 10;
 
-		$class_type = Admin::class;
+		$class_type  = Admin::class;
 		$method_name = 'enqueue_scripts';
 
 		$function_is_hooked = $this->is_function_hooked_on_action( $class_type, $method_name, $action_name, $expected_priority );
@@ -56,7 +56,7 @@ class BH_WP_Autologin_URLs_Develop_Test extends \Codeception\TestCase\WPTestCase
 		$action_name       = 'wp_mail';
 		$expected_priority = 3;
 
-		$class_type = WP_Mail::class;
+		$class_type  = WP_Mail::class;
 		$method_name = 'add_autologin_links_to_email';
 
 		$function_is_hooked = $this->is_function_hooked_on_action( $class_type, $method_name, $action_name, $expected_priority );
@@ -73,7 +73,7 @@ class BH_WP_Autologin_URLs_Develop_Test extends \Codeception\TestCase\WPTestCase
 		$action_name       = 'plugins_loaded';
 		$expected_priority = 2;
 
-		$class_type = Login::class;
+		$class_type  = Login::class;
 		$method_name = 'wp_init_process_autologin';
 
 		$function_is_hooked = $this->is_function_hooked_on_action( $class_type, $method_name, $action_name, $expected_priority );
@@ -89,7 +89,7 @@ class BH_WP_Autologin_URLs_Develop_Test extends \Codeception\TestCase\WPTestCase
 		$action_name       = 'plugins_loaded';
 		$expected_priority = 10;
 
-		$class_type = I18n::class;
+		$class_type  = I18n::class;
 		$method_name = 'load_plugin_textdomain';
 
 		$function_is_hooked = $this->is_function_hooked_on_action( $class_type, $method_name, $action_name, $expected_priority );
@@ -108,7 +108,7 @@ class BH_WP_Autologin_URLs_Develop_Test extends \Codeception\TestCase\WPTestCase
 		$action_name       = 'plugin_action_links_' . $plugin_basename;
 		$expected_priority = 10;
 
-		$class_type = Plugins_Page::class;
+		$class_type  = Plugins_Page::class;
 		$method_name = 'action_links';
 
 		$function_is_hooked = $this->is_function_hooked_on_action( $class_type, $method_name, $action_name, $expected_priority );
@@ -133,7 +133,7 @@ class BH_WP_Autologin_URLs_Develop_Test extends \Codeception\TestCase\WPTestCase
 			$action_function = $action['function'];
 			if ( is_array( $action_function ) ) {
 				if ( $action_function[0] instanceof $class_type ) {
-					if( $method_name === $action_function[1] ) {
+					if ( $method_name === $action_function[1] ) {
 						$hooked_method = $action_function[1];
 						break;
 					}
