@@ -205,7 +205,7 @@ class API_Unit_Test extends \Codeception\Test\Unit {
 		$settings_mock      = $this->makeEmpty( Settings_Interface::class );
 		$logger_mock     = $this->makeEmpty( LoggerInterface::class );
 		$data_store_mock    = $this->makeEmpty( Data_Store_Interface::class,
-			array( 'get_value_for_password' => $value )
+			array( 'get_value_for_code' => $value )
 		);
 		$autologin_urls_api = new API( $settings_mock, $logger_mock, $data_store_mock  );
 

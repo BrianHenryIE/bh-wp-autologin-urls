@@ -220,9 +220,9 @@ class API implements API_Interface {
 	 */
 	public function verify_autologin_password( int $user_id, string $password ) {
 
-		$value = $this->data_store->get_value_for_password( $password );
+		$value = $this->data_store->get_value_for_code( $password );
 
-		if ( false !== $value ) {
+		if ( null !== $value ) {
 
 			if ( hash( 'sha256', $user_id . $password ) === $value ) {
 

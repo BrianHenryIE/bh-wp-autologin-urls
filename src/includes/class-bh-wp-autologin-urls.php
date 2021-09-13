@@ -27,6 +27,8 @@ use BrianHenryIE\WP_Autologin_URLs\BrianHenryIE\WPPB\WPPB_Object;
 use BrianHenryIE\WP_Autologin_URLs\BrianHenryIE\WPPB\WPPB_Plugin_Abstract;
 use BrianHenryIE\WP_Autologin_URLs\Logger;
 use Psr\Log\LoggerInterface;
+use BrianHenryIE\WP_Autologin_URLs\api\DB_Data_Store;
+
 
 /**
  * The core plugin class.
@@ -161,7 +163,11 @@ class BH_WP_Autologin_URLs extends WPPB_Plugin_Abstract {
 	 */
 	private function setup_api() {
 
-		$this->api = $plugin_api = new API( $this->settings, $this->logger );
+		$datastore = new DB_Data_Store();
+
+		$this->loader->add_action( 'plugins_loaded', $datastore, 'create_db', 1 );
+
+		$this->api = $plugin_api = new API( $this->settings, $datastore );
 
 		$this->loader->add_filter( 'add_autologin_to_message', $plugin_api, 'add_autologin_to_message', 10, 2 );
 		$this->loader->add_filter( 'add_autologin_to_url', $plugin_api, 'add_autologin_to_url', 10, 2 );
