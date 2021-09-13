@@ -38,21 +38,25 @@ intermediate
 .idea
 cache
 
-*.phar
-scratch*
-vendor/*
-releases/*
-svn/*
-
+node_modules
+scratch
+src/strauss/
+wp-content/
 wordpress
-src/vendor
-src/dependencies
-wp-content/plugins
-wp-content/themes
-wp-content/uploads/woocommerce*
-wp-content/uploads/wc-logs/*
+/vendor/
 
+*.zip
+*.phar
+
+# Generated from GitHub Secrets in the workflows.
 .env.secret
 auth.json
 
-*.zip
+# GitHub Actions
+pcov.sh
+xdebug.sh
+7.4linux.sh
+DOCKER_ENV
+docker_tag
+
+wp-content/*/logs/*
