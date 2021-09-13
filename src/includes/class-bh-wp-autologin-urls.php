@@ -107,15 +107,13 @@ class BH_WP_Autologin_URLs extends WPPB_Plugin_Abstract {
 	 */
 	public function __construct( $loader, $settings ) {
 		if ( defined( 'BH_WP_AUTOLOGIN_URLS_VERSION' ) ) {
-			$this->version = BH_WP_AUTOLOGIN_URLS_VERSION;
+			$version = BH_WP_AUTOLOGIN_URLS_VERSION;
 		} else {
-			$this->version = '1.1.2';
+			$version = '1.1.2';
 		}
-		$this->plugin_name = 'bh-wp-autologin-urls';
+		$plugin_name = 'bh-wp-autologin-urls';
 
-		parent::__construct( $this->plugin_name, $this->version );
-
-		$this->loader = $loader;
+		parent::__construct( $loader, $plugin_name, $version );
 
 		$this->settings = $settings;
 
