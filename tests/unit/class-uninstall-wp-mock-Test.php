@@ -13,14 +13,14 @@ namespace BrianHenryIE\WP_Autologin_URLs;
  */
 class Uninstall_WP_Mock_Test extends \Codeception\Test\Unit {
 
-    protected function setup(): void {
-        \WP_Mock::setUp();
-    }
+	protected function setup(): void {
+		\WP_Mock::setUp();
+	}
 
-    protected function tearDown(): void {
-        parent::tearDown();
-        \WP_Mock::tearDown();
-    }
+	protected function tearDown(): void {
+		parent::tearDown();
+		\WP_Mock::tearDown();
+	}
 
 	/**
 	 * Verifies uninstall does not run without 'WP_UNINSTALL_PLUGIN' defined.

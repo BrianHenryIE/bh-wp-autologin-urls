@@ -18,24 +18,24 @@ use WP_User;
  */
 class Login_Test extends \Codeception\Test\Unit {
 
-    protected function setup(): void {
-        \WP_Mock::setUp();
+	protected function setup(): void {
+		\WP_Mock::setUp();
 
-        global $project_root_dir;
+		global $project_root_dir;
 
-        require_once $project_root_dir . '/vendor/wordpress/wordpress/src/wp-includes/class-wp-user.php';
+		require_once $project_root_dir . '/vendor/wordpress/wordpress/src/wp-includes/class-wp-user.php';
 
-        $_SERVER['REMOTE_ADDR'] = '127.0.0.1';
+		$_SERVER['REMOTE_ADDR'] = '127.0.0.1';
 
-        if ( ! defined( 'DAY_IN_SECONDS' ) ) {
-            define( 'DAY_IN_SECONDS', 24 * 60 * 60 );
-        }
-    }
+		if ( ! defined( 'DAY_IN_SECONDS' ) ) {
+			define( 'DAY_IN_SECONDS', 24 * 60 * 60 );
+		}
+	}
 
-    protected function tearDown(): void {
-        parent::tearDown();
-        \WP_Mock::tearDown();
-    }
+	protected function tearDown(): void {
+		parent::tearDown();
+		\WP_Mock::tearDown();
+	}
 
 	/**
 	 * Basic success test.

@@ -22,7 +22,7 @@ class Login_Test extends \Codeception\TestCase\WPTestCase {
 		$existing_order->set_billing_city( 'Sacramento' );
 		$existing_order->save();
 
-		$api_mock = $this->makeEmpty( API_Interface::class );
+		$api_mock    = $this->makeEmpty( API_Interface::class );
 		$logger_mock = $this->makeEmpty( LoggerInterface::class );
 
 		$login = new class( $api_mock, $logger_mock ) extends Login {
@@ -33,7 +33,7 @@ class Login_Test extends \Codeception\TestCase\WPTestCase {
 
 		$login->test_woocommerce( 'test@example.org', array() );
 
-		$this->assertSame( 'Sacramento', WC()->customer->get_billing_city());
+		$this->assertSame( 'Sacramento', WC()->customer->get_billing_city() );
 	}
 
 
@@ -43,7 +43,7 @@ class Login_Test extends \Codeception\TestCase\WPTestCase {
 	 */
 	public function test_woocommerce_name() {
 
-		$api_mock = $this->makeEmpty( API_Interface::class );
+		$api_mock    = $this->makeEmpty( API_Interface::class );
 		$logger_mock = $this->makeEmpty( LoggerInterface::class );
 
 		$login = new class( $api_mock, $logger_mock ) extends Login {
@@ -54,7 +54,7 @@ class Login_Test extends \Codeception\TestCase\WPTestCase {
 
 		$user_info = array(
 			'first_name' => 'Brian',
-			'last_name' => 'Henry'
+			'last_name'  => 'Henry',
 		);
 
 		// Act.

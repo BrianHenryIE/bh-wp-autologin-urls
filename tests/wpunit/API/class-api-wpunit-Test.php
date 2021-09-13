@@ -29,19 +29,25 @@ class API_WPUnit_Test extends \Codeception\TestCase\WPTestCase {
 		parent::_setUp();
 
 		// Codeception/WP-Browser tests return localhost as the site_url, whereas WP_UnitTestCase was returning example.org.
-		add_filter( 'site_url', function( $url, $path, $scheme, $blog_id ) {
-			return str_replace('localhost', 'example.org', $url );
-		}, 10, 4 );
+		add_filter(
+			'site_url',
+			function( $url, $path, $scheme, $blog_id ) {
+				return str_replace( 'localhost', 'example.org', $url );
+			},
+			10,
+			4
+		);
 
 		$this->plugin_name = 'bh-wp-autologin-urls';
-		$this->version = '1.2.0';
+		$this->version     = '1.2.0';
 
-		$this->settings = $this->makeEmpty( Settings_Interface::class,
+		$this->settings = $this->makeEmpty(
+			Settings_Interface::class,
 			array(
-				'get_expiry_age' => WEEK_IN_SECONDS,
-				'get_add_autologin_for_admins_is_enabled' => false,
-				'get_disallowed_subjects_regex_array' => [],
-				'get_disallowed_subjects_regex_dictionary' => [],
+				'get_expiry_age'                           => WEEK_IN_SECONDS,
+				'get_add_autologin_for_admins_is_enabled'  => false,
+				'get_disallowed_subjects_regex_array'      => array(),
+				'get_disallowed_subjects_regex_dictionary' => array(),
 			)
 		);
 
@@ -107,10 +113,11 @@ class API_WPUnit_Test extends \Codeception\TestCase\WPTestCase {
 	 */
 	public function test_generate_code() {
 
-		$data_store_mock = $this->makeEmpty( Data_Store_Interface::class,
+		$data_store_mock = $this->makeEmpty(
+			Data_Store_Interface::class,
 			array( 'save' => Expected::once() )
 		);
-		$api = new API( $this->settings, $this->logger, $data_store_mock );
+		$api             = new API( $this->settings, $this->logger, $data_store_mock );
 
 		$user_id = $this->factory->user->create();
 		$user    = get_user_by( 'id', $user_id );
@@ -130,7 +137,7 @@ class API_WPUnit_Test extends \Codeception\TestCase\WPTestCase {
 	public function test_user_not_exist() {
 
 		$data_store_mock = $this->makeEmpty( Data_Store_Interface::class );
-		$api = new API( $this->settings, $this->logger, $data_store_mock );
+		$api             = new API( $this->settings, $this->logger, $data_store_mock );
 
 		$generated_code = $api->generate_code( null, 3600 );
 
@@ -147,7 +154,7 @@ class API_WPUnit_Test extends \Codeception\TestCase\WPTestCase {
 		$expected = 'http://example.org/product/woocommerce-product/?autologin=123~mockpassw0rd';
 
 		$data_store_mock = $this->makeEmpty( Data_Store_Interface::class );
-		$api = new API( $this->settings, $this->logger, $data_store_mock );
+		$api             = new API( $this->settings, $this->logger, $data_store_mock );
 
 		$actual = $api->add_autologin_to_url( $url, 123 );
 
@@ -163,7 +170,7 @@ class API_WPUnit_Test extends \Codeception\TestCase\WPTestCase {
 		$expected = 'http://example.com/test_add_autologin_to_url/';
 
 		$data_store_mock = $this->makeEmpty( Data_Store_Interface::class );
-		$api = new API( $this->settings, $this->logger, $data_store_mock );
+		$api             = new API( $this->settings, $this->logger, $data_store_mock );
 
 		$actual = $api->add_autologin_to_url( $url, 123 );
 
@@ -180,7 +187,7 @@ class API_WPUnit_Test extends \Codeception\TestCase\WPTestCase {
 		$expected = 'http://example.org/test_add_autologin_to_url/';
 
 		$data_store_mock = $this->makeEmpty( Data_Store_Interface::class );
-		$api = new API( $this->settings, $this->logger, $data_store_mock );
+		$api             = new API( $this->settings, $this->logger, $data_store_mock );
 
 		$actual = $api->add_autologin_to_url( $url, null );
 
@@ -197,7 +204,7 @@ class API_WPUnit_Test extends \Codeception\TestCase\WPTestCase {
 		$expected = 'http://example.org/test_add_autologin_to_url/';
 
 		$data_store_mock = $this->makeEmpty( Data_Store_Interface::class );
-		$api = new API( $this->settings, $this->logger, $data_store_mock );
+		$api             = new API( $this->settings, $this->logger, $data_store_mock );
 
 		$actual = $api->add_autologin_to_url( $url, 321 );
 
@@ -213,7 +220,7 @@ class API_WPUnit_Test extends \Codeception\TestCase\WPTestCase {
 		$expected = 'http://example.org/test_add_autologin_to_url/?autologin=123~mockpassw0rd';
 
 		$data_store_mock = $this->makeEmpty( Data_Store_Interface::class );
-		$api = new API( $this->settings, $this->logger, $data_store_mock );
+		$api             = new API( $this->settings, $this->logger, $data_store_mock );
 
 		$actual = $api->add_autologin_to_url( $url, 123 );
 
@@ -229,7 +236,7 @@ class API_WPUnit_Test extends \Codeception\TestCase\WPTestCase {
 		$expected = 'http://example.org/test_add_autologin_to_url/?autologin=123~mockpassw0rd';
 
 		$data_store_mock = $this->makeEmpty( Data_Store_Interface::class );
-		$api = new API( $this->settings, $this->logger, $data_store_mock );
+		$api             = new API( $this->settings, $this->logger, $data_store_mock );
 
 		$actual = $api->add_autologin_to_url( $url, '123' );
 
@@ -246,7 +253,7 @@ class API_WPUnit_Test extends \Codeception\TestCase\WPTestCase {
 		$expected = 'http://example.org/test_add_autologin_to_url/';
 
 		$data_store_mock = $this->makeEmpty( Data_Store_Interface::class );
-		$api = new API( $this->settings, $this->logger, $data_store_mock );
+		$api             = new API( $this->settings, $this->logger, $data_store_mock );
 
 		$actual = $api->add_autologin_to_url( $url, 'brian@example.org', null );
 
@@ -264,7 +271,7 @@ class API_WPUnit_Test extends \Codeception\TestCase\WPTestCase {
 		$expected = 'http://example.org/test_add_autologin_to_url/?autologin=123~mockpassw0rd';
 
 		$data_store_mock = $this->makeEmpty( Data_Store_Interface::class );
-		$api = new API( $this->settings, $this->logger, $data_store_mock );
+		$api             = new API( $this->settings, $this->logger, $data_store_mock );
 
 		$actual = $api->add_autologin_to_url( $url, 'brianhenryie@gmail.com' );
 
@@ -282,7 +289,7 @@ class API_WPUnit_Test extends \Codeception\TestCase\WPTestCase {
 		$expected = 'http://example.org/test_add_autologin_to_url/';
 
 		$data_store_mock = $this->makeEmpty( Data_Store_Interface::class );
-		$api = new API( $this->settings, $this->logger, $data_store_mock );
+		$api             = new API( $this->settings, $this->logger, $data_store_mock );
 
 		$actual = $api->add_autologin_to_url( $url, 'nouserpresent' );
 
@@ -299,7 +306,7 @@ class API_WPUnit_Test extends \Codeception\TestCase\WPTestCase {
 		$expected = 'http://example.org/test_add_autologin_to_url/?autologin=123~mockpassw0rd';
 
 		$data_store_mock = $this->makeEmpty( Data_Store_Interface::class );
-		$api = new API( $this->settings, $this->logger, $data_store_mock );
+		$api             = new API( $this->settings, $this->logger, $data_store_mock );
 
 		$actual = $api->add_autologin_to_url( $url, 'brian' );
 
@@ -318,7 +325,7 @@ class API_WPUnit_Test extends \Codeception\TestCase\WPTestCase {
 		$expected = 'http://example.org/test_add_autologin_to_url/';
 
 		$data_store_mock = $this->makeEmpty( Data_Store_Interface::class );
-		$api = new API( $this->settings, $this->logger, $data_store_mock );
+		$api             = new API( $this->settings, $this->logger, $data_store_mock );
 
 		$actual = $api->add_autologin_to_url( $url, new \stdClass() );
 
@@ -333,7 +340,7 @@ class API_WPUnit_Test extends \Codeception\TestCase\WPTestCase {
 	public function test_add_autologin_to_messages() {
 
 		$data_store_mock = $this->makeEmpty( Data_Store_Interface::class );
-		$api = new API( $this->settings, $this->logger, $data_store_mock );
+		$api             = new API( $this->settings, $this->logger, $data_store_mock );
 
 		global $project_root_dir;
 

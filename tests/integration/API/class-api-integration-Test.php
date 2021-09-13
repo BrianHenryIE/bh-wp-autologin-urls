@@ -17,9 +17,14 @@ class API_Integration_Test extends \Codeception\TestCase\WPTestCase {
 		parent::_setUp();
 
 		// Codeception/WP-Browser tests return localhost as the site_url, whereas WP_UnitTestCase was returning example.org.
-		add_filter( 'site_url', function( $url, $path, $scheme, $blog_id ) {
-			return str_replace('localhost', 'example.org', $url );
-		}, 10, 4 );
+		add_filter(
+			'site_url',
+			function( $url, $path, $scheme, $blog_id ) {
+				return str_replace( 'localhost', 'example.org', $url );
+			},
+			10,
+			4
+		);
 
 		$this->set_return_password_for_test_user();
 	}
@@ -98,7 +103,7 @@ class API_Integration_Test extends \Codeception\TestCase\WPTestCase {
 	 */
 	public function test_filter_add_autologin_to_message() {
 
-		$message      = 'Hello http://example.org/test_public_function_add_autologin_to_url/ Goodbye';
+		$message  = 'Hello http://example.org/test_public_function_add_autologin_to_url/ Goodbye';
 		$expected = 'Hello http://example.org/test_public_function_add_autologin_to_url/?autologin=123~mockpassw0rd Goodbye';
 
 		$actual = apply_filters( 'add_autologin_to_message', $message, 123 );

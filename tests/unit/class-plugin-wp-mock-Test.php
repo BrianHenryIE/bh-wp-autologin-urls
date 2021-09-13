@@ -15,15 +15,15 @@ use BrianHenryIE\WP_Autologin_URLs\Includes\BH_WP_Autologin_URLs;
  */
 class Plugin_WP_Mock_Test extends \Codeception\Test\Unit {
 
-    protected function setup(): void {
-        \WP_Mock::setUp();
-    }
+	protected function setup(): void {
+		\WP_Mock::setUp();
+	}
 
-    protected function tearDown(): void {
-        parent::tearDown();
-        \WP_Mock::tearDown();
-    }
-    
+	protected function tearDown(): void {
+		parent::tearDown();
+		\WP_Mock::tearDown();
+	}
+
 	/**
 	 * Verifies the plugin initialization.
 	 */

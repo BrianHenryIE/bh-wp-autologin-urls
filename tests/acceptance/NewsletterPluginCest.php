@@ -9,7 +9,7 @@ class NewsletterPluginCest {
 	 */
 	public function _before( AcceptanceTester $I ) {
 
-//		define( 'WP_CRON_LOCK_TIMEOUT', 1 /* second */ );
+		// define( 'WP_CRON_LOCK_TIMEOUT', 1 /* second */ );
 
 		$I->loginAsAdmin();
 
@@ -98,8 +98,6 @@ class NewsletterPluginCest {
 		// Visit the "Create newsletter" page.
 		$I->amOnAdminPage( 'admin.php?page=newsletter_emails_composer' );
 
-
-
 		// Click the create newsletter from "Raw HTML" option.
 		$I->click( 'Raw HTML' );
 
@@ -152,16 +150,16 @@ class NewsletterPluginCest {
 
 		// One could `return;` here and check via `wp shell` what jobs are scheduled.
 		// Prints the "newsletter" cron job if it is scheduled to run.
-//		$a = array_filter( wp_get_ready_cron_jobs(), function( $value ) { return array_key_exists( 'newsletter', $value ) ? 'newsletter' : null; } );
+		// $a = array_filter( wp_get_ready_cron_jobs(), function( $value ) { return array_key_exists( 'newsletter', $value ) ? 'newsletter' : null; } );
 
 		// But none of these attempts to run cron work.
 
-//		$I->amOnCronPage();
-//		$I->amOnPage( '/wp-cron.php' );
-//		$I->amOnPage( '/' ); // tried with define( alternative cron )
-		exec('wget http://localhost:8080/bh-wp-autologin-urls/wordpress/wp-cron.php  &');
+		// $I->amOnCronPage();
+		// $I->amOnPage( '/wp-cron.php' );
+		// $I->amOnPage( '/' ); // tried with define( alternative cron )
+		exec( 'wget http://localhost:8080/bh-wp-autologin-urls/wordpress/wp-cron.php  &' );
 
-//		spawn_cron();
+		// spawn_cron();
 
 		// As soon as this process has ended, the cron can be run.
 		// with `wget http://localhost:8080/bh-wp-autologin-urls/wp-cron.php`
@@ -169,7 +167,7 @@ class NewsletterPluginCest {
 		// So what is happening..?
 
 		$I->amOnPage( '/' );
-		$I->amOnCronPage('newsletter');
+		$I->amOnCronPage( 'newsletter' );
 
 		// running
 		// sleep( 100 );
@@ -177,16 +175,16 @@ class NewsletterPluginCest {
 		// $a = array_filter( wp_get_ready_cron_jobs(), function( $value ) { return array_key_exists( 'newsletter', $value ) ? 'newsletter' : null; } );
 		// does not show the job
 		$output = array();
-		$i =0;
-//		while($i < 100 ) {
-//			exec('wget http://localhost:8080/bh-wp-autologin-urls/wp-cron.php  &', $output);
-//			$I->amOnCronPage();
-//			$i++;
-//		}
+		$i      = 0;
+		// while($i < 100 ) {
+		// exec('wget http://localhost:8080/bh-wp-autologin-urls/wp-cron.php  &', $output);
+		// $I->amOnCronPage();
+		// $i++;
+		// }
 
 		echo 'lol';
 
-//		wp_cron()
+		// wp_cron()
 
 		// Log out admin.
 		$I->amOnPage( '/wp-login.php?action=logout' );

@@ -32,8 +32,8 @@ class Transient_Data_Store_Unit_Test extends \Codeception\Test\Unit {
 
 		$sut = new Transient_Data_Store();
 
-		$user_id = 123;
-		$password = 'abc';
+		$user_id    = 123;
+		$password   = 'abc';
 		$expires_at = 3600;
 
 		\WP_Mock::userFunction(
@@ -68,8 +68,8 @@ class Transient_Data_Store_Unit_Test extends \Codeception\Test\Unit {
 		\WP_Mock::userFunction(
 			'delete_transient',
 			array(
-				'args'   => array( \WP_Mock\Functions::type( 'string' ) ),
-				'times'  => 1
+				'args'  => array( \WP_Mock\Functions::type( 'string' ) ),
+				'times' => 1,
 			)
 		);
 

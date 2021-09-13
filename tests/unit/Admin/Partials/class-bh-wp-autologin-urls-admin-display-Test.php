@@ -15,14 +15,14 @@ namespace BrianHenryIE\WP_Autologin_URLs\Admin\partials;
  */
 class BH_WP_Autologin_URLs_Admin_Display_Test extends \Codeception\Test\Unit {
 
-    protected function setup(): void {
-        \WP_Mock::setUp();
-    }
+	protected function setup(): void {
+		\WP_Mock::setUp();
+	}
 
-    protected function tearDown(): void {
-        parent::tearDown();
-        \WP_Mock::tearDown();
-    }
+	protected function tearDown(): void {
+		parent::tearDown();
+		\WP_Mock::tearDown();
+	}
 
 	/**
 	 * Test WordPress settings APIs are called when the file is included.

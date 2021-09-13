@@ -77,25 +77,25 @@ class Login_Develop_Test extends \Codeception\TestCase\WPTestCase {
 
 		$autologin_querystring = 'a~testpassword';
 
-		$url = get_home_url() . '/?autologin='. $autologin_querystring;
+		$url = get_home_url() . '/?autologin=' . $autologin_querystring;
 
 		$this->go_to( $url );
 
 		do_action( 'plugins_loaded' );
 
-		$ip_address = str_replace('.','-', $_SERVER['REMOTE_ADDR']) ;
+		$ip_address = str_replace( '.', '-', $_SERVER['REMOTE_ADDR'] );
 
-		$failure_transient_name_ip = 'bh-wp-autologin-urls-failure-' . $ip_address ;
+		$failure_transient_name_ip = 'bh-wp-autologin-urls-failure-' . $ip_address;
 
-		$failure_transient_ip = get_transient($failure_transient_name_ip);
+		$failure_transient_ip = get_transient( $failure_transient_name_ip );
 
 		$ip_failure = array(
-			'count' => 1,
+			'count'     => 1,
 			'malformed' => array( $autologin_querystring ),
-			'users' => array()
+			'users'     => array(),
 		);
 
-		$this->assertEquals($ip_failure, $failure_transient_ip);
+		$this->assertEquals( $ip_failure, $failure_transient_ip );
 	}
 
 
@@ -106,11 +106,11 @@ class Login_Develop_Test extends \Codeception\TestCase\WPTestCase {
 
 		$autologin_querystring = '123~abaspass';
 
-		$url = get_home_url() . '/?autologin='. $autologin_querystring;
+		$url = get_home_url() . '/?autologin=' . $autologin_querystring;
 
 		$failure_transient_name_for_user = 'bh-wp-autologin-urls-failure-123';
 
-		$failures_for_user = get_transient($failure_transient_name_for_user);
+		$failures_for_user = get_transient( $failure_transient_name_for_user );
 
 		$this->assertFalse( $failures_for_user );
 
@@ -118,7 +118,7 @@ class Login_Develop_Test extends \Codeception\TestCase\WPTestCase {
 
 		do_action( 'plugins_loaded' );
 
-		$failures_for_user = get_transient($failure_transient_name_for_user);
+		$failures_for_user = get_transient( $failure_transient_name_for_user );
 
 		$this->assertNotFalse( $failures_for_user );
 
@@ -128,7 +128,7 @@ class Login_Develop_Test extends \Codeception\TestCase\WPTestCase {
 
 		do_action( 'plugins_loaded' );
 
-		$failures_for_user = get_transient($failure_transient_name_for_user);
+		$failures_for_user = get_transient( $failure_transient_name_for_user );
 
 		$this->assertEquals( 2, $failures_for_user['count'] );
 
@@ -139,9 +139,9 @@ class Login_Develop_Test extends \Codeception\TestCase\WPTestCase {
 	 */
 	public function test_bad_code_records() {
 
-		$ip_address = str_replace('.','-', $_SERVER['REMOTE_ADDR']) ;
+		$ip_address = str_replace( '.', '-', $_SERVER['REMOTE_ADDR'] );
 
-		$failure_transient_name_ip = 'bh-wp-autologin-urls-failure-' . $ip_address ;
+		$failure_transient_name_ip = 'bh-wp-autologin-urls-failure-' . $ip_address;
 
 		$url = get_home_url() . '/?autologin=a~testpassword';
 
@@ -149,19 +149,19 @@ class Login_Develop_Test extends \Codeception\TestCase\WPTestCase {
 
 		do_action( 'plugins_loaded' );
 
-		$failure_transient_ip = get_transient($failure_transient_name_ip);
+		$failure_transient_ip = get_transient( $failure_transient_name_ip );
 
 		$this->assertNotFalse( $failure_transient_ip );
 
-		$this->assertEquals(1, $failure_transient_ip['count']);
+		$this->assertEquals( 1, $failure_transient_ip['count'] );
 
 		$this->go_to( $url );
 
 		do_action( 'plugins_loaded' );
 
-		$failure_transient_ip = get_transient($failure_transient_name_ip);
+		$failure_transient_ip = get_transient( $failure_transient_name_ip );
 
-		$this->assertEquals(2, $failure_transient_ip['count']);
+		$this->assertEquals( 2, $failure_transient_ip['count'] );
 
 	}
 
@@ -176,15 +176,15 @@ class Login_Develop_Test extends \Codeception\TestCase\WPTestCase {
 
 		$url = add_autologin_to_url( $url, $user_id, 3600 );
 
-		$ip_failure  = array(
-			'count' => 5,
-			'users' => array(),
-			'malformed' => array()
+		$ip_failure = array(
+			'count'     => 5,
+			'users'     => array(),
+			'malformed' => array(),
 		);
 
-		$ip_address = str_replace('.','-', $_SERVER['REMOTE_ADDR']) ;
+		$ip_address = str_replace( '.', '-', $_SERVER['REMOTE_ADDR'] );
 
-		$failure_transient_name_ip = 'bh-wp-autologin-urls-failure-' . $ip_address ;
+		$failure_transient_name_ip = 'bh-wp-autologin-urls-failure-' . $ip_address;
 
 		set_transient( $failure_transient_name_ip, $ip_failure, DAY_IN_SECONDS );
 
@@ -206,19 +206,18 @@ class Login_Develop_Test extends \Codeception\TestCase\WPTestCase {
 	 */
 	public function test_user_attempts_block() {
 
-
 		$user_id = $this->factory->user->create();
 
 		$url = get_home_url();
 
 		$url = add_autologin_to_url( $url, $user_id, 3600 );
 
-		$user_failure  = array(
+		$user_failure = array(
 			'count' => 6,
-			'ip' => array()
+			'ip'    => array(),
 		);
 
-		$failure_transient_name = 'bh-wp-autologin-urls-failure-' . $user_id ;
+		$failure_transient_name = 'bh-wp-autologin-urls-failure-' . $user_id;
 
 		set_transient( $failure_transient_name, $user_failure, DAY_IN_SECONDS );
 

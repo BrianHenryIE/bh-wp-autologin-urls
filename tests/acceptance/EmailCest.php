@@ -3,8 +3,8 @@
  * Test the contents of the email received at mailtrap.io.
  */
 
-class EmailCest
-{
+class EmailCest {
+
 
 	/**
 	 * There should be a post already created for user bob (bob@example.com)
@@ -12,13 +12,12 @@ class EmailCest
 	 *
 	 * @param AcceptanceTester $I
 	 */
-    public function _before(AcceptanceTester $I)
-    {
+	public function _before( AcceptanceTester $I ) {
 
-	    $I->loginAsAdmin();
+		$I->loginAsAdmin();
 
-	    $I->amOnPluginsPage();
-    }
+		$I->amOnPluginsPage();
+	}
 
 	/**
 	 * Activate wp-mail-smtp and trigger an email.
@@ -29,53 +28,54 @@ class EmailCest
 	 *
 	 * @param AcceptanceTester $I
 	 */
-    public function testWpMailSmtp(AcceptanceTester $I) {
+	public function testWpMailSmtp( AcceptanceTester $I ) {
 
-    	$smtp_server = $_ENV[ 'SMTP_SERVER' ];
-    	$tls_port = $_ENV[ 'SMTP_PORT' ];
-		$smtp_username = $_ENV[ 'MAILTRAP_USERNAME' ];
-		$smtp_password = $_ENV['MAILTRAP_PASSWORD' ];
+		$smtp_server   = $_ENV['SMTP_SERVER'];
+		$tls_port      = $_ENV['SMTP_PORT'];
+		$smtp_username = $_ENV['MAILTRAP_USERNAME'];
+		$smtp_password = $_ENV['MAILTRAP_PASSWORD'];
 
-	    $I->activatePlugin( 'wp-mail-smtp' );
+		$I->activatePlugin( 'wp-mail-smtp' );
 
-    	$I->amOnAdminPage('admin.php?page=wp-mail-smtp' );
+		$I->amOnAdminPage( 'admin.php?page=wp-mail-smtp' );
 
+		$I->submitForm(
+			'.wp-mail-smtp-page-content > form',
+			array(
+				'wp-mail-smtp[mail][mailer]'     => 'smtp',
+				'wp-mail-smtp[smtp][host]'       => $smtp_server,
+				'wp-mail-smtp[smtp][encryption]' => 'tls',
+				'wp-mail-smtp[smtp][port]'       => $tls_port,
+				'wp-mail-smtp[smtp][user]'       => $smtp_username,
+				'wp-mail-smtp[smtp][pass]'       => $smtp_password,
+			)
+		);
 
-	    $I->submitForm( '.wp-mail-smtp-page-content > form',array(
-		    "wp-mail-smtp[mail][mailer]" => 'smtp',
-		    "wp-mail-smtp[smtp][host]" => $smtp_server,
-		    "wp-mail-smtp[smtp][encryption]" => 'tls',
-	        "wp-mail-smtp[smtp][port]" => $tls_port,
-	        "wp-mail-smtp[smtp][user]" =>$smtp_username,
-	        "wp-mail-smtp[smtp][pass]" => $smtp_password
-	    ));
+		// Fire the email.
 
+		$I->amOnPage( '/?page_id=2' );
 
-	    // Fire the email.
+		$I->canSee( 'Sample Page' );
 
-	    $I->amOnPage('/?page_id=2');
+		$I->submitForm( '#commentform', array( 'comment' => 'Some text' ) );
 
-	    $I->canSee('Sample Page');
+		// Check the email.
 
-	    $I->submitForm( '#commentform', ['comment' => 'Some text'] );
+		$I->fetchEmails();
 
-	    // Check the email.
+		$I->haveEmails();
+		$I->haveUnreadEmails();
 
-	    $I->fetchEmails();
+		// Set the next unread email as the email to perform operations on
+		$I->openNextUnreadEmail();
 
-	    $I->haveEmails();
-	    $I->haveUnreadEmails();
+		$I->seeInOpenedEmailSubject( 'Comment' );
 
-// Set the next unread email as the email to perform operations on
-	    $I->openNextUnreadEmail();
+		$I->seeInOpenedEmailBody( 'autologin=2~' );
 
-	    $I->seeInOpenedEmailSubject('Comment');
+		$I->deleteAllEmails();
 
-	    $I->seeInOpenedEmailBody('autologin=2~');
-
-	    $I->deleteAllEmails();
-	    
-    }
+	}
 
 
 

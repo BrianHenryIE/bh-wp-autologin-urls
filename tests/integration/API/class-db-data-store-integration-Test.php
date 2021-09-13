@@ -24,7 +24,7 @@ class DB_Data_Store_Integration_Test extends \Codeception\TestCase\WPTestCase {
 
 		$ds->save( $user_id, 'autologincode', DAY_IN_SECONDS );
 
-		$result = $ds->get_value_for_code('autologincode' );
+		$result = $ds->get_value_for_code( 'autologincode' );
 
 		$this->assertNotNull( $result );
 	}

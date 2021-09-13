@@ -20,14 +20,14 @@ use BrianHenryIE\WP_Autologin_URLs\API\Settings_Interface;
  */
 class Expiry_Age_Test extends \Codeception\Test\Unit {
 
-    protected function setup(): void {
-        \WP_Mock::setUp();
-    }
+	protected function setup(): void {
+		\WP_Mock::setUp();
+	}
 
-    protected function tearDown(): void {
-        parent::tearDown();
-        \WP_Mock::tearDown();
-    }
+	protected function tearDown(): void {
+		parent::tearDown();
+		\WP_Mock::tearDown();
+	}
 
 	/**
 	 * The plugin name. Unlikely to change.
