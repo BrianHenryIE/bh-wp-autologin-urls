@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "433e075d5d1e94735b2d7db9c6b37314",
+    "content-hash": "d202fd33aea58bb1bc5c0125c982dee5",
     "packages": [
         {
             "name": "brianhenryie/wppb-lib",
