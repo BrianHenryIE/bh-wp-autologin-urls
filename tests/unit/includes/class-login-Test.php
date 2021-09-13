@@ -6,9 +6,9 @@
  * @author Brian Henry <BrianHenryIE@gmail.com>
  */
 
-namespace BrianHenryIE\WP_Autologin_URLs\includes;
+namespace BrianHenryIE\WP_Autologin_URLs\Includes;
 
-use BrianHenryIE\WP_Autologin_URLs\api\API_Interface;
+use BrianHenryIE\WP_Autologin_URLs\API\API_Interface;
 use Psr\Log\NullLogger;
 use WP_User;
 

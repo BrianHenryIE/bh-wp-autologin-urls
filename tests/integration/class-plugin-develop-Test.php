@@ -8,7 +8,7 @@
 
 namespace BrianHenryIE\WP_Autologin_URLs;
 
-use BrianHenryIE\WP_Autologin_URLs\includes\BH_WP_Autologin_URLs;
+use BrianHenryIE\WP_Autologin_URLs\Includes\BH_WP_Autologin_URLs;
 
 /**
  * Verifies the plugin has been instantiated and added to PHP's $GLOBALS variable.

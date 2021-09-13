@@ -10,15 +10,15 @@
  */
 
 
-namespace BrianHenryIE\WP_Autologin_URLs\admin;
+namespace BrianHenryIE\WP_Autologin_URLs\Admin;
 
-use BrianHenryIE\WP_Autologin_URLs\admin\partials\Log_Level;
-use BrianHenryIE\WP_Autologin_URLs\admin\partials\Use_WP_Login;
-use BrianHenryIE\WP_Autologin_URLs\api\Settings_Interface;
-use BrianHenryIE\WP_Autologin_URLs\admin\partials\Settings_Section_Element_Abstract;
-use BrianHenryIE\WP_Autologin_URLs\admin\partials\Admin_Enable;
-use BrianHenryIE\WP_Autologin_URLs\admin\partials\Expiry_Age;
-use BrianHenryIE\WP_Autologin_URLs\admin\partials\Regex_Subject_Filters;
+use BrianHenryIE\WP_Autologin_URLs\Admin\Partials\Log_Level;
+use BrianHenryIE\WP_Autologin_URLs\Admin\Partials\Use_WP_Login;
+use BrianHenryIE\WP_Autologin_URLs\API\Settings_Interface;
+use BrianHenryIE\WP_Autologin_URLs\Admin\Partials\Settings_Section_Element_Abstract;
+use BrianHenryIE\WP_Autologin_URLs\Admin\Partials\Admin_Enable;
+use BrianHenryIE\WP_Autologin_URLs\Admin\Partials\Expiry_Age;
+use BrianHenryIE\WP_Autologin_URLs\Admin\Partials\Regex_Subject_Filters;
 use Psr\Log\LoggerAwareTrait;
 
 

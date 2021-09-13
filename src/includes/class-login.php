@@ -9,9 +9,9 @@
  * @subpackage bh-wp-autologin-urls/login
  */
 
-namespace BrianHenryIE\WP_Autologin_URLs\includes;
+namespace BrianHenryIE\WP_Autologin_URLs\Includes;
 
-use BrianHenryIE\WP_Autologin_URLs\api\API_Interface;
+use BrianHenryIE\WP_Autologin_URLs\API\API_Interface;
 use Psr\Log\LoggerAwareTrait;
 use Psr\Log\LoggerInterface;
 use MailPoet\Models\Subscriber;

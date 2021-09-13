@@ -9,9 +9,9 @@
  * @subpackage bh-wp-autologin-urls/admin
  */
 
-namespace BrianHenryIE\WP_Autologin_URLs\admin;
+namespace BrianHenryIE\WP_Autologin_URLs\Admin;
 
-use BrianHenryIE\WP_Autologin_URLs\api\Settings_Interface;
+use BrianHenryIE\WP_Autologin_URLs\API\Settings_Interface;
 
 /**
  * The admin area functionality of the plugin.

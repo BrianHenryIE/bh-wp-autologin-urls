@@ -9,10 +9,10 @@
  * @subpackage bh-wp-autologin-urls/wp_mail
  */
 
-namespace BrianHenryIE\WP_Autologin_URLs\includes;
+namespace BrianHenryIE\WP_Autologin_URLs\Includes;
 
-use BrianHenryIE\WP_Autologin_URLs\api\API_Interface;
-use BrianHenryIE\WP_Autologin_URLs\api\Settings_Interface;
+use BrianHenryIE\WP_Autologin_URLs\API\API_Interface;
+use BrianHenryIE\WP_Autologin_URLs\API\Settings_Interface;
 
 /**
  * The wp_mail hooked functionality of the plugin.

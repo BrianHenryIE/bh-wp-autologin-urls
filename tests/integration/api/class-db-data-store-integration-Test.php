@@ -1,6 +1,6 @@
 <?php
 
-namespace BrianHenryIE\WP_Autologin_URLs\api;
+namespace BrianHenryIE\WP_Autologin_URLs\API;
 
 class DB_Data_Store_Integration_Test extends \Codeception\TestCase\WPTestCase {
 

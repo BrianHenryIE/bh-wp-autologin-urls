@@ -11,11 +11,11 @@
  * @subpackage bh-wp-autologin-urls/api
  */
 
-namespace BrianHenryIE\WP_Autologin_URLs\api;
+namespace BrianHenryIE\WP_Autologin_URLs\API;
 
 use BrianHenryIE\WP_Autologin_URLs\WP_Logger\API\Logger_Settings_Interface;
 use Psr\Log\LogLevel;
-use BrianHenryIE\WP_Autologin_URLs\admin\Admin;
+use BrianHenryIE\WP_Autologin_URLs\Admin\Admin;
 use BrianHenryIE\WP_Autologin_URLs\WP_Logger\Logger;
 
 /**

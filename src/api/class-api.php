@@ -11,9 +11,9 @@
  * @subpackage bh-wp-autologin-urls/api
  */
 
-namespace BrianHenryIE\WP_Autologin_URLs\api;
+namespace BrianHenryIE\WP_Autologin_URLs\API;
 
-use BrianHenryIE\WP_Autologin_URLs\includes\Login;
+use BrianHenryIE\WP_Autologin_URLs\Includes\Login;
 use Psr\Log\LoggerInterface;
 use WP_User;
 

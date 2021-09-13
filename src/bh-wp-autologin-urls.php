@@ -21,8 +21,8 @@
 
 namespace BH_WP_Autologin_URLs {
 
-	use BrianHenryIE\WP_Autologin_URLs\includes\BH_WP_Autologin_URLs;
-	use BrianHenryIE\WP_Autologin_URLs\api\Settings;
+	use BrianHenryIE\WP_Autologin_URLs\Includes\BH_WP_Autologin_URLs;
+	use BrianHenryIE\WP_Autologin_URLs\API\Settings;
 	use BrianHenryIE\WP_Autologin_URLs\WP_Logger\Logger;
 
 	// If this file is called directly, abort.
@@ -68,8 +68,8 @@ namespace BH_WP_Autologin_URLs {
 
 namespace {
 
-	use BrianHenryIE\WP_Autologin_URLs\includes\BH_WP_Autologin_URLs;
-	use BrianHenryIE\WP_Autologin_URLs\api\API_Interface;
+	use BrianHenryIE\WP_Autologin_URLs\Includes\BH_WP_Autologin_URLs;
+	use BrianHenryIE\WP_Autologin_URLs\API\API_Interface;
 
 	add_action( 'plugins_loaded', 'define_add_autologin_to_url_function', 2 );
 

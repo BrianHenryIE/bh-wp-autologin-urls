@@ -6,10 +6,10 @@
  * @author Brian Henry <BrianHenryIE@gmail.com>
  */
 
-namespace BrianHenryIE\WP_Autologin_URLs\includes;
+namespace BrianHenryIE\WP_Autologin_URLs\Includes;
 
-use BrianHenryIE\WP_Autologin_URLs\api\Settings_Interface;
-use BrianHenryIE\WP_Autologin_URLs\api\API_Interface;
+use BrianHenryIE\WP_Autologin_URLs\API\Settings_Interface;
+use BrianHenryIE\WP_Autologin_URLs\API\API_Interface;
 
 /**
  * Class WP_Mail_WP_Mock_Test

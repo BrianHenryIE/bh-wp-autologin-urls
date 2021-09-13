@@ -6,7 +6,7 @@
  * @author Brian Henry <BrianHenryIE@gmail.com>
  */
 
-namespace BrianHenryIE\WP_Autologin_URLs\api;
+namespace BrianHenryIE\WP_Autologin_URLs\API;
 
 use Psr\Log\LoggerInterface;
 use Codeception\Stub\Expected;

@@ -8,9 +8,9 @@
  * @package BH_WP_Autologin_URLs\admin\partials
  */
 
-namespace BrianHenryIE\WP_Autologin_URLs\admin\partials;
+namespace BrianHenryIE\WP_Autologin_URLs\Admin\Partials;
 
-use BrianHenryIE\WP_Autologin_URLs\api\Settings_Interface;
+use BrianHenryIE\WP_Autologin_URLs\API\Settings_Interface;
 
 /**
  * Class Expiry_Age

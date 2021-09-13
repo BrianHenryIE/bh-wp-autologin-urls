@@ -6,9 +6,9 @@
  * @author Brian Henry <BrianHenryIE@gmail.com>
  */
 
-namespace BrianHenryIE\WP_Autologin_URLs\includes;
+namespace BrianHenryIE\WP_Autologin_URLs\Includes;
 
-use BrianHenryIE\WP_Autologin_URLs\api\DB_Data_Store;
+use BrianHenryIE\WP_Autologin_URLs\API\DB_Data_Store;
 
 /**
  * Class Login_Develop_Test

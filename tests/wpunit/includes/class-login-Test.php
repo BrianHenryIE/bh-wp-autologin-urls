@@ -4,9 +4,9 @@
  * for the presence of WooCommerce and tries to fill in checkout fields.
  */
 
-namespace BrianHenryIE\WP_Autologin_URLs\includes;
+namespace BrianHenryIE\WP_Autologin_URLs\Includes;
 
-use BrianHenryIE\WP_Autologin_URLs\api\API_Interface;
+use BrianHenryIE\WP_Autologin_URLs\API\API_Interface;
 use Psr\Log\LoggerInterface;
 
 class Login_Test extends \Codeception\TestCase\WPTestCase {

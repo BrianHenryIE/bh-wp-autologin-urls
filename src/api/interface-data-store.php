@@ -9,7 +9,7 @@
  * @subpackage bh-wp-autologin-urls/api
  */
 
-namespace BrianHenryIE\WP_Autologin_URLs\api;
+namespace BrianHenryIE\WP_Autologin_URLs\API;
 
 /**
  * Interface Data_Store_Interface

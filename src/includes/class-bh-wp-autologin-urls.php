@@ -13,17 +13,17 @@
  */
 
 
-namespace BrianHenryIE\WP_Autologin_URLs\includes;
+namespace BrianHenryIE\WP_Autologin_URLs\Includes;
 
-use BrianHenryIE\WP_Autologin_URLs\admin\User_Edit;
-use BrianHenryIE\WP_Autologin_URLs\api\API_Interface;
-use BrianHenryIE\WP_Autologin_URLs\api\API;
-use BrianHenryIE\WP_Autologin_URLs\admin\Admin;
-use BrianHenryIE\WP_Autologin_URLs\admin\Settings_Page;
-use BrianHenryIE\WP_Autologin_URLs\admin\Plugins_Page;
-use BrianHenryIE\WP_Autologin_URLs\api\Settings_Interface;
+use BrianHenryIE\WP_Autologin_URLs\Admin\User_Edit;
+use BrianHenryIE\WP_Autologin_URLs\API\API_Interface;
+use BrianHenryIE\WP_Autologin_URLs\API\API;
+use BrianHenryIE\WP_Autologin_URLs\Admin\Admin;
+use BrianHenryIE\WP_Autologin_URLs\Admin\Settings_Page;
+use BrianHenryIE\WP_Autologin_URLs\Admin\Plugins_Page;
+use BrianHenryIE\WP_Autologin_URLs\API\Settings_Interface;
 use Psr\Log\LoggerInterface;
-use BrianHenryIE\WP_Autologin_URLs\api\DB_Data_Store;
+use BrianHenryIE\WP_Autologin_URLs\API\DB_Data_Store;
 
 
 /**

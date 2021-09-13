@@ -8,10 +8,10 @@
  * @author Brian Henry <BrianHenryIE@gmail.com>
  */
 
-namespace BrianHenryIE\WP_Autologin_URLs\admin\partials;
+namespace BrianHenryIE\WP_Autologin_URLs\Admin\partials;
 
-use BrianHenryIE\WP_Autologin_URLs\api\Settings;
-use BrianHenryIE\WP_Autologin_URLs\api\Settings_Interface;
+use BrianHenryIE\WP_Autologin_URLs\API\Settings;
+use BrianHenryIE\WP_Autologin_URLs\API\Settings_Interface;
 
 /**
  * Class Admin_Enable_Test

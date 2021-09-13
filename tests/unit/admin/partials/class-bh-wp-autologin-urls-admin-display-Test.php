@@ -8,7 +8,7 @@
  * @author Brian Henry <BrianHenryIE@gmail.com>
  */
 
-namespace BrianHenryIE\WP_Autologin_URLs\admin\partials;
+namespace BrianHenryIE\WP_Autologin_URLs\Admin\partials;
 
 /**
  * Class BH_WP_Autologin_URLs_Admin_Display_Test

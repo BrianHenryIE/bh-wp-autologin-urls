@@ -6,9 +6,9 @@
  * @author Brian Henry <BrianHenryIE@gmail.com>
  */
 
-namespace BrianHenryIE\WP_Autologin_URLs\api;
+namespace BrianHenryIE\WP_Autologin_URLs\API;
 
-use BrianHenryIE\WP_Autologin_URLs\includes\Settings_Interface;
+use BrianHenryIE\WP_Autologin_URLs\Includes\Settings_Interface;
 
 /**
  * Class Transient_Data_Store_Unit_Test

@@ -6,7 +6,7 @@
  * @author Brian Henry <BrianHenryIE@gmail.com>
  */
 
-namespace BrianHenryIE\WP_Autologin_URLs\admin;
+namespace BrianHenryIE\WP_Autologin_URLs\Admin;
 
 use \DOMDocument;
 
