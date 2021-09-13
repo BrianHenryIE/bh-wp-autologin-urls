@@ -11,3 +11,5 @@ parameters:
         - src/strauss
         - wp-content/plugins
         - vendor/wp-cli
+    ignoreErrors:
+        - '#LoggerInterface\|null#'
