@@ -12,7 +12,8 @@
   "minimum-stability": "dev",
   "prefer-stable": true,
   "config": {
-    "process-timeout": 0
+    "process-timeout": 0,
+    "sort-packages": true
   },
   "repositories": [
     {
@@ -38,6 +39,10 @@
     {
       "type": "path",
       "url": "../bh-wp-logger"
+    },
+    {
+      "url": "https://github.com/BrianHenryIE/bh-wp-logger",
+      "type": "git"
     }
   ],
   "require": {
@@ -57,7 +62,7 @@
     "codeception/module-webdriver": "^1.0",
     "codeception/util-universalframework": "^1.0",
     "coenjacobs/mozart": "dev-master",
-    "cweagans/composer-patches": "^1.0",
+    "cweagans/composer-patches": "*",
     "dealerdirect/phpcodesniffer-composer-installer": "*",
     "ericmartel/codeception-email-mailtrap": "^1.0",
     "jaschilz/php-coverage-badger": "^2.0",
@@ -81,10 +86,6 @@
   },
   "extra": {
     "patches": {
-      "coenjacobs/mozart": {
-        "DIRECTORY_SEPARATOR": "https://github.com/coenjacobs/mozart/pull/61.patch",
-        "Delete empty directories": "https://github.com/coenjacobs/mozart/pull/59.patch"
-      },
       "jaschilz/php-coverage-badger": {
         "Allow customising the text": "https://github.com/JASchilz/PHPCoverageBadge/pull/1.patch"
       },
@@ -108,7 +109,7 @@
           }
         }
       }
-      },
+    },
     "symlinks": {
       "src": "wp-content/plugins/bh-wp-autologin-urls",
       "wp-content": "wordpress/wp-content"

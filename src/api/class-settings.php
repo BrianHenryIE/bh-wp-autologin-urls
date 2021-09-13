@@ -35,7 +35,7 @@ class Settings implements Settings_Interface, Logger_Settings_Interface {
 	 *
 	 * @var string[] array
 	 */
-	private $disallowed_subjects_regex_dictionary = array();
+	protected $disallowed_subjects_regex_dictionary = array();
 
 	/**
 	 * Queries WordPress options table for settings, provides default values and remedial validation.

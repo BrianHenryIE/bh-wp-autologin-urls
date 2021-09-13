@@ -43,7 +43,7 @@ class Settings_Page extends WPPB_Object {
 	 * @param string             $version The plugin version.
 	 * @param Settings_Interface $settings The previously saved settings for the plugin.
 	 */
-	public function __construct( $plugin_name, $version, $settings ) {
+	public function __construct( $plugin_name, $version, $settings, $logger ) {
 		parent::__construct( $plugin_name, $version );
 
 		$this->settings = $settings;
@@ -72,6 +72,7 @@ class Settings_Page extends WPPB_Object {
 	 */
 	public function display_plugin_admin_page(): void {
 
+		$logger      = $this->logger;
 		$example_url = site_url() . '/?autologin=' . get_current_user_id() . '~Yxu1UQG8IwJO';
 
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/partials/admin-display.php';

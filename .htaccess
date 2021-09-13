@@ -1,8 +1,14 @@
+# Serve the contents of /wordpress/ from the root URL for the project.
 RewriteEngine on
 RewriteCond %{HTTP_HOST} ^.*bh-wp-autologin-urls$ [NC,OR]
 RewriteCond %{REQUEST_URI} !wordpress/
 RewriteRule (.*) wordpress/$1 [L]
 
+# Remove /wordpress from any querystring, i.e. it was being added to login redirect.
+RewriteEngine on
+RewriteCond %{QUERY_STRING} ^(.*)%2Fwordpress(.*)$ [NC]
+RewriteRule (.*) %{REQUEST_URI}?%1%2 [R=301,L,NE]
+
+# Enable WP_DEBUG.
 php_flag log_errors On
 php_value error_log "wp-content/php_errors.log"
-

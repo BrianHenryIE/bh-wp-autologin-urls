@@ -182,7 +182,7 @@ class BH_WP_Autologin_URLs extends WPPB_Plugin_Abstract {
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
 
-		$this->settings_page = $plugin_settings_page = new Settings_Page( $this->get_plugin_name(), $this->get_version(), $this->settings );
+		$this->settings_page = $plugin_settings_page = new Settings_Page( $this->get_plugin_name(), $this->get_version(), $this->settings, $this->logger );
 
 		$this->loader->add_action( 'admin_menu', $plugin_settings_page, 'add_settings_page' );
 		$this->loader->add_action( 'admin_init', $plugin_settings_page, 'setup_sections' );
