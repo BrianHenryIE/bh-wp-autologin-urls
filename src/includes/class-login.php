@@ -12,6 +12,7 @@
 namespace BrianHenryIE\WP_Autologin_URLs\includes;
 
 use BrianHenryIE\WP_Autologin_URLs\api\API_Interface;
+use Psr\Log\LoggerAwareTrait;
 use Psr\Log\LoggerInterface;
 use MailPoet\Models\Subscriber;
 use MailPoet\Newsletter\Links\Links;
@@ -31,6 +32,8 @@ use WC_Geolocation;
  */
 class Login {
 
+	use LoggerAwareTrait;
+
 	const QUERYSTRING_PARAMETER_NAME = 'autologin';
 
 	const FAILURE_TRANSIENT_PREFIX = 'bh-wp-autologin-urls-failure-';
@@ -43,13 +46,6 @@ class Login {
 	 * @var API_Interface
 	 */
 	protected $api;
-
-	/**
-	 * PSR logger.
-	 *
-	 * @var LoggerInterface
-	 */
-	protected $logger;
 
 	/**
 	 * Initialize the class and set its properties.
