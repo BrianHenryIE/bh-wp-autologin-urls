@@ -20,6 +20,7 @@ use MailPoet\Subscribers\LinkTokens;
 use Newsletter;
 use NewsletterModule;
 use NewsletterStatistics;
+use WP_User;
 
 /**
  * The actual logging in functionality of the plugin.
@@ -371,12 +372,12 @@ class Login extends WPPB_Object {
 
 		$wp_user = get_user_by( 'email', $user_email_address );
 
-		if ( get_current_user_id() === $wp_user->ID ) {
-			// Already logged in.
-			return;
-		}
+		if ( $wp_user instanceof WP_User ) {
 
-		if ( $wp_user ) {
+			if ( get_current_user_id() === $wp_user->ID ) {
+				// Already logged in.
+				return;
+			}
 
 			wp_set_current_user( $wp_user->ID, $wp_user->user_login );
 			wp_set_auth_cookie( $wp_user->ID );
