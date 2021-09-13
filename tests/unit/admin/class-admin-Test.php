@@ -10,33 +10,21 @@
 
 namespace BrianHenryIE\WP_Autologin_URLs\admin;
 
+use BrianHenryIE\WP_Autologin_URLs\api\Settings_Interface;
+
 /**
  * Class Admin_Test
  */
 class Admin_Test extends \Codeception\Test\Unit {
 
-    protected function _before() {
-        \WP_Mock::setUp();
-    }
+	protected function _before() {
+		\WP_Mock::setUp();
+	}
 
-    protected function _tearDown() {
-        parent::_tearDown();
-        \WP_Mock::tearDown();
-    }
-
-	/**
-	 * The plugin name. Unlikely to change.
-	 *
-	 * @var string Plugin name.
-	 */
-	private $plugin_name = 'bh-wp-autologin-urls';
-
-	/**
-	 * The plugin version, matching the version these tests were written against.
-	 *
-	 * @var string Plugin version.
-	 */
-	private $version = '1.0.0';
+	protected function _tearDown() {
+		parent::_tearDown();
+		\WP_Mock::tearDown();
+	}
 
 	/**
 	 * Verifies enqueue_styles() calls wp_enqueue_style() with appropriate parameters.
@@ -63,11 +51,18 @@ class Admin_Test extends \Codeception\Test\Unit {
 			'wp_enqueue_style',
 			array(
 				'times' => 1,
-				'args'  => array( $this->plugin_name, $css_file, array(), $this->version, 'all' ),
+				'args'  => array( 'bh-wp-autologin-urls', $css_file, array(), '1.2.3', 'all' ),
 			)
 		);
 
-		$bh_wp_autologin_urls_admin = new Admin( $this->plugin_name, $this->version );
+		$settings                   = $this->makeEmpty(
+			Settings_Interface::class,
+			array(
+				'get_plugin_slug'    => 'bh-wp-autologin-urls',
+				'get_plugin_version' => '1.2.3',
+			)
+		);
+		$bh_wp_autologin_urls_admin = new Admin( $settings );
 
 		$bh_wp_autologin_urls_admin->enqueue_styles();
 
@@ -93,10 +88,10 @@ class Admin_Test extends \Codeception\Test\Unit {
 			)
 		);
 
-		$handle    = $this->plugin_name;
+		$handle    = 'bh-wp-autologin-urls';
 		$src       = $plugin_root_dir . '/admin/js/bh-wp-autologin-urls-admin.js';
 		$deps      = array( 'jquery' );
-		$ver       = $this->version;
+		$ver       = '1.2.3';
 		$in_footer = true;
 
 		\WP_Mock::userFunction(
@@ -107,7 +102,14 @@ class Admin_Test extends \Codeception\Test\Unit {
 			)
 		);
 
-		$bh_wp_autologin_urls_admin = new Admin( $this->plugin_name, $this->version );
+		$settings                   = $this->makeEmpty(
+			Settings_Interface::class,
+			array(
+				'get_plugin_slug'    => 'bh-wp-autologin-urls',
+				'get_plugin_version' => '1.2.3',
+			)
+		);
+		$bh_wp_autologin_urls_admin = new Admin( $settings );
 
 		$bh_wp_autologin_urls_admin->enqueue_scripts();
 

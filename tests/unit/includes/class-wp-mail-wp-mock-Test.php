@@ -45,7 +45,7 @@ class WP_Mail_WP_Mock_Test extends \Codeception\Test\Unit {
 
 		$settings_mock = $this->createMock( Settings_Interface::class );
 
-		$wp_mail = new WP_Mail( $this->plugin_name, $this->version, $api_mock, $settings_mock );
+		$wp_mail = new WP_Mail( $api_mock, $settings_mock );
 
 		$this->assertInstanceOf( WP_Mail::class, $wp_mail );
 
@@ -61,7 +61,7 @@ class WP_Mail_WP_Mock_Test extends \Codeception\Test\Unit {
 
 		$api_mock = $this->createMock( API_Interface::class );
 
-		$wp_mail = new WP_Mail( $this->plugin_name, $this->version, $api_mock, $settings_mock );
+		$wp_mail = new WP_Mail( $api_mock, $settings_mock );
 
 		$email_args = array(
 			'to'      => 'brianhenryie@gmail.com',

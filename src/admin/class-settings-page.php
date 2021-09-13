@@ -12,13 +12,14 @@
 
 namespace BrianHenryIE\WP_Autologin_URLs\admin;
 
+use BrianHenryIE\WP_Autologin_URLs\admin\partials\Log_Level;
 use BrianHenryIE\WP_Autologin_URLs\admin\partials\Use_WP_Login;
 use BrianHenryIE\WP_Autologin_URLs\api\Settings_Interface;
 use BrianHenryIE\WP_Autologin_URLs\admin\partials\Settings_Section_Element_Abstract;
 use BrianHenryIE\WP_Autologin_URLs\admin\partials\Admin_Enable;
 use BrianHenryIE\WP_Autologin_URLs\admin\partials\Expiry_Age;
 use BrianHenryIE\WP_Autologin_URLs\admin\partials\Regex_Subject_Filters;
-use BrianHenryIE\WPPB\WPPB_Object;
+use Psr\Log\LoggerAwareTrait;
 
 
 /**
@@ -28,7 +29,8 @@ use BrianHenryIE\WPPB\WPPB_Object;
  * @subpackage bh-wp-autologin-urls/admin
  * @author     BrianHenryIE <BrianHenryIE@gmail.com>
  */
-class Settings_Page extends WPPB_Object {
+class Settings_Page {
+	use LoggerAwareTrait;
 
 	/**
 	 * The settings, to pass to the individual fields for populating.
@@ -40,13 +42,10 @@ class Settings_Page extends WPPB_Object {
 	/**
 	 * Settings_Page constructor.
 	 *
-	 * @param string             $plugin_name The plugin name.
-	 * @param string             $version The plugin version.
 	 * @param Settings_Interface $settings The previously saved settings for the plugin.
 	 */
-	public function __construct( $plugin_name, $version, $settings, $logger ) {
-		parent::__construct( $plugin_name, $version );
-
+	public function __construct( $settings, $logger ) {
+		$this->setLogger( $logger );
 		$this->settings = $settings;
 	}
 
@@ -63,7 +62,7 @@ class Settings_Page extends WPPB_Object {
 			'Autologin URLs',
 			'Autologin URLs',
 			'manage_options',
-			$this->plugin_name,
+			$this->settings->get_plugin_slug(),
 			array( $this, 'display_plugin_admin_page' )
 		);
 	}
@@ -86,7 +85,7 @@ class Settings_Page extends WPPB_Object {
 	 */
 	public function setup_sections(): void {
 
-		$settings_page_slug_name = $this->plugin_name;
+		$settings_page_slug_name = $this->settings->get_plugin_slug();
 
 		add_settings_section(
 			'default',
@@ -107,7 +106,7 @@ class Settings_Page extends WPPB_Object {
 	 */
 	public function setup_fields(): void {
 
-		$settings_page_slug_name = $this->plugin_name;
+		$settings_page_slug_name = $this->settings->get_plugin_slug();
 
 		/**
 		 * Other plugins (WooCommerce, WP Affiliate) handle this by using an array here, where each array element has
@@ -117,11 +116,11 @@ class Settings_Page extends WPPB_Object {
 		 */
 		$fields = array();
 
-		$fields[] = new Expiry_Age( $this->plugin_name, $this->version, $settings_page_slug_name, $this->settings );
-		$fields[] = new Admin_Enable( $this->plugin_name, $this->version, $settings_page_slug_name, $this->settings );
-		$fields[] = new Regex_Subject_Filters( $this->plugin_name, $this->version, $settings_page_slug_name, $this->settings );
-		$fields[] = new Use_WP_Login( $this->plugin_name, $this->version, $settings_page_slug_name, $this->settings );
-		$fields[] = new Log_Level( $this->plugin_name, $this->version, $settings_page_slug_name, $this->settings );
+		$fields[] = new Expiry_Age( $settings_page_slug_name, $this->settings );
+		$fields[] = new Admin_Enable( $settings_page_slug_name, $this->settings );
+		$fields[] = new Regex_Subject_Filters( $settings_page_slug_name, $this->settings );
+		$fields[] = new Use_WP_Login( $settings_page_slug_name, $this->settings );
+		$fields[] = new Log_Level( $settings_page_slug_name, $this->settings );
 
 		foreach ( $fields as $field ) {
 

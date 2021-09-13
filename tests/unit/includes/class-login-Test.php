@@ -9,6 +9,8 @@
 namespace BrianHenryIE\WP_Autologin_URLs\includes;
 
 use BrianHenryIE\WP_Autologin_URLs\api\API_Interface;
+use Psr\Log\NullLogger;
+use WP_User;
 
 
 /**
@@ -16,42 +18,24 @@ use BrianHenryIE\WP_Autologin_URLs\api\API_Interface;
  */
 class Login_Test extends \Codeception\Test\Unit {
 
-	protected function _before() {
+    protected function setup(): void {
+        \WP_Mock::setUp();
 
-		\WP_Mock::setUp();
-	}
+        global $project_root_dir;
 
+        require_once $project_root_dir . '/vendor/wordpress/wordpress/src/wp-includes/class-wp-user.php';
 
-	/**
-	 * The plugin name. Unlikely to change.
-	 *
-	 * @var string Plugin name.
-	 */
-	private $plugin_name = 'bh-wp-autologin-urls';
+        $_SERVER['REMOTE_ADDR'] = '127.0.0.1';
 
-	/**
-	 * The plugin version, matching the version these tests were written against.
-	 *
-	 * @var string Plugin version.
-	 */
-	private $version = '1.0.0';
+        if ( ! defined( 'DAY_IN_SECONDS' ) ) {
+            define( 'DAY_IN_SECONDS', 24 * 60 * 60 );
+        }
+    }
 
-	/**
-	 * Include required files.
-	 */
-	public function setUp(): void {
-		\WP_Mock::setUp();
-
-		global $project_root_dir;
-
-		require_once $project_root_dir . '/vendor/wordpress/wordpress/src/wp-includes/class-wp-user.php';
-
-		$_SERVER['REMOTE_ADDR'] = '127.0.0.1';
-
-		if ( ! defined( 'DAY_IN_SECONDS' ) ) {
-			define( 'DAY_IN_SECONDS', 24 * 60 * 60 );
-		}
-	}
+    protected function tearDown(): void {
+        parent::tearDown();
+        \WP_Mock::tearDown();
+    }
 
 	/**
 	 * Basic success test.
@@ -61,7 +45,9 @@ class Login_Test extends \Codeception\Test\Unit {
 		$api = $this->createMock( API_Interface::class );
 		$api->method( 'verify_autologin_password' )->willReturn( true );
 
-		$login = new Login( $this->plugin_name, $this->version, $api );
+		$logger = new NullLogger();
+
+		$login = new Login( $api, $logger );
 
 		$autologin_querystring = '123~testpassword';
 
@@ -90,7 +76,7 @@ class Login_Test extends \Codeception\Test\Unit {
 			)
 		);
 
-		$user = $this->createMock( '\WP_User' );
+		$user = $this->createMock( WP_User::class );
 		$user->method( '__get' )
 			->with( 'user_login' )
 			->willReturn( 'username' );
@@ -132,9 +118,10 @@ class Login_Test extends \Codeception\Test\Unit {
 	 */
 	public function test_querystring_absent() {
 
-		$api = null;
+		$api    = $this->makeEmpty( API_Interface::class );
+		$logger = new NullLogger();
 
-		$login = new Login( $this->plugin_name, $this->version, $api );
+		$login = new Login( $api, $logger );
 
 		$success = $login->wp_init_process_autologin();
 
@@ -146,9 +133,10 @@ class Login_Test extends \Codeception\Test\Unit {
 	 */
 	public function test_nonnumeric_userid() {
 
-		$api = null;
+		$api    = $this->makeEmpty( API_Interface::class );
+		$logger = new NullLogger();
 
-		$login = new Login( $this->plugin_name, $this->version, $api );
+		$login = new Login( $api, $logger );
 
 		$autologin_querystring = 'brian~testpassword';
 
@@ -181,9 +169,10 @@ class Login_Test extends \Codeception\Test\Unit {
 	 */
 	public function test_nonalphanumeric_password() {
 
-		$api = null;
+		$api    = $this->makeEmpty( API_Interface::class );
+		$logger = new NullLogger();
 
-		$login = new Login( $this->plugin_name, $this->version, $api );
+		$login = new Login( $api, $logger );
 
 		$autologin_querystring = '123~testp@ssword';
 
@@ -213,9 +202,10 @@ class Login_Test extends \Codeception\Test\Unit {
 	 */
 	public function test_user_already_loggedin() {
 
-		$api = null;
+		$api    = $this->makeEmpty( API_Interface::class );
+		$logger = new NullLogger();
 
-		$login = new Login( $this->plugin_name, $this->version, $api );
+		$login = new Login( $api, $logger );
 
 		$autologin_querystring = '123~testpassword';
 
@@ -259,7 +249,9 @@ class Login_Test extends \Codeception\Test\Unit {
 		$api = $this->createMock( API_Interface::class );
 		$api->method( 'verify_autologin_password' )->willReturn( true );
 
-		$login = new Login( $this->plugin_name, $this->version, $api );
+		$logger = new NullLogger();
+
+		$login = new Login( $api, $logger );
 
 		$autologin_querystring = '123~testpassword';
 

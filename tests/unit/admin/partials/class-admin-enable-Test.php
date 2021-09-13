@@ -47,7 +47,7 @@ class Admin_Enable_Test extends \Codeception\Test\Unit {
 			'wp_kses'
 		);
 
-		$sut = new Admin_Enable( $this->plugin_name, $this->version, 'settings_page', $settings_mock );
+		$sut = new Admin_Enable( 'settings_page', $settings_mock );
 
 		$args = array(
 			'helper'       => 'When enabled, emails to administrators <i>will</i> contain autologin URLs.',
@@ -103,7 +103,7 @@ class Admin_Enable_Test extends \Codeception\Test\Unit {
 			)
 		);
 
-		$sut = new Admin_Enable( $this->plugin_name, $this->version, 'settings_page', $settings_mock );
+		$sut = new Admin_Enable( 'settings_page', $settings_mock );
 
 		$args = array(
 			'helper'       => 'When enabled, emails to administrators <i>will</i> contain autologin URLs.',
@@ -156,7 +156,7 @@ class Admin_Enable_Test extends \Codeception\Test\Unit {
 
 		$settings_mock = $this->createMock( Settings_Interface::class );
 
-		$sut = new Admin_Enable( $this->plugin_name, $this->version, 'settings_page', $settings_mock );
+		$sut = new Admin_Enable( 'settings_page', $settings_mock );
 
 		$expected = 'admin_is_enabled';
 
@@ -174,7 +174,7 @@ class Admin_Enable_Test extends \Codeception\Test\Unit {
 
 		$settings_mock = $this->createMock( Settings_Interface::class );
 
-		$sut = new Admin_Enable( $this->plugin_name, $this->version, 'settings_page', $settings_mock );
+		$sut = new Admin_Enable( 'settings_page', $settings_mock );
 
 		$expected = 'admin_is_not_enabled';
 
@@ -195,7 +195,7 @@ class Admin_Enable_Test extends \Codeception\Test\Unit {
 		$settings_mock->shouldReceive( 'get_add_autologin_for_admins_is_enabled' )
 					  ->andReturn( false );
 
-		$sut = new Admin_Enable( $this->plugin_name, $this->version, 'settings_page', $settings_mock );
+		$sut = new Admin_Enable( 'settings_page', $settings_mock );
 
 		$expected = 'admin_is_not_enabled';
 

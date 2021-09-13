@@ -55,7 +55,7 @@ class Regex_Subject_Filters_Test extends \Codeception\Test\Unit {
 		$settings_mock = $this->createMock( Settings_Interface::class );
 		$settings_mock->method( 'get_disallowed_subjects_regex_dictionary' )->willReturn( $disallowed_subjects_regex_dictionary );
 
-		$sut = new Regex_Subject_Filters( $this->plugin_name, $this->version, 'settings_page', $settings_mock );
+		$sut = new Regex_Subject_Filters( 'settings_page', $settings_mock );
 
 		$args = array(
 			'helper'       => 'Emails whose subjects match these regex patterns will not have autologin codes added.',
@@ -128,7 +128,7 @@ class Regex_Subject_Filters_Test extends \Codeception\Test\Unit {
 
 		$settings_mock = $this->createMock( Settings_Interface::class );
 
-		$sut = new Regex_Subject_Filters( $this->plugin_name, $this->version, 'settings_page', $settings_mock );
+		$sut = new Regex_Subject_Filters( 'settings_page', $settings_mock );
 
 		$actual = $sut->sanitize_callback( $data );
 
@@ -152,7 +152,7 @@ class Regex_Subject_Filters_Test extends \Codeception\Test\Unit {
 
 		$settings_mock = $this->createMock( Settings_Interface::class );
 
-		$sut = new Regex_Subject_Filters( $this->plugin_name, $this->version, 'settings_page', $settings_mock );
+		$sut = new Regex_Subject_Filters( 'settings_page', $settings_mock );
 
 		$actual = $sut->sanitize_callback( $data );
 
@@ -177,7 +177,7 @@ class Regex_Subject_Filters_Test extends \Codeception\Test\Unit {
 
 		$settings_mock = $this->createMock( Settings_Interface::class );
 
-		$sut = new Regex_Subject_Filters( $this->plugin_name, $this->version, 'settings_page', $settings_mock );
+		$sut = new Regex_Subject_Filters( 'settings_page', $settings_mock );
 
 		$actual = $sut->sanitize_callback( $data );
 
@@ -198,7 +198,7 @@ class Regex_Subject_Filters_Test extends \Codeception\Test\Unit {
 		$settings_mock->shouldReceive( 'get_disallowed_subjects_regex_dictionary' )
 			 ->andReturn( $expected );
 
-		$sut = new Regex_Subject_Filters( $this->plugin_name, $this->version, 'settings_page', $settings_mock );
+		$sut = new Regex_Subject_Filters( 'settings_page', $settings_mock );
 
 		$actual = $sut->sanitize_callback( $data );
 

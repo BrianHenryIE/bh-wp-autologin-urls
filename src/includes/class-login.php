@@ -12,7 +12,6 @@
 namespace BrianHenryIE\WP_Autologin_URLs\includes;
 
 use BrianHenryIE\WP_Autologin_URLs\api\API_Interface;
-use BrianHenryIE\WP_Autologin_URLs\BrianHenryIE\WPPB\WPPB_Object;
 use Psr\Log\LoggerInterface;
 use MailPoet\Models\Subscriber;
 use MailPoet\Newsletter\Links\Links;
@@ -30,7 +29,7 @@ use WC_Geolocation;
  * @subpackage bh-wp-autologin-urls/includes
  * @author     BrianHenryIE <BrianHenryIE@gmail.com>
  */
-class Login extends WPPB_Object {
+class Login {
 
 	const QUERYSTRING_PARAMETER_NAME = 'autologin';
 
@@ -55,16 +54,12 @@ class Login extends WPPB_Object {
 	/**
 	 * Initialize the class and set its properties.
 	 *
-	 * @param   string          $plugin_name The name of this plugin.
-	 * @param   string          $version     The version of this plugin.
 	 * @param   API_Interface   $api The core plugin functions.
 	 * @param   LoggerInterface $logger The logger instance.
 	 *
 	 * @since   1.0.0
 	 */
-	public function __construct( $plugin_name, $version, $api, $logger ) {
-
-		parent::__construct( $plugin_name, $version );
+	public function __construct( $api, $logger ) {
 
 		$this->api    = $api;
 		$this->logger = $logger;
@@ -388,11 +383,10 @@ class Login extends WPPB_Object {
 
 		$wp_user = get_user_by( 'email', $user_email_address );
 
-
 		if ( $wp_user instanceof WP_User ) {
 
 			if ( get_current_user_id() === $wp_user->ID ) {
-			    $this->logger->debug( "User {$wp_user->user_login} already logged in." );
+				$this->logger->debug( "User {$wp_user->user_login} already logged in." );
 
 				// Already logged in.
 				return;

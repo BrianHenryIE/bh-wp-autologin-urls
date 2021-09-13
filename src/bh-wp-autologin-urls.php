@@ -21,7 +21,6 @@
 
 namespace BH_WP_Autologin_URLs {
 
-	use BrianHenryIE\WP_Autologin_URLs\BrianHenryIE\WPPB\WPPB_Loader;
 	use BrianHenryIE\WP_Autologin_URLs\includes\BH_WP_Autologin_URLs;
 	use BrianHenryIE\WP_Autologin_URLs\api\Settings;
 	use BrianHenryIE\WP_Autologin_URLs\WP_Logger\Logger;
@@ -45,13 +44,11 @@ namespace BH_WP_Autologin_URLs {
 	 */
 	function instantiate_bh_wp_autologin_urls() {
 
-		$loader = new WPPB_Loader();
-
 		$settings = new Settings();
 
 		$logger = Logger::instance( $settings );
 
-		$bh_wp_autologin_urls = new BH_WP_Autologin_URLs( $loader, $settings, $logger );
+		$bh_wp_autologin_urls = new BH_WP_Autologin_URLs( $settings, $logger );
 
 		return $bh_wp_autologin_urls;
 	}
@@ -64,11 +61,8 @@ namespace BH_WP_Autologin_URLs {
 	 * not affect the page life cycle.
 	 *
 	 * @since    1.0.0
-	 *
-	 * phpcs:disable Squiz.PHP.DisallowMultipleAssignments.Found
 	 */
-	$GLOBALS['bh-wp-autologin-urls'] = $bh_wp_autologin_urls = instantiate_bh_wp_autologin_urls();
-	$bh_wp_autologin_urls->run();
+	$GLOBALS['bh-wp-autologin-urls'] = instantiate_bh_wp_autologin_urls();
 
 }
 

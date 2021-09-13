@@ -20,11 +20,14 @@ use BrianHenryIE\WP_Autologin_URLs\api\Settings_Interface;
  */
 class Expiry_Age_Test extends \Codeception\Test\Unit {
 
-	protected function _before() {
+    protected function setup(): void {
+        \WP_Mock::setUp();
+    }
 
-		\WP_Mock::setUp();
-	}
-
+    protected function tearDown(): void {
+        parent::tearDown();
+        \WP_Mock::tearDown();
+    }
 
 	/**
 	 * The plugin name. Unlikely to change.
@@ -51,7 +54,7 @@ class Expiry_Age_Test extends \Codeception\Test\Unit {
 		$settings_mock = $this->createMock( Settings_Interface::class );
 		$settings_mock->method( 'get_expiry_age' )->willReturn( 12345 );
 
-		$sut = new Expiry_Age( $this->plugin_name, $this->version, 'settings_page', $settings_mock );
+		$sut = new Expiry_Age( 'settings_page', $settings_mock );
 
 		$args = array(
 			'helper'       => 'Number of seconds until each code expires.',
@@ -103,7 +106,7 @@ class Expiry_Age_Test extends \Codeception\Test\Unit {
 
 		$settings_mock = $this->createMock( Settings_Interface::class );
 
-		$sut = new Expiry_Age( $this->plugin_name, $this->version, 'settings_page', $settings_mock );
+		$sut = new Expiry_Age( 'settings_page', $settings_mock );
 
 		$expected = 123456;
 
@@ -121,7 +124,7 @@ class Expiry_Age_Test extends \Codeception\Test\Unit {
 
 		$settings_mock = $this->createMock( Settings_Interface::class );
 
-		$sut = new Expiry_Age( $this->plugin_name, $this->version, 'settings_page', $settings_mock );
+		$sut = new Expiry_Age( 'settings_page', $settings_mock );
 
 		$expected = 123456;
 
@@ -142,7 +145,7 @@ class Expiry_Age_Test extends \Codeception\Test\Unit {
 		$settings_mock->shouldReceive( 'get_expiry_age' )
 					  ->andReturn( 123456 );
 
-		$sut = new Expiry_Age( $this->plugin_name, $this->version, 'settings_page', $settings_mock );
+		$sut = new Expiry_Age( 'settings_page', $settings_mock );
 
 		\WP_Mock::userFunction(
 			'add_settings_error'
@@ -164,7 +167,7 @@ class Expiry_Age_Test extends \Codeception\Test\Unit {
 
 		$settings_mock = $this->createMock( Settings_Interface::class );
 
-		$sut = new Expiry_Age( $this->plugin_name, $this->version, 'settings_page', $settings_mock );
+		$sut = new Expiry_Age( 'settings_page', $settings_mock );
 
 		$expected = 604800;
 

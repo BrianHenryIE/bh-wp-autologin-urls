@@ -61,5 +61,8 @@ interface Settings_Interface {
 	 */
 	public function get_should_use_wp_login(): bool;
 
+	public function get_plugin_slug(): string;
+
+	public function get_plugin_version(): string;
 }
 

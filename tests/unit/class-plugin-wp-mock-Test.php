@@ -6,7 +6,7 @@
  * @author Brian Henry <BrianHenryIE@gmail.com>
  */
 
-namespace BH_WP_Autologin_URLs;
+namespace BrianHenryIE\WP_Autologin_URLs;
 
 use BrianHenryIE\WP_Autologin_URLs\includes\BH_WP_Autologin_URLs;
 
@@ -15,12 +15,15 @@ use BrianHenryIE\WP_Autologin_URLs\includes\BH_WP_Autologin_URLs;
  */
 class Plugin_WP_Mock_Test extends \Codeception\Test\Unit {
 
-	protected function _before() {
+    protected function setup(): void {
+        \WP_Mock::setUp();
+    }
 
-		\WP_Mock::setUp();
-	}
-
-
+    protected function tearDown(): void {
+        parent::tearDown();
+        \WP_Mock::tearDown();
+    }
+    
 	/**
 	 * Verifies the plugin initialization.
 	 */

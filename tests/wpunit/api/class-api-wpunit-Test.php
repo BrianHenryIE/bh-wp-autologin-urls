@@ -8,7 +8,7 @@
 
 namespace BrianHenryIE\WP_Autologin_URLs\api;
 
-use BH_WP_Autologin_URLs\Psr\Log\LoggerInterface;
+use Psr\Log\LoggerInterface;
 use Codeception\Stub\Expected;
 
 /**

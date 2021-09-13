@@ -21,10 +21,6 @@
       "type": "git"
     },
     {
-      "url": "https://github.com/BrianHenryIE/WPPB-lib",
-      "type": "git"
-    },
-    {
       "url": "https://github.com/BrianHenryIE/wp-namespace-autoloader",
       "type": "git"
     },
@@ -43,11 +39,14 @@
     {
       "url": "https://github.com/BrianHenryIE/bh-wp-logger",
       "type": "git"
+    },
+    {
+      "url": "https://github.com/BrianHenryIE/admin-notices",
+      "type": "git"
     }
   ],
   "require": {
-    "php": ">=7.2",
-    "brianhenryie/wppb-lib": "dev-master",
+    "php": ">=7.4",
     "pablo-sg-pacheco/wp-namespace-autoloader": "dev-brianhenryie",
     "brianhenryie/wp-logger": "dev-master"
   },
@@ -65,6 +64,7 @@
     "cweagans/composer-patches": "^1.0",
     "dealerdirect/phpcodesniffer-composer-installer": "*",
     "ericmartel/codeception-email-mailtrap": "^1.0",
+    "ext-dom": "*",
     "jaschilz/php-coverage-badger": "^2.0",
     "kporras07/composer-symlinks": "dev-master",
     "lucatume/wp-browser": "*",

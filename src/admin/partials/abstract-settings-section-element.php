@@ -11,8 +11,6 @@
 
 namespace BrianHenryIE\WP_Autologin_URLs\admin\partials;
 
-use BrianHenryIE\WP_Autologin_URLs\BrianHenryIE\WPPB\WPPB_Object;
-
 /**
  * Code common across setting elements.
  *
@@ -22,7 +20,7 @@ use BrianHenryIE\WP_Autologin_URLs\BrianHenryIE\WPPB\WPPB_Object;
  *
  * Class Settings_Section_Element
  */
-abstract class Settings_Section_Element_Abstract extends WPPB_Object {
+abstract class Settings_Section_Element_Abstract {
 
 	/**
 	 * The unique setting id, as used in the wp_options table.
@@ -76,13 +74,10 @@ abstract class Settings_Section_Element_Abstract extends WPPB_Object {
 	/**
 	 * Settings_Section_Element constructor.
 	 *
-	 * @param string $plugin_name The name of this plugin.
-	 * @param string $version     The version of this plugin.
 	 * @param string $settings_page_slug_name The page slug the settings section is on.
 	 * @param string $section The name of the section the settings are displayed in.
 	 */
-	public function __construct( $plugin_name, $version, $settings_page_slug_name, $section = 'default' ) {
-		parent::__construct( $plugin_name, $version );
+	public function __construct( $settings_page_slug_name, $section = 'default' ) {
 
 		$this->page    = $settings_page_slug_name;
 		$this->section = $section;

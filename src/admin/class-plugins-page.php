@@ -11,7 +11,7 @@
 
 namespace BrianHenryIE\WP_Autologin_URLs\admin;
 
-use BrianHenryIE\WP_Autologin_URLs\BrianHenryIE\WPPB\WPPB_Object;
+use BrianHenryIE\WP_Autologin_URLs\api\Settings_Interface;
 
 /**
  * This class adds a `Settings` link on the plugins.php page.
@@ -20,7 +20,13 @@ use BrianHenryIE\WP_Autologin_URLs\BrianHenryIE\WPPB\WPPB_Object;
  * @subpackage bh-wp-autologin-urls/admin
  * @author     BrianHenryIE <BrianHenryIE@gmail.com>
  */
-class Plugins_Page extends WPPB_Object {
+class Plugins_Page {
+
+	protected Settings_Interface $settings;
+
+	public function __construct( Settings_Interface $settings ) {
+		$this->settings = $settings;
+	}
 
 	/**
 	 * Add link to settings page in plugins.php list.
@@ -31,7 +37,7 @@ class Plugins_Page extends WPPB_Object {
 	 */
 	public function action_links( $links_array ): array {
 
-		$settings_url = admin_url( '/options-general.php?page=' . $this->get_plugin_name() );
+		$settings_url = admin_url( '/options-general.php?page=' . $this->settings->get_plugin_slug() );
 
 		array_unshift( $links_array, '<a href="' . $settings_url . '">Settings</a>' );
 
@@ -52,9 +58,9 @@ class Plugins_Page extends WPPB_Object {
 	 */
 	public function row_meta( $plugin_meta, $plugin_file_name, $plugin_data, $status ): array {
 
-		if ( $this->get_plugin_name() . '/' . $this->get_plugin_name() . '.php' === $plugin_file_name ) {
+		if ( $this->settings->get_plugin_slug() . '/' . $this->settings->get_plugin_slug() . '.php' === $plugin_file_name ) {
 
-			$plugin_meta[] = '<a target="_blank" href="https://github.com/BrianHenryIE/' . $this->get_plugin_name() . '">View plugin on GitHub</a>';
+			$plugin_meta[] = '<a target="_blank" href="https://github.com/BrianHenryIE/' . $this->settings->get_plugin_slug() . '">View plugin on GitHub</a>';
 		}
 
 		return $plugin_meta;

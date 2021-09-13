@@ -9,12 +9,11 @@
  * @subpackage bh-wp-autologin-urls/admin/partials
  */
 
-namespace BH_WP_Autologin_URLs\admin\partials;
+namespace BrianHenryIE\WP_Autologin_URLs\admin\partials;
 
-use BH_WP_Autologin_URLs\api\Settings_Interface;
-use BH_WP_Autologin_URLs\api\Settings;
-use BH_WP_Autologin_URLs\Psr\Log\LogLevel;
-use ReflectionClass;
+use BrianHenryIE\WP_Autologin_URLs\api\Settings_Interface;
+use BrianHenryIE\WP_Autologin_URLs\api\Settings;
+use Psr\Log\LogLevel;
 
 /**
  * Class
@@ -31,14 +30,12 @@ class Log_Level extends Settings_Section_Element_Abstract {
 	/**
 	 * Log_Level constructor.
 	 *
-	 * @param string             $plugin_name The plugin slug.
-	 * @param string             $version  The plugin version.
 	 * @param string             $settings_page The slug of the page this setting is being displayed on.
 	 * @param Settings_Interface $settings The existing settings saved in the database.
 	 */
-	public function __construct( $plugin_name, $version, $settings_page, $settings ) {
+	public function __construct( $settings_page, $settings ) {
 
-		parent::__construct( $plugin_name, $version, $settings_page );
+		parent::__construct( $settings_page );
 
 		$this->value = $settings->get_log_level();
 

@@ -13,8 +13,10 @@
 
 namespace BrianHenryIE\WP_Autologin_URLs\api;
 
-use BH_WP_Autologin_URLs\BrianHenryIE\WP_Logger\Logger_Settings_Interface;
-use BH_WP_Autologin_URLs\Psr\Log\LogLevel;
+use BrianHenryIE\WP_Autologin_URLs\WP_Logger\API\Logger_Settings_Interface;
+use Psr\Log\LogLevel;
+use BrianHenryIE\WP_Autologin_URLs\admin\Admin;
+use BrianHenryIE\WP_Autologin_URLs\WP_Logger\Logger;
 
 /**
  * Class Settings
@@ -120,9 +122,36 @@ class Settings implements Settings_Interface, Logger_Settings_Interface {
 	/**
 	 * The plugin slug as required by the logger.
 	 *
+	 * @used-by Logger
+	 * @used-by Admin
+	 *
 	 * @return string
 	 */
 	public function get_plugin_slug(): string {
 		return 'bh-wp-autologin-urls';
 	}
+
+	public function get_plugin_version(): string {
+		return '1.2.1';
+	}
+
+	/**
+	 * Plugin name for use by the logger in friendly messages printed to WordPress admin UI.
+	 *
+	 * @return string
+	 * @see Logger
+	 */public function get_plugin_name(): string {
+		return 'Autologin URLs';
+}
+
+	/**
+	 * The plugin basename is used by the logger to add the plugins page action link.
+	 * (and maybe for PHP errors)
+	 *
+	 * @return string
+	 * @see Logger
+	 */
+public function get_plugin_basename(): string {
+	return 'bh-wp-autologin-urls/bh-wp-autologin-urls.php';
+}
 }

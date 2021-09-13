@@ -4,10 +4,10 @@
  * for the presence of WooCommerce and tries to fill in checkout fields.
  */
 
-namespace BH_WP_Autologin_URLs\includes;
+namespace BrianHenryIE\WP_Autologin_URLs\includes;
 
-use BH_WP_Autologin_URLs\api\API_Interface;
-use BH_WP_Autologin_URLs\Psr\Log\LoggerInterface;
+use BrianHenryIE\WP_Autologin_URLs\api\API_Interface;
+use Psr\Log\LoggerInterface;
 
 class Login_Test extends \Codeception\TestCase\WPTestCase {
 
@@ -25,7 +25,7 @@ class Login_Test extends \Codeception\TestCase\WPTestCase {
 		$api_mock = $this->makeEmpty( API_Interface::class );
 		$logger_mock = $this->makeEmpty( LoggerInterface::class );
 
-		$login = new class( 'bh-wp-autologin-urls', '1.4.0', $api_mock, $logger_mock ) extends Login {
+		$login = new class( $api_mock, $logger_mock ) extends Login {
 			public function test_woocommerce( $email_address, $user_info ) {
 				return $this->woocommerce_ux( $email_address, $user_info );
 			}
@@ -46,7 +46,7 @@ class Login_Test extends \Codeception\TestCase\WPTestCase {
 		$api_mock = $this->makeEmpty( API_Interface::class );
 		$logger_mock = $this->makeEmpty( LoggerInterface::class );
 
-		$login = new class( 'bh-wp-autologin-urls', '1.4.0', $api_mock, $logger_mock ) extends Login {
+		$login = new class( $api_mock, $logger_mock ) extends Login {
 			public function test_woocommerce( $email_address, $user_info ) {
 				return $this->woocommerce_ux( $email_address, $user_info );
 			}

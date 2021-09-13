@@ -11,38 +11,35 @@
 namespace BrianHenryIE\WP_Autologin_URLs\admin;
 
 use BrianHenryIE\WP_Autologin_URLs\api\Settings_Interface;
+use Psr\Log\NullLogger;
 
 /**
  * Class Admin_Test
  */
 class Settings_Page_Test extends \Codeception\Test\Unit {
 
-	protected function _before() {
-
+	protected function setup(): void {
 		\WP_Mock::setUp();
 	}
 
-
-	/**
-	 * The plugin name. Unlikely to change.
-	 *
-	 * @var string Plugin name.
-	 */
-	private $plugin_name = 'bh-wp-autologin-urls';
-
-	/**
-	 * The plugin version, matching the version these tests were written against.
-	 *
-	 * @var string Plugin version.
-	 */
-	private $version = '1.0.0';
+	protected function tearDown(): void {
+		parent::tearDown();
+		\WP_Mock::tearDown();
+	}
 
 	/**
 	 * WordPress's add_options_page should be called with 'Autologin URLs', the plugin name and the correct callback.
+	 *
+	 * @throws \Exception
 	 */
 	public function test_add_settings_page() {
 
-		$settings_page = new Settings_Page( $this->plugin_name, $this->version, null );
+		$logger        = new NullLogger();
+		$settings      = $this->makeEmpty(
+			Settings_Interface::class,
+			array( 'get_plugin_slug' => 'bh-wp-autologin-urls' )
+		);
+		$settings_page = new Settings_Page( $settings, $logger );
 
 		\WP_Mock::userFunction(
 			'add_options_page',
@@ -51,8 +48,9 @@ class Settings_Page_Test extends \Codeception\Test\Unit {
 					'Autologin URLs',
 					'Autologin URLs',
 					'manage_options',
-					$this->plugin_name,
-					array( $settings_page, 'display_plugin_admin_page' ),
+					'bh-wp-autologin-urls',
+					// array( $settings_page, 'display_plugin_admin_page' ),
+					\WP_Mock\Functions::type( 'array' ),
 				),
 				'times' => 1,
 			)
@@ -79,7 +77,9 @@ class Settings_Page_Test extends \Codeception\Test\Unit {
 
 		// Feed it the wrong folder name to test it includes files properly.
 
-		$settings_page = new Settings_Page( $this->plugin_name, $this->version, null );
+		$logger        = new NullLogger();
+		$settings      = $this->makeEmpty( Settings_Interface::class );
+		$settings_page = new Settings_Page( $settings, $logger );
 
 		// The method first generates an example URL for the current user.
 		\WP_Mock::userFunction(
@@ -116,7 +116,12 @@ class Settings_Page_Test extends \Codeception\Test\Unit {
 	 */
 	public function test_setup_sections() {
 
-		$settings_page = new Settings_Page( $this->plugin_name, $this->version, null );
+		$logger        = new NullLogger();
+		$settings      = $this->makeEmpty(
+			Settings_Interface::class,
+			array( 'get_plugin_slug' => 'bh-wp-autologin-urls' )
+		);
+		$settings_page = new Settings_Page( $settings, $logger );
 
 		\WP_Mock::userFunction(
 			'add_settings_section',
@@ -125,7 +130,7 @@ class Settings_Page_Test extends \Codeception\Test\Unit {
 					'default',
 					'Settings',
 					null,
-					$this->plugin_name,
+					'bh-wp-autologin-urls',
 				),
 				'times' => 1,
 			)
@@ -141,9 +146,9 @@ class Settings_Page_Test extends \Codeception\Test\Unit {
 	 */
 	public function test_setup_fields() {
 
-		$settings_mock = $this->createMock( Settings_Interface::class );
-
-		$settings_page = new Settings_Page( $this->plugin_name, $this->version, $settings_mock );
+		$logger        = new NullLogger();
+		$settings      = $this->makeEmpty( Settings_Interface::class );
+		$settings_page = new Settings_Page( $settings, $logger );
 
 		$number_of_settings_elements = 5;
 

@@ -13,7 +13,6 @@ namespace BrianHenryIE\WP_Autologin_URLs\includes;
 
 use BrianHenryIE\WP_Autologin_URLs\api\API_Interface;
 use BrianHenryIE\WP_Autologin_URLs\api\Settings_Interface;
-use BrianHenryIE\WP_Autologin_URLs\BrianHenryIE\WPPB\WPPB_Object;
 
 /**
  * The wp_mail hooked functionality of the plugin.
@@ -22,7 +21,7 @@ use BrianHenryIE\WP_Autologin_URLs\BrianHenryIE\WPPB\WPPB_Object;
  * @subpackage bh-wp-autologin-urls/wp_mail
  * @author     BrianHenryIE <BrianHenryIE@gmail.com>
  */
-class WP_Mail extends WPPB_Object {
+class WP_Mail {
 
 	/**
 	 * The class which adds the autologin codes to the emails.
@@ -41,13 +40,10 @@ class WP_Mail extends WPPB_Object {
 	/**
 	 * WP_Mail constructor.
 	 *
-	 * @param string             $plugin_name  The plugin name.
-	 * @param string             $version      The plugin version.
 	 * @param API_Interface      $api          The API class for adding the autologin code to URLs.
 	 * @param Settings_Interface $settings     The settings to be used.
 	 */
-	public function __construct( $plugin_name, $version, $api, $settings ) {
-		parent::__construct( $plugin_name, $version );
+	public function __construct( $api, $settings ) {
 
 		$this->api      = $api;
 		$this->settings = $settings;

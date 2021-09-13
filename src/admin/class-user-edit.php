@@ -12,7 +12,6 @@
 namespace BrianHenryIE\WP_Autologin_URLs\admin;
 
 use BrianHenryIE\WP_Autologin_URLs\api\API_Interface;
-use BrianHenryIE\WP_Autologin_URLs\BrianHenryIE\WPPB\WPPB_Object;
 use WP_User;
 
 
@@ -23,7 +22,7 @@ use WP_User;
  * @subpackage bh-wp-autologin-urls/admin
  * @author     BrianHenryIE <BrianHenryIE@gmail.com>
  */
-class User_Edit extends WPPB_Object {
+class User_Edit {
 
 	/**
 	 * Core API methods to generate password/URL.
@@ -41,9 +40,7 @@ class User_Edit extends WPPB_Object {
 	 *
 	 * @since   1.0.0
 	 */
-	public function __construct( $plugin_name, $version, $api ) {
-
-		parent::__construct( $plugin_name, $version );
+	public function __construct( $api ) {
 
 		$this->api = $api;
 	}

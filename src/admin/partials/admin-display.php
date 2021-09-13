@@ -11,11 +11,10 @@
  * @subpackage bh-wp-autologin-urls/admin/partials
  */
 
-use BH_WP_Autologin_URLs\BrianHenryIE\WP_Logger\Logs_Table;
-use BH_WP_Autologin_URLs\BrianHenryIE\WP_Logger\Logger;
+use BrianHenryIE\WP_Autologin_URLs\WP_Logger\Admin\Logs_Table;
 
 
-/** @var Logger $logger */
+/** @var \Psr\Log\LoggerInterface $logger */
 /** @var string $example_url */
 
 // phpcs:ignore WordPress.Security.NonceVerification.Recommended
@@ -42,7 +41,7 @@ $active_tab = in_array( $active_tab, array( 'settings', 'logs' ), true ) ? $acti
 		<a href="options-general.php?page=bh-wp-autologin-urls&tab=logs" class="nav-tab <?php echo $active_tab === 'logs' ? 'nav-tab-active' : ''; ?>">Logs</a>
 	</h2>
 
-<?php if( 'settings' === $active_tab ) { ?>
+<?php if ( 'settings' === $active_tab ) { ?>
 
 	<p>To exclude emails with particular subjects from having autologin codes added, use regular expressions to match the subjects. e.g. password reset email does not need an autologin code added to its URLs.</p>
 
@@ -54,8 +53,8 @@ $active_tab = in_array( $active_tab, array( 'settings', 'logs' ), true ) ? $acti
 		?>
 	</form>
 
-<?php
-} elseif( 'logs' === $active_tab ) {
+	<?php
+} elseif ( 'logs' === $active_tab ) {
 
 	$logs_table = new Logs_Table( $logger );
 

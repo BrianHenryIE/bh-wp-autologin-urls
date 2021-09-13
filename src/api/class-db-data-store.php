@@ -9,7 +9,7 @@
  * @subpackage bh-wp-autologin-urls/api
  */
 
-namespace BH_WP_Autologin_URLs\api;
+namespace BrianHenryIE\WP_Autologin_URLs\api;
 
 use DateTime;
 
@@ -131,7 +131,7 @@ class DB_Data_Store implements Data_Store_Interface {
 		 * phpcs:disable WordPress.DB.DirectDatabaseQuery.NoCaching
 		 */
 		$result = $wpdb->get_row(
-			$wpdb->prepare( 'SELECT expires, userhash FROM '.$this->get_table_name().' WHERE hash = %s', $key )
+			$wpdb->prepare( 'SELECT expires, userhash FROM ' . $this->get_table_name() . ' WHERE hash = %s', $key )
 		);
 
 		if ( is_null( $result ) ) {

@@ -22,10 +22,6 @@ use BrianHenryIE\WP_Autologin_URLs\admin\Admin;
 use BrianHenryIE\WP_Autologin_URLs\admin\Settings_Page;
 use BrianHenryIE\WP_Autologin_URLs\admin\Plugins_Page;
 use BrianHenryIE\WP_Autologin_URLs\api\Settings_Interface;
-use BrianHenryIE\WP_Autologin_URLs\BrianHenryIE\WPPB\WPPB_Loader_Interface;
-use BrianHenryIE\WP_Autologin_URLs\BrianHenryIE\WPPB\WPPB_Object;
-use BrianHenryIE\WP_Autologin_URLs\BrianHenryIE\WPPB\WPPB_Plugin_Abstract;
-use BrianHenryIE\WP_Autologin_URLs\Logger;
 use Psr\Log\LoggerInterface;
 use BrianHenryIE\WP_Autologin_URLs\api\DB_Data_Store;
 
@@ -46,7 +42,7 @@ use BrianHenryIE\WP_Autologin_URLs\api\DB_Data_Store;
  *
  * phpcs:disable Squiz.PHP.DisallowMultipleAssignments.Found
  */
-class BH_WP_Autologin_URLs extends WPPB_Plugin_Abstract {
+class BH_WP_Autologin_URLs {
 
 	/**
 	 * Instance of PSR logger to record logins and issues.
@@ -112,21 +108,12 @@ class BH_WP_Autologin_URLs extends WPPB_Plugin_Abstract {
 	 * Load the dependencies, define the locale, and set the hooks for the admin area and
 	 * the public-facing side of the site.
 	 *
-	 * @param WPPB_Loader_Interface $loader The class which adds the actions and filters.
-	 * @param Settings_Interface    $settings The plugin settings.
-	 * @param LoggerInterface       $logger PSR Logger.
+	 * @param Settings_Interface $settings The plugin settings.
+	 * @param LoggerInterface    $logger PSR Logger.
 	 *
 	 * @since    1.0.0
 	 */
-	public function __construct( $loader, $settings, $logger ) {
-		if ( defined( 'BH_WP_AUTOLOGIN_URLS_VERSION' ) ) {
-			$version = BH_WP_AUTOLOGIN_URLS_VERSION;
-		} else {
-			$version = '1.1.2';
-		}
-		$plugin_name = 'bh-wp-autologin-urls';
-
-		parent::__construct( $loader, $plugin_name, $version );
+	public function __construct( $settings, $logger ) {
 
 		$this->settings = $settings;
 		$this->logger   = $logger;
@@ -154,7 +141,7 @@ class BH_WP_Autologin_URLs extends WPPB_Plugin_Abstract {
 
 		$this->i18n = $plugin_i18n = new I18n();
 
-		$this->loader->add_action( 'plugins_loaded', $plugin_i18n, 'load_plugin_textdomain' );
+		add_action( 'plugins_loaded', array( $plugin_i18n, 'load_plugin_textdomain' ) );
 
 	}
 
@@ -165,12 +152,12 @@ class BH_WP_Autologin_URLs extends WPPB_Plugin_Abstract {
 
 		$datastore = new DB_Data_Store();
 
-		$this->loader->add_action( 'plugins_loaded', $datastore, 'create_db', 1 );
+		add_action( 'plugins_loaded', array( $datastore, 'create_db', 1 ) );
 
-		$this->api = $plugin_api = new API( $this->settings, $datastore );
+		$this->api = $plugin_api = new API( $this->settings, $this->logger, $datastore );
 
-		$this->loader->add_filter( 'add_autologin_to_message', $plugin_api, 'add_autologin_to_message', 10, 2 );
-		$this->loader->add_filter( 'add_autologin_to_url', $plugin_api, 'add_autologin_to_url', 10, 2 );
+		add_filter( 'add_autologin_to_message', array( $plugin_api, 'add_autologin_to_message', 10, 2 ) );
+		add_filter( 'add_autologin_to_url', array( $plugin_api, 'add_autologin_to_url', 10, 2 ) );
 	}
 
 
@@ -183,26 +170,26 @@ class BH_WP_Autologin_URLs extends WPPB_Plugin_Abstract {
 	 */
 	private function define_admin_hooks() {
 
-		$this->admin = $plugin_admin = new Admin( $this->get_plugin_name(), $this->get_version() );
+		$this->admin = $plugin_admin = new Admin( $this->settings );
 
-		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
-		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
+		add_action( 'admin_enqueue_scripts', array( $plugin_admin, 'enqueue_styles' ) );
+		add_action( 'admin_enqueue_scripts', array( $plugin_admin, 'enqueue_scripts' ) );
 
-		$this->settings_page = $plugin_settings_page = new Settings_Page( $this->get_plugin_name(), $this->get_version(), $this->settings, $this->logger );
+		$this->settings_page = $plugin_settings_page = new Settings_Page( $this->settings, $this->logger );
 
-		$this->loader->add_action( 'admin_menu', $plugin_settings_page, 'add_settings_page' );
-		$this->loader->add_action( 'admin_init', $plugin_settings_page, 'setup_sections' );
-		$this->loader->add_action( 'admin_init', $plugin_settings_page, 'setup_fields' );
+		add_action( 'admin_menu', array( $plugin_settings_page, 'add_settings_page' ) );
+		add_action( 'admin_init', array( $plugin_settings_page, 'setup_sections' ) );
+		add_action( 'admin_init', array( $plugin_settings_page, 'setup_fields' ) );
 
-		$this->plugins_page = $plugins_page = new Plugins_Page( $this->get_plugin_name(), $this->get_version() );
+		$this->plugins_page = $plugins_page = new Plugins_Page( $this->settings );
 
 		$plugin_basename = 'bh-wp-autologin-urls/bh-wp-autologin-urls.php';
 
-		$this->loader->add_filter( 'plugin_action_links_' . $plugin_basename, $plugins_page, 'action_links' );
-		$this->loader->add_filter( 'plugin_row_meta', $plugins_page, 'row_meta', 20, 4 );
+		add_filter( 'plugin_action_links_' . $plugin_basename, array( $plugins_page, 'action_links' ) );
+		add_filter( 'plugin_row_meta', array( $plugins_page, 'row_meta', 20, 4 ) );
 
-		$this->user_edit = new User_Edit( $this->get_plugin_name(), $this->get_version(), $this->api );
-		$this->loader->add_action( 'edit_user_profile', $this->user_edit, 'make_password_available_on_user_page', 1, 1 );
+		$this->user_edit = new User_Edit( $this->api );
+		add_action( 'edit_user_profile', array( $this->user_edit, 'make_password_available_on_user_page', 1, 1 ) );
 
 	}
 
@@ -215,9 +202,9 @@ class BH_WP_Autologin_URLs extends WPPB_Plugin_Abstract {
 	 */
 	private function define_wp_mail_hooks() {
 
-		$this->wp_mail = $plugin_wp_mail = new WP_Mail( $this->get_plugin_name(), $this->get_version(), $this->api, $this->settings );
+		$this->wp_mail = $plugin_wp_mail = new WP_Mail( $this->api, $this->settings );
 
-		$this->loader->add_filter( 'wp_mail', $plugin_wp_mail, 'add_autologin_links_to_email', 3, 4 );
+		add_filter( 'wp_mail', array( $plugin_wp_mail, 'add_autologin_links_to_email', 3, 4 ) );
 	}
 
 
@@ -230,12 +217,12 @@ class BH_WP_Autologin_URLs extends WPPB_Plugin_Abstract {
 	 */
 	private function define_login_hooks() {
 
-		$this->login = $plugin_login = new Login( $this->get_plugin_name(), $this->get_version(), $this->api, $this->logger );
+		$this->login = $plugin_login = new Login( $this->api, $this->logger );
 
-		$this->loader->add_action( 'plugins_loaded', $plugin_login, 'wp_init_process_autologin', 2 );
+		add_action( 'plugins_loaded', array( $plugin_login, 'wp_init_process_autologin', 2 ) );
 
-		$this->loader->add_action( 'plugins_loaded', $plugin_login, 'login_newsletter_urls', 0 );
-		$this->loader->add_action( 'plugins_loaded', $plugin_login, 'login_mailpoet_urls', 0 );
+		add_action( 'plugins_loaded', array( $plugin_login, 'login_newsletter_urls', 0 ) );
+		add_action( 'plugins_loaded', array( $plugin_login, 'login_mailpoet_urls', 0 ) );
 
 	}
 
