@@ -1,0 +1,13 @@
+parameters:
+    level: 8
+    paths:
+        - src
+    excludePaths:
+        - src/strauss/*
+    bootstrapFiles:
+        - src/autoload.php
+        - vendor/php-stubs/wordpress-stubs/wordpress-stubs.php
+    scanDirectories:
+        - src/strauss
+        - wp-content/plugins
+        - vendor/wp-cli

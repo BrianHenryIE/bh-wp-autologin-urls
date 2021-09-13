@@ -11,9 +11,9 @@
  * @subpackage bh-wp-autologin-urls/api
  */
 
-namespace BH_WP_Autologin_URLs\api;
+namespace BrianHenryIE\WP_Autologin_URLs\api;
 
-use BH_WP_Autologin_URLs\includes\Login;
+use BrianHenryIE\WP_Autologin_URLs\includes\Login;
 use WP_User;
 
 /**
@@ -200,7 +200,6 @@ class API implements API_Interface {
 		// Generate a password using only alphanumerics (to avoid urlencoding worries).
 		// Length of 12 was chosen arbitrarily.
 		$password = wp_generate_password( 12, false );
-
 
 		$this->data_store->save( $user_id, $password, $seconds_valid );
 

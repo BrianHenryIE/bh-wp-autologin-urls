@@ -7,7 +7,7 @@
  * @author Brian Henry <BrianHenryIE@gmail.com>
  */
 
-namespace BH_WP_Autologin_URLs\wp_mail;
+namespace BrianHenryIE\WP_Autologin_URLs\wp_mail;
 
 /**
  * Class WP_Mail_Test

@@ -8,18 +8,21 @@
  * @author Brian Henry <BrianHenryIE@gmail.com>
  */
 
-namespace BH_WP_Autologin_URLs\admin;
+namespace BrianHenryIE\WP_Autologin_URLs\admin;
 
 /**
  * Class Admin_Test
  */
 class Admin_Test extends \Codeception\Test\Unit {
 
-	protected function _before() {
+    protected function _before() {
+        \WP_Mock::setUp();
+    }
 
-		\WP_Mock::setUp();
-	}
-
+    protected function _tearDown() {
+        parent::_tearDown();
+        \WP_Mock::tearDown();
+    }
 
 	/**
 	 * The plugin name. Unlikely to change.

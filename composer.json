@@ -44,6 +44,7 @@
   "require-dev": {
     "10up/wp_mock": "0.4.2",
     "brianhenryie/composer-phpstorm": "dev-master",
+    "brianhenryie/strauss": "*",
     "codeception/module-asserts": "^1.0",
     "codeception/module-db": "^1.0.0",
     "codeception/module-cli": "^1.0",
@@ -51,7 +52,6 @@
     "codeception/module-phpbrowser": "^1.0.0",
     "codeception/module-webdriver": "^1.0",
     "codeception/util-universalframework": "^1.0",
-    "coenjacobs/mozart": "dev-master",
     "cweagans/composer-patches": "^1.0",
     "dealerdirect/phpcodesniffer-composer-installer": "*",
     "ericmartel/codeception-email-mailtrap": "^1.0",
@@ -65,37 +65,29 @@
     "squizlabs/php_codesniffer": "dev-master#1371c59bd5da5cfc877ab8478753362edc9bbc9b",
     "voku/portable-ascii": "dev-master",
     "wordpress/wordpress": "^5.5",
+    "wp-cli/wp-cli-bundle": "*",
     "wp-coding-standards/wpcs": "*",
     "wpackagist-plugin/woocommerce": "^4.5",
     "wpackagist-plugin/wp-super-cache": "*",
     "wpackagist-plugin/wp-mail-smtp": "^2.3",
     "wpackagist-theme/twentytwenty": "^1.5",
     "wpackagist-theme/storefront":"^2",
-    "wpackagist-plugin/newsletter": "^6.8",
+    "wpackagist-plugin/newsletter": "*",
     "wpackagist-plugin/mailpoet": "^3.50"
   },
   "extra": {
     "patches": {
-      "coenjacobs/mozart": {
-        "DIRECTORY_SEPARATOR": "https://github.com/coenjacobs/mozart/pull/61.patch",
-        "Delete empty directories": "https://github.com/coenjacobs/mozart/pull/59.patch"
-      },
       "jaschilz/php-coverage-badger": {
         "Allow customising the text": "https://github.com/JASchilz/PHPCoverageBadge/pull/1.patch"
-      },
-      "squizlabs/php_codesniffer": {
-        "Add GitHub Actions Annotations report type": "https://github.com/squizlabs/PHP_CodeSniffer/pull/2918.patch"
       },
       "ericmartel/codeception-email-mailtrap": {
         "Fixed undefined property ": "https://github.com/ericmartel/codeception-email-mailtrap/pull/7.patch"
       }
     },
-    "mozart": {
-      "dep_namespace": "BH_WP_Autologin_URLs\\",
-      "dep_directory": "/src/vendor/",
-      "classmap_prefix": "BH_WP_Autologin_URLs_",
-      "classmap_directory": "/src/dependencies/",
-      "delete_vendor_directories": false
+    "strauss": {
+      "target_directory": "/src/strauss/",
+      "namespace_prefix": "BrianHenryIE\\WP_Autologin_URLs\\",
+      "classmap_prefix": "BH_WP_Autologin_URLs_"
       },
     "symlinks": {
       "src": "wp-content/plugins/bh-wp-autologin-urls",
@@ -118,7 +110,7 @@
   },
   "scripts": {
     "post-install-cmd": [
-      "\"vendor/bin/mozart\" compose",
+      "vendor/bin/strauss",
       "vendor/bin/wp core download --path=wordpress --allow-root || true;",
       "export $(grep -v '^#' .env.testing | xargs); vendor/bin/wp config create --dbname=$TEST_SITE_DB_NAME --dbuser=$TEST_SITE_DB_USER --dbpass=$TEST_SITE_DB_PASSWORD --dbhost=127.0.0.1 --allow-root || true",
       "mkdir -p vendor/wordpress/wordpress/src/wp-content/uploads",
@@ -127,14 +119,22 @@
       "Kporras07\\ComposerSymlinks\\ScriptHandler::createSymlinks"
     ],
     "post-update-cmd": [
-      "\"vendor/bin/mozart\" compose",
+      "vendor/bin/strauss",
       "vendor/bin/wp core download --path=wordpress --allow-root || true;",
       "export $(grep -v '^#' .env.testing | xargs); vendor/bin/wp config create --dbname=$TEST_SITE_DB_NAME --dbuser=$TEST_SITE_DB_USER --dbpass=$TEST_SITE_DB_PASSWORD --dbhost=127.0.0.1 --allow-root || true",
       "mkdir -p wordpress/wp-content/uploads",
       "BrianHenryIE\\ComposerPhpStorm\\ExcludeFolders::update",
       "BrianHenryIE\\ComposerPhpStorm\\PHPUnitRunConfigurations::update",
       "Kporras07\\ComposerSymlinks\\ScriptHandler::createSymlinks"
+    ],
+    "save-acceptance-database": [
+      "export $(grep -v '^#' .env.testing | xargs); mysqldump -u $TEST_SITE_DB_USER -p$TEST_SITE_DB_PASSWORD  $TEST_SITE_DB_NAME > tests/_data/dump.sql;"
+    ],
+    "coverage-tests": [
+      "vendor/bin/codecept run unit --coverage unit.cov",
+      "vendor/bin/codecept run wpunit --coverage wpunit.cov",
+      "vendor/bin/phpcov merge --clover tests/_output/clover.xml --html tests/_output/html tests/_output;",
+      "open tests/_output/html/index.html"
     ]
-
   }
 }

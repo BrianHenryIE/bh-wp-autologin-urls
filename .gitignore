@@ -45,8 +45,7 @@ releases/*
 svn/*
 
 wordpress
-src/vendor
-src/dependencies
+src/strauss
 wp-content/plugins
 wp-content/themes
 wp-content/uploads/woocommerce*

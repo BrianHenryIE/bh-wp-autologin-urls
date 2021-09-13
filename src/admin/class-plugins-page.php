@@ -9,9 +9,9 @@
  * @subpackage bh-wp-autologin-urls/admin
  */
 
-namespace BH_WP_Autologin_URLs\admin;
+namespace BrianHenryIE\WP_Autologin_URLs\admin;
 
-use BH_WP_Autologin_URLs\BrianHenryIE\WPPB\WPPB_Object;
+use BrianHenryIE\WP_Autologin_URLs\BrianHenryIE\WPPB\WPPB_Object;
 
 /**
  * This class adds a `Settings` link on the plugins.php page.

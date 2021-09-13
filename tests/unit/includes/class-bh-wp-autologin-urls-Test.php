@@ -6,10 +6,10 @@
  * @author Brian Henry <BrianHenryIE@gmail.com>
  */
 
-namespace BH_WP_Autologin_URLs\includes;
+namespace BrianHenryIE\WP_Autologin_URLs\includes;
 
-use BH_WP_Autologin_URLs\api\Settings_Interface;
-use BH_WP_Autologin_URLs\BrianHenryIE\WPPB\WPPB_Loader_Interface;
+use BrianHenryIE\WP_Autologin_URLs\api\Settings_Interface;
+use BrianHenryIE\WP_Autologin_URLs\BrianHenryIE\WPPB\WPPB_Loader_Interface;
 
 /**
  * Class Test

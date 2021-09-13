@@ -11,7 +11,7 @@
  * @subpackage bh-wp-autologin-urls/api
  */
 
-namespace BH_WP_Autologin_URLs\api;
+namespace BrianHenryIE\WP_Autologin_URLs\api;
 
 /**
  * Class Settings

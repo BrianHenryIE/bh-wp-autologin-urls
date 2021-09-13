@@ -8,7 +8,7 @@
 
 namespace BH_WP_Autologin_URLs;
 
-use BH_WP_Autologin_URLs\includes\BH_WP_Autologin_URLs;
+use BrianHenryIE\WP_Autologin_URLs\includes\BH_WP_Autologin_URLs;
 
 /**
  * Class Plugin_WP_Mock_Test
