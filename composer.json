@@ -12,7 +12,8 @@
   "minimum-stability": "dev",
   "prefer-stable": true,
   "config": {
-    "process-timeout": 0
+    "process-timeout": 0,
+    "sort-packages": true
   },
   "repositories": [
     {
@@ -34,12 +35,21 @@
     {
       "type":"composer",
       "url":"https://wpackagist.org"
+    },
+    {
+      "type": "path",
+      "url": "../bh-wp-logger"
+    },
+    {
+      "url": "https://github.com/BrianHenryIE/bh-wp-logger",
+      "type": "git"
     }
   ],
   "require": {
     "php": ">=7.2",
     "brianhenryie/wppb-lib": "dev-master",
-    "pablo-sg-pacheco/wp-namespace-autoloader": "dev-brianhenryie"
+    "pablo-sg-pacheco/wp-namespace-autoloader": "dev-brianhenryie",
+    "brianhenryie/wp-logger": "dev-master"
   },
   "require-dev": {
     "10up/wp_mock": "0.4.2",
@@ -87,7 +97,10 @@
     "strauss": {
       "target_directory": "/src/strauss/",
       "namespace_prefix": "BrianHenryIE\\WP_Autologin_URLs\\",
-      "classmap_prefix": "BH_WP_Autologin_URLs_"
+      "classmap_prefix": "BH_WP_Autologin_URLs_",
+      "namespace_replacement_patterns": {
+        "~BrianHenryIE\\\\(.*)~" : "BrianHenryIE\\WP_Autologin_URLs\\\\$1"
+      }
       },
     "symlinks": {
       "src": "wp-content/plugins/bh-wp-autologin-urls",

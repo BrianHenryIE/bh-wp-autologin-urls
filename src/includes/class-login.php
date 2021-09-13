@@ -13,17 +13,18 @@ namespace BrianHenryIE\WP_Autologin_URLs\includes;
 
 use BrianHenryIE\WP_Autologin_URLs\api\API_Interface;
 use BrianHenryIE\WP_Autologin_URLs\BrianHenryIE\WPPB\WPPB_Object;
+use Psr\Log\LoggerInterface;
 use MailPoet\Models\Subscriber;
 use MailPoet\Newsletter\Links\Links;
 use MailPoet\Router\Router;
 use MailPoet\Subscribers\LinkTokens;
 use Newsletter;
-use NewsletterModule;
 use NewsletterStatistics;
 use WP_User;
+use WC_Geolocation;
 
 /**
- * The actual logging in functionality of the plugin.
+ * The actual logging-in functionality of the plugin.
  *
  * @package    bh-wp-autologin-urls
  * @subpackage bh-wp-autologin-urls/includes
@@ -45,19 +46,28 @@ class Login extends WPPB_Object {
 	protected $api;
 
 	/**
+	 * PSR logger.
+	 *
+	 * @var LoggerInterface
+	 */
+	protected $logger;
+
+	/**
 	 * Initialize the class and set its properties.
 	 *
-	 * @param   string        $plugin_name The name of this plugin.
-	 * @param   string        $version     The version of this plugin.
-	 * @param   API_Interface $api The core plugin functions.
+	 * @param   string          $plugin_name The name of this plugin.
+	 * @param   string          $version     The version of this plugin.
+	 * @param   API_Interface   $api The core plugin functions.
+	 * @param   LoggerInterface $logger The logger instance.
 	 *
 	 * @since   1.0.0
 	 */
-	public function __construct( $plugin_name, $version, $api ) {
+	public function __construct( $plugin_name, $version, $api, $logger ) {
 
 		parent::__construct( $plugin_name, $version );
 
-		$this->api = $api;
+		$this->api    = $api;
+		$this->logger = $logger;
 	}
 
 	/**
@@ -94,28 +104,38 @@ class Login extends WPPB_Object {
 
 		if ( get_current_user_id() === $user_id ) {
 
+			$this->logger->debug( "User {$user_id} already logged in." );
+
+			// TODO: always expire codes when used.
+			// TODO: Test this thoroughly.
+
 			$wp_login_endpoint = str_replace( get_site_url(), '', wp_login_url() );
-			if ( stristr( $_SERVER['REQUEST_URI'], $wp_login_endpoint )
+			if ( stristr( filter_var( getenv( 'REQUEST_URI' ) ), $wp_login_endpoint )
 				&& isset( $_GET['redirect_to'] ) ) {
 
-				$redirect_to = urldecode( $_GET['redirect_to'] );
-				wp_redirect( $redirect_to );
-				exit();
+				$redirect_to = urldecode( filter_var( wp_unslash( $_GET['redirect_to'] ), FILTER_SANITIZE_STRING ) );
+				wp_safe_redirect( $redirect_to );
+				exit;
 
 			}
 
-			// TODO: Add an option "always expire codes when used".
-
-			// Already logged in.
 			return false;
 		}
 
 		// Check for blocked IP.
-		// TODO: Fix for proxies (Cloudflare)
 		if ( ! empty( $_SERVER['REMOTE_ADDR'] ) ) {
 
-			$ip_address = filter_var( wp_unslash( $_SERVER['REMOTE_ADDR'] ), FILTER_VALIDATE_IP );
-
+			if ( class_exists( WC_Geolocation::class ) ) {
+				$ip_address = WC_Geolocation::get_ip_address();
+			} else {
+				if ( isset( $_SERVER['HTTP_X_REAL_IP'] ) ) {
+					$ip_address = sanitize_text_field( wp_unslash( $_SERVER['HTTP_X_REAL_IP'] ) );
+				} elseif ( isset( $_SERVER['HTTP_X_FORWARDED_FOR'] ) ) {
+					$ip_address = (string) rest_is_ip_address( trim( current( preg_split( '/,/', sanitize_text_field( wp_unslash( $_SERVER['HTTP_X_FORWARDED_FOR'] ) ) ) ) ) );
+				} elseif ( isset( $_SERVER['REMOTE_ADDR'] ) ) {
+					$ip_address = filter_var( wp_unslash( $_SERVER['REMOTE_ADDR'] ), FILTER_VALIDATE_IP );
+				}
+			}
 			$failure_transient_name_for_ip = self::FAILURE_TRANSIENT_PREFIX . str_replace( '.', '-', $ip_address );
 
 			$ip_failure = get_transient( $failure_transient_name_for_ip );
@@ -158,18 +178,18 @@ class Login extends WPPB_Object {
 				wp_set_auth_cookie( $user_id );
 				do_action( 'wp_login', $user->user_login, $user );
 
+				$this->logger->info( "User {$user->user_login} logged in via Autologin URL." );
+
+				// TODO: Test this thoroughly.
 				$wp_login_endpoint = str_replace( get_site_url(), '', wp_login_url() );
-				if ( stristr( $_SERVER['REQUEST_URI'], $wp_login_endpoint )
+				if ( stristr( filter_var( getenv( 'REQUEST_URI' ) ), $wp_login_endpoint )
 					&& isset( $_GET['redirect_to'] ) ) {
 
-					$redirect_to = urldecode( $_GET['redirect_to'] );
-					wp_redirect( $redirect_to );
+					$redirect_to = urldecode( filter_var( wp_unslash( $_GET['redirect_to'] ), FILTER_SANITIZE_STRING ) );
+					wp_safe_redirect( $redirect_to );
 					exit();
 
 				}
-
-				// TODO: Action to allow logging.
-				// Could we save what email the user clicked?
 
 				return true;
 
@@ -293,7 +313,9 @@ class Login extends WPPB_Object {
 		if ( $wp_user ) {
 
 			if ( get_current_user_id() === $wp_user->ID ) {
-				// Already logged in.
+
+				$this->logger->debug( "User {$wp_user->user_login} already logged in." );
+
 				return;
 			}
 
@@ -301,6 +323,8 @@ class Login extends WPPB_Object {
 			wp_set_auth_cookie( $user_id );
 
 			do_action( 'wp_login', $wp_user->user_login, $wp_user );
+
+			$this->logger->info( "User {$wp_user->user_login} logged in via Newsletter URL." );
 
 		} else {
 
@@ -347,14 +371,6 @@ class Login extends WPPB_Object {
 			return;
 		}
 
-		// "["4","d03aa7","2","ae75bb29b5c9",false]"
-		//
-		// https://staging.redmeatsupplement.com/?mailpoet_router&endpoint=track&action=click&data=WyI0IiwiZDAzYWE3IiwiMiIsIjVjMGU5YWRlMjNjZCIsZmFsc2Vd
-		//
-		// Links::transformUrlDataObject()
-		//
-		// $this->linkTokens->verifyToken($subscriber, $data['subscriber_token']))
-
 		$subscriber = Subscriber::where( 'id', $transformed_data['subscriber_id'] )->findOne();
 
 		if ( ! $subscriber ) {
@@ -372,9 +388,12 @@ class Login extends WPPB_Object {
 
 		$wp_user = get_user_by( 'email', $user_email_address );
 
+
 		if ( $wp_user instanceof WP_User ) {
 
 			if ( get_current_user_id() === $wp_user->ID ) {
+			    $this->logger->debug( "User {$wp_user->user_login} already logged in." );
+
 				// Already logged in.
 				return;
 			}
@@ -383,6 +402,8 @@ class Login extends WPPB_Object {
 			wp_set_auth_cookie( $wp_user->ID );
 			do_action( 'wp_login', $wp_user->user_login, $wp_user );
 
+			$this->logger->info( "User {$wp_user->user_login} logged in via MailPoet URL." );
+
 			return;
 
 		} else {
@@ -390,6 +411,7 @@ class Login extends WPPB_Object {
 			// We have their email address but they have no account,
 			// if WooCommerce is installed, record the email address for
 			// UX and abandoned cart.
+			// phpcs:disable WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
 			$user_info = array(
 				'first_name' => $subscriber->firstName,
 				'last_name'  => $subscriber->lastName,
@@ -437,7 +459,7 @@ class Login extends WPPB_Object {
 			)
 		);
 
-		if ( count( $customer_orders ) > 0  ) {
+		if ( count( $customer_orders ) > 0 ) {
 
 			$order = $customer_orders[0];
 
@@ -452,6 +474,7 @@ class Login extends WPPB_Object {
 			WC()->customer->set_billing_company( $order->get_billing_company() );
 			WC()->customer->set_billing_phone( $order->get_billing_phone() );
 
+			$this->logger->info( "Set customer checkout details from past order #{$order->get_id()}" );
 		}
 
 	}

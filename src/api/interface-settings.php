@@ -46,10 +46,20 @@ interface Settings_Interface {
 	public function get_disallowed_subjects_regex_dictionary(): array;
 
 	/**
+	 * PSR log level. Ideally Error or Notice. Info or Debug for more detail.
+	 *
+	 * @see LogLevel
+	 *
+	 * @return string
+	 */
+	public function get_log_level(): string;
+
+	/**
 	 * In troublesome cases, potential issues with caching, user wp-login.php to land on and redirect from.
 	 *
 	 * @return bool
 	 */
 	public function get_should_use_wp_login(): bool;
+
 }
 

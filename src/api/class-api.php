@@ -14,6 +14,7 @@
 namespace BrianHenryIE\WP_Autologin_URLs\api;
 
 use BrianHenryIE\WP_Autologin_URLs\includes\Login;
+use Psr\Log\LoggerInterface;
 use WP_User;
 
 /**
@@ -41,6 +42,8 @@ class API implements API_Interface {
 	protected $cache = array();
 
 	/**
+	 * Class for saving, retrieving and expiring passwords.
+	 *
 	 * @var Data_Store_Interface
 	 */
 	protected $data_store;
@@ -48,10 +51,11 @@ class API implements API_Interface {
 	/**
 	 * API constructor.
 	 *
-	 * @param Settings_Interface        $settings The plugin settings from the database.
+	 * @param Settings_Interface        $settings   The plugin settings from the database.
+	 * @param LoggerInterface           $logger     The logger instance.
 	 * @param Data_Store_Interface|null $data_store Class for saving, retrieving and expiring passwords.
 	 */
-	public function __construct( Settings_Interface $settings, Data_Store_Interface $data_store = null ) {
+	public function __construct( Settings_Interface $settings, LoggerInterface $logger, Data_Store_Interface $data_store = null ) {
 
 		$this->data_store = $data_store ?? new Transient_Data_Store();
 

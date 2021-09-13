@@ -24,6 +24,7 @@ namespace BH_WP_Autologin_URLs {
 	use BrianHenryIE\WP_Autologin_URLs\BrianHenryIE\WPPB\WPPB_Loader;
 	use BrianHenryIE\WP_Autologin_URLs\includes\BH_WP_Autologin_URLs;
 	use BrianHenryIE\WP_Autologin_URLs\api\Settings;
+	use BrianHenryIE\WP_Autologin_URLs\WP_Logger\Logger;
 
 	// If this file is called directly, abort.
 	if ( ! defined( 'WPINC' ) ) {
@@ -48,7 +49,9 @@ namespace BH_WP_Autologin_URLs {
 
 		$settings = new Settings();
 
-		$bh_wp_autologin_urls = new BH_WP_Autologin_URLs( $loader, $settings );
+		$logger = Logger::instance( $settings );
+
+		$bh_wp_autologin_urls = new BH_WP_Autologin_URLs( $loader, $settings, $logger );
 
 		return $bh_wp_autologin_urls;
 	}
