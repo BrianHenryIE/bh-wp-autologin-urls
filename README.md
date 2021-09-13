@@ -160,6 +160,9 @@ Show code coverage (unit+wpunit):
 XDEBUG_MODE=coverage composer run-script coverage-tests 
 ```
 
+```
+vendor/bin/phpstan analyse --memory-limit 1G
+```
 
 To save changes made to the acceptance database:
 
