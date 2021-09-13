@@ -12,7 +12,7 @@
 namespace BH_WP_Autologin_URLs\admin;
 
 use BH_WP_Autologin_URLs\api\API_Interface;
-use BH_WP_Autologin_URLs\WPPB\WPPB_Object;
+use BH_WP_Autologin_URLs\BrianHenryIE\WPPB\WPPB_Object;
 use WP_User;
 
 
@@ -58,7 +58,7 @@ class User_Edit extends WPPB_Object {
 	 *
 	 * @param WP_User $profileuser The current WP_User object.
 	 */
-	public function make_password_available_on_user_page( $profileuser ) {
+	public function make_password_available_on_user_page( $profileuser ): void {
 
 		?>
 
@@ -81,8 +81,8 @@ class User_Edit extends WPPB_Object {
 					<div class="user-edit-single-use-login-url">
 
 						<span>
-							<span class="text"><?php echo $autologin_url; ?></span>
-							<input type="text" id="autologin-url" name="autologin-url" value="<?php echo $autologin_url; ?>"/>
+							<span class="text"><?php echo esc_url( $autologin_url ); ?></span>
+							<input type="text" id="autologin-url" name="autologin-url" value="<?php echo esc_url( $autologin_url ); ?>"/>
 						</span>
 					</div>
 				</td>

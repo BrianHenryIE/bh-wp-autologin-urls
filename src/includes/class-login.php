@@ -12,7 +12,14 @@
 namespace BH_WP_Autologin_URLs\includes;
 
 use BH_WP_Autologin_URLs\api\API_Interface;
-use BH_WP_Autologin_URLs\WPPB\WPPB_Object;
+use BH_WP_Autologin_URLs\BrianHenryIE\WPPB\WPPB_Object;
+use MailPoet\Models\Subscriber;
+use MailPoet\Newsletter\Links\Links;
+use MailPoet\Router\Router;
+use MailPoet\Subscribers\LinkTokens;
+use Newsletter;
+use NewsletterModule;
+use NewsletterStatistics;
 
 /**
  * The actual logging in functionality of the plugin.
@@ -34,7 +41,7 @@ class Login extends WPPB_Object {
 	 *
 	 * @var API_Interface
 	 */
-	private $api;
+	protected $api;
 
 	/**
 	 * Initialize the class and set its properties.
@@ -86,6 +93,16 @@ class Login extends WPPB_Object {
 
 		if ( get_current_user_id() === $user_id ) {
 
+			$wp_login_endpoint = str_replace( get_site_url(), '', wp_login_url() );
+			if ( stristr( $_SERVER['REQUEST_URI'], $wp_login_endpoint )
+				&& isset( $_GET['redirect_to'] ) ) {
+
+				$redirect_to = urldecode( $_GET['redirect_to'] );
+				wp_redirect( $redirect_to );
+				exit();
+
+			}
+
 			// TODO: Add an option "always expire codes when used".
 
 			// Already logged in.
@@ -93,6 +110,7 @@ class Login extends WPPB_Object {
 		}
 
 		// Check for blocked IP.
+		// TODO: Fix for proxies (Cloudflare)
 		if ( ! empty( $_SERVER['REMOTE_ADDR'] ) ) {
 
 			$ip_address = filter_var( wp_unslash( $_SERVER['REMOTE_ADDR'] ), FILTER_VALIDATE_IP );
@@ -139,6 +157,16 @@ class Login extends WPPB_Object {
 				wp_set_auth_cookie( $user_id );
 				do_action( 'wp_login', $user->user_login, $user );
 
+				$wp_login_endpoint = str_replace( get_site_url(), '', wp_login_url() );
+				if ( stristr( $_SERVER['REQUEST_URI'], $wp_login_endpoint )
+					&& isset( $_GET['redirect_to'] ) ) {
+
+					$redirect_to = urldecode( $_GET['redirect_to'] );
+					wp_redirect( $redirect_to );
+					exit();
+
+				}
+
 				// TODO: Action to allow logging.
 				// Could we save what email the user clicked?
 
@@ -158,7 +186,7 @@ class Login extends WPPB_Object {
 	 *
 	 * @param string $autologin_querystring The autologin code which did not work.
 	 */
-	private function record_bad_attempts( $autologin_querystring ) {
+	protected function record_bad_attempts( $autologin_querystring ): void {
 
 		// This is how WordPress gets the IP in WP_Session_Tokens().
 		if ( ! empty( $_SERVER['REMOTE_ADDR'] ) ) {
@@ -213,5 +241,139 @@ class Login extends WPPB_Object {
 		set_transient( $failure_transient_name_for_ip, $ip_failure, DAY_IN_SECONDS );
 	}
 
+	/**
+	 * Check is the URL a tracking URL for The Newsletter Plugin and if so, log in the user being tracked.
+	 *
+	 * @hooked plugins_loaded
+	 *
+	 * @see https://wordpress.org/plugins/newsletter/
+	 * @see NewsletterStatistics::hook_wp_loaded()
+	 */
+	public function login_newsletter_urls(): void {
 
+		if ( ! isset( $_GET['nltr'] ) ) {
+			return;
+		}
+
+		if ( ! class_exists( NewsletterStatistics::class ) ) {
+			return;
+		}
+
+		// This code mostly lifted from Newsletter plugin.
+
+		// phpcs:disable WordPress.PHP.DiscouragedPHPFunctions.obfuscation_base64_decode
+		$nltr_param = base64_decode( filter_var( '0bda890bd176d3e219614dde964cb07f==', FILTER_SANITIZE_STRIPPED ) );
+
+		// e.g. "1;2;https://example.org;;0bda890bd176d3e219614dde964cb07f".
+
+		$parts     = explode( ';', $nltr_param );
+		$email_id  = (int) array_shift( $parts );
+		$user_id   = (int) array_shift( $parts );
+		$signature = array_pop( $parts );
+		$anchor    = array_pop( $parts );
+
+		$url = implode( ';', $parts );
+
+		$key = NewsletterStatistics::instance()->options['key'];
+
+		$verified = ( md5( $email_id . ';' . $user_id . ';' . $url . ';' . $anchor . $key ) === $signature );
+
+		if ( ! $verified ) {
+			// TODO: ban IP for repeated abuse.
+			return;
+		}
+
+		$tnp_user = Newsletter::instance()->get_user( $user_id );
+
+		$user_email_address = $tnp_user->email;
+
+		$wp_user = get_user_by( 'email', $user_email_address );
+
+		if ( $wp_user ) {
+
+			if ( get_current_user_id() === $wp_user->ID ) {
+				// Already logged in.
+				return;
+			}
+
+			wp_set_current_user( $user_id, $wp_user->user_login );
+			wp_set_auth_cookie( $user_id );
+
+			do_action( 'wp_login', $wp_user->user_login, $wp_user );
+
+		}
+	}
+
+	/**
+	 * Check is the URL a tracking URL for MailPoet plugin and if so, log in the user being tracked.
+	 *
+	 * @hooked plugins_loaded
+	 *
+	 * @see https://wordpress.org/plugins/mailpoet/
+	 */
+	public function login_mailpoet_urls(): void {
+
+		// https://staging.redmeatsupplement.com/?mailpoet_router&endpoint=track&action=click&data=WyI0IiwiZDAzYWE3IiwiMiIsImFlNzViYjI5YjVjOSIsZmFsc2Vd
+		// TODO: verify this works!
+		if ( ! isset( $_GET['mailpoet_router'] ) ) {
+			return;
+		}
+
+		if ( ! isset( $_GET['data'] ) ) {
+			return;
+		}
+
+		if ( ! class_exists( Router::class ) ) {
+			return;
+		}
+
+		// phpcs:disable WordPress.PHP.DiscouragedPHPFunctions.obfuscation_base64_decode
+		$data = Router::decodeRequestData( filter_var( wp_unslash( $_GET['data'] ), FILTER_SANITIZE_STRIPPED ) );
+
+		$transformed_data = Links::transformUrlDataObject( $data );
+
+		if ( ! isset( $transformed_data['subscriber_id'] ) ) {
+			return;
+		}
+
+		// "["4","d03aa7","2","ae75bb29b5c9",false]"
+		//
+		// https://staging.redmeatsupplement.com/?mailpoet_router&endpoint=track&action=click&data=WyI0IiwiZDAzYWE3IiwiMiIsIjVjMGU5YWRlMjNjZCIsZmFsc2Vd
+		//
+		// Links::transformUrlDataObject()
+		//
+		// $this->linkTokens->verifyToken($subscriber, $data['subscriber_token']))
+
+		$subscriber = Subscriber::where( 'id', $transformed_data['subscriber_id'] )->findOne();
+
+		if ( ! $subscriber ) {
+			return;
+		}
+
+		$link_tokens = new LinkTokens();
+		$valid       = $link_tokens->verifyToken( $subscriber, $transformed_data['subscriber_token'] );
+
+		if ( ! $valid ) {
+			return;
+		}
+
+		$user_email_address = $subscriber->email;
+
+		$wp_user = get_user_by( 'email', $user_email_address );
+
+		if ( get_current_user_id() === $wp_user->ID ) {
+			// Already logged in.
+			return;
+		}
+
+		if ( $wp_user ) {
+
+			wp_set_current_user( $wp_user->ID, $wp_user->user_login );
+			wp_set_auth_cookie( $wp_user->ID );
+			do_action( 'wp_login', $wp_user->user_login, $wp_user );
+
+			return;
+
+		}
+	}
 }

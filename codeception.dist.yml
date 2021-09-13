@@ -27,5 +27,7 @@ coverage:
         - src/vendor/*
         - /*/index.php
         - /*/*.txt
-        - autoload.php
+        - src/autoload.php
+        - /*/*.css
+        - /*/*.js
 bootstrap: bootstrap.php

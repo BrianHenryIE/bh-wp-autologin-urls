@@ -13,10 +13,8 @@
 
 namespace BH_WP_Autologin_URLs\api;
 
-use BH_WP_Autologin_URLs\includes\Settings_Interface;
 use BH_WP_Autologin_URLs\includes\Login;
-use BH_WP_Autologin_URLs\WPPB\WPPB_Object;
-
+use WP_User;
 
 /**
  * The core plugin functionality.
@@ -26,33 +24,36 @@ use BH_WP_Autologin_URLs\WPPB\WPPB_Object;
  * @subpackage bh-wp-autologin-urls/api
  * @author     BrianHenryIE <BrianHenryIE@gmail.com>
  */
-class API extends WPPB_Object implements API_Interface {
-
-	const TRANSIENT_PREFIX = 'bh_autologin_';
+class API implements API_Interface {
 
 	/**
 	 * Plugin settings as [maybe] configured by the user.
 	 *
 	 * @var Settings_Interface $settings The plugin settings from the database.
 	 */
-	private $settings;
+	protected $settings;
 
 	/**
 	 * Briefly caches generated codes to save regenerating multiple codes per email.
 	 *
 	 * @var array Dictionary ["user_id~seconds_valid" : code]
 	 */
-	private $cache = array();
+	protected $cache = array();
+
+	/**
+	 * @var Data_Store_Interface
+	 */
+	protected $data_store;
 
 	/**
 	 * API constructor.
 	 *
-	 * @param string             $plugin_name The name of this plugin.
-	 * @param string             $version     The version of this plugin.
-	 * @param Settings_Interface $settings The plugin settings from the database.
+	 * @param Settings_Interface        $settings The plugin settings from the database.
+	 * @param Data_Store_Interface|null $data_store Class for saving, retrieving and expiring passwords.
 	 */
-	public function __construct( $plugin_name, $version, $settings ) {
-		parent::__construct( $plugin_name, $version );
+	public function __construct( Settings_Interface $settings, Data_Store_Interface $data_store = null ) {
+
+		$this->data_store = $data_store ?? new Transient_Data_Store();
 
 		$this->settings = $settings;
 	}
@@ -60,13 +61,13 @@ class API extends WPPB_Object implements API_Interface {
 	/**
 	 * Adds autologin codes to every url for this site in a string.
 	 *
-	 * @param string|string[]     $message  A string (or array of strings) to update the URLs in.
-	 * @param int|string|\WP_User $user     A user id, email, username or user object.
-	 * @param int                 $expires_in Number of seconds the password should work for.
+	 * @param string|string[]    $message  A string (or array of strings) to update the URLs in.
+	 * @param int|string|WP_User $user     A user id, email, username or user object.
+	 * @param int|null           $expires_in Number of seconds the password should work for.
 	 *
 	 * @return string|string[]
 	 */
-	public function add_autologin_to_message( $message, $user, $expires_in = null ) {
+	public function add_autologin_to_message( string $message, $user, ?int $expires_in = null ) {
 
 		$replace_with = function ( $matches ) use ( $user, $expires_in ) {
 
@@ -87,13 +88,13 @@ class API extends WPPB_Object implements API_Interface {
 	/**
 	 * Public function for other plugins to use on links.
 	 *
-	 * @param string              $url         The url to append the autologin code to. This must be a link to this site.
-	 * @param int|string|\WP_User $user        A valid user id, email, login or user object.
-	 * @param int                 $expires_in  The number of seconds the code will work for.
+	 * @param string|null        $url         The url to append the autologin code to. This must be a link to this site.
+	 * @param int|string|WP_User $user        A valid user id, email, login or user object.
+	 * @param int|null           $expires_in  The number of seconds the code will work for.
 	 *
 	 * @return null|string
 	 */
-	public function add_autologin_to_url( $url, $user, $expires_in = null ) {
+	public function add_autologin_to_url( string $url, $user, ?int $expires_in = null ) {
 
 		if ( is_null( $url ) || ! stristr( $url, get_site_url() ) ) {
 			return $url;
@@ -103,7 +104,7 @@ class API extends WPPB_Object implements API_Interface {
 			return $url;
 		}
 
-		if ( ! $user instanceof \WP_User ) {
+		if ( ! $user instanceof WP_User ) {
 
 			if ( is_int( $user ) ) {
 
@@ -140,7 +141,11 @@ class API extends WPPB_Object implements API_Interface {
 		// taken place in this method.
 		$autologin_code = $this->generate_code( $user, $expires_in );
 
-		$user_link = add_query_arg( Login::QUERYSTRING_PARAMETER_NAME, $autologin_code, $url );
+		if ( ! $this->settings->get_should_use_wp_login() ) {
+			$user_link = add_query_arg( Login::QUERYSTRING_PARAMETER_NAME, $autologin_code, $url );
+		} else {
+			$user_link = add_query_arg( Login::QUERYSTRING_PARAMETER_NAME, $autologin_code, wp_login_url( $url ) );
+		}
 
 		return $user_link;
 
@@ -152,14 +157,14 @@ class API extends WPPB_Object implements API_Interface {
 	 *
 	 * If the user does not exist, null is returned.
 	 *
-	 * @param \WP_User $user           WordPress user.
-	 * @param int      $seconds_valid  Number of seconds after which the password will expire.
+	 * @param WP_User  $user           WordPress user.
+	 * @param int|null $seconds_valid  Number of seconds after which the password will expire.
 	 *
 	 * @return String|null
 	 */
-	public function generate_code( $user, $seconds_valid ) {
+	public function generate_code( $user, ?int $seconds_valid ) {
 
-		if ( is_null( $user ) || ! $user instanceof \WP_User ) {
+		if ( is_null( $user ) || ! $user instanceof WP_User ) {
 			return null;
 		}
 
@@ -190,22 +195,14 @@ class API extends WPPB_Object implements API_Interface {
 	 *
 	 * @return String password
 	 */
-	private function generate_password( $user_id, $seconds_valid ) {
+	protected function generate_password( int $user_id, int $seconds_valid ) {
 
 		// Generate a password using only alphanumerics (to avoid urlencoding worries).
 		// Length of 12 was chosen arbitrarily.
 		$password = wp_generate_password( 12, false );
 
-		// In the unlikely event there is a colission, someone won't get to log in. Oh well.
-		$transient_name = self::TRANSIENT_PREFIX . hash( 'sha256', $password );
 
-		// Concatenate $user_id and $password so the database cannot be searched by username.
-		$value = hash( 'sha256', $user_id . $password );
-
-		$expires_at = time() + $seconds_valid;
-
-		// This could return false if not set.
-		set_transient( $transient_name, $value, $expires_at );
+		$this->data_store->save( $user_id, $password, $seconds_valid );
 
 		return $password;
 	}
@@ -218,17 +215,13 @@ class API extends WPPB_Object implements API_Interface {
 	 *
 	 * @return bool
 	 */
-	public function verify_autologin_password( $user_id, $password ) {
+	public function verify_autologin_password( int $user_id, string $password ) {
 
-		$transient_name = self::TRANSIENT_PREFIX . hash( 'sha256', $password );
-
-		$value = get_transient( $transient_name );
+		$value = $this->data_store->get_value_for_password( $password );
 
 		if ( false !== $value ) {
 
 			if ( hash( 'sha256', $user_id . $password ) === $value ) {
-
-				delete_transient( $transient_name );
 
 				return true;
 			}

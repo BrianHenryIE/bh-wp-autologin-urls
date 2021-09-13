@@ -10,8 +10,8 @@
 
 namespace BH_WP_Autologin_URLs\admin\partials;
 
-use BH_WP_Autologin_URLs\includes\Settings;
-use BH_WP_Autologin_URLs\includes\Settings_Interface;
+use BH_WP_Autologin_URLs\api\Settings;
+use BH_WP_Autologin_URLs\api\Settings_Interface;
 
 /**
  * Class Expiry_Age_Test
@@ -85,7 +85,7 @@ class Expiry_Age_Test extends \Codeception\Test\Unit {
 		$this->assertEquals( 'text', $type );
 
 		$id = $input->getAttribute( 'id' );
-		$this->assertEquals( Settings::EXPIRY_TIME_IN_SECONDS, $id );
+		$this->assertEquals( 'bh_wp_autologin_urls_seconds_until_expiry', $id );
 
 		$value = $input->getAttribute( 'value' );
 		$this->assertEquals( 12345, $value );

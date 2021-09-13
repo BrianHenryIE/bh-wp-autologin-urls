@@ -11,13 +11,13 @@
 
 namespace BH_WP_Autologin_URLs\admin;
 
-use BH_WP_Autologin_URLs\includes\Settings_Interface;
+use BH_WP_Autologin_URLs\admin\partials\Use_WP_Login;
+use BH_WP_Autologin_URLs\api\Settings_Interface;
 use BH_WP_Autologin_URLs\admin\partials\Settings_Section_Element_Abstract;
 use BH_WP_Autologin_URLs\admin\partials\Admin_Enable;
 use BH_WP_Autologin_URLs\admin\partials\Expiry_Age;
 use BH_WP_Autologin_URLs\admin\partials\Regex_Subject_Filters;
-use BH_WP_Autologin_URLs\WPPB\WPPB_Object;
-
+use BH_WP_Autologin_URLs\BrianHenryIE\WPPB\WPPB_Object;
 
 /**
  * The setting page of the plugin.
@@ -55,7 +55,7 @@ class Settings_Page extends WPPB_Object {
 	 *
 	 * @hooked admin_menu
 	 */
-	public function add_settings_page() {
+	public function add_settings_page(): void {
 
 		add_options_page(
 			'Autologin URLs',
@@ -69,7 +69,7 @@ class Settings_Page extends WPPB_Object {
 	/**
 	 * Registered above, called by WordPress to display the admin settings page.
 	 */
-	public function display_plugin_admin_page() {
+	public function display_plugin_admin_page(): void {
 
 		$example_url = site_url() . '/?autologin=' . get_current_user_id() . '~Yxu1UQG8IwJO';
 
@@ -81,7 +81,7 @@ class Settings_Page extends WPPB_Object {
 	 *
 	 * @hooked admin_init
 	 */
-	public function setup_sections() {
+	public function setup_sections(): void {
 
 		$settings_page_slug_name = $this->plugin_name;
 
@@ -102,16 +102,22 @@ class Settings_Page extends WPPB_Object {
 	 *
 	 * @since    1.0.0
 	 */
-	public function setup_fields() {
+	public function setup_fields(): void {
 
 		$settings_page_slug_name = $this->plugin_name;
 
-		/** @var Settings_Section_Element_Abstract[] $fields */
+		/**
+		 * Other plugins (WooCommerce, WP Affiliate) handle this by using an array here, where each array element has
+		 * a 'type' which is instantiated, then the defaults are overwritten from other properties in the array.
+		 *
+		 * @var Settings_Section_Element_Abstract[] $fields Each element to be displayed.
+		 */
 		$fields = array();
 
 		$fields[] = new Expiry_Age( $this->plugin_name, $this->version, $settings_page_slug_name, $this->settings );
 		$fields[] = new Admin_Enable( $this->plugin_name, $this->version, $settings_page_slug_name, $this->settings );
 		$fields[] = new Regex_Subject_Filters( $this->plugin_name, $this->version, $settings_page_slug_name, $this->settings );
+		$fields[] = new Use_WP_Login( $this->plugin_name, $this->version, $settings_page_slug_name, $this->settings );
 
 		foreach ( $fields as $field ) {
 

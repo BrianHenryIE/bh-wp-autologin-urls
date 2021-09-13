@@ -41,4 +41,8 @@
         <exclude-pattern>abstract*</exclude-pattern>
     </rule>
 
+    <rule ref="WordPress.NamingConventions.ValidVariableName.VariableNotSnakeCase">
+        <exclude-pattern>tests/**/**</exclude-pattern>
+    </rule>
+
 </ruleset>

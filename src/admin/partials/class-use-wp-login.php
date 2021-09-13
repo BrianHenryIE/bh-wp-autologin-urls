@@ -1,6 +1,6 @@
 <?php
 /**
- * This settings field is a checkbox to signify if autologin codes should be added to emails sent to admins.
+ * This settings field is a checkbox to signify if autologin URLs should be redirect URLs via wp-login.php.
  *
  * @link       https://BrianHenry.ie
  * @since      1.0.0
@@ -15,9 +15,9 @@ use BH_WP_Autologin_URLs\api\Settings_Interface;
 use BH_WP_Autologin_URLs\api\Settings;
 
 /**
- * Class Admin_Enable
+ * Class
  */
-class Admin_Enable extends Settings_Section_Element_Abstract {
+class Use_WP_Login extends Settings_Section_Element_Abstract {
 
 	/**
 	 * Admin_Enable constructor.
@@ -31,13 +31,13 @@ class Admin_Enable extends Settings_Section_Element_Abstract {
 
 		parent::__construct( $plugin_name, $version, $settings_page );
 
-		$this->value = $settings->get_add_autologin_for_admins_is_enabled() ? 'admin_is_enabled' : 'admin_is_not_enabled';
+		$this->value = $settings->get_should_use_wp_login() ? 'use_wp_login_is_enabled' : 'use_wp_login_is_not_enabled';
 
-		$this->id    = Settings::ADMIN_ENABLED;
-		$this->title = __( 'Add to admin emails?', 'bh-wp-autologin-urls' );
+		$this->id    = Settings::SHOULD_USE_WP_LOGIN;
+		$this->title = __( 'Use wp-login.php?', 'bh-wp-autologin-urls' );
 		$this->page  = $settings_page;
 
-		$this->add_settings_field_args['helper']       = __( 'When enabled, emails to administrators <i>will</i> contain autologin URLs.', 'bh-wp-autologin-urls' );
+		$this->add_settings_field_args['helper']       = __( 'If URLs aren\'t correctly logging user in, try this.', 'bh-wp-autologin-urls' );
 		$this->add_settings_field_args['supplemental'] = __( 'default: false', 'bh-wp-autologin-urls' );
 
 	}
@@ -52,8 +52,8 @@ class Admin_Enable extends Settings_Section_Element_Abstract {
 		$value = $this->value;
 
 		// This is what is POSTed when the checkbox is ticked.
-		$checkbox_value = 'admin_is_enabled';
-		$is_checked     = 'admin_is_enabled' === $value ? 'checked ' : '';
+		$checkbox_value = 'use_wp_login_is_enabled';
+		$is_checked     = 'use_wp_login_is_enabled' === $value ? 'checked ' : '';
 		$label          = $arguments['helper'];
 
 		printf( '<fieldset><label for="%1$s"><input id="%1$s" name="%1$s" type="checkbox" value="%2$s" %3$s />%4$s</label></fieldset>', esc_attr( $this->id ), esc_attr( $checkbox_value ), esc_attr( $is_checked ), wp_kses( $label, array( 'i' => array() ) ) );
@@ -70,10 +70,10 @@ class Admin_Enable extends Settings_Section_Element_Abstract {
 	 */
 	public function sanitize_callback( $value ) {
 
-		if ( 'admin_is_enabled' === $value ) {
-			return 'admin_is_enabled';
+		if ( 'use_wp_login_is_enabled' === $value ) {
+			return 'use_wp_login_is_enabled';
 		} elseif ( null === $value ) {
-			return 'admin_is_not_enabled';
+			return 'use_wp_login_is_not_enabled';
 		} else {
 			return $this->value;
 		}

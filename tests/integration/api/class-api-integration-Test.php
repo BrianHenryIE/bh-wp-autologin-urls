@@ -8,20 +8,10 @@
 
 namespace BH_WP_Autologin_URLs\api;
 
-use \BH_WP_Autologin_URLs\includes\BH_WP_Autologin_URLs;
-use BH_WP_Autologin_URLs\includes\Settings_Interface;
-
 /**
- * Class API_Develop_Test
+ * Class API_Integration_Test
  */
-class API_Develop_Test extends \Codeception\TestCase\WPTestCase {
-
-	protected $plugin_name;
-
-	protected $version;
-
-	/** @var Settings_Interface */
-	protected $settings;
+class API_Integration_Test extends \Codeception\TestCase\WPTestCase {
 
 	public function _setUp() {
 		parent::_setUp();
@@ -30,28 +20,6 @@ class API_Develop_Test extends \Codeception\TestCase\WPTestCase {
 		add_filter( 'site_url', function( $url, $path, $scheme, $blog_id ) {
 			return str_replace('localhost', 'example.org', $url );
 		}, 10, 4 );
-
-		$this->plugin_name = 'bh-wp-autologin-urls';
-		$this->version = '1.2.0';
-
-		$this->settings = new class() implements Settings_Interface {
-
-			public function get_expiry_age() {
-				return WEEK_IN_SECONDS;
-			}
-
-			public function get_add_autologin_for_admins_is_enabled() {
-				return false;
-			}
-
-			public function get_disallowed_subjects_regex_array() {
-				return [];
-			}
-
-			public function get_disallowed_subjects_regex_dictionary() {
-				return [];
-			}
-		};
 
 		$this->set_return_password_for_test_user();
 	}

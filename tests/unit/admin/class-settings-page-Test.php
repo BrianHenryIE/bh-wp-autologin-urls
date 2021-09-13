@@ -10,7 +10,7 @@
 
 namespace BH_WP_Autologin_URLs\admin;
 
-use BH_WP_Autologin_URLs\includes\Settings_Interface;
+use BH_WP_Autologin_URLs\api\Settings_Interface;
 
 /**
  * Class Admin_Test

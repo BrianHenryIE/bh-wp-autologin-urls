@@ -11,7 +11,7 @@
 
 namespace BH_WP_Autologin_URLs\admin\partials;
 
-use BH_WP_Autologin_URLs\WPPB\WPPB_Object;
+use BH_WP_Autologin_URLs\BrianHenryIE\WPPB\WPPB_Object;
 
 /**
  * Code common across setting elements.
@@ -97,7 +97,7 @@ abstract class Settings_Section_Element_Abstract extends WPPB_Object {
 	/**
 	 * Add the configured settings field to the page and section.
 	 */
-	public function add_settings_field() {
+	public function add_settings_field(): void {
 
 		add_settings_field(
 			$this->id,
@@ -113,7 +113,7 @@ abstract class Settings_Section_Element_Abstract extends WPPB_Object {
 	/**
 	 * Register the setting with WordPress so it whitelisted for saving.
 	 */
-	public function register_setting() {
+	public function register_setting(): void {
 
 		register_setting(
 			$this->page,
@@ -128,7 +128,7 @@ abstract class Settings_Section_Element_Abstract extends WPPB_Object {
 	 *
 	 * @param array $arguments The field data as registered with add_settings_field().
 	 */
-	abstract public function print_field_callback( $arguments );
+	abstract public function print_field_callback( $arguments ): void;
 
 	/**
 	 * Carry out any sanitization and pre-processing of the POSTed data before it is saved in the database.

@@ -12,8 +12,8 @@
 namespace BH_WP_Autologin_URLs\includes;
 
 use BH_WP_Autologin_URLs\api\API_Interface;
-use BH_WP_Autologin_URLs\includes\Settings_Interface;
-use BH_WP_Autologin_URLs\WPPB\WPPB_Object;
+use BH_WP_Autologin_URLs\api\Settings_Interface;
+use BH_WP_Autologin_URLs\BrianHenryIE\WPPB\WPPB_Object;
 
 /**
  * The wp_mail hooked functionality of the plugin.
@@ -29,14 +29,14 @@ class WP_Mail extends WPPB_Object {
 	 *
 	 * @var API_Interface
 	 */
-	private $api;
+	protected $api;
 
 	/**
 	 * The settings, as configured in the WordPress admin UI.
 	 *
 	 * @var Settings_Interface
 	 */
-	private $settings;
+	protected $settings;
 
 	/**
 	 * WP_Mail constructor.
@@ -62,7 +62,7 @@ class WP_Mail extends WPPB_Object {
 	 * @return array
 	 * @see wp_mail()
 	 */
-	public function add_autologin_links_to_email( $wp_mail_args ) {
+	public function add_autologin_links_to_email( $wp_mail_args ): array {
 
 		$user = get_user_by( 'email', $wp_mail_args['to'] );
 

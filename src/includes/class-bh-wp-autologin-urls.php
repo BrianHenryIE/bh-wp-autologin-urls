@@ -20,8 +20,10 @@ use BH_WP_Autologin_URLs\api\API;
 use BH_WP_Autologin_URLs\admin\Admin;
 use BH_WP_Autologin_URLs\admin\Settings_Page;
 use BH_WP_Autologin_URLs\admin\Plugins_Page;
-use BH_WP_Autologin_URLs\WPPB\WPPB_Loader_Interface;
-use BH_WP_Autologin_URLs\WPPB\WPPB_Object;
+use BH_WP_Autologin_URLs\api\Settings_Interface;
+use BH_WP_Autologin_URLs\BrianHenryIE\WPPB\WPPB_Loader_Interface;
+use BH_WP_Autologin_URLs\BrianHenryIE\WPPB\WPPB_Object;
+use BH_WP_Autologin_URLs\BrianHenryIE\WPPB\WPPB_Plugin_Abstract;
 
 /**
  * The core plugin class.
@@ -39,7 +41,7 @@ use BH_WP_Autologin_URLs\WPPB\WPPB_Object;
  *
  * phpcs:disable Squiz.PHP.DisallowMultipleAssignments.Found
  */
-class BH_WP_Autologin_URLs extends WPPB_Object {
+class BH_WP_Autologin_URLs extends WPPB_Plugin_Abstract {
 
 	/**
 	 * Instance member of API class to expose to WordPress to allow users unhook actions.
@@ -90,16 +92,6 @@ class BH_WP_Autologin_URLs extends WPPB_Object {
 	 * @var WP_Mail
 	 */
 	public $wp_mail;
-
-	/**
-	 * The loader that's responsible for maintaining and registering all hooks that power
-	 * the plugin.
-	 *
-	 * @since    1.0.0
-	 * @access   protected
-	 * @var      WPPB_Loader_Interface $loader Maintains and registers all hooks for the plugin.
-	 */
-	protected $loader;
 
 	/**
 	 * Define the core functionality of the plugin.
@@ -159,7 +151,7 @@ class BH_WP_Autologin_URLs extends WPPB_Object {
 	 */
 	private function setup_api() {
 
-		$this->api = $plugin_api = new API( $this->plugin_name, $this->version, $this->settings );
+		$this->api = $plugin_api = new API( $this->settings );
 
 		$this->loader->add_filter( 'add_autologin_to_message', $plugin_api, 'add_autologin_to_message', 10, 2 );
 		$this->loader->add_filter( 'add_autologin_to_url', $plugin_api, 'add_autologin_to_url', 10, 2 );
@@ -226,24 +218,10 @@ class BH_WP_Autologin_URLs extends WPPB_Object {
 
 		$this->loader->add_action( 'plugins_loaded', $plugin_login, 'wp_init_process_autologin', 2 );
 
+		$this->loader->add_action( 'plugins_loaded', $plugin_login, 'login_newsletter_urls', 0 );
+		$this->loader->add_action( 'plugins_loaded', $plugin_login, 'login_mailpoet_urls', 0 );
+
 	}
 
-	/**
-	 * Run the loader to execute all of the hooks with WordPress.
-	 *
-	 * @since    1.0.0
-	 */
-	public function run() {
-		$this->loader->run();
-	}
 
-	/**
-	 * The reference to the class that orchestrates the hooks with the plugin.
-	 *
-	 * @return    WPPB_Loader_Interface    Orchestrates the hooks of the plugin.
-	 * @since     1.0.0
-	 */
-	public function get_loader() {
-		return $this->loader;
-	}
 }

@@ -10,8 +10,8 @@
 
 namespace BH_WP_Autologin_URLs\admin\partials;
 
-use BH_WP_Autologin_URLs\includes\Settings_Interface;
-use BH_WP_Autologin_URLs\includes\Settings;
+use BH_WP_Autologin_URLs\api\Settings_Interface;
+use BH_WP_Autologin_URLs\api\Settings;
 
 /**
  * Class Expiry_Age
@@ -34,7 +34,7 @@ class Expiry_Age extends Settings_Section_Element_Abstract {
 
 		$this->value = $settings->get_expiry_age();
 
-		$this->id    = Settings::EXPIRY_TIME_IN_SECONDS;
+		$this->id    = 'bh_wp_autologin_urls_seconds_until_expiry';
 		$this->title = 'Expiry age:';
 		$this->page  = $settings_page;
 
@@ -51,7 +51,7 @@ class Expiry_Age extends Settings_Section_Element_Abstract {
 	 *
 	 * @param array $arguments Settings passed from WordPress do_settings_fields() function.
 	 */
-	public function print_field_callback( $arguments ) {
+	public function print_field_callback( $arguments ): void {
 
 		$value = $this->value;
 

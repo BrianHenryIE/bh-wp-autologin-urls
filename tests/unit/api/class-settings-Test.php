@@ -9,7 +9,7 @@
  * @author Brian Henry <BrianHenryIE@gmail.com>
  */
 
-namespace BH_WP_Autologin_URLs\includes;
+namespace BH_WP_Autologin_URLs\api;
 
 /**
  * Class Settings_Test
@@ -21,68 +21,23 @@ class Settings_Test extends \Codeception\Test\Unit {
 		\WP_Mock::setUp();
 	}
 
-
-	/**
-	 * Verifies on construction, the settings are fetched with get_option().
-	 */
-	public function test_construction() {
-
-		\WP_Mock::userFunction(
-			'get_option',
-			array(
-				'args'   => array( 'bh_wp_autologin_urls_seconds_until_expiry', 604800 ),
-				'times'  => 1,
-				'return' => 604800,
-			)
-		);
-
-		\WP_Mock::userFunction(
-			'get_option',
-			array(
-				'args'   => array( 'bh_wp_autologin_urls_is_admin_enabled', 'admin_is_not_enabled' ),
-				'times'  => 1,
-				'return' => 'admin_is_enabled',
-			)
-		);
-
-		\WP_Mock::userFunction(
-			'get_option',
-			array(
-				'args'   => array( 'bh_wp_autologin_urls_subject_filter_regex_dictionary', '*' ),
-				'times'  => 1,
-				'return' => array(),
-			)
-		);
-
-		new Settings();
-	}
-
-
 	/**
 	 * Verifies the getter for get_expiry_age.
 	 */
 	public function test_get_expiry_age_setting_getter() {
 
-		$expected = 21345;
-
 		\WP_Mock::userFunction(
 			'get_option',
 			array(
 				'args'   => array( 'bh_wp_autologin_urls_seconds_until_expiry', 604800 ),
 				'times'  => 1,
-				'return' => $expected,
+				'return' => 123,
 			)
-		);
-
-		\WP_Mock::userFunction(
-			'get_option'
 		);
 
 		$settings = new Settings();
 
-		$actual = $settings->get_expiry_age();
-
-		$this->assertEquals( $expected, $actual );
+		$settings->get_expiry_age();
 	}
 
 
@@ -168,23 +123,6 @@ class Settings_Test extends \Codeception\Test\Unit {
 		\WP_Mock::userFunction(
 			'get_option',
 			array(
-				'args'   => array( 'bh_wp_autologin_urls_seconds_until_expiry', 604800 ),
-				'times'  => 1,
-				'return' => 604800,
-			)
-		);
-
-		\WP_Mock::userFunction(
-			'get_option',
-			array(
-				'args'  => array( 'bh_wp_autologin_urls_is_admin_enabled', 'admin_is_not_enabled' ),
-				'times' => 1,
-			)
-		);
-
-		\WP_Mock::userFunction(
-			'get_option',
-			array(
 				'args'   => array( 'bh_wp_autologin_urls_subject_filter_regex_dictionary', '*' ),
 				'times'  => 1,
 				'return' => null,
@@ -201,23 +139,6 @@ class Settings_Test extends \Codeception\Test\Unit {
 	 * Verifies on first construction, the regex filter getter works.
 	 */
 	public function test_subject_regex_filter_dictionary_getter() {
-
-		\WP_Mock::userFunction(
-			'get_option',
-			array(
-				'args'   => array( 'bh_wp_autologin_urls_seconds_until_expiry', 604800 ),
-				'times'  => 1,
-				'return' => 604800,
-			)
-		);
-
-		\WP_Mock::userFunction(
-			'get_option',
-			array(
-				'args'  => array( 'bh_wp_autologin_urls_is_admin_enabled', 'admin_is_not_enabled' ),
-				'times' => 1,
-			)
-		);
 
 		\WP_Mock::userFunction(
 			'get_option',

@@ -11,7 +11,7 @@
 
 namespace BH_WP_Autologin_URLs\admin;
 
-use BH_WP_Autologin_URLs\WPPB\WPPB_Object;
+use BH_WP_Autologin_URLs\BrianHenryIE\WPPB\WPPB_Object;
 
 /**
  * This class adds a `Settings` link on the plugins.php page.
@@ -29,7 +29,7 @@ class Plugins_Page extends WPPB_Object {
 	 *
 	 * @return array The links to display below the plugin name on plugins.php.
 	 */
-	public function action_links( $links_array ) {
+	public function action_links( $links_array ): array {
 
 		$settings_url = admin_url( '/options-general.php?page=' . $this->get_plugin_name() );
 
@@ -50,7 +50,7 @@ class Plugins_Page extends WPPB_Object {
 	 *
 	 * @return array The filtered $plugin_meta.
 	 */
-	public function row_meta( $plugin_meta, $plugin_file_name, $plugin_data, $status ) {
+	public function row_meta( $plugin_meta, $plugin_file_name, $plugin_data, $status ): array {
 
 		if ( $this->get_plugin_name() . '/' . $this->get_plugin_name() . '.php' === $plugin_file_name ) {
 

@@ -29,14 +29,7 @@ if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
 	exit;
 }
 
-// Require files for constants.
-require_once plugin_dir_path( __FILE__ ) . 'includes/interface-settings.php';
-require_once plugin_dir_path( __FILE__ ) . 'includes/class-settings.php';
-require_once plugin_dir_path( __FILE__ ) . 'api/interface-api.php';
-require_once plugin_dir_path( __FILE__ ) . 'api/class-api.php';
-
-use BH_WP_Autologin_URLs\api\API;
-use BH_WP_Autologin_URLs\includes\Settings;
+use BH_WP_Autologin_URLs\api\Settings_Interface;
 
 /**
  * Delete the passwords stored as transients in wp_options.
@@ -50,8 +43,8 @@ function bh_wp_autologin_urls_clear_transients() {
 	$wpdb->query(
 		$wpdb->prepare(
 			"DELETE FROM {$wpdb->options} WHERE option_name LIKE %s OR option_name LIKE %s",
-			$wpdb->esc_like( '_transient_' . API::TRANSIENT_PREFIX . '%' ),
-			$wpdb->esc_like( '_transient_timeout_' . API::TRANSIENT_PREFIX . '%' )
+			$wpdb->esc_like( '_transient_bh_autologin_bh_autologin_%' ),
+			$wpdb->esc_like( '_transient_timeout_bh_autologin_%' )
 		)
 	);
 
@@ -60,12 +53,14 @@ bh_wp_autologin_urls_clear_transients();
 
 /**
  * Delete each of the wp_options entries used by the plugin.
+ *
+ * @see Settings_Interface
  */
 function bh_wp_autologin_urls_delete_settings() {
 
-	delete_option( Settings::EXPIRY_TIME_IN_SECONDS );
-	delete_option( Settings::ADMIN_ENABLED );
-	delete_option( Settings::SUBJECT_FILTER_REGEX_DICTIONARY );
+	delete_option( 'bh_wp_autologin_urls_seconds_until_expiry' );
+	delete_option( 'bh_wp_autologin_urls_is_admin_enabled' );
+	delete_option( 'bh_wp_autologin_urls_subject_filter_regex_dictionary' );
 
 }
 bh_wp_autologin_urls_delete_settings();

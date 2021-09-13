@@ -11,7 +11,7 @@
 
 namespace BH_WP_Autologin_URLs\admin;
 
-use BH_WP_Autologin_URLs\WPPB\WPPB_Object;
+use BH_WP_Autologin_URLs\BrianHenryIE\WPPB\WPPB_Object;
 
 /**
  * The admin area functionality of the plugin.
@@ -29,7 +29,7 @@ class Admin extends WPPB_Object {
 	 *
 	 * @since    1.0.0
 	 */
-	public function enqueue_styles() {
+	public function enqueue_styles(): void {
 
 		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/bh-wp-autologin-urls-admin.css', array(), $this->version, 'all' );
 	}
@@ -41,7 +41,7 @@ class Admin extends WPPB_Object {
 	 *
 	 * @since    1.0.0
 	 */
-	public function enqueue_scripts() {
+	public function enqueue_scripts(): void {
 
 		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/bh-wp-autologin-urls-admin.js', array( 'jquery' ), $this->version, true );
 	}
