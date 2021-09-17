@@ -14,7 +14,7 @@ use BrianHenryIE\WP_Autologin_URLs\Admin\Plugins_Page;
 /**
  * Class Develop_Test
  */
-class BH_WP_Autologin_URLs_Develop_Test extends \Codeception\TestCase\WPTestCase {
+class BH_WP_Autologin_URLs_Integration_Test extends \Codeception\TestCase\WPTestCase {
 
 	/**
 	 * Verify admin_enqueue_scripts action is correctly added for styles, at priority 10.

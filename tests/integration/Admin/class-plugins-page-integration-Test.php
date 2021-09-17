@@ -15,7 +15,7 @@ use \DOMDocument;
  *
  * @see WP_Plugins_List_Table::single_row()
  */
-class Plugins_Page_Test extends \Codeception\TestCase\WPTestCase {
+class Plugins_Page_Integration_Test extends \Codeception\TestCase\WPTestCase {
 
 	/**
 	 * Verify the content of the action links.

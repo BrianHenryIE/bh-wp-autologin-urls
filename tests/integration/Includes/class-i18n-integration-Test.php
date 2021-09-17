@@ -9,11 +9,11 @@
 namespace BrianHenryIE\WP_Autologin_URLs\Includes;
 
 /**
- * Class BH_WP_Autlogin_URLs_I18n_Test
+ * 
  *
  * @see I18n
  */
-class BH_WP_Autlogin_URLs_I18n_Test extends \Codeception\TestCase\WPTestCase {
+class I18n_Integration_Test extends \Codeception\TestCase\WPTestCase {
 
 	/**
 	 * AFAICT, this will fail until a translation has been added.

@@ -15,7 +15,7 @@ use BrianHenryIE\WP_Autologin_URLs\API\DB_Data_Store;
  *
  * @see Login
  */
-class Login_Develop_Test extends \Codeception\TestCase\WPTestCase {
+class Login_Integration_Test extends \Codeception\TestCase\WPTestCase {
 
 
 	public function setUp() {

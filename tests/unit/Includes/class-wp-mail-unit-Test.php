@@ -14,7 +14,7 @@ use BrianHenryIE\WP_Autologin_URLs\API\API_Interface;
 /**
  * Class WP_Mail_WP_Mock_Test
  */
-class WP_Mail_Uni_Test extends \Codeception\Test\Unit {
+class WP_Mail_Unit_Test extends \Codeception\Test\Unit {
 
 	protected function _before() {
 
