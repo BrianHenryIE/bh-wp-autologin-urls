@@ -11,7 +11,7 @@ namespace BrianHenryIE\WP_Autologin_URLs\Includes;
 /**
  * Class I18n_Test
  */
-class I18n_Test extends \Codeception\Test\Unit {
+class I18n_Unit_Test extends \Codeception\Test\Unit {
 
 	protected function _before() {
 

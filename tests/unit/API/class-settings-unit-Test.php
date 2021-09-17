@@ -14,7 +14,7 @@ namespace BrianHenryIE\WP_Autologin_URLs\API;
 /**
  * Class Settings_Test
  */
-class Settings_Test extends \Codeception\Test\Unit {
+class Settings_Unit_Test extends \Codeception\Test\Unit {
 
 	protected function _before() {
 

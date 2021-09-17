@@ -16,7 +16,7 @@ use Psr\Log\NullLogger;
 /**
  * Class Admin_Test
  */
-class Settings_Page_Test extends \Codeception\Test\Unit {
+class Settings_Page_Unit_Test extends \Codeception\Test\Unit {
 
 	protected function setup(): void {
 		\WP_Mock::setUp();

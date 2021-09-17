@@ -15,7 +15,7 @@ namespace BrianHenryIE\WP_Autologin_URLs\Admin\partials;
  *
  * @phpcs:disable Squiz.Commenting.FunctionComment.EmptyThrows
  */
-class Settings_Section_Element_Test extends \Codeception\Test\Unit {
+class Settings_Section_Element_Unit_Test extends \Codeception\Test\Unit {
 
 	protected function _before() {
 

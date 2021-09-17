@@ -15,7 +15,7 @@ use BrianHenryIE\WP_Autologin_URLs\API\Settings_Interface;
 /**
  * Class Admin_Test
  */
-class Admin_Test extends \Codeception\Test\Unit {
+class Admin_Unit_Test extends \Codeception\Test\Unit {
 
 	protected function _before() {
 		\WP_Mock::setUp();

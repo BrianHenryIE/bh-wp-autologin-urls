@@ -20,7 +20,7 @@ use BrianHenryIE\WP_Autologin_URLs\API\Settings_Interface;
  *
  * phpcs:disable WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
  */
-class Admin_Enable_Test extends \Codeception\Test\Unit {
+class Admin_Enable_Unit_Test extends \Codeception\Test\Unit {
 
 	protected function _before() {
 

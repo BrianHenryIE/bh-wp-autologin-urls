@@ -13,7 +13,7 @@ namespace BrianHenryIE\WP_Autologin_URLs\Admin\partials;
 /**
  * Class BH_WP_Autologin_URLs_Admin_Display_Test
  */
-class BH_WP_Autologin_URLs_Admin_Display_Test extends \Codeception\Test\Unit {
+class BH_WP_Autologin_URLs_Admin_Display_Unit_Test extends \Codeception\Test\Unit {
 
 	protected function setup(): void {
 		\WP_Mock::setUp();

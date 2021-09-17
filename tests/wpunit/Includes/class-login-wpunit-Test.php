@@ -9,7 +9,7 @@ namespace BrianHenryIE\WP_Autologin_URLs\Includes;
 use BrianHenryIE\WP_Autologin_URLs\API\API_Interface;
 use Psr\Log\LoggerInterface;
 
-class Login_Test extends \Codeception\TestCase\WPTestCase {
+class Login_WPUnit_Test extends \Codeception\TestCase\WPTestCase {
 
 	/**
 	 * When there is a past order associated with that email address,

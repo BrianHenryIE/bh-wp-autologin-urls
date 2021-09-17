@@ -16,7 +16,7 @@ use WP_User;
 /**
  * Class Login_Test
  */
-class Login_Test extends \Codeception\Test\Unit {
+class Login_Unit_Test extends \Codeception\Test\Unit {
 
 	protected function setup(): void {
 		\WP_Mock::setUp();

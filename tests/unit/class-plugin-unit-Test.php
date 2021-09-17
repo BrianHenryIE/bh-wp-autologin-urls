@@ -13,7 +13,7 @@ use BrianHenryIE\WP_Autologin_URLs\Includes\BH_WP_Autologin_URLs;
 /**
  * Class Plugin_WP_Mock_Test
  */
-class Plugin_WP_Mock_Test extends \Codeception\Test\Unit {
+class Plugin_Unit_Test extends \Codeception\Test\Unit {
 
 	protected function setup(): void {
 		\WP_Mock::setUp();

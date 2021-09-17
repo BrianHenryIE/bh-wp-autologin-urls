@@ -18,7 +18,7 @@ use BrianHenryIE\WP_Autologin_URLs\API\Settings_Interface;
  *
  * phpcs:disable WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
  */
-class Expiry_Age_Test extends \Codeception\Test\Unit {
+class Expiry_Age_Unit_Test extends \Codeception\Test\Unit {
 
 	protected function setup(): void {
 		\WP_Mock::setUp();

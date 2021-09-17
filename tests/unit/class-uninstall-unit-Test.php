@@ -11,7 +11,7 @@ namespace BrianHenryIE\WP_Autologin_URLs;
 /**
  * Class Uninstall_WP_Mock_Test
  */
-class Uninstall_WP_Mock_Test extends \Codeception\Test\Unit {
+class Uninstall_Unit_Test extends \Codeception\Test\Unit {
 
 	protected function setup(): void {
 		\WP_Mock::setUp();

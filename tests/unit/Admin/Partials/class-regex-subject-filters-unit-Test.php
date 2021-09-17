@@ -18,7 +18,7 @@ use BrianHenryIE\WP_Autologin_URLs\API\Settings_Interface;
  *
  * phpcs:disable WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
  */
-class Regex_Subject_Filters_Test extends \Codeception\Test\Unit {
+class Regex_Subject_Filters_Unit_Test extends \Codeception\Test\Unit {
 
 	protected function _before() {
 
