@@ -43,7 +43,7 @@ class WP_Mail {
 	 * @param API_Interface      $api          The API class for adding the autologin code to URLs.
 	 * @param Settings_Interface $settings     The settings to be used.
 	 */
-	public function __construct( $api, $settings ) {
+	public function __construct( API_Interface $api, Settings_Interface $settings ) {
 
 		$this->api      = $api;
 		$this->settings = $settings;
@@ -53,12 +53,14 @@ class WP_Mail {
 	 * Assumed added as a filter on wp_mail(), this function uses the api class to add
 	 * autologin codes to urls in emails, as appropriate with the configured settings.
 	 *
-	 * @param array $wp_mail_args dictionary( 'to', 'subject', 'message', 'headers', 'attachments' ).
+	 * @hooked wp_mail
 	 *
-	 * @return array
+	 * @param array{to:string, subject:string, message:string, headers: mixed, attachments: mixed} $wp_mail_args
+	 *
+	 * @return array{to:string, subject:string, message:string, headers: mixed, attachments: mixed}
 	 * @see wp_mail()
 	 */
-	public function add_autologin_links_to_email( $wp_mail_args ): array {
+	public function add_autologin_links_to_email( array $wp_mail_args ): array {
 
 		$user = get_user_by( 'email', $wp_mail_args['to'] );
 

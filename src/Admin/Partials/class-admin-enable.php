@@ -43,7 +43,7 @@ class Admin_Enable extends Settings_Section_Element_Abstract {
 	/**
 	 * Prints the checkbox as displayed in the right-hand column of the settings table.
 	 *
-	 * @param array $arguments The data registered with add_settings_field().
+	 * @param array{helper:string, supplemental:string} $arguments The data registered with add_settings_field().
 	 */
 	public function print_field_callback( $arguments ): void {
 
@@ -62,7 +62,7 @@ class Admin_Enable extends Settings_Section_Element_Abstract {
 	/**
 	 * If an unexpected value is POSTed, don't make any change to what's in the database.
 	 *
-	 * @param string $value The data posted from the HTML form.
+	 * @param ?string $value The data posted from the HTML form.
 	 *
 	 * @return string The value to save in the database.
 	 */

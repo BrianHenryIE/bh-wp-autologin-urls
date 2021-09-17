@@ -20,6 +20,7 @@ use BrianHenryIE\WP_Autologin_URLs\Admin\Partials\Admin_Enable;
 use BrianHenryIE\WP_Autologin_URLs\Admin\Partials\Expiry_Age;
 use BrianHenryIE\WP_Autologin_URLs\Admin\Partials\Regex_Subject_Filters;
 use Psr\Log\LoggerAwareTrait;
+use Psr\Log\LoggerInterface;
 
 
 /**
@@ -37,16 +38,17 @@ class Settings_Page {
 	 *
 	 * @var Settings_Interface $settings The previously saved settings for the plugin.
 	 */
-	private $settings;
+	protected Settings_Interface $settings;
 
 	/**
 	 * Settings_Page constructor.
 	 *
 	 * @param Settings_Interface $settings The previously saved settings for the plugin.
+	 * @param LoggerInterface    $logger A PSR logger.
 	 */
-	public function __construct( $settings, $logger ) {
-		$this->setLogger( $logger );
+	public function __construct( Settings_Interface $settings, LoggerInterface $logger ) {
 		$this->settings = $settings;
+		$this->setLogger( $logger );
 	}
 
 	/**
@@ -90,7 +92,7 @@ class Settings_Page {
 		add_settings_section(
 			'default',
 			'Settings',
-			null,
+			function(){},
 			$settings_page_slug_name
 		);
 	}

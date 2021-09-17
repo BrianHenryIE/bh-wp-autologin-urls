@@ -60,16 +60,16 @@ abstract class Settings_Section_Element_Abstract {
 	/**
 	 * The data array the WordPress Settings API passes to print_field_callback().
 	 *
-	 * @var array Array of data available to print_field_callback()
+	 * @var array{helper:string, supplemental:string, default:mixed, placeholder:string} Array of data available to print_field_callback()
 	 */
-	protected $add_settings_field_args = array();
+	protected $add_settings_field_args;
 
 	/**
 	 * The options array used when registering the setting.
 	 *
-	 * @var array Configuration options for register_setting()
+	 * @var array{type:string, description:string, sanitize_callback:callable, show_in_rest:bool|array, default:mixed} $register_setting_args Data used to describe the setting when registered.
 	 */
-	protected $register_setting_args;
+	protected array $register_setting_args = array();
 
 	/**
 	 * Settings_Section_Element constructor.
@@ -82,11 +82,9 @@ abstract class Settings_Section_Element_Abstract {
 		$this->page    = $settings_page_slug_name;
 		$this->section = $section;
 
-		$this->register_setting_args = array(
-			'description'       => '',
-			'sanitize_callback' => array( $this, 'sanitize_callback' ),
-			'show_in_rest'      => false,
-		);
+		$this->register_setting_args['description']       = '';
+		$this->register_setting_args['sanitize_callback'] = array( $this, 'sanitize_callback' );
+		$this->register_setting_args['show_in_rest']      = false;
 	}
 
 	/**
@@ -121,7 +119,7 @@ abstract class Settings_Section_Element_Abstract {
 	/**
 	 * Echo the HTML for configuring this setting.
 	 *
-	 * @param array $arguments The field data as registered with add_settings_field().
+	 * @param array{placeholder:string, helper:string, supplemental:string, default:string} $arguments The field data as registered with add_settings_field().
 	 */
 	abstract public function print_field_callback( $arguments ): void;
 

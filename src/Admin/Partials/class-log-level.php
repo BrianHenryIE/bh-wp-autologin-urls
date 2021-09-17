@@ -53,7 +53,7 @@ class Log_Level extends Settings_Section_Element_Abstract {
 	/**
 	 * Prints the checkbox as displayed in the right-hand column of the settings table.
 	 *
-	 * @param array $arguments The data registered with add_settings_field().
+	 * @param array{helper:string, supplemental:string} $arguments The data registered with add_settings_field().
 	 */
 	public function print_field_callback( $arguments ): void {
 

@@ -132,7 +132,7 @@ class Settings implements Settings_Interface, Logger_Settings_Interface {
 	}
 
 	public function get_plugin_version(): string {
-		return '1.2.1';
+		return '1.3.0';
 	}
 
 	/**
@@ -140,9 +140,10 @@ class Settings implements Settings_Interface, Logger_Settings_Interface {
 	 *
 	 * @return string
 	 * @see Logger
-	 */public function get_plugin_name(): string {
+	 */
+	public function get_plugin_name(): string {
 		return 'Autologin URLs';
-}
+	}
 
 	/**
 	 * The plugin basename is used by the logger to add the plugins page action link.
@@ -151,7 +152,7 @@ class Settings implements Settings_Interface, Logger_Settings_Interface {
 	 * @return string
 	 * @see Logger
 	 */
-public function get_plugin_basename(): string {
-	return 'bh-wp-autologin-urls/bh-wp-autologin-urls.php';
-}
+	public function get_plugin_basename(): string {
+		return 'bh-wp-autologin-urls/bh-wp-autologin-urls.php';
+	}
 }

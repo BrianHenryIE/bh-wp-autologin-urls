@@ -20,6 +20,7 @@ use MailPoet\Router\Router;
 use MailPoet\Subscribers\LinkTokens;
 use Newsletter;
 use NewsletterStatistics;
+use WC_Order;
 use WP_User;
 use WC_Geolocation;
 
@@ -66,12 +67,12 @@ class Login {
 	 * so it is run before other code expects a user to be set, i.e. run it on
 	 * plugins_loaded and not init.
 	 *
-	 * Record ba
+	 * @hooked plugins_loaded
 	 *
 	 * @see https://codex.wordpress.org/Plugin_API/Action_Reference
 	 * @see _wp_get_current_user()
 	 */
-	public function wp_init_process_autologin() {
+	public function wp_init_process_autologin(): bool {
 
 		// This input is not coming from a WordPress page so cannot have a nonce.
 		// phpcs:disable WordPress.Security.NonceVerification.Recommended
@@ -173,10 +174,16 @@ class Login {
 
 				// TODO: Test this thoroughly.
 				$wp_login_endpoint = str_replace( get_site_url(), '', wp_login_url() );
-				if ( stristr( filter_var( getenv( 'REQUEST_URI' ) ), $wp_login_endpoint )
+				$request_uri       = filter_var( getenv( 'REQUEST_URI' ) );
+				if ( false !== $request_uri
+					&& stristr( $request_uri, $wp_login_endpoint )
 					&& isset( $_GET['redirect_to'] ) ) {
 
-					$redirect_to = urldecode( filter_var( wp_unslash( $_GET['redirect_to'] ), FILTER_SANITIZE_STRING ) );
+					$url = filter_var( wp_unslash( $_GET['redirect_to'] ), FILTER_SANITIZE_STRING );
+					if ( false === $url ) {
+						return false;
+					}
+					$redirect_to = urldecode( $url );
 					wp_safe_redirect( $redirect_to );
 					exit();
 
@@ -201,12 +208,16 @@ class Login {
 	protected function record_bad_attempts( $autologin_querystring ): void {
 
 		// This is how WordPress gets the IP in WP_Session_Tokens().
-		if ( ! empty( $_SERVER['REMOTE_ADDR'] ) ) {
-
-			$ip_address = filter_var( wp_unslash( $_SERVER['REMOTE_ADDR'] ), FILTER_VALIDATE_IP );
+		// TODO: What to do when there's no IP address?
+		if ( empty( $_SERVER['REMOTE_ADDR'] ) ) {
+			return;
 		}
 
-		// TODO: What to do when there's no IP address?
+		$ip_address = filter_var( wp_unslash( $_SERVER['REMOTE_ADDR'] ), FILTER_VALIDATE_IP );
+
+		if ( false === $ip_address ) {
+			return;
+		}
 
 		list( $user_id, $password ) = explode( '~', $autologin_querystring, 2 );
 
@@ -273,8 +284,13 @@ class Login {
 
 		// This code mostly lifted from Newsletter plugin.
 
+		$input = filter_var( '0bda890bd176d3e219614dde964cb07f==', FILTER_SANITIZE_STRIPPED );
+		if ( false === $input ) {
+			return;
+		}
+
 		// phpcs:disable WordPress.PHP.DiscouragedPHPFunctions.obfuscation_base64_decode
-		$nltr_param = base64_decode( filter_var( '0bda890bd176d3e219614dde964cb07f==', FILTER_SANITIZE_STRIPPED ) );
+		$nltr_param = base64_decode( $input );
 
 		// e.g. "1;2;https://example.org;;0bda890bd176d3e219614dde964cb07f".
 
@@ -296,6 +312,11 @@ class Login {
 		}
 
 		$tnp_user = Newsletter::instance()->get_user( $user_id );
+
+		if ( is_null( $tnp_user ) ) {
+			$this->logger->info( 'No user object returned for Newsletter user ' . $tnp_user );
+			return;
+		}
 
 		$user_email_address = $tnp_user->email;
 
@@ -414,10 +435,10 @@ class Login {
 	 * If WooCommerce is installed, when there is no WP_User, attempt to populate the user checkout
 	 * fields using data from Newsletter/MailPoet and from past orders by that email address.
 	 *
-	 * @param string $email_address The user's email address.
-	 * @param array  $user_info Information e.g. first name, last name that might be available from MailPoet/Newsletter.
+	 * @param string                                     $email_address The user's email address.
+	 * @param array{first_name:string, last_name:string} $user_info Information e.g. first name, last name that might be available from MailPoet/Newsletter.
 	 */
-	protected function woocommerce_ux( $email_address, $user_info ) {
+	protected function woocommerce_ux( string $email_address, array $user_info ): void {
 
 		if ( ! function_exists( 'WC' ) ) {
 			return;
@@ -439,13 +460,18 @@ class Login {
 			WC()->customer->set_shipping_last_name( $user_info['last_name'] );
 		}
 
-		// Try to get one past order placed by this email address.
+		/**
+		 * Try to get one past order placed by this email address.
+		 *
+		 * @var WC_Order[] $customer_orders
+		 */
 		$customer_orders = wc_get_orders(
 			array(
 				'customer' => $email_address,
 				'limit'    => 1,
 				'order'    => 'DESC',
 				'orderby'  => 'id',
+				'paginate' => false,
 			)
 		);
 

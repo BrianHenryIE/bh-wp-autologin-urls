@@ -12,4 +12,7 @@ parameters:
         - wp-content/plugins
         - vendor/wp-cli
     ignoreErrors:
+        # LoggerAwareTrait allows for null $logger, but we set it in the constructor.
         - '#LoggerInterface\|null#'
+        # PHPStan show errors when filters have more than two parameters.
+        - '#^Function apply_filters(_ref_array)? invoked with \d parameters, 2 required\.$#'

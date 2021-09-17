@@ -14,6 +14,7 @@
 namespace BrianHenryIE\WP_Autologin_URLs\API;
 
 use BrianHenryIE\WP_Autologin_URLs\Includes\Login;
+use Psr\Log\LoggerAwareTrait;
 use Psr\Log\LoggerInterface;
 use WP_User;
 
@@ -27,6 +28,8 @@ use WP_User;
  */
 class API implements API_Interface {
 
+	use LoggerAwareTrait;
+
 	/**
 	 * Plugin settings as [maybe] configured by the user.
 	 *
@@ -37,7 +40,7 @@ class API implements API_Interface {
 	/**
 	 * Briefly caches generated codes to save regenerating multiple codes per email.
 	 *
-	 * @var array Dictionary ["user_id~seconds_valid" : code]
+	 * @var array<string,string> Dictionary ["user_id~seconds_valid" : code]
 	 */
 	protected $cache = array();
 
@@ -57,6 +60,7 @@ class API implements API_Interface {
 	 */
 	public function __construct( Settings_Interface $settings, LoggerInterface $logger, Data_Store_Interface $data_store = null ) {
 
+		$this->setLogger( $logger );
 		$this->data_store = $data_store ?? new Transient_Data_Store();
 
 		$this->settings = $settings;
@@ -65,13 +69,13 @@ class API implements API_Interface {
 	/**
 	 * Adds autologin codes to every url for this site in a string.
 	 *
-	 * @param string|string[]    $message  A string (or array of strings) to update the URLs in.
+	 * @param string             $message  A string to update the URLs in.
 	 * @param int|string|WP_User $user     A user id, email, username or user object.
 	 * @param int|null           $expires_in Number of seconds the password should work for.
 	 *
-	 * @return string|string[]
+	 * @return string
 	 */
-	public function add_autologin_to_message( string $message, $user, ?int $expires_in = null ) {
+	public function add_autologin_to_message( string $message, $user, ?int $expires_in = null ): string {
 
 		$replace_with = function ( $matches ) use ( $user, $expires_in ) {
 
@@ -84,7 +88,8 @@ class API implements API_Interface {
 
 		$escaped_site_url = str_replace( '/', '\/', get_site_url() );
 
-		$message = preg_replace_callback( '/[\s\"](' . $escaped_site_url . '[^\s\"<]*)/m', $replace_with, $message );
+		// TODO: Log when null occurs here.
+		$message = preg_replace_callback( '/[\s\"](' . $escaped_site_url . '[^\s\"<]*)/m', $replace_with, $message ) ?? $message;
 
 		return $message;
 	}
@@ -92,15 +97,15 @@ class API implements API_Interface {
 	/**
 	 * Public function for other plugins to use on links.
 	 *
-	 * @param string|null        $url         The url to append the autologin code to. This must be a link to this site.
-	 * @param int|string|WP_User $user        A valid user id, email, login or user object.
-	 * @param int|null           $expires_in  The number of seconds the code will work for.
+	 * @param string                  $url         The url to append the autologin code to. This must be a link to this site.
+	 * @param null|int|string|WP_User $user        A valid user id, email, login or user object.
+	 * @param ?int                    $expires_in  The number of seconds the code will work for.
 	 *
-	 * @return null|string
+	 * @return string
 	 */
-	public function add_autologin_to_url( string $url, $user, ?int $expires_in = null ) {
+	public function add_autologin_to_url( string $url, $user, ?int $expires_in = null ): string {
 
-		if ( is_null( $url ) || ! stristr( $url, get_site_url() ) ) {
+		if ( ! stristr( $url, get_site_url() ) ) {
 			return $url;
 		}
 
@@ -161,14 +166,14 @@ class API implements API_Interface {
 	 *
 	 * If the user does not exist, null is returned.
 	 *
-	 * @param WP_User  $user           WordPress user.
-	 * @param int|null $seconds_valid  Number of seconds after which the password will expire.
+	 * @param ?WP_User $user           WordPress user.
+	 * @param ?int     $seconds_valid  Number of seconds after which the password will expire.
 	 *
-	 * @return String|null
+	 * @return ?string
 	 */
-	public function generate_code( $user, ?int $seconds_valid ) {
+	public function generate_code( $user, ?int $seconds_valid ): ?string {
 
-		if ( is_null( $user ) || ! $user instanceof WP_User ) {
+		if ( is_null( $user ) || ! ( $user instanceof WP_User ) ) {
 			return null;
 		}
 
@@ -197,9 +202,9 @@ class API implements API_Interface {
 	 * @param int $user_id       WordPress user id.
 	 * @param int $seconds_valid Number of seconds after which the password will expire.
 	 *
-	 * @return String password
+	 * @return string password
 	 */
-	protected function generate_password( int $user_id, int $seconds_valid ) {
+	protected function generate_password( int $user_id, int $seconds_valid ): string {
 
 		// Generate a password using only alphanumerics (to avoid urlencoding worries).
 		// Length of 12 was chosen arbitrarily.
@@ -218,7 +223,7 @@ class API implements API_Interface {
 	 *
 	 * @return bool
 	 */
-	public function verify_autologin_password( int $user_id, string $password ) {
+	public function verify_autologin_password( int $user_id, string $password ): bool {
 
 		$value = $this->data_store->get_value_for_code( $password );
 

@@ -46,7 +46,7 @@ class Expiry_Age extends Settings_Section_Element_Abstract {
 	/**
 	 * The function used by WordPress Settings API to output the field.
 	 *
-	 * @param array $arguments Settings passed from WordPress do_settings_fields() function.
+	 * @param array{placeholder:string, helper:string, supplemental:string} $arguments Settings passed from WordPress do_settings_fields() function.
 	 */
 	public function print_field_callback( $arguments ): void {
 
@@ -63,7 +63,7 @@ class Expiry_Age extends Settings_Section_Element_Abstract {
 	/**
 	 * Expiry age should always be a number. Accepts arithmetic, e.g. 60*60*24.
 	 *
-	 * @param int $value The value POSTed by the Settings API.
+	 * @param string $value The value POSTed by the Settings API.
 	 *
 	 * @return int
 	 */
@@ -76,17 +76,18 @@ class Expiry_Age extends Settings_Section_Element_Abstract {
 			return $this->value;
 		}
 
-		$value = preg_replace( '/[^0-9*]/', '', $value );
+		// Remove anything that is not a digit or "*".
+		$value = (string) preg_replace( '/[^0-9*]/', '', $value );
 
 		if ( ! stristr( $value, '*' ) ) {
-			return abs( $value );
+			return intval( abs( $value ) );
 		}
 
 		$value = explode( '*', $value );
 
 		$result = array_product( $value );
 
-		return abs( $result );
+		return intval( abs( $result ) );
 	}
 
 }

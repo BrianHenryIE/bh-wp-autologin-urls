@@ -25,7 +25,7 @@ use DateTime;
 class DB_Data_Store implements Data_Store_Interface {
 
 	/**
-	 * The current plugin databse version.
+	 * The current plugin database version.
 	 *
 	 * @var int
 	 */
@@ -43,7 +43,7 @@ class DB_Data_Store implements Data_Store_Interface {
 	 *
 	 * @return string
 	 */
-	protected function get_table_name() {
+	protected function get_table_name(): string {
 		global $wpdb;
 
 		return $wpdb->prefix . 'autologin_urls';
@@ -127,11 +127,11 @@ class DB_Data_Store implements Data_Store_Interface {
 		$key = hash( 'sha256', $code );
 
 		/**
-		 * We've no interest in caching, rather, for security we're deleting the entry as soon as it's found.
+		 * We've no interest in caching, rather, for security, we're deleting the entry as soon as it's found.
 		 * phpcs:disable WordPress.DB.DirectDatabaseQuery.NoCaching
 		 */
 		$result = $wpdb->get_row(
-			$wpdb->prepare( 'SELECT expires, userhash FROM ' . $this->get_table_name() . ' WHERE hash = %s', $key )
+			$wpdb->prepare( 'SELECT expires, userhash FROM %s WHERE hash = %s', $this->get_table_name(), $key )
 		);
 
 		if ( is_null( $result ) ) {

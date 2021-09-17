@@ -13,7 +13,6 @@
 
 use BrianHenryIE\WP_Autologin_URLs\WP_Logger\Admin\Logs_Table;
 
-
 /** @var \Psr\Log\LoggerInterface $logger */
 /** @var string $example_url */
 
@@ -56,10 +55,11 @@ $active_tab = in_array( $active_tab, array( 'settings', 'logs' ), true ) ? $acti
 	<?php
 } elseif ( 'logs' === $active_tab ) {
 
-	$logs_table = new Logs_Table( $logger );
-
-	$logs_table->prepare_items();
-	$logs_table->display();
+	// TODO: Logger should have an easy way to display the table.
+	// $logs_table = new Logs_Table( $api, $settings, $logger );
+	//
+	// $logs_table->prepare_items();
+	// $logs_table->display();
 
 }
 ?>

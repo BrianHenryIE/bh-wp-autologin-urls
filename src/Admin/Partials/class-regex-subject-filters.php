@@ -43,7 +43,7 @@ class Regex_Subject_Filters extends Settings_Section_Element_Abstract {
 	/**
 	 * Prints the html text input pairs for regex/subject notes displayed in the right-hand column of the settings table.
 	 *
-	 * @param array $arguments The data registered with add_settings_field().
+	 * @param array{helper:string, supplemental:string, default:string} $arguments The data registered with add_settings_field().
 	 */
 	public function print_field_callback( $arguments ): void {
 
@@ -138,9 +138,9 @@ class Regex_Subject_Filters extends Settings_Section_Element_Abstract {
 	 * Removes empty regexes before saving and changes data from array of dictionaries keyed with "regex", "note"
 	 * to single dictionary using the actual regexes as keys and the notes as the values.
 	 *
-	 * @param array $values an array of dictionaries with the keys regex and note.
+	 * @param array<array{note:string, regex:string}> $values an array of dictionaries with the keys regex and note.
 	 *
-	 * @return array $values Suitable for saving the database.
+	 * @return array<string, string> $values Suitable for saving the database.
 	 */
 	public function sanitize_callback( $values ) {
 

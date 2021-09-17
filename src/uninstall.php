@@ -37,7 +37,7 @@ use BrianHenryIE\WP_Autologin_URLs\API\Settings_Interface;
  * phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery
  * phpcs:disable WordPress.DB.DirectDatabaseQuery.NoCaching
  */
-function bh_wp_autologin_urls_clear_transients() {
+function bh_wp_autologin_urls_clear_transients(): void {
 	global $wpdb;
 
 	$wpdb->query(
@@ -56,7 +56,7 @@ bh_wp_autologin_urls_clear_transients();
  *
  * @see Settings_Interface
  */
-function bh_wp_autologin_urls_delete_settings() {
+function bh_wp_autologin_urls_delete_settings(): void {
 
 	delete_option( 'bh_wp_autologin_urls_seconds_until_expiry' );
 	delete_option( 'bh_wp_autologin_urls_is_admin_enabled' );
@@ -71,7 +71,7 @@ bh_wp_autologin_urls_delete_settings();
  *
  * phpcs:disable WordPress.DB.DirectDatabaseQuery.SchemaChange
  */
-function bh_wp_autologin_urls_drop_table() {
+function bh_wp_autologin_urls_drop_table(): void {
 	global $wpdb;
 
 	$wpdb->query(

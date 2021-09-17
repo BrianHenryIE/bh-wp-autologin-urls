@@ -25,7 +25,7 @@ class Use_WP_Login extends Settings_Section_Element_Abstract {
 	 * @param string             $settings_page The slug of the page this setting is being displayed on.
 	 * @param Settings_Interface $settings The existing settings saved in the database.
 	 */
-	public function __construct( $settings_page, $settings ) {
+	public function __construct( string $settings_page, Settings_Interface $settings ) {
 
 		parent::__construct( $settings_page );
 
@@ -37,13 +37,12 @@ class Use_WP_Login extends Settings_Section_Element_Abstract {
 
 		$this->add_settings_field_args['helper']       = __( 'If URLs aren\'t being logged in or if they need to refresh the page, this will perform the login on wp-login.php before redirecting to the correct URL.', 'bh-wp-autologin-urls' );
 		$this->add_settings_field_args['supplemental'] = __( 'default: false', 'bh-wp-autologin-urls' );
-
 	}
 
 	/**
 	 * Prints the checkbox as displayed in the right-hand column of the settings table.
 	 *
-	 * @param array $arguments The data registered with add_settings_field().
+	 * @param array{helper:string, supplemental:string} $arguments The data registered with add_settings_field().
 	 */
 	public function print_field_callback( $arguments ): void {
 
@@ -62,7 +61,7 @@ class Use_WP_Login extends Settings_Section_Element_Abstract {
 	/**
 	 * If an unexpected value is POSTed, don't make any change to what's in the database.
 	 *
-	 * @param string $value The data posted from the HTML form.
+	 * @param ?string $value The data posted from the HTML form.
 	 *
 	 * @return string The value to save in the database.
 	 */

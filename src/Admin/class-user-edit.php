@@ -29,18 +29,16 @@ class User_Edit {
 	 *
 	 * @var API_Interface
 	 */
-	private $api;
+	protected $api;
 
 	/**
 	 * Initialize the class and set its properties.
 	 *
-	 * @param   string        $plugin_name The name of this plugin.
-	 * @param   string        $version     The version of this plugin.
 	 * @param   API_Interface $api The core plugin functions.
 	 *
 	 * @since   1.0.0
 	 */
-	public function __construct( $api ) {
+	public function __construct( API_Interface $api ) {
 
 		$this->api = $api;
 	}
