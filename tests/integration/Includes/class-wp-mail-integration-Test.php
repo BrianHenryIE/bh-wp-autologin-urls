@@ -54,7 +54,12 @@ class WP_Mail_Integration_Test extends \Codeception\TestCase\WPTestCase {
 		$subject = 'subject';
 		$message = 'brian http://example.org brian';
 
-		add_filter( 'wp_mail_from', function() { return 'brian@example.org'; } );
+		add_filter(
+			'wp_mail_from',
+			function() {
+				return 'brian@example.org';
+			}
+		);
 
 		wp_mail( $to, $subject, $message );
 

@@ -36,17 +36,17 @@ class Plugin_Unit_Test extends \Codeception\Test\Unit {
 			array( BH_WP_Autologin_URLs::class, '__construct' ),
 			function( $api, $settings, $logger ) {}
 		);
-//		\Patchwork\redefine(
-//			array( Settings::class, 'get_plugin_slug' ),
-//			function(): string {
-//				return 'bh-wc-shipment-tracking-updates'; }
-//		);
+		// \Patchwork\redefine(
+		// array( Settings::class, 'get_plugin_slug' ),
+		// function(): string {
+		// return 'bh-wc-shipment-tracking-updates'; }
+		// );
 
-//		\Patchwork\redefine(
-//			array( Settings::class, 'get_plugin_basename' ),
-//			function(): string {
-//				return 'bh-wc-shipment-tracking-updates/bh-wc-shipment-tracking-updates.php'; }
-//		);
+		// \Patchwork\redefine(
+		// array( Settings::class, 'get_plugin_basename' ),
+		// function(): string {
+		// return 'bh-wc-shipment-tracking-updates/bh-wc-shipment-tracking-updates.php'; }
+		// );
 
 		$plugin_root_dir = dirname( __DIR__, 2 ) . '/src';
 
@@ -54,7 +54,7 @@ class Plugin_Unit_Test extends \Codeception\Test\Unit {
 			array( Logger::class, '__construct' ),
 			function( $settings ) {}
 		);
-		
+
 		\WP_Mock::userFunction(
 			'plugin_dir_path',
 			array(
@@ -79,13 +79,13 @@ class Plugin_Unit_Test extends \Codeception\Test\Unit {
 			'register_deactivation_hook'
 		);
 
-//		\WP_Mock::userFunction(
-//			'get_option',
-//			array(
-//				'args'   => array( 'bh_wp_logger_log_level', 'info' ),
-//				'return' => 'notice',
-//			)
-//		);
+		// \WP_Mock::userFunction(
+		// 'get_option',
+		// array(
+		// 'args'   => array( 'bh_wp_logger_log_level', 'info' ),
+		// 'return' => 'notice',
+		// )
+		// );
 
 		\WP_Mock::userFunction(
 			'get_option',

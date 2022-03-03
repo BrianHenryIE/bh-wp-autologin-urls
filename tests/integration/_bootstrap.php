@@ -5,6 +5,9 @@
  * @package           Plugin_Package_Name
  */
 
-add_filter( 'site_url',  function( $site_url ) {
-	return str_replace('localhost:8080','example.org', $site_url );
-} );
+add_filter(
+	'site_url',
+	function( $site_url ) {
+		return str_replace( 'localhost:8080', 'example.org', $site_url );
+	}
+);

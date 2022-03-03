@@ -31,7 +31,12 @@ class WP_Mail_2_Integration_Test extends \Codeception\TestCase\WPTestCase {
 		$subject = 'subject';
 		$message = 'http://example.org';
 
-		add_filter( 'wp_mail_from', function() { return 'brian@example.org'; } );
+		add_filter(
+			'wp_mail_from',
+			function() {
+				return 'brian@example.org';
+			}
+		);
 
 		wp_mail( $to, $subject, $message );
 
@@ -60,7 +65,12 @@ class WP_Mail_2_Integration_Test extends \Codeception\TestCase\WPTestCase {
 		$subject = 'subject';
 		$message = 'nothing important';
 
-		add_filter( 'wp_mail_from', function() { return 'brian@example.org'; } );
+		add_filter(
+			'wp_mail_from',
+			function() {
+				return 'brian@example.org';
+			}
+		);
 
 		wp_mail( $to, $subject, $message );
 
@@ -92,7 +102,12 @@ class WP_Mail_2_Integration_Test extends \Codeception\TestCase\WPTestCase {
 		$subject = 'subject';
 		$message = 'brian http://example.org brian';
 
-		add_filter( 'wp_mail_from', function() { return 'brian@example.org'; } );
+		add_filter(
+			'wp_mail_from',
+			function() {
+				return 'brian@example.org';
+			}
+		);
 
 		wp_mail( $to, $subject, $message );
 
@@ -121,7 +136,12 @@ class WP_Mail_2_Integration_Test extends \Codeception\TestCase\WPTestCase {
 		$subject = 'subject123';
 		$message = 'brian http://example.org brian';
 
-		add_filter( 'wp_mail_from', function() { return 'brian@example.org'; } );
+		add_filter(
+			'wp_mail_from',
+			function() {
+				return 'brian@example.org';
+			}
+		);
 
 		/**
 		 * Filter the disallowed subjects regexes and add one to confirm it works.
@@ -168,7 +188,12 @@ class WP_Mail_2_Integration_Test extends \Codeception\TestCase\WPTestCase {
 
 		$to = 'brianhenryie@gmail.com';
 
-		add_filter( 'wp_mail_from', function() { return 'brian@example.org'; } );
+		add_filter(
+			'wp_mail_from',
+			function() {
+				return 'brian@example.org';
+			}
+		);
 
 		global $project_root_dir;
 

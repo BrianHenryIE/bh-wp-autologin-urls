@@ -1,4 +1,3 @@
-
 <?php
 /**
  * @package brianhenryie/bh-wp-autologin-urls

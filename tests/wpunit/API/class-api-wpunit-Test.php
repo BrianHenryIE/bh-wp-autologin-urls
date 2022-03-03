@@ -29,7 +29,12 @@ class API_WPUnit_Test extends \Codeception\TestCase\WPTestCase {
 		parent::_setUp();
 
 		// Codeception/WP-Browser tests return localhost as the site_url, whereas WP_UnitTestCase was returning example.org.
-		add_filter( 'site_url',  function() { return 'http://example.org'; } );
+		add_filter(
+			'site_url',
+			function() {
+				return 'http://example.org';
+			}
+		);
 
 		$this->plugin_name = 'bh-wp-autologin-urls';
 		$this->version     = '1.2.0';

@@ -164,22 +164,22 @@ class Settings_Unit_Test extends \Codeception\Test\Unit {
 	 */
 	public function test_subject_regex_filter_bad_db() {
 
-//		\WP_Mock::userFunction(
-//			'get_option',
-//			array(
-//				'args'   => array( 'bh_wp_autologin_urls_seconds_until_expiry', 604800 ),
-//				'times'  => 1,
-//				'return' => 604800,
-//			)
-//		);
+		// \WP_Mock::userFunction(
+		// 'get_option',
+		// array(
+		// 'args'   => array( 'bh_wp_autologin_urls_seconds_until_expiry', 604800 ),
+		// 'times'  => 1,
+		// 'return' => 604800,
+		// )
+		// );
 
-//		\WP_Mock::userFunction(
-//			'get_option',
-//			array(
-//				'args'  => array( 'bh_wp_autologin_urls_is_admin_enabled', 'admin_is_not_enabled' ),
-//				'times' => 1,
-//			)
-//		);
+		// \WP_Mock::userFunction(
+		// 'get_option',
+		// array(
+		// 'args'  => array( 'bh_wp_autologin_urls_is_admin_enabled', 'admin_is_not_enabled' ),
+		// 'times' => 1,
+		// )
+		// );
 
 		\WP_Mock::userFunction(
 			'get_option',
@@ -192,7 +192,7 @@ class Settings_Unit_Test extends \Codeception\Test\Unit {
 
 		$settings = new Settings();
 
-		$result =  $settings->get_disallowed_subjects_regex_array();
+		$result = $settings->get_disallowed_subjects_regex_array();
 
 		$this->assertIsArray( $result );
 	}
