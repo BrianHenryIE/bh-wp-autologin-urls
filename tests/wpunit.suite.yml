@@ -18,6 +18,6 @@ modules:
             domain: "%TEST_SITE_WP_DOMAIN%"
             adminEmail: "%TEST_SITE_ADMIN_EMAIL%"
             title: "bh-wp-autologin-urls"
-            plugins: ['woocommerce/woocommerce.php']
-            activatePlugins: ['woocommerce/woocommerce.php']
+            plugins: ['woocommerce/woocommerce.php', 'mailpoet/mailpoet.php']
+            activatePlugins: ['woocommerce/woocommerce.php', 'mailpoet/mailpoet.php']
 bootstrap: _bootstrap.php

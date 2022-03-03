@@ -22,3 +22,5 @@ parameters:
         - '#LoggerInterface\|null#'
         # PHPStan show errors when filters have more than two parameters.
         - '#^Function apply_filters(_ref_array)? invoked with \d parameters, 2 required\.$#'
+        # Parameter #1 $message of method a expects b, c given.
+        - '/Parameter .* of .* expects .* given\./'

@@ -12,6 +12,7 @@
 namespace BrianHenryIE\WP_Autologin_URLs\Includes;
 
 use BrianHenryIE\WP_Autologin_URLs\API\API_Interface;
+use MailPoet\API\API;
 use Psr\Log\LoggerAwareTrait;
 use Psr\Log\LoggerInterface;
 use MailPoet\Models\Subscriber;
@@ -354,14 +355,20 @@ class Login {
 	/**
 	 * Check is the URL a tracking URL for MailPoet plugin and if so, log in the user being tracked.
 	 *
+	 * Uses MailPoet's verification process as the autologin code.
+	 *
+	 * @see LinkTokens::verifyToken()
+	 *
+	 * TODO: The time since the newsletter was sent should be respected for the expiry time.
+	 *
 	 * @hooked plugins_loaded
 	 *
 	 * @see https://wordpress.org/plugins/mailpoet/
+	 *
+	 * phpcs:disable WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
 	 */
 	public function login_mailpoet_urls(): void {
 
-		// https://staging.redmeatsupplement.com/?mailpoet_router&endpoint=track&action=click&data=WyI0IiwiZDAzYWE3IiwiMiIsImFlNzViYjI5YjVjOSIsZmFsc2Vd
-		// TODO: verify this works!
 		if ( ! isset( $_GET['mailpoet_router'] ) ) {
 			return;
 		}
@@ -377,20 +384,28 @@ class Login {
 		// phpcs:disable WordPress.PHP.DiscouragedPHPFunctions.obfuscation_base64_decode
 		$data = Router::decodeRequestData( filter_var( wp_unslash( $_GET['data'] ), FILTER_SANITIZE_STRIPPED ) );
 
-		$transformed_data = Links::transformUrlDataObject( $data );
+		/**
+		 * The required data from the MailPoet querystring.
+		 *
+		 * @see Links::transformUrlDataObject()
+		 */
+		$subscriber_id = $data[0];
+		$request_token = $data[1];
 
-		if ( ! isset( $transformed_data['subscriber_id'] ) ) {
-			return;
-		}
-
-		$subscriber = Subscriber::where( 'id', $transformed_data['subscriber_id'] )->findOne();
+		/**
+		 * The MailPoet subscriber object, false if none found.
+		 *
+		 * @var \MailPoet\Models\Subscriber $subscriber
+		 */
+		$subscriber = Subscriber::where( 'id', $subscriber_id )->findOne();
 
 		if ( ! $subscriber ) {
 			return;
 		}
 
-		$link_tokens = new LinkTokens();
-		$valid       = $link_tokens->verifyToken( $subscriber, $transformed_data['subscriber_token'] );
+		$database_token = $subscriber->linkToken;
+		$request_token  = substr( $request_token, 0, strlen( $database_token ) );
+		$valid          = hash_equals( $database_token, $request_token );
 
 		if ( ! $valid ) {
 			return;
@@ -422,7 +437,6 @@ class Login {
 			// We have their email address but they have no account,
 			// if WooCommerce is installed, record the email address for
 			// UX and abandoned cart.
-			// phpcs:disable WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
 			$user_info = array(
 				'first_name' => $subscriber->firstName,
 				'last_name'  => $subscriber->lastName,
