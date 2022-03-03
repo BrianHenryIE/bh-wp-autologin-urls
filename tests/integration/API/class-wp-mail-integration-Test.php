@@ -18,24 +18,8 @@ namespace BrianHenryIE\WP_Autologin_URLs\wp_mail;
  *
  * @see WP_Mail
  * @see MockPHPMailer
- *
- * phpcs:disable WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
  */
-class WP_Mail_WPUnit_Test extends \Codeception\TestCase\WPTestCase {
-
-	public function _setUp() {
-		parent::_setUp();
-
-		add_filter(
-			'site_url',
-			function( $url, $path, $scheme, $blog_id ) {
-				return str_replace( 'localhost', 'example.org', $url );
-			},
-			10,
-			4
-		);
-
-	}
+class WP_Mail_2_Integration_Test extends \Codeception\TestCase\WPTestCase {
 
 	/**
 	 * Verify when the email recipient does not have an account on this
@@ -46,6 +30,8 @@ class WP_Mail_WPUnit_Test extends \Codeception\TestCase\WPTestCase {
 		$to      = 'brianhenryie@gmail.com';
 		$subject = 'subject';
 		$message = 'http://example.org';
+
+		add_filter( 'wp_mail_from', function() { return 'brian@example.org'; } );
 
 		wp_mail( $to, $subject, $message );
 
@@ -73,6 +59,8 @@ class WP_Mail_WPUnit_Test extends \Codeception\TestCase\WPTestCase {
 		$to      = 'brianhenryie@gmail.com';
 		$subject = 'subject';
 		$message = 'nothing important';
+
+		add_filter( 'wp_mail_from', function() { return 'brian@example.org'; } );
 
 		wp_mail( $to, $subject, $message );
 
@@ -104,6 +92,8 @@ class WP_Mail_WPUnit_Test extends \Codeception\TestCase\WPTestCase {
 		$subject = 'subject';
 		$message = 'brian http://example.org brian';
 
+		add_filter( 'wp_mail_from', function() { return 'brian@example.org'; } );
+
 		wp_mail( $to, $subject, $message );
 
 		/** MockPHPMailer */
@@ -130,6 +120,8 @@ class WP_Mail_WPUnit_Test extends \Codeception\TestCase\WPTestCase {
 		$to      = 'brianhenryie@gmail.com';
 		$subject = 'subject123';
 		$message = 'brian http://example.org brian';
+
+		add_filter( 'wp_mail_from', function() { return 'brian@example.org'; } );
 
 		/**
 		 * Filter the disallowed subjects regexes and add one to confirm it works.
@@ -176,6 +168,8 @@ class WP_Mail_WPUnit_Test extends \Codeception\TestCase\WPTestCase {
 
 		$to = 'brianhenryie@gmail.com';
 
+		add_filter( 'wp_mail_from', function() { return 'brian@example.org'; } );
+
 		global $project_root_dir;
 
 		$unchanged_data_path = $project_root_dir . '/tests/_data/unchanged/';
@@ -189,7 +183,6 @@ class WP_Mail_WPUnit_Test extends \Codeception\TestCase\WPTestCase {
 
 			$subject = pathinfo( $file, PATHINFO_FILENAME );
 
-			// phpcs:disable WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents
 			$message = file_get_contents( $unchanged_data_path . $file );
 
 			wp_mail( $to, $subject, $message );

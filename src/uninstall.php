@@ -75,7 +75,7 @@ function bh_wp_autologin_urls_drop_table(): void {
 	global $wpdb;
 
 	$wpdb->query(
-		"DROP TABLE {$wpdb->prefix}autologin_urls"
+		"DROP TABLE IF EXISTS {$wpdb->prefix}autologin_urls"
 	);
 }
 bh_wp_autologin_urls_drop_table();

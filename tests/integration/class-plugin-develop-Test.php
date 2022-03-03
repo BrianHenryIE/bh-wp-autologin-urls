@@ -8,6 +8,7 @@
 
 namespace BrianHenryIE\WP_Autologin_URLs;
 
+use BrianHenryIE\WP_Autologin_URLs\API\API;
 use BrianHenryIE\WP_Autologin_URLs\Includes\BH_WP_Autologin_URLs;
 
 /**
@@ -22,7 +23,7 @@ class Plugin_Develop_Test extends \Codeception\TestCase\WPTestCase {
 
 		$this->assertArrayHasKey( 'bh-wp-autologin-urls', $GLOBALS );
 
-		$this->assertInstanceOf( BH_WP_Autologin_URLs::class, $GLOBALS['bh-wp-autologin-urls'] );
+		$this->assertInstanceOf( API::class, $GLOBALS['bh-wp-autologin-urls'] );
 	}
 
 

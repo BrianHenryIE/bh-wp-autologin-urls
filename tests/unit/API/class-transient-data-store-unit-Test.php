@@ -15,17 +15,13 @@ use BrianHenryIE\WP_Autologin_URLs\Includes\Settings_Interface;
  */
 class Transient_Data_Store_Unit_Test extends \Codeception\Test\Unit {
 
-	protected function _before() {
-
+	protected function setup(): void {
 		\WP_Mock::setUp();
 	}
 
-	/**
-	 * Include required files.
-	 */
-	public function setUp(): void {
-
-		\WP_Mock::setUp();
+	protected function tearDown(): void {
+		parent::tearDown();
+		\WP_Mock::tearDown();
 	}
 
 	public function test_save() {

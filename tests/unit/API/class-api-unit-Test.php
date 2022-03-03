@@ -17,21 +17,17 @@ use WP_User;
  */
 class API_Unit_Test extends \Codeception\Test\Unit {
 
-	protected function _before() {
-
+	protected function setup(): void {
 		\WP_Mock::setUp();
+
+		// TODO: Move to test classmap.
+		global $project_root_dir;
+		require_once $project_root_dir . '/vendor/wordpress/wordpress/src/wp-includes/class-wp-user.php';
 	}
 
-	/**
-	 * Include required files.
-	 */
-	public function setUp(): void {
-
-		\WP_Mock::setUp();
-
-		global $project_root_dir;
-
-		require_once $project_root_dir . '/vendor/wordpress/wordpress/src/wp-includes/class-wp-user.php';
+	protected function tearDown(): void {
+		parent::tearDown();
+		\WP_Mock::tearDown();
 	}
 
 	/**

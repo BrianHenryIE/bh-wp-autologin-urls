@@ -20,11 +20,14 @@ use BrianHenryIE\WP_Autologin_URLs\API\Settings_Interface;
  */
 class Regex_Subject_Filters_Unit_Test extends \Codeception\Test\Unit {
 
-	protected function _before() {
-
+	protected function setup(): void {
 		\WP_Mock::setUp();
 	}
 
+	protected function tearDown(): void {
+		parent::tearDown();
+		\WP_Mock::tearDown();
+	}
 
 	/**
 	 * The plugin name. Unlikely to change.

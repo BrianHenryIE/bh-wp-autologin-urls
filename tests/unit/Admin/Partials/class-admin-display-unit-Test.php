@@ -58,6 +58,14 @@ class BH_WP_Autologin_URLs_Admin_Display_Unit_Test extends \Codeception\Test\Uni
 			)
 		);
 
+		// No return value: usually prints.
+		\WP_Mock::userFunction(
+			'settings_errors',
+			array(
+				'times' => 1,
+			)
+		);
+
 		$example_url = 'irrelevant';
 
 		// Don't output anything.

@@ -16,11 +16,14 @@ use BrianHenryIE\WP_Autologin_URLs\API\API_Interface;
  */
 class WP_Mail_Unit_Test extends \Codeception\Test\Unit {
 
-	protected function _before() {
-
+	protected function setup(): void {
 		\WP_Mock::setUp();
 	}
 
+	protected function tearDown(): void {
+		parent::tearDown();
+		\WP_Mock::tearDown();
+	}
 
 	/**
 	 * The plugin name. Unlikely to ever change.

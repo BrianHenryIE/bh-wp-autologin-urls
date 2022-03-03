@@ -29,14 +29,7 @@ class API_WPUnit_Test extends \Codeception\TestCase\WPTestCase {
 		parent::_setUp();
 
 		// Codeception/WP-Browser tests return localhost as the site_url, whereas WP_UnitTestCase was returning example.org.
-		add_filter(
-			'site_url',
-			function( $url, $path, $scheme, $blog_id ) {
-				return str_replace( 'localhost', 'example.org', $url );
-			},
-			10,
-			4
-		);
+		add_filter( 'site_url',  function() { return 'http://example.org'; } );
 
 		$this->plugin_name = 'bh-wp-autologin-urls';
 		$this->version     = '1.2.0';
@@ -149,9 +142,11 @@ class API_WPUnit_Test extends \Codeception\TestCase\WPTestCase {
 	 */
 	public function test_add_autologin_to_url() {
 
-		$url = 'http://example.org/product/woocommerce-product/';
+		$site_url = get_site_url();
 
-		$expected = 'http://example.org/product/woocommerce-product/?autologin=123~mockpassw0rd';
+		$url = "{$site_url}/product/woocommerce-product/";
+
+		$expected = "{$site_url}/product/woocommerce-product/?autologin=123~mockpassw0rd";
 
 		$data_store_mock = $this->makeEmpty( Data_Store_Interface::class );
 		$api             = new API( $this->settings, $this->logger, $data_store_mock );

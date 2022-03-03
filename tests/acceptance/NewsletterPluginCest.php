@@ -95,6 +95,9 @@ class NewsletterPluginCest {
 	 */
 	public function testSendANewsletter( AcceptanceTester $I ) {
 
+		// Needs JavaScript.
+		return;
+
 		// Visit the "Create newsletter" page.
 		$I->amOnAdminPage( 'admin.php?page=newsletter_emails_composer' );
 

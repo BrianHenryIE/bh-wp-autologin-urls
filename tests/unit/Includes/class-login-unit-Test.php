@@ -106,6 +106,19 @@ class Login_Unit_Test extends \Codeception\Test\Unit {
 			)
 		);
 
+		\WP_Mock::userFunction(
+			'get_site_url',
+			array(
+				'return' => 'http://example.org',
+			)
+		);
+		\WP_Mock::userFunction(
+			'wp_login_url',
+			array(
+				'return' => 'http://example.org/wp-login.php',
+			)
+		);
+
 		\WP_Mock::expectAction( 'wp_login', 'username', $user );
 
 		$success = $login->wp_init_process_autologin();
@@ -231,6 +244,13 @@ class Login_Unit_Test extends \Codeception\Test\Unit {
 			array(
 				'times'  => 1,
 				'return' => 123,
+			)
+		);
+
+		\WP_Mock::userFunction(
+			'get_site_url',
+			array(
+				'return' => 'http://example.org',
 			)
 		);
 

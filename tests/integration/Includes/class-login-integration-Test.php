@@ -18,7 +18,7 @@ use BrianHenryIE\WP_Autologin_URLs\API\DB_Data_Store;
 class Login_Integration_Test extends \Codeception\TestCase\WPTestCase {
 
 
-	public function setUp() {
+	public function setUp(): void {
 		parent::setUp();
 
 		_delete_all_data();
@@ -31,7 +31,7 @@ class Login_Integration_Test extends \Codeception\TestCase\WPTestCase {
 
 		$user_id = $this->factory->user->create();
 
-		$url = get_home_url();
+		$url = get_site_url();
 
 		$url = add_autologin_to_url( $url, $user_id, 3600 );
 
@@ -55,7 +55,7 @@ class Login_Integration_Test extends \Codeception\TestCase\WPTestCase {
 
 		$user_id = $this->factory->user->create();
 
-		$url = get_home_url() . '/?autologin=' . $user_id . '~badautco';
+		$url = get_site_url() . '/?autologin=' . $user_id . '~badautco';
 
 		$this->go_to( $url );
 

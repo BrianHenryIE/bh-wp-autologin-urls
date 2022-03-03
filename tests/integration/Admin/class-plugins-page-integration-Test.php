@@ -39,7 +39,7 @@ class Plugins_Page_Integration_Test extends \Codeception\TestCase\WPTestCase {
 
 		$this->go_to( get_site_url() . '/wp-admin/plugins.php' );
 
-		$plugin_action_links = apply_filters( $filter_name, array() );
+		$plugin_action_links = apply_filters( $filter_name, array(), '', array(), '' );
 
 		$this->assertGreaterThan( 0, count( $plugin_action_links ), 'The plugin action link was definitely not added.' );
 

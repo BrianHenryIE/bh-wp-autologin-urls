@@ -65,6 +65,7 @@ class Uninstall_Unit_Test extends \Codeception\Test\Unit {
 
 		// phpcs:disable WordPress.WP.GlobalVariablesOverride.P
 		$wpdb = \Mockery::mock( '\wpdb' );
+		$wpdb->prefix = 'wp_';
 
 		$delete_transients_sql = "DELETE 
             FROM wp_options 
@@ -96,9 +97,14 @@ class Uninstall_Unit_Test extends \Codeception\Test\Unit {
 			)
 		);
 
+		$drop_table_sql = 'DROP TABLE IF EXISTS wp_autologin_urls';
+		$wpdb->shouldReceive( 'query' )
+		     ->once()
+		     ->with( $drop_table_sql );
+
 		include $plugin_root_dir . '/uninstall.php';
 
-		$this->assertEquals( 3, $wpdb->mockery_getExpectationCount() );
+		$this->assertEquals( 4, $wpdb->mockery_getExpectationCount() );
 
 	}
 

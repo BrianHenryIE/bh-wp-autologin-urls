@@ -129,7 +129,7 @@ class Settings_Page_Unit_Test extends \Codeception\Test\Unit {
 				'args'  => array(
 					'default',
 					'Settings',
-					null,
+					'*', // \WP_Mock\Functions::type( '*' ), // TODO: Should be closure.
 					'bh-wp-autologin-urls',
 				),
 				'times' => 1,

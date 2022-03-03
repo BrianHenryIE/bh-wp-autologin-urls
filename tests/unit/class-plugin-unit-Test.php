@@ -8,29 +8,53 @@
 
 namespace BrianHenryIE\WP_Autologin_URLs;
 
+use BrianHenryIE\WC_Shipment_Tracking_Updates\Includes\BH_WC_Shipment_Tracking_Updates;
+use BrianHenryIE\WP_Autologin_URLs\API\API;
 use BrianHenryIE\WP_Autologin_URLs\Includes\BH_WP_Autologin_URLs;
+use BrianHenryIE\WP_Autologin_URLs\WP_Logger\Logger;
 
 /**
  * Class Plugin_WP_Mock_Test
  */
 class Plugin_Unit_Test extends \Codeception\Test\Unit {
-
 	protected function setup(): void {
 		\WP_Mock::setUp();
 	}
 
 	protected function tearDown(): void {
-		parent::tearDown();
 		\WP_Mock::tearDown();
+		\Patchwork\restoreAll();
 	}
 
 	/**
 	 * Verifies the plugin initialization.
 	 */
-	public function test_plugin_include() {
+	public function test_plugin_include(): void {
 
-		global $plugin_root_dir;
+		// Prevents code-coverage counting, and removes the need to define the WordPress functions that are used in that class.
+		\Patchwork\redefine(
+			array( BH_WP_Autologin_URLs::class, '__construct' ),
+			function( $api, $settings, $logger ) {}
+		);
+//		\Patchwork\redefine(
+//			array( Settings::class, 'get_plugin_slug' ),
+//			function(): string {
+//				return 'bh-wc-shipment-tracking-updates'; }
+//		);
 
+//		\Patchwork\redefine(
+//			array( Settings::class, 'get_plugin_basename' ),
+//			function(): string {
+//				return 'bh-wc-shipment-tracking-updates/bh-wc-shipment-tracking-updates.php'; }
+//		);
+
+		$plugin_root_dir = dirname( __DIR__, 2 ) . '/src';
+
+		\Patchwork\redefine(
+			array( Logger::class, '__construct' ),
+			function( $settings ) {}
+		);
+		
 		\WP_Mock::userFunction(
 			'plugin_dir_path',
 			array(
@@ -39,43 +63,59 @@ class Plugin_Unit_Test extends \Codeception\Test\Unit {
 			)
 		);
 
-		// Hit in Settings constructor.
 		\WP_Mock::userFunction(
-			'get_option'
-		);
-
-		include $plugin_root_dir . '/bh-wp-autologin-urls.php';
-
-		$this->assertArrayHasKey( 'bh-wp-autologin-urls', $GLOBALS );
-
-		$this->assertInstanceOf( BH_WP_Autologin_URLs::class, $GLOBALS['bh-wp-autologin-urls'] );
-
-	}
-
-
-	/**
-	 * Verifies the plugin does not output anything to screen.
-	 */
-	public function test_plugin_include_no_output() {
-
-		global $plugin_root_dir;
-
-		\WP_Mock::userFunction(
-			'plugin_dir_path',
+			'plugin_basename',
 			array(
 				'args'   => array( \WP_Mock\Functions::type( 'string' ) ),
-				'return' => $plugin_root_dir . '/',
+				'return' => 'bh-wp-autologin-urls/bh-wp-autologin-urls.php',
 			)
 		);
 
-		// Hit in Settings constructor.
 		\WP_Mock::userFunction(
-			'get_option'
+			'register_activation_hook'
+		);
+
+		\WP_Mock::userFunction(
+			'register_deactivation_hook'
+		);
+
+//		\WP_Mock::userFunction(
+//			'get_option',
+//			array(
+//				'args'   => array( 'bh_wp_logger_log_level', 'info' ),
+//				'return' => 'notice',
+//			)
+//		);
+
+		\WP_Mock::userFunction(
+			'get_option',
+			array(
+				'args'   => array( 'active_plugins' ),
+				'return' => array(),
+			)
+		);
+
+		\WP_Mock::userFunction(
+			'is_admin',
+			array(
+				'return' => false,
+			)
+		);
+
+		\WP_Mock::userFunction(
+			'get_current_user_id'
+		);
+
+		\WP_Mock::userFunction(
+			'wp_normalize_path',
+			array(
+				'return_arg' => true,
+			)
 		);
 
 		ob_start();
 
-		require_once $plugin_root_dir . '/bh-wp-autologin-urls.php';
+		include $plugin_root_dir . '/bh-wp-autologin-urls.php';
 
 		$printed_output = ob_get_contents();
 
@@ -83,40 +123,10 @@ class Plugin_Unit_Test extends \Codeception\Test\Unit {
 
 		$this->assertEmpty( $printed_output );
 
-	}
+		$this->assertArrayHasKey( 'bh-wp-autologin-urls', $GLOBALS );
 
-
-	/**
-	 * Verify the add_autologin_to_url is globally available after defining it.
-	 */
-	public function test_define_public_functions_add_autologin_to_url() {
-
-		global $plugin_root_dir;
-
-		if ( function_exists( '\add_autologin_to_url' ) ) {
-
-			$this->markTestIncomplete( 'Attempting to test creation of function add_autologin_to_url in define_public_fuctions but function already exists.' );
-
-			return;
-		}
-
-		\WP_Mock::userFunction(
-			'plugin_dir_path',
-			array(
-				'args'   => array( \WP_Mock\Functions::type( 'string' ) ),
-				'return' => $plugin_root_dir . '/',
-			)
-		);
-
-		\WP_Mock::userFunction(
-			'get_option'
-		);
-
-		require_once $plugin_root_dir . '/bh-wp-autologin-urls.php';
-
-		define_add_autologin_to_url_function();
-
-		$this->assertTrue( function_exists( '\add_autologin_to_url' ) );
+		$this->assertInstanceOf( API::class, $GLOBALS['bh-wp-autologin-urls'] );
 
 	}
+
 }

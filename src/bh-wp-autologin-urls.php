@@ -69,6 +69,7 @@ namespace BH_WP_Autologin_URLs {
 
 namespace {
 
+	use BrianHenryIE\WP_Autologin_URLs\API\API;
 	use BrianHenryIE\WP_Autologin_URLs\Includes\BH_WP_Autologin_URLs;
 	use BrianHenryIE\WP_Autologin_URLs\API\API_Interface;
 
@@ -99,18 +100,11 @@ namespace {
 				/**
 				 * The main plugin class with references to hooked classes.
 				 *
-				 * @var BH_WP_Autologin_URLs $plugin
+				 * @var API_Interface $plugin_api
 				 */
 				$plugin = $GLOBALS['bh-wp-autologin-urls'];
 
-				/**
-				 * API class with methods for generating and validating codes.
-				 *
-				 * @var API_Interface $api
-				 */
-				$api = $plugin->api;
-
-				return $api->add_autologin_to_url( $url, $user, $expires_in );
+				return $plugin->add_autologin_to_url( $url, $user, $expires_in );
 			}
 		}
 	}

@@ -13,11 +13,14 @@ namespace BrianHenryIE\WP_Autologin_URLs\Includes;
  */
 class I18n_Unit_Test extends \Codeception\Test\Unit {
 
-	protected function _before() {
-
+	protected function setup(): void {
 		\WP_Mock::setUp();
 	}
 
+	protected function tearDown(): void {
+		parent::tearDown();
+		\WP_Mock::tearDown();
+	}
 
 	/**
 	 * Basic success test.
