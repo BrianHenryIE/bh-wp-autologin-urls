@@ -9,7 +9,7 @@
 namespace BrianHenryIE\WP_Autologin_URLs\Includes;
 
 /**
- * 
+ *
  *
  * @see I18n
  */

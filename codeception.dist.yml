@@ -18,11 +18,13 @@ extensions:
         - Codeception\Command\GenerateWPXMLRPC
 params:
     - .env.testing
+#    - .env.secret # Will error on GitHub Actions.
 coverage:
     enabled: true
     include:
         - src/*
     exclude:
+        - /*/interface-*.*
         - src/strauss/*
         - /*/index.php
         - /*/*.txt

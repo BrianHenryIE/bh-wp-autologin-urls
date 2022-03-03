@@ -5,8 +5,14 @@ parameters:
     excludePaths:
         - src/strauss/*
     bootstrapFiles:
+        - phpstanbootstrap.php
         - src/autoload.php
         - vendor/php-stubs/wordpress-stubs/wordpress-stubs.php
+        - vendor/wp-cli/wp-cli/php/class-wp-cli-command.php
+        - vendor/php-stubs/woocommerce-stubs/woocommerce-stubs.php
+        - vendor/php-stubs/woocommerce-stubs/woocommerce-packages-stubs.php
+    scanFiles:
+        - vendor/antecedent/patchwork/Patchwork.php
     scanDirectories:
         - src/strauss
         - wp-content/plugins
