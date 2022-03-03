@@ -12,7 +12,6 @@
  * @subpackage bh-wp-autologin-urls/includes
  */
 
-
 namespace BrianHenryIE\WP_Autologin_URLs\Includes;
 
 use BrianHenryIE\WP_Autologin_URLs\Admin\User_Edit;
@@ -25,7 +24,6 @@ use BrianHenryIE\WP_Autologin_URLs\API\Settings;
 use BrianHenryIE\WP_Autologin_URLs\API\Settings_Interface;
 use Psr\Log\LoggerInterface;
 use BrianHenryIE\WP_Autologin_URLs\API\DB_Data_Store;
-
 
 /**
  * The core plugin class.
@@ -73,7 +71,7 @@ class BH_WP_Autologin_URLs {
 	 * Load the dependencies, define the locale, and set the hooks for the admin area and
 	 * the public-facing side of the site.
 	 *
-	 * @param API_Interface      $api
+	 * @param API_Interface      $api The main plugin functions.
 	 * @param Settings_Interface $settings The plugin settings.
 	 * @param LoggerInterface    $logger PSR Logger.
 	 *
@@ -92,7 +90,7 @@ class BH_WP_Autologin_URLs {
 		$this->define_admin_hooks();
 		$this->define_wp_mail_hooks();
 
-		$this->define_login_hooks();
+		$this->define_wp_login_hooks();
 	}
 
 	/**
@@ -107,7 +105,7 @@ class BH_WP_Autologin_URLs {
 
 		$plugin_i18n = new I18n();
 
-		add_action( 'plugins_loaded', array( $plugin_i18n, 'load_plugin_textdomain' ) );
+		add_action( 'init', array( $plugin_i18n, 'load_plugin_textdomain' ) );
 	}
 
 	/**
@@ -174,7 +172,7 @@ class BH_WP_Autologin_URLs {
 	 * @since    1.0.0
 	 * @access   private
 	 */
-	protected function define_login_hooks(): void {
+	protected function define_wp_login_hooks(): void {
 
 		$plugin_login = new Login( $this->api, $this->logger );
 
