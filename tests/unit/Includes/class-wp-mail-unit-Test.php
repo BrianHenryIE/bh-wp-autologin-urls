@@ -12,7 +12,7 @@ use BrianHenryIE\WP_Autologin_URLs\API\Settings_Interface;
 use BrianHenryIE\WP_Autologin_URLs\API\API_Interface;
 
 /**
- * Class WP_Mail_WP_Mock_Test
+ * @coversDefaultClass \BrianHenryIE\WP_Autologin_URLs\Includes\WP_Mail
  */
 class WP_Mail_Unit_Test extends \Codeception\Test\Unit {
 
@@ -26,23 +26,11 @@ class WP_Mail_Unit_Test extends \Codeception\Test\Unit {
 	}
 
 	/**
-	 * The plugin name. Unlikely to ever change.
-	 *
-	 * @var string Plugin name
-	 */
-	private $plugin_name = 'bh-wp-autologin-urls';
-
-	/**
-	 * The last plugin version these tests were written against.
-	 *
-	 * @var string Plugin version.
-	 */
-	private $version = '1.0.0';
-
-	/**
 	 * Test constructor.
+	 *
+	 * @covers ::__construct()
 	 */
-	public function test_constructor() {
+	public function test_constructor(): void {
 
 		$api_mock = $this->createMock( API_Interface::class );
 
@@ -56,8 +44,10 @@ class WP_Mail_Unit_Test extends \Codeception\Test\Unit {
 
 	/**
 	 * Test NOT adding the autologin code to an email when its subject matches a regex in the settings.
+	 *
+	 * @covers ::add_autologin_links_to_email
 	 */
-	public function test_disallowed_subjects_in_settings() {
+	public function test_disallowed_subjects_in_settings(): void {
 
 		$settings_mock = $this->createMock( Settings_Interface::class );
 		$settings_mock->method( 'get_disallowed_subjects_regex_array' )->willReturn( array( '/^myRegex\d\d\d$/' ) );
@@ -74,9 +64,7 @@ class WP_Mail_Unit_Test extends \Codeception\Test\Unit {
 
 		$user = $this->createMock( '\WP_User' );
 
-		$user->method( 'has_cap' )
-			 ->with( 'administrator' )
-			 ->willReturn( false );
+		$user->method( 'has_cap' )->with( 'administrator' )->willReturn( false );
 
 		\WP_Mock::userFunction(
 			'get_user_by',

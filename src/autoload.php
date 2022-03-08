@@ -2,7 +2,7 @@
 /**
  * Loads all required classes
  *
- * Uses PSR4 & wp-namespace-autoloader.
+ * Uses classmap & wp-namespace-autoloader.
  *
  * @link       https://BrianHenry.ie
  * @since      1.0.0

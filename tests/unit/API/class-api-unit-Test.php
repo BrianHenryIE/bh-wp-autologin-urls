@@ -17,7 +17,7 @@ use WP_User;
  */
 class API_Unit_Test extends \Codeception\Test\Unit {
 
-	protected function setup(): void {
+	protected function setUp(): void {
 		\WP_Mock::setUp();
 
 		// TODO: Move to test classmap.

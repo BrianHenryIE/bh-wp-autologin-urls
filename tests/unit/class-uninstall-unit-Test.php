@@ -25,9 +25,9 @@ class Uninstall_Unit_Test extends \Codeception\Test\Unit {
 	/**
 	 * Verifies uninstall does not run without 'WP_UNINSTALL_PLUGIN' defined.
 	 */
-	public function test_exit_without_defined() {
+	public function test_exit_without_defined(): void {
 
-		$this->markTestSkipped( "Can't test for exit();" );
+		$this->markTestIncomplete( 'Needs runInSeparateProcess' );
 
 		global $plugin_root_dir;
 
@@ -40,14 +40,20 @@ class Uninstall_Unit_Test extends \Codeception\Test\Unit {
 		$wpdb->shouldReceive( 'query' )
 			 ->never();
 
-		require_once $plugin_root_dir . '/uninstall.php';
+		$caught_exception = null;
+		try {
+			include $plugin_root_dir . '/uninstall.php';
+		} catch ( \Exception $e ) {
+			$caught_exception = $e;
+		}
 
+		$this->assertNotNull( $caught_exception );
 	}
 
 	/**
 	 * Verifies transients are deleted during uninstall.
 	 */
-	public function test_transients_deleted() {
+	public function test_transients_deleted(): void {
 
 		define( 'WP_UNINSTALL_PLUGIN', 'WP_UNINSTALL_PLUGIN' );
 

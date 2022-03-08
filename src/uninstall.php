@@ -26,7 +26,7 @@
 
 // If uninstall not called from WordPress, then exit.
 if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
-	exit;
+	throw new \Exception( 'WP_UNINSTALL_PLUGIN not defined' );
 }
 
 use BrianHenryIE\WP_Autologin_URLs\API\Settings_Interface;

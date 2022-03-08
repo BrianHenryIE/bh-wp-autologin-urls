@@ -11,7 +11,6 @@ $GLOBALS['plugin_path_php']    = $plugin_root_dir . '/' . $plugin_name_php;
 $GLOBALS['plugin_basename']    = $plugin_name . '/' . $plugin_name_php;
 $GLOBALS['wordpress_root_dir'] = $project_root_dir . '/wordpress';
 
-
 // If there is a secrets file, load it here.
 // Unsure how to define it in codeception.yml while also not committing to GitHub.
 $env_secret = __DIR__ . '/../.env.secret';

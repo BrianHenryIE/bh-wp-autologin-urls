@@ -86,7 +86,7 @@ class BH_WP_Autologin_URLs_Integration_Test extends \Codeception\TestCase\WPTest
 	 */
 	public function test_action_plugins_loaded_load_plugin_textdomain() {
 
-		$action_name       = 'plugins_loaded';
+		$action_name       = 'init';
 		$expected_priority = 10;
 
 		$class_type  = I18n::class;

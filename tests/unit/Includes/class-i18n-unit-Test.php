@@ -9,7 +9,7 @@
 namespace BrianHenryIE\WP_Autologin_URLs\Includes;
 
 /**
- * Class I18n_Test
+ * @covers \BrianHenryIE\WP_Autologin_URLs\Includes\I18n
  */
 class I18n_Unit_Test extends \Codeception\Test\Unit {
 
@@ -24,8 +24,10 @@ class I18n_Unit_Test extends \Codeception\Test\Unit {
 
 	/**
 	 * Basic success test.
+	 *
+	 * @covers ::load_plugin_textdomain()
 	 */
-	public function test_load_plugin_textdomain() {
+	public function test_load_plugin_textdomain(): void {
 
 		$i18n = new I18n();
 

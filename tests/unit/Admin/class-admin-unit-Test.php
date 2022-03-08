@@ -17,12 +17,12 @@ use BrianHenryIE\WP_Autologin_URLs\API\Settings_Interface;
  */
 class Admin_Unit_Test extends \Codeception\Test\Unit {
 
-	protected function _before() {
+	protected function setUp(): void {
 		\WP_Mock::setUp();
 	}
 
-	protected function _tearDown() {
-		parent::_tearDown();
+	protected function tearDown(): void {
+		parent::tearDown();
 		\WP_Mock::tearDown();
 	}
 
