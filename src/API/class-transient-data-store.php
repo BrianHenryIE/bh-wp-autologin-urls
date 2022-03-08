@@ -11,12 +11,25 @@
 
 namespace BrianHenryIE\WP_Autologin_URLs\API;
 
+use Psr\Log\LoggerAwareTrait;
+use Psr\Log\LoggerInterface;
+
 /**
  * Class Transient_Data_Store
  *
  * @package BH_WP_Autologin_URLs\api
  */
 class Transient_Data_Store implements Data_Store_Interface {
+	use LoggerAwareTrait;
+
+	/**
+	 * Constructor.
+	 *
+	 * @param LoggerInterface $logger A PSR logger.
+	 */
+	public function __construct( LoggerInterface $logger ) {
+		$this->setLogger( $logger );
+	}
 
 	public const TRANSIENT_PREFIX = 'bh_autologin_';
 
@@ -62,5 +75,17 @@ class Transient_Data_Store implements Data_Store_Interface {
 		delete_transient( $transient_name );
 
 		return $value;
+	}
+
+	/**
+	 * Delete codes that are no longer valid.
+	 *
+	 * @return array{count:int}
+	 */
+	public function delete_expired_codes(): array {
+		return array(
+			'count'   => 0,
+			'message' => 'Transients auto-delete',
+		);
 	}
 }

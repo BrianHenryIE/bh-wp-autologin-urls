@@ -37,4 +37,11 @@ interface Data_Store_Interface {
 	 * @return string|null
 	 */
 	public function get_value_for_code( string $code ): ?string;
+
+	/**
+	 * Delete codes that are no longer valid.
+	 *
+	 * @return array{count:int}
+	 */
+	public function delete_expired_codes(): array;
 }

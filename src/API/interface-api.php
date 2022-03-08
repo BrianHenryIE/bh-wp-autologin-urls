@@ -52,4 +52,11 @@ interface API_Interface {
 	 */
 	public function verify_autologin_password( int $user_id, string $password ): bool;
 
+	/**
+	 * Purge codes that are no longer valid.
+	 *
+	 * @return array{count:int}
+	 */
+	public function delete_expired_codes(): array;
+
 }

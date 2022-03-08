@@ -8,6 +8,7 @@
 
 namespace BrianHenryIE\WP_Autologin_URLs\API;
 
+use BrianHenryIE\ColorLogger\ColorLogger;
 use BrianHenryIE\WP_Autologin_URLs\Includes\Settings_Interface;
 
 /**
@@ -26,7 +27,8 @@ class Transient_Data_Store_Unit_Test extends \Codeception\Test\Unit {
 
 	public function test_save() {
 
-		$sut = new Transient_Data_Store();
+		$logger = new ColorLogger();
+		$sut    = new Transient_Data_Store( $logger );
 
 		$user_id    = 123;
 		$password   = 'abc';
@@ -50,7 +52,8 @@ class Transient_Data_Store_Unit_Test extends \Codeception\Test\Unit {
 
 	public function test_get_value_for_password() {
 
-		$sut = new Transient_Data_Store();
+		$logger = new ColorLogger();
+		$sut    = new Transient_Data_Store( $logger );
 
 		\WP_Mock::userFunction(
 			'get_transient',

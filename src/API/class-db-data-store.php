@@ -5,13 +5,17 @@
  * @link       https://BrianHenry.ie
  * @since      1.2.1
  *
- * @package    bh-wp-autologin-urls
- * @subpackage bh-wp-autologin-urls/api
+ * @package    brianhenryie/bh-wp-autologin-urls
  */
 
 namespace BrianHenryIE\WP_Autologin_URLs\API;
 
 use DateTime;
+use DateTimeImmutable;
+use DateTimeZone;
+use Exception;
+use Psr\Log\LoggerInterface;
+use Psr\Log\LoggerAwareTrait;
 
 /**
  * Creates a custom database table via standard $wpdb functions to store and retrieve the autologin codes.
@@ -23,6 +27,16 @@ use DateTime;
  * @package BH_WP_Autologin_URLs\api
  */
 class DB_Data_Store implements Data_Store_Interface {
+	use LoggerAwareTrait;
+
+	/**
+	 * Constructor.
+	 *
+	 * @param LoggerInterface $logger A PSR logger.
+	 */
+	public function __construct( LoggerInterface $logger ) {
+		$this->setLogger( $logger );
+	}
 
 	/**
 	 * The current plugin database version.
@@ -36,19 +50,7 @@ class DB_Data_Store implements Data_Store_Interface {
 	 *
 	 * @var string
 	 */
-	public static $db_version_option_name = 'bh-wp-autologin-urls-db-version';
-
-	/**
-	 * The full table name of the database table and table name.
-	 *
-	 * @return string
-	 */
-	protected function get_table_name(): string {
-		global $wpdb;
-
-		return $wpdb->prefix . 'autologin_urls';
-	}
-
+	public static $db_version_option_name = 'bh_wp_autologin_urls_db_version';
 	/**
 	 * Create or upgrade the database.
 	 *
@@ -66,14 +68,15 @@ class DB_Data_Store implements Data_Store_Interface {
 
 		global $wpdb;
 
+		$table_name      = $wpdb->prefix . 'autologin_urls';
 		$charset_collate = $wpdb->get_charset_collate();
 
-		$sql = "CREATE TABLE {$this->get_table_name()} (
-		  expires datetime DEFAULT '0000-00-00 00:00:00' NOT NULL,
+		$sql = "CREATE TABLE {$table_name} (
+		  expires_at datetime DEFAULT '0000-00-00 00:00:00' NOT NULL,
 		  hash varchar(64) NOT NULL,
 		  userhash varchar(64) NOT NULL, 
 		  PRIMARY KEY  (hash),
-		  KEY expires (expires)
+		  KEY expires_at (expires_at)
 		) {$charset_collate};";
 
 		require_once ABSPATH . 'wp-admin/includes/upgrade.php';
@@ -98,16 +101,42 @@ class DB_Data_Store implements Data_Store_Interface {
 
 		global $wpdb;
 
-		$datetime = new DateTime();
+		$datetime = new DateTime( 'now', new DateTimeZone( 'UTC' ) );
 		$datetime->add( new \DateInterval( "PT{$expires_in}S" ) );
-		$expires = $datetime->format( 'Y-m-d H:i:s' );
+		$expires_at = $datetime->format( 'Y-m-d H:i:s' );
 
 		$result = $wpdb->insert(
-			$this->get_table_name(),
+			$wpdb->prefix . 'autologin_urls',
 			array(
-				'expires'  => $expires,
-				'hash'     => $key,
-				'userhash' => $value,
+				'expires_at' => $expires_at,
+				'hash'       => $key,
+				'userhash'   => $value,
+			)
+		);
+
+		if ( false === $result ) {
+			$wpdb_error = $wpdb->last_error;
+
+			$this->logger->error(
+				'Error saving autologin code for user ' . $user_id . ' : ' . $wpdb_error,
+				array(
+					'wpdb_error' => $wpdb_error,
+					'user_id'    => $user_id,
+					'code'       => $code,
+					'expires_in' => $expires_in,
+					'expires_at' => $expires_at,
+					'hash'       => $key,
+					'userhash'   => $value,
+				)
+			);
+			return;
+		}
+
+		$this->logger->debug(
+			'Saved autologin code for user ' . $user_id,
+			array(
+				'user_id' => $user_id,
+				'expires' => $expires_at,
 			)
 		);
 	}
@@ -118,7 +147,8 @@ class DB_Data_Store implements Data_Store_Interface {
 	 * @param string $code The autologin code in the user's URL.
 	 *
 	 * @return string|null
-	 * @throws \Exception DateTime exception.
+	 * @throws Exception DateTime exception.
+	 * @throws Exception For `$wpdb->last_error`.
 	 */
 	public function get_value_for_code( string $code ): ?string {
 
@@ -131,27 +161,66 @@ class DB_Data_Store implements Data_Store_Interface {
 		 * phpcs:disable WordPress.DB.DirectDatabaseQuery.NoCaching
 		 */
 		$result = $wpdb->get_row(
-			$wpdb->prepare( 'SELECT expires, userhash FROM %s WHERE hash = %s', $this->get_table_name(), $key )
+			$wpdb->prepare( 'SELECT expires_at, userhash FROM ' . $wpdb->prefix . 'autologin_urls WHERE hash = %s', $key )
 		);
 
+		if ( ! empty( $wpdb->last_error ) ) {
+			$this->logger->error( $wpdb->last_error );
+			throw new Exception( $wpdb->last_error );
+		}
+
 		if ( is_null( $result ) ) {
+			$this->logger->debug( 'Code not found.' );
 			return null;
 		}
 
 		// Delete the code so it can only be used once (whether valid or not).
 		$wpdb->delete(
-			$this->get_table_name(),
+			$wpdb->prefix . 'autologin_urls',
 			array( 'hash' => $key )
 		);
 
-		$expires = new DateTime( $result->expires );
+		$expires_at = new DateTimeImmutable( $result->expires_at, new DateTimeZone( 'UTC' ) );
 
-		$now = new DateTime();
+		$now = new DateTimeImmutable( 'now', new DateTimeZone( 'UTC' ) );
 
-		if ( $now > $expires ) {
+		if ( $now > $expires_at ) {
+			$this->logger->debug(
+				'Valid code but already expired',
+				array(
+					'code'       => $code,
+					'expires_at' => $expires_at,
+					'hash'       => $key,
+				)
+			);
 			return null;
 		}
 
 		return $result->userhash;
+	}
+
+	/**
+	 * Delete codes that are no longer valid.
+	 *
+	 * @return array{count:int}
+	 * @throws Exception For `$wpdb->last_error`.
+	 */
+	public function delete_expired_codes(): array {
+
+		// get current datetime in mysql format.
+		$datetime             = new DateTimeImmutable( 'now', new DateTimeZone( 'UTC' ) );
+		$mysql_formatted_date = $datetime->format( 'Y-m-d H:i:s' );
+
+		global $wpdb;
+		$result = $wpdb->query( $wpdb->prepare( 'DELETE FROM ' . $wpdb->prefix . 'autologin_urls WHERE expires_at < %s', $mysql_formatted_date ) );
+
+		if ( ! empty( $wpdb->last_error ) ) {
+			$this->logger->error( $wpdb->last_error );
+			throw new Exception( $wpdb->last_error );
+		}
+
+		$this->logger->info( $result );
+
+		return array( 'count' => $result );
 	}
 }

@@ -8,36 +8,28 @@
 
 namespace BrianHenryIE\WP_Autologin_URLs\API;
 
+use BrianHenryIE\ColorLogger\ColorLogger;
 use Psr\Log\LoggerInterface;
 use Codeception\Stub\Expected;
 
 /**
- * Class API_WPUnit_Test
+ * @coversDefaultClass \BrianHenryIE\WP_Autologin_URLs\API\API
  */
 class API_WPUnit_Test extends \Codeception\TestCase\WPTestCase {
-
-	protected $plugin_name;
-
-	protected $version;
 
 	/** @var Settings_Interface */
 	protected $settings;
 
-	protected $logger;
-
-	public function _setUp() {
+	public function setUp(): void {
 		parent::_setUp();
 
 		// Codeception/WP-Browser tests return localhost as the site_url, whereas WP_UnitTestCase was returning example.org.
 		add_filter(
 			'site_url',
-			function() {
+			function(): string {
 				return 'http://example.org';
 			}
 		);
-
-		$this->plugin_name = 'bh-wp-autologin-urls';
-		$this->version     = '1.2.0';
 
 		$this->settings = $this->makeEmpty(
 			Settings_Interface::class,
@@ -49,8 +41,6 @@ class API_WPUnit_Test extends \Codeception\TestCase\WPTestCase {
 			)
 		);
 
-		$this->logger = $this->makeEmpty( LoggerInterface::class );
-
 		$this->set_return_password_for_test_user();
 	}
 
@@ -61,7 +51,7 @@ class API_WPUnit_Test extends \Codeception\TestCase\WPTestCase {
 	 * phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery
 	 * phpcs:disable WordPress.DB.DirectDatabaseQuery.NoCaching
 	 */
-	private function set_return_password_for_test_user() {
+	protected function set_return_password_for_test_user(): void {
 
 		$user_id = $this->factory->user->create(
 			array(
@@ -92,7 +82,7 @@ class API_WPUnit_Test extends \Codeception\TestCase\WPTestCase {
 	 *
 	 * @return int
 	 */
-	private function get_plugin_transients_count() {
+	private function get_plugin_transients_count(): int {
 
 		global $wpdb;
 
@@ -108,14 +98,18 @@ class API_WPUnit_Test extends \Codeception\TestCase\WPTestCase {
 
 	/**
 	 * Test a simple successful code generation and its being saved in the database.
+	 *
+	 * @covers ::generate_code
 	 */
-	public function test_generate_code() {
+	public function test_generate_code(): void {
+
+		$logger = new ColorLogger();
 
 		$data_store_mock = $this->makeEmpty(
 			Data_Store_Interface::class,
 			array( 'save' => Expected::once() )
 		);
-		$api             = new API( $this->settings, $this->logger, $data_store_mock );
+		$api             = new API( $this->settings, $logger, $data_store_mock );
 
 		$user_id = $this->factory->user->create();
 		$user    = get_user_by( 'id', $user_id );
@@ -131,11 +125,15 @@ class API_WPUnit_Test extends \Codeception\TestCase\WPTestCase {
 	 *
 	 * It's better not to create a password for a user that is yet to exist!
 	 * (recently deleted is weird, but probably not a security issue).
+	 *
+	 * @covers ::generate_code
 	 */
-	public function test_user_not_exist() {
+	public function test_user_not_exist(): void {
+
+		$logger = new ColorLogger();
 
 		$data_store_mock = $this->makeEmpty( Data_Store_Interface::class );
-		$api             = new API( $this->settings, $this->logger, $data_store_mock );
+		$api             = new API( $this->settings, $logger, $data_store_mock );
 
 		$generated_code = $api->generate_code( null, 3600 );
 
@@ -144,8 +142,10 @@ class API_WPUnit_Test extends \Codeception\TestCase\WPTestCase {
 
 	/**
 	 * Vanilla passing test where an autologin code is added to a url.
+	 *
+	 * @covers ::add_autologin_to_url
 	 */
-	public function test_add_autologin_to_url() {
+	public function test_add_autologin_to_url(): void {
 
 		$site_url = get_site_url();
 
@@ -153,8 +153,9 @@ class API_WPUnit_Test extends \Codeception\TestCase\WPTestCase {
 
 		$expected = "{$site_url}/product/woocommerce-product/?autologin=123~mockpassw0rd";
 
+		$logger          = new ColorLogger();
 		$data_store_mock = $this->makeEmpty( Data_Store_Interface::class );
-		$api             = new API( $this->settings, $this->logger, $data_store_mock );
+		$api             = new API( $this->settings, $logger, $data_store_mock );
 
 		$actual = $api->add_autologin_to_url( $url, 123 );
 
@@ -163,14 +164,17 @@ class API_WPUnit_Test extends \Codeception\TestCase\WPTestCase {
 
 	/**
 	 * If the url is not for this website, just return it.
+	 *
+	 * @covers ::add_autologin_to_url
 	 */
-	public function test_add_autologin_to_url_wrong_site() {
+	public function test_add_autologin_to_url_wrong_site(): void {
 
 		$url      = 'http://example.com/test_add_autologin_to_url/';
 		$expected = 'http://example.com/test_add_autologin_to_url/';
 
+		$logger          = new ColorLogger();
 		$data_store_mock = $this->makeEmpty( Data_Store_Interface::class );
-		$api             = new API( $this->settings, $this->logger, $data_store_mock );
+		$api             = new API( $this->settings, $logger, $data_store_mock );
 
 		$actual = $api->add_autologin_to_url( $url, 123 );
 
@@ -180,14 +184,17 @@ class API_WPUnit_Test extends \Codeception\TestCase\WPTestCase {
 
 	/**
 	 * When the user passed to the method is null, the method should return the url unchanged.
+	 *
+	 * @covers ::add_autologin_to_url
 	 */
-	public function test_add_autologin_to_url_null_user() {
+	public function test_add_autologin_to_url_null_user(): void {
 
 		$url      = 'http://example.org/test_add_autologin_to_url/';
 		$expected = 'http://example.org/test_add_autologin_to_url/';
 
+		$logger          = new ColorLogger();
 		$data_store_mock = $this->makeEmpty( Data_Store_Interface::class );
-		$api             = new API( $this->settings, $this->logger, $data_store_mock );
+		$api             = new API( $this->settings, $logger, $data_store_mock );
 
 		$actual = $api->add_autologin_to_url( $url, null );
 
@@ -197,14 +204,17 @@ class API_WPUnit_Test extends \Codeception\TestCase\WPTestCase {
 
 	/**
 	 * If no user is found for the user id passed, just return the url.
+	 *
+	 * @covers ::add_autologin_to_url
 	 */
-	public function test_add_autologin_to_url_user_id_does_not_exist() {
+	public function test_add_autologin_to_url_user_id_does_not_exist(): void {
 
 		$url      = 'http://example.org/test_add_autologin_to_url/';
 		$expected = 'http://example.org/test_add_autologin_to_url/';
 
+		$logger          = new ColorLogger();
 		$data_store_mock = $this->makeEmpty( Data_Store_Interface::class );
-		$api             = new API( $this->settings, $this->logger, $data_store_mock );
+		$api             = new API( $this->settings, $logger, $data_store_mock );
 
 		$actual = $api->add_autologin_to_url( $url, 321 );
 
@@ -213,14 +223,17 @@ class API_WPUnit_Test extends \Codeception\TestCase\WPTestCase {
 
 	/**
 	 * Confirm the method adds the autologin code when a user id is passed as the $user argument as an int.
+	 *
+	 * @covers ::add_autologin_to_url
 	 */
-	public function test_add_autologin_to_url_user_id_does_exist_is_int() {
+	public function test_add_autologin_to_url_user_id_does_exist_is_int(): void {
 
 		$url      = 'http://example.org/test_add_autologin_to_url/';
 		$expected = 'http://example.org/test_add_autologin_to_url/?autologin=123~mockpassw0rd';
 
+		$logger          = new ColorLogger();
 		$data_store_mock = $this->makeEmpty( Data_Store_Interface::class );
-		$api             = new API( $this->settings, $this->logger, $data_store_mock );
+		$api             = new API( $this->settings, $logger, $data_store_mock );
 
 		$actual = $api->add_autologin_to_url( $url, 123 );
 
@@ -229,14 +242,17 @@ class API_WPUnit_Test extends \Codeception\TestCase\WPTestCase {
 
 	/**
 	 * Confirm the method adds the autologin code when a user id is passed as the $user argument as a string.
+	 *
+	 * @covers ::add_autologin_to_url
 	 */
-	public function test_add_autologin_to_url_user_id_does_exist_is_string() {
+	public function test_add_autologin_to_url_user_id_does_exist_is_string(): void {
 
 		$url      = 'http://example.org/test_add_autologin_to_url/';
 		$expected = 'http://example.org/test_add_autologin_to_url/?autologin=123~mockpassw0rd';
 
+		$logger          = new ColorLogger();
 		$data_store_mock = $this->makeEmpty( Data_Store_Interface::class );
-		$api             = new API( $this->settings, $this->logger, $data_store_mock );
+		$api             = new API( $this->settings, $logger, $data_store_mock );
 
 		$actual = $api->add_autologin_to_url( $url, '123' );
 
@@ -246,14 +262,17 @@ class API_WPUnit_Test extends \Codeception\TestCase\WPTestCase {
 	/**
 	 * If the user parameter passed is an email address for a user that does not exist,
 	 * the url should be returned unchanged.
+	 *
+	 * @covers ::add_autologin_to_url
 	 */
-	public function test_add_autologin_to_url_user_email_does_not_exist() {
+	public function test_add_autologin_to_url_user_email_does_not_exist(): void {
 
 		$url      = 'http://example.org/test_add_autologin_to_url/';
 		$expected = 'http://example.org/test_add_autologin_to_url/';
 
+		$logger          = new ColorLogger();
 		$data_store_mock = $this->makeEmpty( Data_Store_Interface::class );
-		$api             = new API( $this->settings, $this->logger, $data_store_mock );
+		$api             = new API( $this->settings, $logger, $data_store_mock );
 
 		$actual = $api->add_autologin_to_url( $url, 'brian@example.org', null );
 
@@ -264,14 +283,17 @@ class API_WPUnit_Test extends \Codeception\TestCase\WPTestCase {
 	/**
 	 * When a valid email address is passed as the email parameter, the
 	 * autologin code should be added to the url.
+	 *
+	 * @covers ::add_autologin_to_url
 	 */
-	public function test_add_autologin_to_url_user_email_does_exist() {
+	public function test_add_autologin_to_url_user_email_does_exist(): void {
 
 		$url      = 'http://example.org/test_add_autologin_to_url/';
 		$expected = 'http://example.org/test_add_autologin_to_url/?autologin=123~mockpassw0rd';
 
+		$logger          = new ColorLogger();
 		$data_store_mock = $this->makeEmpty( Data_Store_Interface::class );
-		$api             = new API( $this->settings, $this->logger, $data_store_mock );
+		$api             = new API( $this->settings, $logger, $data_store_mock );
 
 		$actual = $api->add_autologin_to_url( $url, 'brianhenryie@gmail.com' );
 
@@ -282,14 +304,17 @@ class API_WPUnit_Test extends \Codeception\TestCase\WPTestCase {
 	/**
 	 * When a string is passed, assume it is a username. If there is no
 	 * user account present, don't change the url.
+	 *
+	 * @covers ::add_autologin_to_url
 	 */
-	public function test_add_autologin_to_url_string_for_nonexistant_login() {
+	public function test_add_autologin_to_url_string_for_nonexistant_login(): void {
 
 		$url      = 'http://example.org/test_add_autologin_to_url/';
 		$expected = 'http://example.org/test_add_autologin_to_url/';
 
+		$logger          = new ColorLogger();
 		$data_store_mock = $this->makeEmpty( Data_Store_Interface::class );
-		$api             = new API( $this->settings, $this->logger, $data_store_mock );
+		$api             = new API( $this->settings, $logger, $data_store_mock );
 
 		$actual = $api->add_autologin_to_url( $url, 'nouserpresent' );
 
@@ -299,14 +324,17 @@ class API_WPUnit_Test extends \Codeception\TestCase\WPTestCase {
 
 	/**
 	 * When there is a user account for a string passed as $user, add the autologin code.
+	 *
+	 * @covers ::add_autologin_to_url
 	 */
-	public function test_add_autologin_to_url_string_for_existing_login() {
+	public function test_add_autologin_to_url_string_for_existing_login(): void {
 
 		$url      = 'http://example.org/test_add_autologin_to_url/';
 		$expected = 'http://example.org/test_add_autologin_to_url/?autologin=123~mockpassw0rd';
 
+		$logger          = new ColorLogger();
 		$data_store_mock = $this->makeEmpty( Data_Store_Interface::class );
-		$api             = new API( $this->settings, $this->logger, $data_store_mock );
+		$api             = new API( $this->settings, $logger, $data_store_mock );
 
 		$actual = $api->add_autologin_to_url( $url, 'brian' );
 
@@ -318,14 +346,17 @@ class API_WPUnit_Test extends \Codeception\TestCase\WPTestCase {
 	 * When something other than an actual WP_User object, an int (user id),
 	 * a string (email) or a string (login) is passed, the method should just return
 	 * the submitted url.
+	 *
+	 * @covers ::add_autologin_to_url
 	 */
-	public function test_add_autologin_to_url_unexpected_input() {
+	public function test_add_autologin_to_url_unexpected_input(): void {
 
 		$url      = 'http://example.org/test_add_autologin_to_url/';
 		$expected = 'http://example.org/test_add_autologin_to_url/';
 
+		$logger          = new ColorLogger();
 		$data_store_mock = $this->makeEmpty( Data_Store_Interface::class );
-		$api             = new API( $this->settings, $this->logger, $data_store_mock );
+		$api             = new API( $this->settings, $logger, $data_store_mock );
 
 		$actual = $api->add_autologin_to_url( $url, new \stdClass() );
 
@@ -336,11 +367,14 @@ class API_WPUnit_Test extends \Codeception\TestCase\WPTestCase {
 	 * This method reads the testdata/testdata directory, tests the
 	 * add_autologin_to_messages() method and compares the results with
 	 * the testdata/expected directory's matching filenames.
+	 *
+	 * @covers ::add_autologin_to_message
 	 */
-	public function test_add_autologin_to_messages() {
+	public function test_add_autologin_to_messages(): void {
 
+		$logger          = new ColorLogger();
 		$data_store_mock = $this->makeEmpty( Data_Store_Interface::class );
-		$api             = new API( $this->settings, $this->logger, $data_store_mock );
+		$api             = new API( $this->settings, $logger, $data_store_mock );
 
 		global $project_root_dir;
 

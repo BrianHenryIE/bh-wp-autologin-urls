@@ -49,7 +49,7 @@ class API implements API_Interface {
 	 *
 	 * @var Data_Store_Interface
 	 */
-	protected $data_store;
+	protected Data_Store_Interface $data_store;
 
 	/**
 	 * API constructor.
@@ -61,7 +61,7 @@ class API implements API_Interface {
 	public function __construct( Settings_Interface $settings, LoggerInterface $logger, Data_Store_Interface $data_store = null ) {
 
 		$this->setLogger( $logger );
-		$this->data_store = $data_store ?? new Transient_Data_Store();
+		$this->data_store = $data_store ?? new Transient_Data_Store( $logger );
 
 		$this->settings = $settings;
 	}
@@ -238,4 +238,12 @@ class API implements API_Interface {
 		return false;
 	}
 
+	/**
+	 * Purge codes that are no longer valid.
+	 *
+	 * @return array{count:int}
+	 */
+	public function delete_expired_codes(): array {
+		return $this->data_store->delete_expired_codes();
+	}
 }

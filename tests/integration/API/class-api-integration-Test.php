@@ -13,18 +13,8 @@ namespace BrianHenryIE\WP_Autologin_URLs\API;
  */
 class API_Integration_Test extends \Codeception\TestCase\WPTestCase {
 
-	public function _setUp() {
-		parent::_setUp();
-
-		// Codeception/WP-Browser tests return localhost as the site_url, whereas WP_UnitTestCase was returning example.org.
-		add_filter(
-			'site_url',
-			function( $url, $path, $scheme, $blog_id ) {
-				return str_replace( 'localhost', 'example.org', $url );
-			},
-			10,
-			4
-		);
+	public function setUp(): void {
+		parent::setUp();
 
 		$this->set_return_password_for_test_user();
 	}

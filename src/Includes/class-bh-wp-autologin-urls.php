@@ -113,11 +113,11 @@ class BH_WP_Autologin_URLs {
 	 */
 	protected function setup_api(): void {
 
-		$datastore = new DB_Data_Store();
+		$datastore = new DB_Data_Store( $this->logger );
 
 		add_action( 'plugins_loaded', array( $datastore, 'create_db' ), 1 );
 
-		$plugin_api = new API( $this->settings, $this->logger, $datastore );
+		$plugin_api = $this->api;
 
 		add_filter( 'add_autologin_to_message', array( $plugin_api, 'add_autologin_to_message' ), 10, 2 );
 		add_filter( 'add_autologin_to_url', array( $plugin_api, 'add_autologin_to_url' ), 10, 2 );
