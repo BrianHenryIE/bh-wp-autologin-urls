@@ -12,6 +12,8 @@
 
 namespace BrianHenryIE\WP_Autologin_URLs\API;
 
+use BrianHenryIE\WP_Autologin_URLs\Admin\Plugins_Page;
+
 /**
  * Interface Settings_Interface
  */
@@ -61,8 +63,34 @@ interface Settings_Interface {
 	 */
 	public function get_should_use_wp_login(): bool;
 
+	/**
+	 * The plugins slug as a unique handle for JS and CSS.
+	 *
+	 * @used-by Admin::enqueue_scripts()
+	 * @used-by Admin::enqueue_styles()
+	 *
+	 * @return string
+	 */
 	public function get_plugin_slug(): string;
 
+	/**
+	 * The plugin version, to avoid using cached assets from older releases.
+	 *
+	 * @used-by Admin::enqueue_scripts()
+	 * @used-by Admin::enqueue_styles()
+	 *
+	 * @return string
+	 */
 	public function get_plugin_version(): string;
+
+	/**
+	 * The plugin basename, used on plugins.php to add links to the correct row.
+	 *
+	 * @used-by Plugins_Page::action_links()
+	 *
+	 * @return string
+	 */
+	public function get_plugin_basename(): string;
+
 }
 

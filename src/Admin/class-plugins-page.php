@@ -5,8 +5,7 @@
  * @link
  * @since      3.0.0
  *
- * @package    bh-wp-autologin-urls
- * @subpackage bh-wp-autologin-urls/admin
+ * @package    brianhenryie/bh-wp-autologin-urls
  */
 
 namespace BrianHenryIE\WP_Autologin_URLs\Admin;
@@ -14,16 +13,22 @@ namespace BrianHenryIE\WP_Autologin_URLs\Admin;
 use BrianHenryIE\WP_Autologin_URLs\API\Settings_Interface;
 
 /**
- * This class adds a `Settings` link on the plugins.php page.
- *
- * @package    bh-wp-autologin-urls
- * @subpackage bh-wp-autologin-urls/admin
- * @author     BrianHenryIE <BrianHenryIE@gmail.com>
+ * This class adds a `Settings` link and a `GitHub` link on the plugins.php page.
  */
 class Plugins_Page {
 
+	/**
+	 * Needed for the plugin slug and basename.
+	 *
+	 * @var Settings_Interface
+	 */
 	protected Settings_Interface $settings;
 
+	/**
+	 * Constructor.
+	 *
+	 * @param Settings_Interface $settings The plugin settings.
+	 */
 	public function __construct( Settings_Interface $settings ) {
 		$this->settings = $settings;
 	}
@@ -64,7 +69,7 @@ class Plugins_Page {
 	 */
 	public function row_meta( array $plugin_meta, string $plugin_file_name, array $plugin_data, string $status ): array {
 
-		if ( $this->settings->get_plugin_slug() . '/' . $this->settings->get_plugin_slug() . '.php' === $plugin_file_name ) {
+		if ( $this->settings->get_plugin_basename() === $plugin_file_name ) {
 
 			$plugin_meta[] = '<a target="_blank" href="https://github.com/BrianHenryIE/' . $this->settings->get_plugin_slug() . '">View plugin on GitHub</a>';
 		}

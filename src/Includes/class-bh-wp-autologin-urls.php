@@ -88,6 +88,8 @@ class BH_WP_Autologin_URLs {
 		$this->set_locale();
 
 		$this->define_admin_hooks();
+		$this->define_plugins_page_hooks();
+
 		$this->define_wp_mail_hooks();
 
 		$this->define_wp_login_hooks();
@@ -144,15 +146,21 @@ class BH_WP_Autologin_URLs {
 		add_action( 'admin_init', array( $plugin_settings_page, 'setup_sections' ) );
 		add_action( 'admin_init', array( $plugin_settings_page, 'setup_fields' ) );
 
+		$user_edit = new User_Edit( $this->api );
+		add_action( 'edit_user_profile', array( $user_edit, 'make_password_available_on_user_page' ), 1, 1 );
+	}
+
+	/**
+	 * Add a Settings link and a link to the plugin on GitHub.
+	 */
+	protected function define_plugins_page_hooks(): void {
+
 		$plugins_page = new Plugins_Page( $this->settings );
 
-		$plugin_basename = 'bh-wp-autologin-urls/bh-wp-autologin-urls.php';
+		$plugin_basename = $this->settings->get_plugin_basename();
 
 		add_filter( "plugin_action_links_{$plugin_basename}", array( $plugins_page, 'action_links' ), 10, 4 );
 		add_filter( 'plugin_row_meta', array( $plugins_page, 'row_meta' ), 20, 4 );
-
-		$user_edit = new User_Edit( $this->api );
-		add_action( 'edit_user_profile', array( $user_edit, 'make_password_available_on_user_page' ), 1, 1 );
 	}
 
 	/**

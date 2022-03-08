@@ -4,8 +4,10 @@ namespace BrianHenryIE\WP_Autologin_URLs\Includes;
 
 use BrianHenryIE\ColorLogger\ColorLogger;
 use BrianHenryIE\WP_Autologin_URLs\Admin\Admin;
+use BrianHenryIE\WP_Autologin_URLs\Admin\Plugins_Page;
 use BrianHenryIE\WP_Autologin_URLs\API\API_Interface;
 use BrianHenryIE\WP_Autologin_URLs\API\Settings_Interface;
+use Codeception\Stub\Expected;
 use WP_Mock\Matcher\AnyInstance;
 
 /**
@@ -87,4 +89,37 @@ class BH_WP_Autologin_URLs_Unit_Test extends \Codeception\Test\Unit {
 		new BH_WP_Autologin_URLs( $api, $settings, $logger );
 	}
 
+	/**
+	 * @covers ::define_plugins_page_hooks
+	 */
+	public function test_define_plugins_page_hooks(): void {
+
+		$basename = 'bh-wp-autologin-urls/bh-wp-autologin-urls.php';
+
+		\WP_Mock::expectFilterAdded(
+			"plugin_action_links_{$basename}",
+			array( new AnyInstance( Plugins_Page::class ), 'action_links' ),
+			10,
+			4
+		);
+		\WP_Mock::expectFilterAdded(
+			'plugin_row_meta',
+			array( new AnyInstance( Plugins_Page::class ), 'row_meta' ),
+			20,
+			4
+		);
+
+		$logger   = new ColorLogger();
+		$settings = $this->makeEmpty(
+			Settings_Interface::class,
+			array(
+				'get_plugin_basename' => Expected::once(
+					function() use ( $basename ) {
+						return $basename;}
+				),
+			)
+		);
+		$api      = $this->makeEmpty( API_Interface::class );
+		new BH_WP_Autologin_URLs( $api, $settings, $logger );
+	}
 }

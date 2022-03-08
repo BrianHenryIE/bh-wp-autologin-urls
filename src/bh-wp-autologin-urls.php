@@ -37,6 +37,7 @@ namespace BH_WP_Autologin_URLs {
 	 * Currently plugin version.
 	 */
 	define( 'BH_WP_AUTOLOGIN_URLS_VERSION', '1.3.0' );
+	define( 'BH_WP_AUTOLOGIN_URLS_BASENAME', plugin_basename( __FILE__ ) );
 
 	/**
 	 * Function to keep the loader and settings objects out of the namespace.
@@ -69,8 +70,6 @@ namespace BH_WP_Autologin_URLs {
 
 namespace {
 
-	use BrianHenryIE\WP_Autologin_URLs\API\API;
-	use BrianHenryIE\WP_Autologin_URLs\Includes\BH_WP_Autologin_URLs;
 	use BrianHenryIE\WP_Autologin_URLs\API\API_Interface;
 
 	add_action( 'plugins_loaded', 'define_add_autologin_to_url_function', 2 );
@@ -102,9 +101,9 @@ namespace {
 				 *
 				 * @var API_Interface $plugin_api
 				 */
-				$plugin = $GLOBALS['bh-wp-autologin-urls'];
+				$plugin_api = $GLOBALS['bh-wp-autologin-urls'];
 
-				return $plugin->add_autologin_to_url( $url, $user, $expires_in );
+				return $plugin_api->add_autologin_to_url( $url, $user, $expires_in );
 			}
 		}
 	}

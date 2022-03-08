@@ -10,8 +10,9 @@ class PluginsPageCest {
 	}
 
 	/**
+	 * Check the plugin name.
 	 *
-	 * @param AcceptanceTester $I
+	 * @param AcceptanceTester $I The Codeception tester.
 	 */
 	public function testPluginsPageForName( AcceptanceTester $I ) {
 
@@ -19,8 +20,9 @@ class PluginsPageCest {
 	}
 
 	/**
+	 * Verify the Settings link is present and correct.
 	 *
-	 * @param AcceptanceTester $I
+	 * @param AcceptanceTester $I The Codeception tester.
 	 */
 	public function testSettingsLink( AcceptanceTester $I ) {
 
@@ -29,8 +31,9 @@ class PluginsPageCest {
 	}
 
 	/**
+	 * Verify the GitHub link is present and correct.
 	 *
-	 * @param AcceptanceTester $I
+	 * @param AcceptanceTester $I The Codeception tester.
 	 */
 	public function testGithubLink( AcceptanceTester $I ) {
 

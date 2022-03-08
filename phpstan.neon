@@ -24,3 +24,6 @@ parameters:
         - '#^Function apply_filters(_ref_array)? invoked with \d parameters, 2 required\.$#'
         # Parameter #1 $message of method a expects b, c given.
         - '/Parameter .* of .* expects .* given\./'
+        # Function add_autologin_to_url() has parameter $user with no typehint specified.
+        # The function accepts int|string|WP_User as the type.
+        - '/Function add_autologin_to_url\(\) has parameter \$user with no typehint specified\./'

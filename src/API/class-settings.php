@@ -131,8 +131,13 @@ class Settings implements Settings_Interface, Logger_Settings_Interface {
 		return 'bh-wp-autologin-urls';
 	}
 
+	/**
+	 * The plugin version, used for asset caching.
+	 *
+	 * @return string
+	 */
 	public function get_plugin_version(): string {
-		return '1.3.0';
+		return defined( 'BH_WP_AUTOLOGIN_URLS_VERSION' ) ? BH_WP_AUTOLOGIN_URLS_VERSION : '1.3.0';
 	}
 
 	/**
@@ -153,6 +158,6 @@ class Settings implements Settings_Interface, Logger_Settings_Interface {
 	 * @see Logger
 	 */
 	public function get_plugin_basename(): string {
-		return 'bh-wp-autologin-urls/bh-wp-autologin-urls.php';
+		return defined( 'BH_WP_AUTOLOGIN_URLS_BASENAME' ) ? BH_WP_AUTOLOGIN_URLS_BASENAME : 'bh-wp-autologin-urls/bh-wp-autologin-urls.php';
 	}
 }
