@@ -1,6 +1,6 @@
 <?php
 
-namespace BrianHenryIE\WP_Autologin_URLs\Includes;
+namespace BrianHenryIE\WP_Autologin_URLs\WP_Includes;
 
 use BrianHenryIE\ColorLogger\ColorLogger;
 use BrianHenryIE\WP_Autologin_URLs\Admin\Admin;
@@ -11,7 +11,7 @@ use Codeception\Stub\Expected;
 use WP_Mock\Matcher\AnyInstance;
 
 /**
- * @coversDefaultClass \BrianHenryIE\WP_Autologin_URLs\Includes\BH_WP_Autologin_URLs
+ * @coversDefaultClass \BrianHenryIE\WP_Autologin_URLs\WP_Includes\BH_WP_Autologin_URLs
  */
 class BH_WP_Autologin_URLs_Unit_Test extends \Codeception\Test\Unit {
 

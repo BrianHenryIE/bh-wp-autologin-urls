@@ -13,7 +13,7 @@
 
 namespace BrianHenryIE\WP_Autologin_URLs\API;
 
-use BrianHenryIE\WP_Autologin_URLs\Includes\Login;
+use BrianHenryIE\WP_Autologin_URLs\WP_Includes\Login;
 use Psr\Log\LoggerAwareTrait;
 use Psr\Log\LoggerInterface;
 use WP_User;

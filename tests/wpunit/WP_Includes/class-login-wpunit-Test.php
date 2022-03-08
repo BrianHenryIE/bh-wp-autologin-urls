@@ -6,7 +6,7 @@
  * @package brianhenryie/bh-wp-autologin-urls
  */
 
-namespace BrianHenryIE\WP_Autologin_URLs\Includes;
+namespace BrianHenryIE\WP_Autologin_URLs\WP_Includes;
 
 use BrianHenryIE\ColorLogger\ColorLogger;
 use BrianHenryIE\WP_Autologin_URLs\API\API_Interface;
@@ -16,7 +16,7 @@ use Psr\Log\LoggerInterface;
 use function _PHPStan_76800bfb5\RingCentral\Psr7\parse_query;
 
 /**
- * @coversDefaultClass \BrianHenryIE\WP_Autologin_URLs\Includes\Login
+ * @coversDefaultClass \BrianHenryIE\WP_Autologin_URLs\WP_Includes\Login
  */
 class Login_WPUnit_Test extends \Codeception\TestCase\WPTestCase {
 

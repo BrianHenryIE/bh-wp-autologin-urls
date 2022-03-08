@@ -6,7 +6,7 @@
  * @author Brian Henry <BrianHenryIE@gmail.com>
  */
 
-namespace BrianHenryIE\WP_Autologin_URLs\Includes;
+namespace BrianHenryIE\WP_Autologin_URLs\WP_Includes;
 
 /**
  *

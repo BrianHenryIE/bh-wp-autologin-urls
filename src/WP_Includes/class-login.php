@@ -9,7 +9,7 @@
  * @subpackage bh-wp-autologin-urls/login
  */
 
-namespace BrianHenryIE\WP_Autologin_URLs\Includes;
+namespace BrianHenryIE\WP_Autologin_URLs\WP_Includes;
 
 use BrianHenryIE\WP_Autologin_URLs\API\API_Interface;
 use MailPoet\API\API;

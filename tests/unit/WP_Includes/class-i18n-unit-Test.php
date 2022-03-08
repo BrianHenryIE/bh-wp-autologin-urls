@@ -6,10 +6,10 @@
  * @author Brian Henry <BrianHenryIE@gmail.com>
  */
 
-namespace BrianHenryIE\WP_Autologin_URLs\Includes;
+namespace BrianHenryIE\WP_Autologin_URLs\WP_Includes;
 
 /**
- * @covers \BrianHenryIE\WP_Autologin_URLs\Includes\I18n
+ * @covers \BrianHenryIE\WP_Autologin_URLs\WP_Includes\I18n
  */
 class I18n_Unit_Test extends \Codeception\Test\Unit {
 

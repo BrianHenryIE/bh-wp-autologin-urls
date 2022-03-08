@@ -22,7 +22,7 @@
 namespace BH_WP_Autologin_URLs {
 
 	use BrianHenryIE\WP_Autologin_URLs\API\API;
-	use BrianHenryIE\WP_Autologin_URLs\Includes\BH_WP_Autologin_URLs;
+	use BrianHenryIE\WP_Autologin_URLs\WP_Includes\BH_WP_Autologin_URLs;
 	use BrianHenryIE\WP_Autologin_URLs\API\Settings;
 	use BrianHenryIE\WP_Autologin_URLs\WP_Logger\Logger;
 

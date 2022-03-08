@@ -6,7 +6,7 @@
  * @author Brian Henry <BrianHenryIE@gmail.com>
  */
 
-namespace BrianHenryIE\WP_Autologin_URLs\Includes;
+namespace BrianHenryIE\WP_Autologin_URLs\WP_Includes;
 
 use BrianHenryIE\WP_Autologin_URLs\API\API_Interface;
 use Psr\Log\NullLogger;
@@ -14,7 +14,7 @@ use WP_User;
 
 
 /**
- * @coversDefaultClass \BrianHenryIE\WP_Autologin_URLs\Includes\Login
+ * @coversDefaultClass \BrianHenryIE\WP_Autologin_URLs\WP_Includes\Login
  */
 class Login_Unit_Test extends \Codeception\Test\Unit {
 

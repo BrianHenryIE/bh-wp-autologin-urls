@@ -5,7 +5,7 @@
  * @package brianhenryie/bh-wp-autologin-urls
  */
 
-namespace BrianHenryIE\WP_Autologin_URLs\Includes;
+namespace BrianHenryIE\WP_Autologin_URLs\WP_Includes;
 
 use BrianHenryIE\WP_Autologin_URLs\API\API_Interface;
 use Psr\Log\LoggerAwareTrait;

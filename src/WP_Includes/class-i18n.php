@@ -12,7 +12,7 @@
  * @subpackage bh-wp-autologin-urls/includes
  */
 
-namespace BrianHenryIE\WP_Autologin_URLs\Includes;
+namespace BrianHenryIE\WP_Autologin_URLs\WP_Includes;
 
 /**
  * Define the internationalization functionality.

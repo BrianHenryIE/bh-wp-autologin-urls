@@ -1,13 +1,13 @@
 <?php
 
-namespace BrianHenryIE\WP_Autologin_URLs\Includes;
+namespace BrianHenryIE\WP_Autologin_URLs\WP_Includes;
 
 use BrianHenryIE\ColorLogger\ColorLogger;
 use BrianHenryIE\WP_Autologin_URLs\API\API_Interface;
 use Codeception\Stub\Expected;
 
 /**
- * @coversDefaultClass \BrianHenryIE\WP_Autologin_URLs\Includes\Cron
+ * @coversDefaultClass \BrianHenryIE\WP_Autologin_URLs\WP_Includes\Cron
  */
 class Cron_Unit_Test extends \Codeception\Test\Unit {
 
