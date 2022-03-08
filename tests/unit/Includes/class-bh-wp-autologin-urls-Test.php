@@ -67,4 +67,24 @@ class BH_WP_Autologin_URLs_Unit_Test extends \Codeception\Test\Unit {
 		new BH_WP_Autologin_URLs( $api, $settings, $logger );
 	}
 
+	/**
+	 * @covers ::define_cron_hooks
+	 */
+	public function test_define_cron_hooks(): void {
+
+		\WP_Mock::expectActionAdded(
+			'plugins_loaded',
+			array( new AnyInstance( Cron::class ), 'schedule_job' )
+		);
+		\WP_Mock::expectActionAdded(
+			'bh_wp_autologin_urls_delete_expired_codes',
+			array( new AnyInstance( Cron::class ), 'delete_expired_codes' )
+		);
+
+		$logger   = new ColorLogger();
+		$settings = $this->makeEmpty( Settings_Interface::class );
+		$api      = $this->makeEmpty( API_Interface::class );
+		new BH_WP_Autologin_URLs( $api, $settings, $logger );
+	}
+
 }

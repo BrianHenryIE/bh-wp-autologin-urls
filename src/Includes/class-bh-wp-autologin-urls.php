@@ -91,6 +91,8 @@ class BH_WP_Autologin_URLs {
 		$this->define_wp_mail_hooks();
 
 		$this->define_wp_login_hooks();
+
+		$this->define_cron_hooks();
 	}
 
 	/**
@@ -170,7 +172,6 @@ class BH_WP_Autologin_URLs {
 	 * of the plugin.
 	 *
 	 * @since    1.0.0
-	 * @access   private
 	 */
 	protected function define_wp_login_hooks(): void {
 
@@ -180,6 +181,17 @@ class BH_WP_Autologin_URLs {
 
 		add_action( 'plugins_loaded', array( $plugin_login, 'login_newsletter_urls' ), 0 );
 		add_action( 'plugins_loaded', array( $plugin_login, 'login_mailpoet_urls' ), 0 );
+	}
+
+	/**
+	 * Register actions to schedule the cron job and to handle its execution.
+	 */
+	protected function define_cron_hooks(): void {
+
+		$cron = new Cron( $this->api, $this->logger );
+
+		add_action( 'plugins_loaded', array( $cron, 'schedule_job' ) );
+		add_action( Cron::DELETE_EXPIRED_CODES_JOB_NAME, array( $cron, 'delete_expired_codes' ) );
 	}
 
 }
