@@ -9,7 +9,6 @@
  * @subpackage bh-wp-autologin-urls/admin
  */
 
-
 namespace BrianHenryIE\WP_Autologin_URLs\Admin;
 
 use BrianHenryIE\WP_Autologin_URLs\Admin\Partials\Log_Level;
@@ -77,7 +76,7 @@ class Settings_Page {
 		$logger      = $this->logger;
 		$example_url = site_url() . '/?autologin=' . get_current_user_id() . '~Yxu1UQG8IwJO';
 
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/partials/admin-display.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'Admin/Partials/admin-display.php';
 	}
 
 	/**
