@@ -75,9 +75,11 @@ class Log_Level extends Settings_Section_Element_Abstract {
 
 		printf( '%1$s</label></fieldset>', wp_kses( $label, array( 'i' => array() ) ) );
 
-		printf( '<p class="description">%s</p>', esc_html( $arguments['supplemental'] ) );
+		$logs_url  = admin_url( 'admin.php?page=bh-wp-autologin-urls-logs' );
+		$logs_href = sprintf( '<a href="%s">View Logs</a>', $logs_url );
 
-		// TODO: Link to logs.
+		printf( '<p class="description">%s – %s</p>', esc_html( $arguments['supplemental'] ), $logs_href );
+
 	}
 
 	/**
