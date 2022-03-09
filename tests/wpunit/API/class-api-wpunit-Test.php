@@ -23,14 +23,6 @@ class API_WPUnit_Test extends \Codeception\TestCase\WPTestCase {
 	public function setUp(): void {
 		parent::_setUp();
 
-		// Codeception/WP-Browser tests return localhost as the site_url, whereas WP_UnitTestCase was returning example.org.
-		add_filter(
-			'site_url',
-			function(): string {
-				return 'http://example.org';
-			}
-		);
-
 		$this->settings = $this->makeEmpty(
 			Settings_Interface::class,
 			array(
@@ -307,7 +299,7 @@ class API_WPUnit_Test extends \Codeception\TestCase\WPTestCase {
 	 *
 	 * @covers ::add_autologin_to_url
 	 */
-	public function test_add_autologin_to_url_string_for_nonexistant_login(): void {
+	public function test_add_autologin_to_url_string_for_nonexistent_login(): void {
 
 		$url      = 'http://example.org/test_add_autologin_to_url/';
 		$expected = 'http://example.org/test_add_autologin_to_url/';
@@ -401,4 +393,30 @@ class API_WPUnit_Test extends \Codeception\TestCase\WPTestCase {
 
 	}
 
+	/**
+	 * @covers ::add_autologin_to_url
+	 */
+	public function test_add_autologin_to_url_use_login_php(): void {
+
+		$logger          = new ColorLogger();
+		$settings        = $this->makeEmpty(
+			Settings_Interface::class,
+			array(
+				'get_should_use_wp_login' => true,
+			)
+		);
+		$data_store_mock = $this->makeEmpty( Data_Store_Interface::class );
+		$api             = new API( $settings, $logger, $data_store_mock );
+
+		$url = get_site_url() . '/my-account/';
+
+		$user = wp_create_user( 'test-user', '123' );
+
+		$result = $api->add_autologin_to_url( $url, $user );
+
+		$expected = 'http://example.org/wp-login.php?redirect_to=http%3A%2F%2Fexample.org%2Fmy-account%2F&autologin=124~mockpassw0rd';
+
+		$this->assertEquals( $expected, $result );
+
+	}
 }
