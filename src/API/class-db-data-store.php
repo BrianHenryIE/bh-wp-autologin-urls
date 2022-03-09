@@ -10,6 +10,7 @@
 
 namespace BrianHenryIE\WP_Autologin_URLs\API;
 
+use DateInterval;
 use DateTime;
 use DateTimeImmutable;
 use DateTimeZone;
@@ -36,6 +37,8 @@ class DB_Data_Store implements Data_Store_Interface {
 	 */
 	public function __construct( LoggerInterface $logger ) {
 		$this->setLogger( $logger );
+
+		add_action( 'plugins_loaded', array( $this, 'create_db' ), 1 );
 	}
 
 	/**
@@ -83,6 +86,8 @@ class DB_Data_Store implements Data_Store_Interface {
 		$result = dbDelta( $sql );
 
 		update_option( self::$db_version_option_name, self::$db_version );
+
+		$this->logger->info( 'Updated database to version ' . self::$db_version );
 	}
 
 	/**
@@ -91,6 +96,8 @@ class DB_Data_Store implements Data_Store_Interface {
 	 * @param int    $user_id The user id the code is being saved for.
 	 * @param string $code The autologin code being used in the user's URL.
 	 * @param int    $expires_in Number of seconds the code is valid for.
+	 *
+	 * @throws Exception
 	 */
 	public function save( int $user_id, string $code, int $expires_in ): void {
 
@@ -102,7 +109,7 @@ class DB_Data_Store implements Data_Store_Interface {
 		global $wpdb;
 
 		$datetime = new DateTime( 'now', new DateTimeZone( 'UTC' ) );
-		$datetime->add( new \DateInterval( "PT{$expires_in}S" ) );
+		$datetime->add( new DateInterval( "PT{$expires_in}S" ) );
 		$expires_at = $datetime->format( 'Y-m-d H:i:s' );
 
 		$result = $wpdb->insert(
@@ -180,6 +187,7 @@ class DB_Data_Store implements Data_Store_Interface {
 			array( 'hash' => $key )
 		);
 
+		// TODO: Test this
 		$expires_at = new DateTimeImmutable( $result->expires_at, new DateTimeZone( 'UTC' ) );
 
 		$now = new DateTimeImmutable( 'now', new DateTimeZone( 'UTC' ) );

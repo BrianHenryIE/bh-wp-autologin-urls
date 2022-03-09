@@ -22,6 +22,7 @@
 namespace BH_WP_Autologin_URLs {
 
 	use BrianHenryIE\WP_Autologin_URLs\API\API;
+	use BrianHenryIE\WP_Autologin_URLs\API\DB_Data_Store;
 	use BrianHenryIE\WP_Autologin_URLs\WP_Includes\BH_WP_Autologin_URLs;
 	use BrianHenryIE\WP_Autologin_URLs\API\Settings;
 	use BrianHenryIE\WP_Autologin_URLs\WP_Logger\Logger;
@@ -46,9 +47,10 @@ namespace BH_WP_Autologin_URLs {
 	 */
 	function instantiate_bh_wp_autologin_urls(): API {
 
-		$settings = new Settings();
-		$logger   = Logger::instance( $settings );
-		$api      = new API( $settings, $logger );
+		$settings  = new Settings();
+		$logger    = Logger::instance( $settings );
+		$datastore = new DB_Data_Store( $logger );
+		$api       = new API( $settings, $logger, $datastore );
 
 		new BH_WP_Autologin_URLs( $api, $settings, $logger );
 
