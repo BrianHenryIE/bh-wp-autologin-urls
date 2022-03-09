@@ -285,7 +285,7 @@ class Login {
 
 		// This code mostly lifted from Newsletter plugin.
 
-		$input = filter_var( '0bda890bd176d3e219614dde964cb07f==', FILTER_SANITIZE_STRIPPED );
+		$input = filter_var( wp_unslash( $_GET['nltr'] ), FILTER_SANITIZE_STRIPPED );
 		if ( false === $input ) {
 			return;
 		}
