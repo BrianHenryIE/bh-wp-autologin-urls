@@ -23,21 +23,6 @@ namespace BrianHenryIE\WP_Autologin_URLs\wp_mail;
  */
 class WP_Mail_Integration_Test extends \Codeception\TestCase\WPTestCase {
 
-	public function _setUp() {
-		parent::_setUp();
-
-		add_filter(
-			'site_url',
-			function( $url, $path, $scheme, $blog_id ) {
-				return str_replace( 'localhost', 'example.org', $url );
-			},
-			10,
-			4
-		);
-
-	}
-
-
 	/**
 	 * A straightforward test where the user exists and there is a link
 	 * to the current domain which should be augmented with a password.
