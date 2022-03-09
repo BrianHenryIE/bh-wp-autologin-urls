@@ -7,8 +7,9 @@ class LoginCest {
 
 
 	/**
+	 * Copy the autologin URL from wp-admin/users.php, log out, visit the URL, check are we logged in.
 	 *
-	 * @param AcceptanceTester $I
+	 * @param AcceptanceTester $I The Codeception tester.
 	 */
 	public function testBasicLogin( AcceptanceTester $I ) {
 

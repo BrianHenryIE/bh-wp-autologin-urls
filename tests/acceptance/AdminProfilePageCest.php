@@ -2,13 +2,10 @@
 
 class AdminProfilePageCest {
 
-	public function _before( AcceptanceTester $I ) {
-	}
-
-
 	/**
+	 * Check the title of the new section has been added / is visible.
 	 *
-	 * @param AcceptanceTester $I
+	 * @param AcceptanceTester $I The Codeception tester.
 	 */
 	public function testPasswordIsAvailableOnProfilePage( AcceptanceTester $I ) {
 

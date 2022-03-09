@@ -5,7 +5,6 @@
 
 class EmailCest {
 
-
 	/**
 	 * There should be a post already created for user bob (bob@example.com)
 	 * then anyone who replies to that post should trigger a comment.
@@ -66,7 +65,7 @@ class EmailCest {
 		$I->haveEmails();
 		$I->haveUnreadEmails();
 
-		// Set the next unread email as the email to perform operations on
+		// Set the next unread email as the email to perform operations on.
 		$I->openNextUnreadEmail();
 
 		$I->seeInOpenedEmailSubject( 'Comment' );
@@ -76,7 +75,5 @@ class EmailCest {
 		$I->deleteAllEmails();
 
 	}
-
-
 
 }

@@ -13,16 +13,12 @@ use Codeception\Stub\Expected;
 use WP_User;
 
 /**
- * Class API_Mock_Test
+ * @coversDefaultClass \BrianHenryIE\WP_Autologin_URLs\API\API
  */
 class API_Unit_Test extends \Codeception\Test\Unit {
 
 	protected function setUp(): void {
 		\WP_Mock::setUp();
-
-		// TODO: Move to test classmap.
-		global $project_root_dir;
-		require_once $project_root_dir . '/vendor/wordpress/wordpress/src/wp-includes/class-wp-user.php';
 	}
 
 	protected function tearDown(): void {
@@ -36,6 +32,8 @@ class API_Unit_Test extends \Codeception\Test\Unit {
 	 * Method should call wp_generate_password, save the code and return the code.
 	 *
 	 * @see wp_generate_password()
+	 *
+	 * @covers ::generate_code
 	 */
 	public function test_generate_code() {
 
@@ -72,6 +70,8 @@ class API_Unit_Test extends \Codeception\Test\Unit {
 
 	/**
 	 * Basically the same as above but run it twice and verify it returns the same value.
+	 *
+	 * @covers ::generate_code
 	 */
 	public function test_generate_code_cached() {
 
@@ -106,6 +106,8 @@ class API_Unit_Test extends \Codeception\Test\Unit {
 
 	/**
 	 * If there is no user object, generate_code() should return null.
+	 *
+	 * @covers ::generate_code
 	 */
 	public function test_generate_code_null_user() {
 
@@ -122,7 +124,9 @@ class API_Unit_Test extends \Codeception\Test\Unit {
 
 
 	/**
-	 * If the seconds paramater isn't given, it should be pulled from settings.
+	 * If the seconds parameter isn't given, it should be pulled from settings.
+	 *
+	 * @covers ::generate_code
 	 */
 	public function test_generate_code_null_seconds_valid() {
 
@@ -161,6 +165,8 @@ class API_Unit_Test extends \Codeception\Test\Unit {
 
 	/**
 	 * If no saved entry for the password exists.
+	 *
+	 * @covers ::verify_autologin_password
 	 */
 	public function test_verify_autologin_password_not_found() {
 
@@ -181,6 +187,8 @@ class API_Unit_Test extends \Codeception\Test\Unit {
 	/**
 	 * Weird scenario... maybe the same password was generated for two users and the
 	 * earlier one is trying to log in, but the later one has cause a hash collision of sorts.
+	 *
+	 * @covers ::verify_autologin_password
 	 */
 	public function test_verify_autologin_found_hash_mismatch() {
 		$settings_mock      = $this->makeEmpty( Settings_Interface::class );
@@ -199,10 +207,15 @@ class API_Unit_Test extends \Codeception\Test\Unit {
 
 	/**
 	 * Verify the verify method.
+	 *
+	 * @covers ::verify_autologin_password
 	 */
-	public function test_verify_autologin_password_success() {
+	public function test_verify_autologin_password_success(): void {
 
-		$value = hash( 'sha256', '123' . 'q1w2e3r4t5y6' );
+		$user_id = 123;
+		$code    = 'q1w2e3r4t5y6';
+
+		$value = hash( 'sha256', "{$user_id}{$code}" );
 
 		$settings_mock      = $this->makeEmpty( Settings_Interface::class );
 		$logger_mock        = $this->makeEmpty( LoggerInterface::class );

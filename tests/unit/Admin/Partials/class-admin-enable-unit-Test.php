@@ -195,8 +195,7 @@ class Admin_Enable_Unit_Test extends \Codeception\Test\Unit {
 
 		$settings_mock = \Mockery::mock( 'Settings_Interface' );
 
-		$settings_mock->shouldReceive( 'get_add_autologin_for_admins_is_enabled' )
-					  ->andReturn( false );
+		$settings_mock->shouldReceive( 'get_add_autologin_for_admins_is_enabled' )->andReturn( false );
 
 		$sut = new Admin_Enable( 'settings_page', $settings_mock );
 

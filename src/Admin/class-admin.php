@@ -22,8 +22,18 @@ use BrianHenryIE\WP_Autologin_URLs\API\Settings_Interface;
  */
 class Admin {
 
+	/**
+	 * Needed for the css/js handle, and the version for cache invalidation.
+	 *
+	 * @var Settings_Interface
+	 */
 	protected Settings_Interface $settings;
 
+	/**
+	 * Constructor
+	 *
+	 * @param Settings_Interface $settings Plugin settings for slug and version.
+	 */
 	public function __construct( Settings_Interface $settings ) {
 		$this->settings = $settings;
 	}

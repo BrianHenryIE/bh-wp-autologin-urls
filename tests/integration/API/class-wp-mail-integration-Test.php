@@ -7,7 +7,7 @@
  * @author Brian Henry <BrianHenryIE@gmail.com>
  */
 
-namespace BrianHenryIE\WP_Autologin_URLs\wp_mail;
+namespace BrianHenryIE\WP_Autologin_URLs\WP_Includes;
 
 /**
  * Class WP_Mail_Test
@@ -18,6 +18,8 @@ namespace BrianHenryIE\WP_Autologin_URLs\wp_mail;
  *
  * @see WP_Mail
  * @see MockPHPMailer
+ *
+ * phpcs:disable WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
  */
 class WP_Mail_2_Integration_Test extends \Codeception\TestCase\WPTestCase {
 

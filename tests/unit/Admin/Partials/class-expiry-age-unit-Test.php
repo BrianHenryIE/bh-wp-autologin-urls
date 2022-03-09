@@ -8,19 +8,19 @@
  * @author Brian Henry <BrianHenryIE@gmail.com>
  */
 
-namespace BrianHenryIE\WP_Autologin_URLs\Admin\partials;
+namespace BrianHenryIE\WP_Autologin_URLs\Admin\Partials;
 
 use BrianHenryIE\WP_Autologin_URLs\API\Settings;
 use BrianHenryIE\WP_Autologin_URLs\API\Settings_Interface;
 
 /**
- * Class Expiry_Age_Test
+ * @coversDefaultClass \BrianHenryIE\WP_Autologin_URLs\Admin\Partials\Expiry_Age
  *
  * phpcs:disable WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
  */
 class Expiry_Age_Unit_Test extends \Codeception\Test\Unit {
 
-	protected function setup(): void {
+	protected function setUp(): void {
 		\WP_Mock::setUp();
 	}
 
@@ -30,24 +30,11 @@ class Expiry_Age_Unit_Test extends \Codeception\Test\Unit {
 	}
 
 	/**
-	 * The plugin name. Unlikely to change.
-	 *
-	 * @var string Plugin name.
-	 */
-	private $plugin_name = 'bh-wp-autologin-urls';
-
-	/**
-	 * The plugin version, matching the version these tests were written against.
-	 *
-	 * @var string Plugin version.
-	 */
-	private $version = '1.0.0';
-
-
-	/**
 	 * Test the HTML output for the text field.
 	 *
 	 * Uses DOMDocument to test the text output, the box is checked and the id is correct.
+	 *
+	 * @covers ::print_field_callback
 	 */
 	public function test_print_element() {
 
@@ -99,6 +86,8 @@ class Expiry_Age_Unit_Test extends \Codeception\Test\Unit {
 
 	/**
 	 * Test straightforward number.
+	 *
+	 * @covers ::sanitize_callback
 	 */
 	public function test_validation_callback_success() {
 
@@ -117,6 +106,8 @@ class Expiry_Age_Unit_Test extends \Codeception\Test\Unit {
 
 	/**
 	 * Test number with characters. The sanitizer should strip all no numeric characters.
+	 *
+	 * @covers ::sanitize_callback
 	 */
 	public function test_validation_callback_with_characters() {
 
@@ -135,6 +126,8 @@ class Expiry_Age_Unit_Test extends \Codeception\Test\Unit {
 
 	/**
 	 * Test empty returns previously saved value
+	 *
+	 * @covers ::sanitize_callback
 	 */
 	public function test_validation_callback_empty() {
 
@@ -142,8 +135,7 @@ class Expiry_Age_Unit_Test extends \Codeception\Test\Unit {
 
 		$settings_mock = \Mockery::mock( 'Settings_Interface' );
 
-		$settings_mock->shouldReceive( 'get_expiry_age' )
-					  ->andReturn( 123456 );
+		$settings_mock->shouldReceive( 'get_expiry_age' )->andReturn( 123456 );
 
 		$sut = new Expiry_Age( 'settings_page', $settings_mock );
 
@@ -160,6 +152,8 @@ class Expiry_Age_Unit_Test extends \Codeception\Test\Unit {
 
 	/**
 	 * Test arithmetic.
+	 *
+	 * @covers ::sanitize_callback
 	 */
 	public function test_validation_callback_multiply() {
 

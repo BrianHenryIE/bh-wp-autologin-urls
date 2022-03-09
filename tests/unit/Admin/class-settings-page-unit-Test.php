@@ -49,7 +49,7 @@ class Settings_Page_Unit_Test extends \Codeception\Test\Unit {
 					'Autologin URLs',
 					'manage_options',
 					'bh-wp-autologin-urls',
-					// array( $settings_page, 'display_plugin_admin_page' ),
+					// Actual value would be `array( $settings_page, 'display_plugin_admin_page' )`.
 					\WP_Mock\Functions::type( 'array' ),
 				),
 				'times' => 1,
@@ -129,7 +129,7 @@ class Settings_Page_Unit_Test extends \Codeception\Test\Unit {
 				'args'  => array(
 					'default',
 					'Settings',
-					'*', // \WP_Mock\Functions::type( '*' ), // TODO: Should be closure.
+					'*',
 					'bh-wp-autologin-urls',
 				),
 				'times' => 1,

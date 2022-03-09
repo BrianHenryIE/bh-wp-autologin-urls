@@ -198,8 +198,7 @@ class Regex_Subject_Filters_Unit_Test extends \Codeception\Test\Unit {
 
 		$settings_mock = \Mockery::mock( 'Settings_Interface' );
 
-		$settings_mock->shouldReceive( 'get_disallowed_subjects_regex_dictionary' )
-			 ->andReturn( $expected );
+		$settings_mock->shouldReceive( 'get_disallowed_subjects_regex_dictionary' )->andReturn( $expected );
 
 		$sut = new Regex_Subject_Filters( 'settings_page', $settings_mock );
 
