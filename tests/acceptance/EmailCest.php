@@ -2,14 +2,13 @@
 /**
  * Test the contents of the email received at mailtrap.io.
  */
-
 class EmailCest {
 
 	/**
 	 * There should be a post already created for user bob (bob@example.com)
 	 * then anyone who replies to that post should trigger a comment.
 	 *
-	 * @param AcceptanceTester $I
+	 * @param AcceptanceTester $I Codeception tester.
 	 */
 	public function _before( AcceptanceTester $I ) {
 
@@ -25,7 +24,7 @@ class EmailCest {
 	 *
 	 * Uses WordPress built-in comment emails.
 	 *
-	 * @param AcceptanceTester $I
+	 * @param AcceptanceTester $I Codeception tester.
 	 */
 	public function testWpMailSmtp( AcceptanceTester $I ) {
 

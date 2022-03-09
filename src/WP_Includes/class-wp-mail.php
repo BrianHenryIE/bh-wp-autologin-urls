@@ -55,9 +55,9 @@ class WP_Mail {
 	 *
 	 * @hooked wp_mail
 	 *
-	 * @param array{to:string, subject:string, message:string, headers: mixed, attachments: mixed} $wp_mail_args
+	 * @param array{to:string, subject:string, message:string, headers:string|array<string>, attachments:string|array<string>} $wp_mail_args The arguments passed to wp_mail() (before processing).
 	 *
-	 * @return array{to:string, subject:string, message:string, headers: mixed, attachments: mixed}
+	 * @return array{to:string, subject:string, message:string, headers:string|array<string>, attachments:string|array<string>}
 	 * @see wp_mail()
 	 */
 	public function add_autologin_links_to_email( array $wp_mail_args ): array {

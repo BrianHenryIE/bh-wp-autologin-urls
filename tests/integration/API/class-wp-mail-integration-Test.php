@@ -179,7 +179,6 @@ class WP_Mail_2_Integration_Test extends \Codeception\TestCase\WPTestCase {
 	 * add_autologin_to_messages() method to ensure the messages in
 	 * that directory are excluded by the default regex filters.
 	 */
-
 	public function test_default_regex_exclusion_filters() {
 
 		$user_id = $this->factory->user->create(
