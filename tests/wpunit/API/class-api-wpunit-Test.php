@@ -414,7 +414,7 @@ class API_WPUnit_Test extends \Codeception\TestCase\WPTestCase {
 
 		$result = $api->add_autologin_to_url( $url, $user );
 
-		$expected = 'http://example.org/wp-login.php?redirect_to=http%3A%2F%2Fexample.org%2Fmy-account%2F&autologin=124~mockpassw0rd';
+		$expected = 'http://example.org/wp-login.php?redirect_to=http%3A%2F%2Fexample.org%2Fmy-account%2F&autologin=' . $user . '~mockpassw0rd';
 
 		$this->assertEquals( $expected, $result );
 
