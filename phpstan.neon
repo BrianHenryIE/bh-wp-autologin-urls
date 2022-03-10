@@ -27,3 +27,5 @@ parameters:
         # Function add_autologin_to_url() has parameter $user with no typehint specified.
         # The function accepts int|string|WP_User as the type.
         - '/Function add_autologin_to_url\(\) has parameter \$user with no typehint specified\./'
+        # Setting an empty array with type associative array in the comments prints this.
+        - '/does not accept default value of type array\(\)/'

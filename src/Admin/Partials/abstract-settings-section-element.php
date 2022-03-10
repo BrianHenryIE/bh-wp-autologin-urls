@@ -104,7 +104,7 @@ abstract class Settings_Section_Element_Abstract {
 	}
 
 	/**
-	 * Register the setting with WordPress so it whitelisted for saving.
+	 * Register the setting with WordPress so it is whitelisted for saving.
 	 */
 	public function register_setting(): void {
 
@@ -125,6 +125,8 @@ abstract class Settings_Section_Element_Abstract {
 
 	/**
 	 * Carry out any sanitization and pre-processing of the POSTed data before it is saved in the database.
+	 *
+	 * This gets run twice on the first request it is run – where false is the old value, WordPress then runs `add_option()`.
 	 *
 	 * @param mixed $value The value entered by the user as POSTed to WordPress.
 	 *

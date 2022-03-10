@@ -35,6 +35,8 @@ class Regex_Subject_Filters extends Settings_Section_Element_Abstract {
 		$this->title = __( 'Regex subject filters:', 'bh-wp-autologin-urls' );
 		$this->page  = $settings_page;
 
+		$this->register_setting_args['type'] = 'array';
+
 		$this->add_settings_field_args['helper']       = __( 'Emails whose subjects match these regex patterns will not have autologin codes added.', 'bh-wp-autologin-urls' );
 		$this->add_settings_field_args['supplemental'] = __( 'Take care to include leading and trailing / and use ^ and $ as appropriate.', 'bh-wp-autologin-urls' ) . ' Use <a href="https://www.phpliveregex.com/#tab-preg-match">phpliveregex.com</a> to test.';
 		$this->add_settings_field_args['default']      = array();
@@ -138,14 +140,30 @@ class Regex_Subject_Filters extends Settings_Section_Element_Abstract {
 	 * Removes empty regexes before saving and changes data from array of dictionaries keyed with "regex", "note"
 	 * to single dictionary using the actual regexes as keys and the notes as the values.
 	 *
-	 * @param array<array{note:string, regex:string}> $values an array of dictionaries with the keys regex and note.
+	 * @param array<array{note:string, regex:string}>|array<string, string> $values an array of dictionaries with the keys regex and note.
 	 *
 	 * @return array<string, string> $values Suitable for saving the database.
 	 */
 	public function sanitize_callback( $values ) {
 
+		// If bad data was POSTed, return thet existing value.
 		if ( ! is_array( $values ) ) {
 			return $this->value;
+		}
+
+		/**
+		 * If it's an associative array, the sanitization callback has already run.
+		 * This happens when it is run for the first time (when the existing value is false).
+		 *
+		 * @see https://stackoverflow.com/a/652760/336146
+		 */
+		if ( array_keys( $values ) !== array_keys( array_keys( $values ) ) ) {
+			/**
+			 * Set the correct type for PhpStan.
+			 *
+			 * @var array<string, string> $values
+			 */
+			return $values;
 		}
 
 		// TODO: Run the regex match on the input and don't save if it fails...
@@ -156,6 +174,11 @@ class Regex_Subject_Filters extends Settings_Section_Element_Abstract {
 
 		$tidy = array();
 
+		/**
+		 * If we reach here, the correct type is:
+		 *
+		 * @var array<array{note:string, regex:string}> $values
+		 */
 		foreach ( $values as $value ) {
 
 			if ( empty( $value['note'] ) ) {
