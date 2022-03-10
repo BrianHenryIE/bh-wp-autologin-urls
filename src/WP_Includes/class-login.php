@@ -399,7 +399,7 @@ class Login {
 		 */
 		$subscriber = Subscriber::where( 'id', $subscriber_id )->findOne();
 
-		if ( ! $subscriber ) {
+		if ( empty( $subscriber ) ) {
 			return;
 		}
 

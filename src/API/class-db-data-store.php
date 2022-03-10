@@ -97,7 +97,8 @@ class DB_Data_Store implements Data_Store_Interface {
 	 * @param string $code The autologin code being used in the user's URL.
 	 * @param int    $expires_in Number of seconds the code is valid for.
 	 *
-	 * @throws Exception
+	 * @throws Exception DateTime exception.
+	 * @throws Exception For `$wpdb->last_error`.
 	 */
 	public function save( int $user_id, string $code, int $expires_in ): void {
 
@@ -121,13 +122,15 @@ class DB_Data_Store implements Data_Store_Interface {
 			)
 		);
 
-		if ( false === $result ) {
-			$wpdb_error = $wpdb->last_error;
+		if ( ! empty( $wpdb->last_error ) ) {
+			$this->logger->error( $wpdb->last_error );
+			throw new Exception( $wpdb->last_error );
+		}
 
+		if ( false === $result ) {
 			$this->logger->error(
-				'Error saving autologin code for user ' . $user_id . ' : ' . $wpdb_error,
+				'Error saving autologin code for user ' . $user_id,
 				array(
-					'wpdb_error' => $wpdb_error,
 					'user_id'    => $user_id,
 					'code'       => $code,
 					'expires_in' => $expires_in,
@@ -187,7 +190,6 @@ class DB_Data_Store implements Data_Store_Interface {
 			array( 'hash' => $key )
 		);
 
-		// TODO: Test this
 		$expires_at = new DateTimeImmutable( $result->expires_at, new DateTimeZone( 'UTC' ) );
 
 		$now = new DateTimeImmutable( 'now', new DateTimeZone( 'UTC' ) );
