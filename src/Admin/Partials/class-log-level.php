@@ -47,7 +47,7 @@ class Log_Level extends Settings_Section_Element_Abstract {
 		$this->add_settings_field_args['supplemental'] = __( 'default: Notice', 'bh-wp-autologin-urls' );
 
 		// TODO: Consider removing the ones that are never used in the plugin.
-		$this->log_levels = array( LogLevel::ERROR, LogLevel::WARNING, LogLevel::NOTICE, LogLevel::INFO, LogLevel::DEBUG );
+		$this->log_levels = array( 'none', LogLevel::ERROR, LogLevel::WARNING, LogLevel::NOTICE, LogLevel::INFO, LogLevel::DEBUG );
 	}
 
 	/**
@@ -75,10 +75,9 @@ class Log_Level extends Settings_Section_Element_Abstract {
 
 		printf( '%1$s</label></fieldset>', wp_kses( $label, array( 'i' => array() ) ) );
 
-		$logs_url  = admin_url( 'admin.php?page=bh-wp-autologin-urls-logs' );
-		$logs_href = sprintf( '<a href="%s">View Logs</a>', $logs_url );
+		$logs_url = admin_url( 'admin.php?page=bh-wp-autologin-urls-logs' );
 
-		printf( '<p class="description">%s – %s</p>', esc_html( $arguments['supplemental'] ), $logs_href );
+		printf( '<p class="description">%s – %s</p>', esc_html( $arguments['supplemental'] ), sprintf( '<a href="%s">View Logs</a>', esc_url( $logs_url ) ) );
 
 	}
 
@@ -98,7 +97,7 @@ class Log_Level extends Settings_Section_Element_Abstract {
 			}
 		}
 
-		// Do not change.
+		// Return the previous value.
 		return $this->value;
 
 	}
