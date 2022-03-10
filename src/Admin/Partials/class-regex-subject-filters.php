@@ -125,9 +125,9 @@ class Regex_Subject_Filters extends Settings_Section_Element_Abstract {
 
 		$options_markup .= '<tr><td>';
 
-		$options_markup .= sprintf( '<input class="regex" name="%1$s[%2$s][regex]" type="text" placeholder="%3$s" value="%4$s" />', $id, $iterator, $regex_placeholder, $regex );
+		$options_markup .= sprintf( '<input class="regex" name="%1$s[%2$s][regex]" type="text" placeholder="%3$s" value="%4$s" />', $id, $iterator, $regex_placeholder, esc_attr( $regex ) );
 		$options_markup .= '</td><td>';
-		$options_markup .= sprintf( '<input class="note" name="%1$s[%2$s][note]" type="text" placeholder="%3$s" value="%4$s" />', $id, $iterator, $note_placeholder, $note );
+		$options_markup .= sprintf( '<input class="note" name="%1$s[%2$s][note]" type="text" placeholder="%3$s" value="%4$s" />', $id, $iterator, $note_placeholder, esc_attr( $note ) );
 
 		$options_markup .= '</td></tr>';
 
