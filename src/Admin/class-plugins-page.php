@@ -3,7 +3,7 @@
  * The plugin page output of the plugin.
  *
  * @link
- * @since      1.3.1
+ * @since      1.3.0
  *
  * @package    brianhenryie/bh-wp-autologin-urls
  */
