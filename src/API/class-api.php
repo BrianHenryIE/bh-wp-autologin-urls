@@ -7,8 +7,7 @@
  * @link       https://BrianHenry.ie
  * @since      1.0.0
  *
- * @package    bh-wp-autologin-urls
- * @subpackage bh-wp-autologin-urls/api
+ * @package    brianhenryie/bh-wp-autologin-urls
  */
 
 namespace BrianHenryIE\WP_Autologin_URLs\API;
@@ -86,10 +85,15 @@ class API implements API_Interface {
 			return $login_url;
 		};
 
-		$escaped_site_url = str_replace( '/', '\/', get_site_url() );
+		$escaped_site_url = preg_quote( get_site_url(), '/' );
 
-		// TODO: Log when null occurs here.
-		$message = preg_replace_callback( '/[\s\"](' . $escaped_site_url . '[^\s\"<]*)/m', $replace_with, $message ) ?? $message;
+		$updated = preg_replace_callback( '/[\s\"](' . $escaped_site_url . '[^\s\"<]*)/m', $replace_with, $message );
+
+		if ( is_null( $updated ) ) {
+			$this->logger->warning( 'Failed to update message', array( 'message' => $message ) );
+		} else {
+			$message = $updated;
+		}
 
 		return $message;
 	}
@@ -216,26 +220,25 @@ class API implements API_Interface {
 	}
 
 	/**
-	 * Verifies the autologin code and deletes so it cannot be reused.
+	 * Verifies the autologin code.
+	 * The datastore deletes codes when found to prevent reuse.
 	 *
 	 * @param int    $user_id  WordPress user id.
-	 * @param String $password Plugin generated password to verify.
+	 * @param string $password Plugin generated password to verify.
 	 *
 	 * @return bool
 	 */
 	public function verify_autologin_password( int $user_id, string $password ): bool {
 
-		$value = $this->data_store->get_value_for_code( $password );
+		$saved_details = $this->data_store->get_value_for_code( $password );
 
-		if ( null !== $value ) {
-
-			if ( hash( 'sha256', $user_id . $password ) === $value ) {
-
-				return true;
-			}
+		if ( null === $saved_details ) {
+			return false;
 		}
 
-		return false;
+		$provided_details = hash( 'sha256', $user_id . $password );
+
+		return hash_equals( $provided_details, $saved_details );
 	}
 
 	/**
