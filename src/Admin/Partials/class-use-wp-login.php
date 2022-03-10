@@ -35,7 +35,10 @@ class Use_WP_Login extends Settings_Section_Element_Abstract {
 		$this->title = __( 'Use wp-login.php?', 'bh-wp-autologin-urls' );
 		$this->page  = $settings_page;
 
-		$this->add_settings_field_args['helper']       = __( 'If URLs aren\'t being logged in or if they need to refresh the page, this will perform the login on wp-login.php before redirecting to the correct URL.', 'bh-wp-autologin-urls' );
+		$this->register_setting_args['type']    = 'string';
+		$this->register_setting_args['default'] = 'use_wp_login_is_not_enabled';
+
+		$this->add_settings_field_args['helper']       = __( 'If users are not being logged in or if they need to refresh the page after landing, this will perform the login on wp-login.php before redirecting to the correct URL.', 'bh-wp-autologin-urls' );
 		$this->add_settings_field_args['supplemental'] = __( 'default: false', 'bh-wp-autologin-urls' );
 	}
 

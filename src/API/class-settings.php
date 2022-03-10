@@ -106,7 +106,7 @@ class Settings implements Settings_Interface, Logger_Settings_Interface {
 	 * @return bool
 	 */
 	public function get_should_use_wp_login(): bool {
-		return get_option( self::SHOULD_USE_WP_LOGIN, false );
+		return get_option( self::SHOULD_USE_WP_LOGIN, false ) === 'use_wp_login_is_enabled';
 	}
 
 	/**
