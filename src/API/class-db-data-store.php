@@ -229,7 +229,8 @@ class DB_Data_Store implements Data_Store_Interface {
 			throw new Exception( $wpdb->last_error );
 		}
 
-		$this->logger->info( $result );
+		// I think this is the number of entries deleted.
+		$this->logger->info( 'Delete expired codes wpdb result: ' . $result, array( 'result' => $result ) );
 
 		return array( 'count' => $result );
 	}
