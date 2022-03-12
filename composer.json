@@ -53,6 +53,7 @@
     "pablo-sg-pacheco/wp-namespace-autoloader": "dev-master"
   },
   "require-dev": {
+    "ext-dom": "*",
     "10up/wp_mock": "0.4.2",
     "antecedent/patchwork": "^2.1",
     "brianhenryie/color-logger": "^1.0",
@@ -67,33 +68,33 @@
     "codeception/util-universalframework": "^1.0",
     "cweagans/composer-patches": "*",
     "dealerdirect/phpcodesniffer-composer-installer": "*",
+    "ericmartel/codeception-email-mailtrap": "^1.0",
     "hoa/console": "^3.17",
     "jaschilz/php-coverage-badger": "^2.0",
     "kporras07/composer-symlinks": "dev-master",
     "lucatume/wp-browser": "*",
-    "php-stubs/woocommerce-stubs": "^5.2",
+    "mheap/phpunit-github-actions-printer": "dev-master",
     "phpcompatibility/phpcompatibility-wp": "*",
-    "phpstan/extension-installer": "^1.1",
     "phpunit/phpcov": "*",
     "squizlabs/php_codesniffer": "*",
-    "szepeviktor/phpstan-wordpress": "^0.7.2",
+    "phpstan/phpstan": "*",
+    "phpstan/extension-installer": "*",
+    "szepeviktor/phpstan-wordpress": "^0.7",
+    "php-stubs/woocommerce-stubs": "*",
+    "woocommerce/woocommerce-sniffs": "*",
     "voku/portable-ascii": "dev-master",
-    "woocommerce/woocommerce-sniffs": "^0.1.1",
     "wordpress/wordpress": "*",
     "wp-cli/dist-archive-command": "dev-master",
     "wp-cli/wp-cli-bundle": "*",
     "wp-coding-standards/wpcs": "*  ",
+    "wpackagist-plugin/mailpoet": "*",
+    "wpackagist-plugin/newsletter": "*",
     "wpackagist-plugin/woocommerce": "*",
     "wpackagist-plugin/wp-mail-logging": "*",
-    "wpackagist-theme/storefront": "*",
-    "ericmartel/codeception-email-mailtrap": "^1.0",
-    "ext-dom": "*",
-    "mheap/phpunit-github-actions-printer": "dev-master",
-    "wpackagist-plugin/wp-super-cache": "*",
     "wpackagist-plugin/wp-mail-smtp": "*",
-    "wpackagist-theme/twentytwenty": "*",
-    "wpackagist-plugin/newsletter": "*",
-    "wpackagist-plugin/mailpoet": "*"
+    "wpackagist-plugin/wp-super-cache": "*",
+    "wpackagist-theme/storefront": "*",
+    "wpackagist-theme/twentytwenty": "*"
   },
   "extra": {
     "patches": {
@@ -171,10 +172,10 @@
     "lint": [
       "vendor/bin/phpcbf || true",
       "vendor/bin/phpcs || true",
-      "vendor/bin/phpstan analyse --memory-limit 1G"
+      "vendor/bin/phpstan analyse --memory-limit 2G"
     ],
     "lint-changes": [
-      "updated_files=$( git status | grep 'modified:\\s.*.php$' | cut -c14- | awk '{ printf(\"%s \", $0) }' ); vendor/bin/phpcbf $(echo $updated_files); vendor/bin/phpcs $(echo $updated_files); vendor/bin/phpstan analyse $(echo $updated_files) --memory-limit 1G"
+      "updated_files=$( git status | grep 'modified:\\s.*.php$' | cut -c14- | awk '{ printf(\"%s \", $0) }' ); vendor/bin/phpcbf $(echo $updated_files); vendor/bin/phpcs $(echo $updated_files); vendor/bin/phpstan analyse $(echo $updated_files) --memory-limit 2G"
     ],
     "create-plugin-archive": [
       "vendor/bin/wp dist-archive src --plugin-dirname=$(basename \"$PWD\")"
