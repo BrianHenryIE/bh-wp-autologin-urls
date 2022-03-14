@@ -115,6 +115,25 @@ class WP_Mail {
 			}
 		}
 
+		/**
+		 * Exclude emails being sent to multiple recipients.
+		 */
+		if ( isset( $wp_mail_args['headers'] ) ) {
+
+			$headers = $wp_mail_args['headers'];
+
+			if ( is_string( $headers ) ) {
+				$headers = array( $headers );
+			}
+
+			foreach ( $headers as $header ) {
+				if ( 1 === preg_match( '/^b?cc:/i', $header ) ) {
+					$should_add_autologin = false;
+					break;
+				}
+			}
+		}
+
 		if ( ! $should_add_autologin ) {
 
 			return $wp_mail_args;
