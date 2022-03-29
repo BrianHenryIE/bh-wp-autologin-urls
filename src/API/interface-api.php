@@ -13,6 +13,7 @@
 
 namespace BrianHenryIE\WP_Autologin_URLs\API;
 
+use DateTimeInterface;
 use WP_User;
 
 /**
@@ -55,8 +56,10 @@ interface API_Interface {
 	/**
 	 * Purge codes that are no longer valid.
 	 *
-	 * @return array{count:int}
+	 * @param ?DateTimeInterface $before The date from which to purge old codes.
+	 *
+	 * @return array{deleted_count:int|null}
 	 */
-	public function delete_expired_codes(): array;
+	public function delete_expired_codes( ?DateTimeInterface $before = null ): array;
 
 }

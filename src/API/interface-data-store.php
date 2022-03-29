@@ -11,6 +11,8 @@
 
 namespace BrianHenryIE\WP_Autologin_URLs\API;
 
+use DateTimeInterface;
+
 /**
  * Interface Data_Store_Interface
  *
@@ -41,7 +43,9 @@ interface Data_Store_Interface {
 	/**
 	 * Delete codes that are no longer valid.
 	 *
-	 * @return array{count:int}
+	 * @param DateTimeInterface $before The date from which to purge old codes.
+	 *
+	 * @return array{deleted_count:int|null}
 	 */
-	public function delete_expired_codes(): array;
+	public function delete_expired_codes( DateTimeInterface $before ): array;
 }

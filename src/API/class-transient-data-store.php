@@ -11,6 +11,7 @@
 
 namespace BrianHenryIE\WP_Autologin_URLs\API;
 
+use DateTimeInterface;
 use Psr\Log\LoggerAwareTrait;
 use Psr\Log\LoggerInterface;
 
@@ -80,12 +81,14 @@ class Transient_Data_Store implements Data_Store_Interface {
 	/**
 	 * Delete codes that are no longer valid.
 	 *
-	 * @return array{count:int}
+	 * @param DateTimeInterface $before The date from which to purge old codes.
+	 *
+	 * @return array{deleted_count:int|null}
 	 */
-	public function delete_expired_codes(): array {
+	public function delete_expired_codes( DateTimeInterface $before ): array {
 		return array(
-			'count'   => 0,
-			'message' => 'Transients auto-delete',
+			'deleted_count' => null,
+			'message'       => 'Transients auto-delete',
 		);
 	}
 }

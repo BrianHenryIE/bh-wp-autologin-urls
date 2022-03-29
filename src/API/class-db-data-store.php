@@ -13,6 +13,7 @@ namespace BrianHenryIE\WP_Autologin_URLs\API;
 use DateInterval;
 use DateTime;
 use DateTimeImmutable;
+use DateTimeInterface;
 use DateTimeZone;
 use Exception;
 use Psr\Log\LoggerInterface;
@@ -212,14 +213,15 @@ class DB_Data_Store implements Data_Store_Interface {
 	/**
 	 * Delete codes that are no longer valid.
 	 *
-	 * @return array{count:int}
+	 * @param DateTimeInterface $before The date from which to purge old codes.
+	 *
+	 * @return array{deleted_count:int|null}
 	 * @throws Exception For `$wpdb->last_error`.
 	 */
-	public function delete_expired_codes(): array {
+	public function delete_expired_codes( DateTimeInterface $before ): array {
 
 		// get current datetime in mysql format.
-		$datetime             = new DateTimeImmutable( 'now', new DateTimeZone( 'UTC' ) );
-		$mysql_formatted_date = $datetime->format( 'Y-m-d H:i:s' );
+		$mysql_formatted_date = $before->format( 'Y-m-d H:i:s' );
 
 		global $wpdb;
 		$result = $wpdb->query( $wpdb->prepare( 'DELETE FROM ' . $wpdb->prefix . 'autologin_urls WHERE expires_at < %s', $mysql_formatted_date ) );
@@ -232,6 +234,6 @@ class DB_Data_Store implements Data_Store_Interface {
 		// I think this is the number of entries deleted.
 		$this->logger->info( 'Delete expired codes wpdb result: ' . $result, array( 'result' => $result ) );
 
-		return array( 'count' => $result );
+		return array( 'deleted_count' => intval( $result ) );
 	}
 }

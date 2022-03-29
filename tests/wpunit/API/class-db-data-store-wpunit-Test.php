@@ -3,6 +3,8 @@
 namespace BrianHenryIE\WP_Autologin_URLs\API;
 
 use BrianHenryIE\ColorLogger\ColorLogger;
+use DateTimeImmutable;
+use DateTimeZone;
 
 /**
  * @coversDefaultClass \BrianHenryIE\WP_Autologin_URLs\API\DB_Data_Store
@@ -177,7 +179,9 @@ class DB_Data_Store_WPUnit_Test extends \Codeception\TestCase\WPTestCase {
 
 		sleep( 2 );
 
-		$result = $sut->delete_expired_codes();
+		$before = new DateTimeImmutable( 'now', new DateTimeZone( 'UTC' ) );
+
+		$result = $sut->delete_expired_codes( $before );
 
 		$this->assertEquals( 1, $result['count'] );
 

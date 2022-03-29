@@ -13,6 +13,9 @@
 namespace BrianHenryIE\WP_Autologin_URLs\API;
 
 use BrianHenryIE\WP_Autologin_URLs\WP_Includes\Login;
+use DateTimeImmutable;
+use DateTimeInterface;
+use DateTimeZone;
 use Psr\Log\LoggerAwareTrait;
 use Psr\Log\LoggerInterface;
 use WP_User;
@@ -244,9 +247,13 @@ class API implements API_Interface {
 	/**
 	 * Purge codes that are no longer valid.
 	 *
-	 * @return array{count:int}
+	 * @param ?DateTimeInterface $before The date from which to purge old codes.
+	 *
+	 * @return array{deleted_count:int|null}
+	 * @throws \Exception
 	 */
-	public function delete_expired_codes(): array {
-		return $this->data_store->delete_expired_codes();
+	public function delete_expired_codes( ?DateTimeInterface $before = null ): array {
+		$before = $before ?? new DateTimeImmutable( 'now', new DateTimeZone( 'UTC' ) );
+		return $this->data_store->delete_expired_codes( $before );
 	}
 }
