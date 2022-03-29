@@ -1,0 +1,4 @@
+.wc-order-status a::after {
+    font-family: Dashicons;
+    content: "\f481";
+}

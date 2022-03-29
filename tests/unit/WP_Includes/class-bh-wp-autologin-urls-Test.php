@@ -7,6 +7,7 @@ use BrianHenryIE\WP_Autologin_URLs\Admin\Admin;
 use BrianHenryIE\WP_Autologin_URLs\Admin\Plugins_Page;
 use BrianHenryIE\WP_Autologin_URLs\API\API_Interface;
 use BrianHenryIE\WP_Autologin_URLs\API\Settings_Interface;
+use BrianHenryIE\WP_Autologin_URLs\WooCommerce\Admin_Order_UI;
 use Codeception\Stub\Expected;
 use WP_Mock\Matcher\AnyInstance;
 
@@ -119,6 +120,42 @@ class BH_WP_Autologin_URLs_Unit_Test extends \Codeception\Test\Unit {
 				),
 			)
 		);
+		$api      = $this->makeEmpty( API_Interface::class );
+		new BH_WP_Autologin_URLs( $api, $settings, $logger );
+	}
+
+
+	/**
+	 * @covers ::define_woocommerce_admin_order_ui_hooks
+	 */
+	public function test_define_woocommerce_admin_order_ui_hooks(): void {
+
+		\WP_Mock::expectFilterAdded(
+			'woocommerce_get_checkout_payment_url',
+			array( new AnyInstance( Admin_Order_UI::class ), 'add_to_payment_url' ),
+			10,
+			2
+		);
+
+		\WP_Mock::expectFilterAdded(
+			'gettext_woocommerce',
+			array( new AnyInstance( Admin_Order_UI::class ), 'remove_arrow_from_link_text' ),
+			10,
+			3
+		);
+
+		\WP_Mock::expectActionAdded(
+			'admin_enqueue_scripts',
+			array( new AnyInstance( Admin_Order_UI::class ), 'enqueue_script' )
+		);
+
+		\WP_Mock::expectActionAdded(
+			'admin_enqueue_scripts',
+			array( new AnyInstance( Admin_Order_UI::class ), 'enqueue_styles' )
+		);
+
+		$logger   = new ColorLogger();
+		$settings = $this->makeEmpty( Settings_Interface::class );
 		$api      = $this->makeEmpty( API_Interface::class );
 		new BH_WP_Autologin_URLs( $api, $settings, $logger );
 	}

@@ -87,5 +87,8 @@
     <rule ref="WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents">
         <exclude-pattern>*/tests/*</exclude-pattern>
     </rule>
+    <rule ref="WordPress.WP.GlobalVariablesOverride.Prohibited">
+        <exclude-pattern>*/tests/*</exclude-pattern>
+    </rule>
 
 </ruleset>

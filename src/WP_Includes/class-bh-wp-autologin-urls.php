@@ -22,6 +22,7 @@ use BrianHenryIE\WP_Autologin_URLs\Admin\Settings_Page;
 use BrianHenryIE\WP_Autologin_URLs\Admin\Plugins_Page;
 use BrianHenryIE\WP_Autologin_URLs\API\Settings;
 use BrianHenryIE\WP_Autologin_URLs\API\Settings_Interface;
+use BrianHenryIE\WP_Autologin_URLs\WooCommerce\Admin_Order_UI;
 use Psr\Log\LoggerInterface;
 use BrianHenryIE\WP_Autologin_URLs\API\DB_Data_Store;
 
@@ -95,6 +96,8 @@ class BH_WP_Autologin_URLs {
 		$this->define_wp_login_hooks();
 
 		$this->define_cron_hooks();
+
+		$this->define_woocommerce_admin_order_ui_hooks();
 	}
 
 	/**
@@ -198,4 +201,19 @@ class BH_WP_Autologin_URLs {
 		add_action( Cron::DELETE_EXPIRED_CODES_JOB_NAME, array( $cron, 'delete_expired_codes' ) );
 	}
 
+	/**
+	 * Register the filter to add the autologin code to the "Customer payment page" link in the admin UI.
+	 */
+	protected function define_woocommerce_admin_order_ui_hooks(): void {
+
+		$admin_order_ui = new Admin_Order_UI( $this->api, $this->settings );
+
+		add_filter( 'woocommerce_get_checkout_payment_url', array( $admin_order_ui, 'add_to_payment_url' ), 10, 2 );
+
+		add_filter( 'gettext_woocommerce', array( $admin_order_ui, 'remove_arrow_from_link_text' ), 10, 3 );
+
+		add_action( 'admin_enqueue_scripts', array( $admin_order_ui, 'enqueue_script' ) );
+		add_action( 'admin_enqueue_scripts', array( $admin_order_ui, 'enqueue_styles' ) );
+
+	}
 }
