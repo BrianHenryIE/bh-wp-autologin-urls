@@ -58,3 +58,4 @@ xdebug.sh
 7.4linux.sh
 DOCKER_ENV
 docker_tag
+.phpunit.result.cache
