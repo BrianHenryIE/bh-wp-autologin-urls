@@ -30,7 +30,7 @@ interface API_Interface {
 	 *
 	 * @return string
 	 */
-	public function add_autologin_to_message( string $message, $user, ?int $expires_in );
+	public function add_autologin_to_message( string $message, $user, ?int $expires_in = null );
 
 	/**
 	 * Public function for other plugins to use on links.
@@ -41,7 +41,7 @@ interface API_Interface {
 	 *
 	 * @return string The URL with added autologin code if possible, or the unchanged url.
 	 */
-	public function add_autologin_to_url( string $url, $user, ?int $expires_in ): string;
+	public function add_autologin_to_url( string $url, $user, ?int $expires_in = null ): string;
 
 	/**
 	 * Establishes if the autologin password used by the user is valid to log them in.
