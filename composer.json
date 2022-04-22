@@ -18,35 +18,36 @@
       "dealerdirect/phpcodesniffer-composer-installer": true,
       "composer/installers": true,
       "phpstan/extension-installer": true,
-      "cweagans/composer-patches": true
+      "cweagans/composer-patches": true,
+      "brianhenryie/composer-mute-wordpress-warnings": true
     }
   },
-  "repositories": [
-    {
-      "type": "path",
-      "url": "../bh-wp-logger"
+  "repositories": {
+    "brianhenryie/bh-wp-logger": {
+      "url": "https://github.com/BrianHenryIE/bh-wp-logger",
+      "type": "git"
     },
-    {
-      "type": "path",
-      "url": "../bh-wp-private-uploads"
+    "brianhenryie/bh-wp-private-uploads": {
+      "type": "git",
+      "url": "https://github.com/brianhenryie/bh-wp-private-uploads"
     },
-    {
+    "brianhenryie/composer-phpstorm": {
       "url": "https://github.com/BrianHenryIE/composer-phpstorm",
       "type": "git"
     },
-    {
+    "wordpress/wordpress": {
       "url": "https://github.com/WordPress/wordpress-develop",
       "type": "git"
     },
-    {
-      "url": "https://github.com/BrianHenryIE/admin-notices",
-      "type": "git"
+    "wptrt/admin-notices": {
+      "type": "git",
+      "url": "https://github.com/brianhenryie/admin-notices"
     },
-    {
-      "type":"composer",
-      "url":"https://wpackagist.org"
+    "composer/composer": {
+      "type": "composer",
+      "url": "https://wpackagist.org"
     }
-  ],
+  },
   "require": {
     "brianhenryie/bh-wp-logger": "dev-master",
     "php": ">=7.4",
@@ -84,7 +85,7 @@
     "woocommerce/woocommerce-sniffs": "*",
     "voku/portable-ascii": "dev-master",
     "wordpress/wordpress": "*",
-    "wp-cli/dist-archive-command": "dev-master",
+    "wp-cli/dist-archive-command": "dev-main",
     "wp-cli/wp-cli-bundle": "*",
     "wp-coding-standards/wpcs": "*  ",
     "wpackagist-plugin/mailpoet": "*",
