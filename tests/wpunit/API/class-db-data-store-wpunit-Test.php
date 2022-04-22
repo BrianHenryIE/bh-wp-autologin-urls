@@ -183,7 +183,7 @@ class DB_Data_Store_WPUnit_Test extends \Codeception\TestCase\WPTestCase {
 
 		$result = $sut->delete_expired_codes( $before );
 
-		$this->assertEquals( 1, $result['count'] );
+		$this->assertEquals( 1, $result['deleted_count'] );
 
 	}
 
