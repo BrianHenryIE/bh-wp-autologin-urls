@@ -37,10 +37,16 @@ The settings page can be found in the admin UI under `Settings`/`Autologin URLs`
 
 * Hooked on `wp_mail`
 * Login code consists of user id and random alphanumeric password separated by `~`
-* Stored in WordPress database hashed as a transient with an expiration time
+* Stored in a WordPress database table, hashed so no relationship between each code and any user can be determined
 * Deleted after a single use
 
 Links take the form: `https://brianhenry.ie/?autologin=582~Yxu1UQG8IwJO`
+
+Logs to see the frequency of its usefulness are available at: `wp-admin/admin.php?page=bh-wp-autologin-urls-logs`
+
+WooCommerce's "Customer Payment Page" link has been changed to include an autologin code and to copy to clipboard when clicked (to avoid logging out shop managers).
+
+![WooCommerce Order Page](./assets/screenshot-3.gif "BH WP Autologin URLs WooCommerce Order Page screenshot")
 
 ### Secure
 
@@ -53,22 +59,19 @@ The plugin conforms to all the suggestions in the StackExchange discussion, [Imp
 
 Additionally, authentication via Autologin URLs is disabled for 24 hours for users whose accounts have had five failed login attempts through an autologin URL and for IPs which have attempted and failed five times.
 
-**Warning:** *If you use any plugin to save copies of outgoing mail, those saved emails will contain autologin URLs.*
+**Warning:** 
 
-**Warning:** *If a user forwards the email to their friend, the autologin links may still work.* The autologin codes only expire if used to log the user in, i.e. if the user is already logged in, the code is never used/validated/expired, so continues to work until its expiry time. This behaviour was a performance choice (but could be revisited via AJAX and not affect page load time). 
+> *If you use any plugin to save copies of outgoing mail, those saved emails will contain autologin URLs.*
+
+**Warning:**
+
+> *If a user forwards the email to their friend, the autologin links may still work.* The autologin codes only expire if used to log the user in, i.e. if the user is already logged in, the code is never used/validated/expired, so continues to work until its expiry time. This behaviour was a performance choice (but could be revisited via AJAX and not affect page load time). 
 
 ### Performant
 
-* The additional rows added as transients to the `wp_options` table will be proportionate to the number of emails sent
 * Additional database queries only occur when a URL with `autologin=` is visited
 * No database queries (beyond autoloaded settings) are performed if the autologin user is already logged in
-* Transients are queried by `wp_options.option_name` which is a [UNIQUE](http://www.mysqltutorial.org/mysql-unique-constraint/) column, i.e. indexed
-* Transients are deleted when they are used to login
-* WordPress, [since v4.9](https://core.trac.wordpress.org/ticket/41699#comment:17), automatically purges expired transients
-
-### Tested
-
-PHPUnit has been run with WordPress 5.3 on PHP 7.1 to 98% coverage.
+* A nightly cron job deletes expired autologin codes
 
 ## API
 
@@ -81,141 +84,14 @@ $url = apply_filters( 'add_autologin_to_url', $url, $user );
 $message = apply_filters( 'add_autologin_to_message', $message, $user );
 ```
 
-Filters to configure the expiry time, admin enabled setting and subject exclusion regex list are defined in the `BH_WP_Autologin_URLs\wp_mail\WP_Mail` class.
+Filters to configure the expiry time, admin enabled setting and subject exclusion regex list are defined in the `BrianHenryIE\WP_Autologin_URLs\WP_Includes\WP_Mail` class.
 
-Instances of classes hooked in actions and filters are exposed as properties of `BH_WP_Autologin_URLs` class, accessible with:
+[API functions](https://github.com/BrianHenryIE/BH-WP-Autologin-URLs/blob/master/src/api/interface-api.php) can be accessed through plugin's global:
 
 ```
-/** @var BH_WP_Autologin_URLs\includes\BH_WP_Autologin_URLs $autologin_urls */
+/** @var BrianHenryIE\WP_Autologin_URLs\API\API $autologin_urls */
 $autologin_urls = $GLOBALS['bh-wp-autologin-urls'];
 ```
-
-[API functions](https://github.com/BrianHenryIE/BH-WP-Autologin-URLs/blob/master/src/api/interface-api.php) can be accessed through the `api` property of the main plugin class:
-
-```
-/** @var BH_WP_Autologin_URLs\api\API_Interface $autologin_urls_api */
-$autologin_urls_api = $GLOBALS['bh-wp-autologin-urls']->api;
-```
-## Contributing
-
-Clone this repo, open PhpStorm, then run `composer install` to install the dependencies.
-
-```
-git clone https://github.com/brianhenryie/bh-wp-autologin-urls.git;
-open -a PhpStorm ./;
-composer install;
-```
-
-For integration and acceptance tests, a local webserver must be running with `localhost:8080/bh-wp-autologin-urls/` pointing at the root of the repo. MySQL must also be running locally – with two databases set up with:
-
-```
-mysql_username="root"
-mysql_password="secret"
-
-# export PATH=${PATH}:/usr/local/mysql/bin
-
-# Make .env available 
-# To bash:
-# export $(grep -v '^#' .env.testing | xargs)
-# To zsh:
-# source .env.testing
-
-# Create the database user:
-# MySQL
-# mysql -u $mysql_username -p$mysql_password -e "CREATE USER '"$TEST_DB_USER"'@'%' IDENTIFIED WITH mysql_native_password BY '"$TEST_DB_PASSWORD"';";
-# or MariaDB
-# mysql -u $mysql_username -p$mysql_password -e "CREATE USER '"$TEST_DB_USER"'@'%' IDENTIFIED BY '"$TEST_DB_PASSWORD"';";
-
-# Create the databases:
-mysql -u $mysql_username -p$mysql_password -e "CREATE DATABASE "$TEST_SITE_DB_NAME"; USE "$TEST_SITE_DB_NAME"; GRANT ALL PRIVILEGES ON "$TEST_SITE_DB_NAME".* TO '"$TEST_DB_USER"'@'%';";
-mysql -u $mysql_username -p$mysql_password -e "CREATE DATABASE "$TEST_DB_NAME"; USE "$TEST_DB_NAME"; GRANT ALL PRIVILEGES ON "$TEST_DB_NAME".* TO '"$TEST_DB_USER"'@'%';";
-```
-
-### WordPress Coding Standards
-
-See documentation on [WordPress.org](https://make.wordpress.org/core/handbook/best-practices/coding-standards/) and [GitHub.com](https://github.com/WordPress/WordPress-Coding-Standards).
-
-Correct errors where possible and list the remaining with:
-
-```
-vendor/bin/phpcbf; vendor/bin/phpcs
-```
-
-### Tests
-
-Tests use the [Codeception](https://codeception.com/) add-on [WP-Browser](https://github.com/lucatume/wp-browser) and include vanilla PHPUnit tests with [WP_Mock](https://github.com/10up/wp_mock).
-
-Run tests with:
-
-```
-vendor/bin/codecept run unit;
-vendor/bin/codecept run wpunit;
-vendor/bin/codecept run integration;
-vendor/bin/codecept run acceptance;
-```
-
-Show code coverage (unit+wpunit):
-
-```
-XDEBUG_MODE=coverage composer run-script coverage-tests 
-```
-
-```
-vendor/bin/phpstan analyse --memory-limit 1G
-```
-
-To save changes made to the acceptance database:
-
-```
-export $(grep -v '^#' .env.testing | xargs)
-mysqldump -u $TEST_SITE_DB_USER -p$TEST_SITE_DB_PASSWORD $TEST_SITE_DB_NAME > tests/_data/dump.sql
-```
-
-To clear Codeception cache after moving/removing test files:
-
-```
-vendor/bin/codecept clean
-```
-
-### More Information
-
-See [github.com/BrianHenryIE/WordPress-Plugin-Boilerplate](https://github.com/BrianHenryIE/WordPress-Plugin-Boilerplate) for initial setup rationale. 
-
-
-### Local dev
-
-```
-mysql_username="root"
-mysql_password="secret"
-
-source .env.testing
-mysql -u $mysql_username -p$mysql_password -e "CREATE USER '"$TEST_DB_USER"'@'%' IDENTIFIED BY '"$TEST_DB_PASSWORD"';";
-
-# Create the databases.
-mysql -u $mysql_username -p$mysql_password -e "CREATE DATABASE "$TEST_SITE_DB_NAME"; USE "$TEST_SITE_DB_NAME"; GRANT ALL PRIVILEGES ON "$TEST_SITE_DB_NAME".* TO '"$TEST_DB_USER"'@'%';";
-mysql -u $mysql_username -p$mysql_password -e "CREATE DATABASE "$TEST_DB_NAME"; USE "$TEST_DB_NAME"; GRANT ALL PRIVILEGES ON "$TEST_DB_NAME".* TO '"$TEST_DB_USER"'@'%';";
-
-vendor/bin/codecept run acceptance
-```
-
-
-### Minimum PHP Version
-
-[PHPCompatibilityWP](https://github.com/PHPCompatibility/PHPCompatibilityWP) is installed by Composer to check the minimum PHP version required. 
-
-```
-./vendor/bin/phpcs -p ./src --standard=PHPCompatibilityWP --runtime-set testVersion 5.7-
-```
-
-### Minimum WordPress Version
-
-The minimum WordPress version was determined using [wpseek.com's Plugin Doctor](https://wpseek.com/pluginfilecheck/).
-
-### WordPress.org Deployment
-
-https://zerowp.com/use-github-actions-to-publish-wordpress-plugins-on-wp-org-repository/
-
-https://github.com/marketplace/actions/composer-php-actions
 
 ## TODO
 
@@ -228,7 +104,7 @@ https://github.com/marketplace/actions/composer-php-actions
 * Sanitize out regex pattern that would entirely disable the plugin
 * Client-side settings page validation
 * Test adding an autologin code to a URL which already has one overwrites the old one (and leaves only the one).
-* The Newsletter Plugin integration – and any plugin that doesn't use wp_mail
+* ~~The Newsletter Plugin integration~~ – and any plugin that doesn't use wp_mail
 * Magic link button on wp-login.php
 * Use:
       `$wp_hasher = new PasswordHash( 8, true );`
