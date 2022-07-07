@@ -62,4 +62,21 @@ interface API_Interface {
 	 */
 	public function delete_expired_codes( ?DateTimeInterface $before = null ): array;
 
+	/**
+	 * Records each login attempt and checks if the same user/ip/querystring has been used too many times today.
+	 *
+	 * @param string $identifier An IP address or user login name to rate limit by.
+	 *
+	 * @return bool
+	 */
+	public function should_allow_login_attempt( string $identifier ): bool;
+
+	/**
+	 * Get the IP address for the current request.
+	 *
+	 * @used-by Login::process()
+	 *
+	 * @return ?string IPv4|v6 IP address or null, presumable if CLI/cron.
+	 */
+	public function get_ip_address(): ?string;
 }

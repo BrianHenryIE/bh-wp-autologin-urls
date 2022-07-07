@@ -31,8 +31,16 @@
       "type": "git",
       "url": "https://github.com/brianhenryie/bh-wp-private-uploads"
     },
+    "brianhenryie/bh-wp-rate-limiter": {
+      "type": "path",
+      "url": "../bh-wp-rate-limiter"
+    },
     "brianhenryie/composer-phpstorm": {
       "url": "https://github.com/BrianHenryIE/composer-phpstorm",
+      "type": "git"
+    },
+    "nikolaposa/rate-limit": {
+      "url": "https://github.com/BrianHenryIE/rate-limit",
       "type": "git"
     },
     "wordpress/wordpress": {
@@ -46,12 +54,16 @@
     "composer/composer": {
       "type": "composer",
       "url": "https://wpackagist.org"
+    "wp-oop/transient-cache": {
+      "url": "https://github.com/BrianHenryIE/transient-cache",
+      "type": "git"
     }
   },
   "require": {
     "brianhenryie/bh-wp-logger": "dev-master",
     "php": ">=7.4",
     "pablo-sg-pacheco/wp-namespace-autoloader": "dev-master"
+    "brianhenryie/bh-wp-rate-limiter": "dev-master",
   },
   "require-dev": {
     "ext-dom": "*",

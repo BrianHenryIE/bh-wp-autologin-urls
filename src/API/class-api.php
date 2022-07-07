@@ -12,12 +12,15 @@
 
 namespace BrianHenryIE\WP_Autologin_URLs\API;
 
+use BrianHenryIE\WP_Autologin_URLs\RateLimit\Rate;
 use BrianHenryIE\WP_Autologin_URLs\WP_Includes\Login;
+use BrianHenryIE\WP_Autologin_URLs\WP_Rate_Limiter\WordPress_Rate_Limiter;
 use DateTimeImmutable;
 use DateTimeInterface;
 use DateTimeZone;
 use Psr\Log\LoggerAwareTrait;
 use Psr\Log\LoggerInterface;
+use WC_Geolocation;
 use WP_User;
 
 /**
@@ -255,5 +258,101 @@ class API implements API_Interface {
 	public function delete_expired_codes( ?DateTimeInterface $before = null ): array {
 		$before = $before ?? new DateTimeImmutable( 'now', new DateTimeZone( 'UTC' ) );
 		return $this->data_store->delete_expired_codes( $before );
+	}
+
+	/**
+	 * Records each login attempt and checks if the same user/ip/querystring has been used too many times today.
+	 *
+	 * @param string $identifier An IP address or user login name to rate limit by.
+	 *
+	 * @return bool
+	 */
+	public function should_allow_login_attempt( string $identifier ): bool {
+
+		$allowed_access_count = Login::MAX_BAD_LOGIN_ATTEMPTS;
+		$interval             = Login::MAX_BAD_LOGIN_PERIOD_SECONDS;
+
+		$rate = Rate::custom( $allowed_access_count, $interval );
+
+		static $rate_limiter;
+
+		if ( empty( $rate_limiter ) ) {
+			$rate_limiter = new WordPress_Rate_Limiter( $rate, 'bh-wp-autologin-urls' );
+		}
+
+		try {
+			$status = $rate_limiter->limitSilently( $identifier );
+		} catch ( \RuntimeException $e ) {
+			$this->logger->error(
+				'Rate Limiter encountered an error when storing the access count.',
+				array(
+					'exception'            => $e,
+					'identifier'           => $identifier,
+					'interval'             => $interval,
+					'allowed_access_count' => $allowed_access_count,
+				)
+			);
+
+			// Play it safe and don't log them in.
+			return false;
+		}
+
+		/**
+		 * TODO: Log the $_REQUEST data.
+		 */
+		if ( $status->limitExceeded() ) {
+
+			$this->logger->notice(
+				"{$identifier} blocked with {$status->getRemainingAttempts()} remaining attempts for rate limit {$allowed_access_count} per {$interval} seconds.",
+				array(
+					'identifier'           => $identifier,
+					'interval'             => $interval,
+					'allowed_access_count' => $allowed_access_count,
+					'status'               => $status,
+				)
+			);
+
+			return false;
+
+		} else {
+
+			$this->logger->debug(
+				"{$identifier} allowed with {$status->getRemainingAttempts()} remaining attempts for rate limit {$allowed_access_count} per {$interval} seconds.",
+				array(
+					'identifier'           => $identifier,
+					'interval'             => $interval,
+					'allowed_access_count' => $allowed_access_count,
+					'status'               => $status,
+				)
+			);
+		}
+
+		return true;
+	}
+
+	/**
+	 * Finds the IP address of the current request.
+	 *
+	 * A copy of WooCommerce's IP address logic.
+	 * If behind Cloudflare, the Cloudflare plugin should be installed.
+	 *
+	 * @return ?string
+	 */
+	public function get_ip_address(): ?string {
+
+		if ( class_exists( WC_Geolocation::class ) ) {
+			$ip_address = WC_Geolocation::get_ip_address();
+		} else {
+			if ( isset( $_SERVER['HTTP_X_REAL_IP'] ) ) {
+				$ip_address = sanitize_text_field( wp_unslash( $_SERVER['HTTP_X_REAL_IP'] ) );
+			} elseif ( isset( $_SERVER['HTTP_X_FORWARDED_FOR'] ) ) {
+				$ip_address = (string) rest_is_ip_address( trim( current( preg_split( '/,/', sanitize_text_field( wp_unslash( $_SERVER['HTTP_X_FORWARDED_FOR'] ) ) ) ) ) );
+			} elseif ( isset( $_SERVER['REMOTE_ADDR'] ) ) {
+				$ip_address = filter_var( wp_unslash( $_SERVER['REMOTE_ADDR'] ), FILTER_VALIDATE_IP );
+			}
+		}
+
+		// Return null, not false, or the string.
+		return empty( $ip_address ) ? null : $ip_address;
 	}
 }
