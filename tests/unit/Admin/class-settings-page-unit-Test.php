@@ -32,7 +32,7 @@ class Settings_Page_Unit_Test extends \Codeception\Test\Unit {
 	 *
 	 * @throws \Exception
 	 */
-	public function test_add_settings_page() {
+	public function test_add_settings_page(): void {
 
 		$logger        = new NullLogger();
 		$settings      = $this->makeEmpty(
@@ -62,7 +62,7 @@ class Settings_Page_Unit_Test extends \Codeception\Test\Unit {
 	/**
 	 * Test the file to be included should exist.
 	 */
-	public function tests_display_plugin_admin_page_file_exists() {
+	public function tests_display_plugin_admin_page_file_exists(): void {
 
 		global $plugin_root_dir;
 
@@ -73,7 +73,7 @@ class Settings_Page_Unit_Test extends \Codeception\Test\Unit {
 	/**
 	 * Test the function includes the file correctly.
 	 */
-	public function tests_display_plugin_admin_page_file_included() {
+	public function tests_display_plugin_admin_page_file_included(): void {
 
 		// Feed it the wrong folder name to test it includes files properly.
 
@@ -114,7 +114,7 @@ class Settings_Page_Unit_Test extends \Codeception\Test\Unit {
 	/**
 	 * WordPress's add_settings_section should be called with the correct name.
 	 */
-	public function test_setup_sections() {
+	public function test_setup_sections(): void {
 
 		$logger        = new NullLogger();
 		$settings      = $this->makeEmpty(
@@ -144,13 +144,13 @@ class Settings_Page_Unit_Test extends \Codeception\Test\Unit {
 	 * Successful execution would mean WordPress's add_settings_field and register_settings
 	 * functions being called three times each.
 	 */
-	public function test_setup_fields() {
+	public function test_setup_fields(): void {
 
 		$logger        = new NullLogger();
 		$settings      = $this->makeEmpty( Settings_Interface::class );
 		$settings_page = new Settings_Page( $settings, $logger );
 
-		$number_of_settings_elements = 5;
+		$number_of_settings_elements = 6;
 
 		\WP_Mock::userFunction(
 			'add_settings_field',

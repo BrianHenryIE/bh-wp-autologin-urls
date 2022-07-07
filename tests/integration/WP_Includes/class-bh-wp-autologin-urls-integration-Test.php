@@ -19,7 +19,7 @@ class BH_WP_Autologin_URLs_Integration_Test extends \Codeception\TestCase\WPTest
 	/**
 	 * Verify admin_enqueue_scripts action is correctly added for styles, at priority 10.
 	 */
-	public function test_action_admin_enqueue_scripts_styles() {
+	public function test_action_admin_enqueue_scripts_styles(): void {
 
 		$action_name       = 'admin_enqueue_scripts';
 		$expected_priority = 10;
@@ -35,7 +35,7 @@ class BH_WP_Autologin_URLs_Integration_Test extends \Codeception\TestCase\WPTest
 	/**
 	 * Verify admin_enqueue_scripts action is added for scripts, at priority 10.
 	 */
-	public function test_action_admin_enqueue_scripts_scripts() {
+	public function test_action_admin_enqueue_scripts_scripts(): void {
 
 		$action_name       = 'admin_enqueue_scripts';
 		$expected_priority = 10;
@@ -51,7 +51,7 @@ class BH_WP_Autologin_URLs_Integration_Test extends \Codeception\TestCase\WPTest
 	/**
 	 * Verify filter on wp_mail is added at priority 3.
 	 */
-	public function test_filter_wp_mail_add_autologin_links_to_email() {
+	public function test_filter_wp_mail_add_autologin_links_to_email(): void {
 
 		$action_name       = 'wp_mail';
 		$expected_priority = 3;
@@ -68,10 +68,10 @@ class BH_WP_Autologin_URLs_Integration_Test extends \Codeception\TestCase\WPTest
 	 * Verify the login functionality is hooked at plugins_loaded (I think that's as soon as possible)
 	 * at priority 2 (so another plugin can nip in at 1 and unhook, if required).
 	 */
-	public function test_action_plugins_loaded_wp_init_process_autologin() {
+	public function test_action_plugins_loaded_wp_init_process_autologin(): void {
 
 		$action_name       = 'plugins_loaded';
-		$expected_priority = 2;
+		$expected_priority = 0;
 
 		$class_type  = Login::class;
 		$method_name = 'wp_init_process_autologin';
@@ -84,7 +84,7 @@ class BH_WP_Autologin_URLs_Integration_Test extends \Codeception\TestCase\WPTest
 	/**
 	 * Verify action to call load textdomain is added.
 	 */
-	public function test_action_plugins_loaded_load_plugin_textdomain() {
+	public function test_action_plugins_loaded_load_plugin_textdomain(): void {
 
 		$action_name       = 'init';
 		$expected_priority = 10;
@@ -101,7 +101,7 @@ class BH_WP_Autologin_URLs_Integration_Test extends \Codeception\TestCase\WPTest
 	/**
 	 * Ensure the `plugin_action_links` function is correctly added to the `plugin_action_links_*` fitler.
 	 */
-	public function test_add_filter_plugin_action_links() {
+	public function test_add_filter_plugin_action_links(): void {
 
 		global $plugin_basename;
 
@@ -118,7 +118,7 @@ class BH_WP_Autologin_URLs_Integration_Test extends \Codeception\TestCase\WPTest
 	}
 
 
-	protected function is_function_hooked_on_action( $class_type, $method_name, $action_name, $expected_priority = 10 ) {
+	protected function is_function_hooked_on_action( string $class_type, string $method_name, string $action_name, int $expected_priority = 10 ): bool {
 
 		global $wp_filter;
 
