@@ -186,7 +186,6 @@ class BH_WP_Autologin_URLs {
 
 		add_action( 'plugins_loaded', array( $plugin_login, 'wp_init_process_autologin' ), 2 );
 
-		add_action( 'plugins_loaded', array( $plugin_login, 'login_newsletter_urls' ), 0 );
 		add_action( 'plugins_loaded', array( $plugin_login, 'login_mailpoet_urls' ), 0 );
 	}
 

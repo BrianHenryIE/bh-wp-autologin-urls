@@ -19,8 +19,6 @@ use MailPoet\Models\Subscriber;
 use MailPoet\Newsletter\Links\Links;
 use MailPoet\Router\Router;
 use MailPoet\Subscribers\LinkTokens;
-use Newsletter;
-use NewsletterStatistics;
 use WC_Order;
 use WP_User;
 use WC_Geolocation;
@@ -163,91 +161,27 @@ class Login {
 
 
 
-	/**
-	 * Check is the URL a tracking URL for The Newsletter Plugin and if so, log in the user being tracked.
-	 *
-	 * @hooked plugins_loaded
-	 *
-	 * @see https://wordpress.org/plugins/newsletter/
-	 * @see NewsletterStatistics::hook_wp_loaded()
-	 */
-	public function login_newsletter_urls(): void {
-
-		if ( ! isset( $_GET['nltr'] ) ) {
 			return;
 		}
 
-		if ( ! class_exists( NewsletterStatistics::class ) ) {
-			return;
-		}
-
-		// This code mostly lifted from Newsletter plugin.
 
 		$input = filter_var( wp_unslash( $_GET['nltr'] ), FILTER_SANITIZE_STRIPPED );
 		if ( false === $input ) {
 			return;
 		}
 
-		// phpcs:disable WordPress.PHP.DiscouragedPHPFunctions.obfuscation_base64_decode
-		$nltr_param = base64_decode( $input );
-
-		// e.g. "1;2;https://example.org;;0bda890bd176d3e219614dde964cb07f".
-
-		$parts     = explode( ';', $nltr_param );
-		$email_id  = (int) array_shift( $parts );
-		$user_id   = (int) array_shift( $parts );
-		$signature = array_pop( $parts );
-		$anchor    = array_pop( $parts );
-
-		$url = implode( ';', $parts );
-
-		$key = NewsletterStatistics::instance()->options['key'];
-
-		$verified = ( md5( $email_id . ';' . $user_id . ';' . $url . ';' . $anchor . $key ) === $signature );
-
-		if ( ! $verified ) {
-			// TODO: ban IP for repeated abuse.
+		// Log each attempt to log in, prevent too many attempts by any one IP.
+		if ( ! $this->api->should_allow_login_attempt( $ip_address ) ) {
 			return;
 		}
 
-		$tnp_user = Newsletter::instance()->get_user( $user_id );
 
-		if ( is_null( $tnp_user ) ) {
-			$this->logger->info( 'No user object returned for Newsletter user ' . $tnp_user );
 			return;
 		}
 
-		$user_email_address = $tnp_user->email;
-
-		$wp_user = get_user_by( 'email', $user_email_address );
-
-		if ( $wp_user ) {
 
 			if ( get_current_user_id() === $wp_user->ID ) {
 
-				$this->logger->debug( "User {$wp_user->user_login} already logged in." );
-
-				return;
-			}
-
-			wp_set_current_user( $user_id, $wp_user->user_login );
-			wp_set_auth_cookie( $user_id );
-
-			do_action( 'wp_login', $wp_user->user_login, $wp_user );
-
-			$this->logger->info( "User {$wp_user->user_login} logged in via Newsletter URL." );
-
-		} else {
-
-			// We have their email address but they have no account,
-			// if WooCommerce is installed, record the email address for
-			// UX and abandoned cart.
-			$user_info = array(
-				'first_name' => $tnp_user->name,
-				'last_name'  => $tnp_user->surname,
-			);
-			$this->woocommerce_ux( $user_email_address, $user_info );
-		}
 	}
 
 	/**
