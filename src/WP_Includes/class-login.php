@@ -15,10 +15,6 @@ use BrianHenryIE\WP_Autologin_URLs\API\API_Interface;
 use MailPoet\API\API;
 use Psr\Log\LoggerAwareTrait;
 use Psr\Log\LoggerInterface;
-use MailPoet\Models\Subscriber;
-use MailPoet\Newsletter\Links\Links;
-use MailPoet\Router\Router;
-use MailPoet\Subscribers\LinkTokens;
 use WC_Order;
 use WP_User;
 use WC_Geolocation;
@@ -185,84 +181,20 @@ class Login {
 	}
 
 	/**
-	 * Check is the URL a tracking URL for MailPoet plugin and if so, log in the user being tracked.
+	 * If the request is for wp-login.php, we should redirect to home or to the specified redirect_to url.
 	 *
-	 * Uses MailPoet's verification process as the autologin code.
-	 *
-	 * @see LinkTokens::verifyToken()
-	 *
-	 * TODO: The time since the newsletter was sent should be respected for the expiry time.
-	 *
-	 * @hooked plugins_loaded
-	 *
-	 * @see https://wordpress.org/plugins/mailpoet/
-	 *
-	 * phpcs:disable WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
+	 * @return void
 	 */
-	public function login_mailpoet_urls(): void {
 
-		if ( ! isset( $_GET['mailpoet_router'] ) ) {
 			return;
 		}
 
-		if ( ! isset( $_GET['data'] ) ) {
 			return;
 		}
 
-		if ( ! class_exists( Router::class ) ) {
-			return;
-		}
 
-		// phpcs:disable WordPress.PHP.DiscouragedPHPFunctions.obfuscation_base64_decode
-		$data = Router::decodeRequestData( filter_var( wp_unslash( $_GET['data'] ), FILTER_SANITIZE_STRIPPED ) );
-
-		/**
-		 * The required data from the MailPoet querystring.
-		 *
-		 * @see Links::transformUrlDataObject()
-		 */
-		$subscriber_id = $data[0];
-		$request_token = $data[1];
-
-		/**
-		 * The MailPoet subscriber object, false if none found.
-		 *
-		 * @var \MailPoet\Models\Subscriber $subscriber
-		 */
-		$subscriber = Subscriber::where( 'id', $subscriber_id )->findOne();
-
-		if ( empty( $subscriber ) ) {
-			return;
-		}
-
-		$database_token = $subscriber->linkToken;
-		$request_token  = substr( $request_token, 0, strlen( $database_token ) );
-		$valid          = hash_equals( $database_token, $request_token );
-
-		if ( ! $valid ) {
-			return;
-		}
-
-		$user_email_address = $subscriber->email;
-
-		$wp_user = get_user_by( 'email', $user_email_address );
-
-		if ( $wp_user instanceof WP_User ) {
-
-			if ( get_current_user_id() === $wp_user->ID ) {
-				$this->logger->debug( "User {$wp_user->user_login} already logged in." );
-
-				// Already logged in.
 				return;
 			}
-
-			wp_set_current_user( $wp_user->ID, $wp_user->user_login );
-			wp_set_auth_cookie( $wp_user->ID );
-			do_action( 'wp_login', $wp_user->user_login, $wp_user );
-
-			$this->logger->info( "User {$wp_user->user_login} logged in via MailPoet URL." );
-
-			return;
 
 		} else {
 		}
