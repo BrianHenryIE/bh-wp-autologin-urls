@@ -182,11 +182,9 @@ class BH_WP_Autologin_URLs {
 	 */
 	protected function define_wp_login_hooks(): void {
 
-		$plugin_login = new Login( $this->api, $this->logger );
+		$plugin_login = new Login( $this->api, $this->settings, $this->logger );
 
-		add_action( 'plugins_loaded', array( $plugin_login, 'wp_init_process_autologin' ), 2 );
-
-		add_action( 'plugins_loaded', array( $plugin_login, 'login_mailpoet_urls' ), 0 );
+		add_action( 'plugins_loaded', array( $plugin_login, 'process' ), 0 );
 	}
 
 	/**

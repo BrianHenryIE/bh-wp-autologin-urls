@@ -50,17 +50,7 @@ class BH_WP_Autologin_URLs_Unit_Test extends \Codeception\Test\Unit {
 
 		\WP_Mock::expectActionAdded(
 			'plugins_loaded',
-			array( new AnyInstance( Login::class ), 'wp_init_process_autologin' ),
-			2
-		);
-		\WP_Mock::expectActionAdded(
-			'plugins_loaded',
-			array( new AnyInstance( Login::class ), 'login_newsletter_urls' ),
-			0
-		);
-		\WP_Mock::expectActionAdded(
-			'plugins_loaded',
-			array( new AnyInstance( Login::class ), 'login_mailpoet_urls' ),
+			array( new AnyInstance( Login::class ), 'process' ),
 			0
 		);
 

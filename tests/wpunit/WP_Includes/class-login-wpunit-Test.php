@@ -10,10 +10,11 @@ namespace BrianHenryIE\WP_Autologin_URLs\WP_Includes;
 
 use BrianHenryIE\ColorLogger\ColorLogger;
 use BrianHenryIE\WP_Autologin_URLs\API\API_Interface;
-use MailPoet\DI\ContainerWrapper;
-use MailPoet\Models\Subscriber;
-use Psr\Log\LoggerInterface;
-use function _PHPStan_76800bfb5\RingCentral\Psr7\parse_query;
+use BrianHenryIE\WP_Autologin_URLs\API\Integrations\User_Finder_Factory;
+use BrianHenryIE\WP_Autologin_URLs\API\Settings_Interface;
+use BrianHenryIE\WP_Autologin_URLs\API\User_Finder_Interface;
+use Codeception\Stub\Expected;
+use WP_User;
 
 /**
  * @coversDefaultClass \BrianHenryIE\WP_Autologin_URLs\WP_Includes\Login
@@ -21,124 +22,115 @@ use function _PHPStan_76800bfb5\RingCentral\Psr7\parse_query;
 class Login_WPUnit_Test extends \Codeception\TestCase\WPTestCase {
 
 	/**
-	 * When there is a past order associated with that email address,
-	 * use its billing details in the checkout fields.
+	 * The happy path.
 	 *
-	 * @covers ::woocommerce_ux
+	 * @covers ::process
+	 * @covers ::__construct
 	 */
-	public function test_woocommerce_order(): void {
-
-		$existing_order = new \WC_Order();
-		$existing_order->set_billing_email( 'test@example.org' );
-		$existing_order->set_billing_city( 'Sacramento' );
-		$existing_order->save();
+	public function test_process_valid_user_login(): void {
 
 		$logger = new ColorLogger();
-		$api    = $this->makeEmpty( API_Interface::class );
 
-		$email_address = 'test@example.org';
-		$user_info     = array(
-			'first_name' => 'Brian',
-			'last_name'  => 'Henry',
+		$settings = $this->makeEmpty( Settings_Interface::class );
+
+		$api = $this->makeEmpty(
+			API_Interface::class,
+			array(
+				'get_ip_address'             => Expected::once( '1.2.3.4' ),
+				'should_allow_login_attempt' => Expected::exactly( 2, true ),
+			)
 		);
 
-		$login = new Login( $api, $logger );
+		$new_user = array(
+			'user_pass'  => 'password',
+			'user_login' => 'test_user',
+		);
+		$user_id  = wp_insert_user( $new_user );
+		$wp_user  = get_user_by( 'id', $user_id );
 
-		$class_name = get_class( $login );
-		$reflection = new \ReflectionClass( $class_name );
-
-		$method = $reflection->getMethod( 'woocommerce_ux' );
-		$method->setAccessible( true );
-
-		$method->invokeArgs( $login, array( $email_address, $user_info ) );
-
-		$this->assertSame( 'Sacramento', WC()->customer->get_billing_city() );
-	}
-
-
-	/**
-	 * When there is no past order associated with that email address,
-	 * use the first and last name passed from the mailing list plugin.
-	 *
-	 * @covers ::woocommerce_ux
-	 */
-	public function test_woocommerce_name(): void {
-
-		$logger = new ColorLogger();
-		$api    = $this->makeEmpty( API_Interface::class );
-
-		$email_address = 'test@example.org';
-		$user_info     = array(
-			'first_name' => 'Brian',
-			'last_name'  => 'Henry',
+		$user_finder = $this->makeEmpty(
+			User_Finder_Interface::class,
+			array(
+				'is_querystring_valid' => true,
+				'get_wp_user_array'    => array(
+					'wp_user' => $wp_user,
+					'source'  => 'mock',
+				),
+			)
 		);
 
-		$login = new Login( $api, $logger );
+		$user_finder_factory = $this->makeEmpty(
+			User_Finder_Factory::class,
+			array(
+				'get_user_finder' => $user_finder,
+			)
+		);
 
-		$class_name = get_class( $login );
-		$reflection = new \ReflectionClass( $class_name );
+		$sut = new Login( $api, $settings, $logger, $user_finder_factory );
 
-		$method = $reflection->getMethod( 'woocommerce_ux' );
-		$method->setAccessible( true );
+		$sut->process();
 
-		$method->invokeArgs( $login, array( $email_address, $user_info ) );
+		$logged_in_user_id = get_current_user_id();
 
-		$this->assertSame( 'Brian', WC()->customer->get_first_name() );
+		$this->assertEquals( $user_id, $logged_in_user_id );
+
 	}
 
 	/**
-	 * Generate a tracking URL for MailPoet and check it logs the user in.
-	 *
-	 * @covers ::login_mailpoet_urls
+	 * @covers ::process
 	 */
-	public function test_login_mailpoet_urls(): void {
-
-		// MailPoet automatically registers the new WP User as a subscriber.
-		$user_id                = wp_create_user( 'MailPoet Test User', 'mptest', 'user@example.org' );
-		$subscriber             = Subscriber::where( 'email', 'user@example.org' )->findOne();
-		$mailpoet_subscriber_id = $subscriber->id;
-
-		$params                    = array();
-		$params['mailpoet_router'] = '';
-		$params['endpoint']        = 'track';
-		$params['action']          = 'click';
-		/**
-		 * @see Router::decodeRequestData()
-		 * @see Router::encodeRequestData()
-		 *
-		 * phpcs:disable WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
-		 */
-		$data_array = array(
-			0 => $mailpoet_subscriber_id,
-			1 => $subscriber->linkToken,
-			2 => '7', // queue_id.
-			3 => 'f11e2150f233', // link_hash.
-			4 => false, // preview.
-		);
-		// phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.obfuscation_base64_encode
-		$params['data'] = rtrim( base64_encode( wp_json_encode( $data_array ) ), '=' );
-
-		/**
-		 * For subscriber_id 5, linkToken "6cc401c4641857061baa77d5d969b746":
-		 *
-		 * E.g. http://localhost:8080/bhwpie?mailpoet_router&endpoint=track&action=click&data=WyI1IiwiNmNjNDAxYzQ2NDE4NTcwNjFiYWE3N2Q1ZDk2OWI3NDYiLCI3IiwiZjExZTIxNTBmMjMzIixmYWxzZV0
-		 */
-		$url = add_query_arg( $params, get_site_url() );
-
-		// This is a bit convoluted!
-		$parts = wp_parse_url( $url );
-		wp_parse_str( $parts['query'], $_GET );
+	public function test_process_user_already_logged_in(): void {
 
 		$logger = new ColorLogger();
-		$api    = $this->makeEmpty( API_Interface::class );
 
-		$login = new Login( $api, $logger );
+		$settings = $this->makeEmpty( Settings_Interface::class );
 
-		assert( 0 === get_current_user_id() );
+		$api = $this->makeEmpty(
+			API_Interface::class,
+			array(
+				'get_ip_address'             => Expected::never(),
+				'should_allow_login_attempt' => Expected::never(),
+			)
+		);
 
-		$login->login_mailpoet_urls();
+		$new_user = array(
+			'user_pass'  => 'password',
+			'user_login' => 'test_user',
+		);
+		$user_id  = wp_insert_user( $new_user );
+		/** @var WP_User $wp_user */
+		$wp_user = get_user_by( 'id', $user_id );
 
-		$this->assertEquals( $user_id, get_current_user_id() );
+		$user_finder = $this->makeEmpty(
+			User_Finder_Interface::class,
+			array(
+				'is_querystring_valid' => true,
+				'get_wp_user_array'    => array(
+					'wp_user' => $wp_user,
+					'source'  => 'mock',
+				),
+			)
+		);
+
+		$user_finder_factory = $this->makeEmpty(
+			User_Finder_Factory::class,
+			array(
+				'get_user_finder' => $user_finder,
+			)
+		);
+
+		$sut = new Login( $api, $settings, $logger, $user_finder_factory );
+
+		wp_set_current_user( $wp_user->ID, $wp_user->user_login );
+		wp_set_auth_cookie( $wp_user->ID );
+
+		assert( get_current_user_id() === $wp_user->ID );
+
+		$sut->process();
+
+		$logged_in_user_id = get_current_user_id();
+
+		$this->assertEquals( $user_id, $logged_in_user_id );
 
 	}
 }

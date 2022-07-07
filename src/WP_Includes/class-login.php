@@ -5,130 +5,116 @@
  * @link       https://BrianHenry.ie
  * @since      1.0.0
  *
- * @package    bh-wp-autologin-urls
- * @subpackage bh-wp-autologin-urls/login
+ * @package    brianhenryie/bh-wp-autologin-urls
  */
 
 namespace BrianHenryIE\WP_Autologin_URLs\WP_Includes;
 
 use BrianHenryIE\WP_Autologin_URLs\API\API_Interface;
-use MailPoet\API\API;
+use BrianHenryIE\WP_Autologin_URLs\API\Integrations\User_Finder_Factory;
+use BrianHenryIE\WP_Autologin_URLs\API\Settings_Interface;
+use BrianHenryIE\WP_Autologin_URLs\WooCommerce\Checkout;
 use Psr\Log\LoggerAwareTrait;
 use Psr\Log\LoggerInterface;
-use WC_Order;
 use WP_User;
-use WC_Geolocation;
 
 /**
  * The actual logging-in functionality of the plugin.
- *
- * @package    bh-wp-autologin-urls
- * @subpackage bh-wp-autologin-urls/includes
- * @author     BrianHenryIE <BrianHenryIE@gmail.com>
  */
 class Login {
 
 	use LoggerAwareTrait;
 
-	const QUERYSTRING_PARAMETER_NAME = 'autologin';
-
 	const MAX_BAD_LOGIN_ATTEMPTS       = 5;
 	const MAX_BAD_LOGIN_PERIOD_SECONDS = 60 * 60 * 24; // Aka DAY_IN_SECONDS.
 
+	/**
+	 * Not in use?
+	 *
+	 * @var Settings_Interface
+	 */
+	protected Settings_Interface $settings;
 
 	/**
 	 * Core API methods for verifying autologin querystring.
 	 *
 	 * @var API_Interface
 	 */
-	protected $api;
+	protected API_Interface $api;
+
+	protected User_Finder_Factory $user_finder_factory;
 
 	/**
 	 * Initialize the class and set its properties.
 	 *
-	 * @param   API_Interface   $api The core plugin functions.
-	 * @param   LoggerInterface $logger The logger instance.
+	 * @param API_Interface        $api The core plugin functions.
+	 * @param Settings_Interface   $settings The plugin's settings.
+	 * @param LoggerInterface      $logger The logger instance.
+	 * @param ?User_Finder_Factory $user_finder_factory Factory to return a class that can determine the user from the URL.
 	 *
 	 * @since   1.0.0
 	 */
-	public function __construct( $api, $logger ) {
+	public function __construct( API_Interface $api, Settings_Interface $settings, LoggerInterface $logger, ?User_Finder_Factory $user_finder_factory = null ) {
+		$this->setLogger( $logger );
 
-		$this->api    = $api;
-		$this->logger = $logger;
+		$this->settings = $settings;
+		$this->api      = $api;
+
+		$this->user_finder_factory = $user_finder_factory ?? new User_Finder_Factory( $this->api, $this->settings, $this->logger );
 	}
 
 	/**
-	 * The actual code for logging the user in. Should run before wp_set_current_user
-	 * so it is run before other code expects a user to be set, i.e. run it on
-	 * plugins_loaded and not init.
-	 *
 	 * @hooked plugins_loaded
 	 *
-	 * @see https://codex.wordpress.org/Plugin_API/Action_Reference
-	 * @see _wp_get_current_user()
+	 * phpcs:disable WordPress.Security.NonceVerification.Recommended
 	 */
-	public function wp_init_process_autologin(): bool {
+	public function process(): void {
 
-		// This input is not coming from a WordPress page so cannot have a nonce.
-		// phpcs:disable WordPress.Security.NonceVerification.Recommended
-		if ( ! isset( $_GET[ self::QUERYSTRING_PARAMETER_NAME ] ) ) {
-			// Nothing to do here.
-			return false;
+		// TODO: If we're logged in already, just return. It will save a lot of wasted processing.
+		// Maybe use a cookie to only use an autologin URL once every x minutes.
+
+		// Checks does the querystring contain an autologin parameter.
+		$user_finder = $this->user_finder_factory->get_user_finder();
+
+		if ( is_null( $user_finder ) ) {
+			// No querystring was present, this was not an attempt to log in.
+			return;
 		}
 
-		$autologin_querystring = sanitize_text_field( wp_unslash( $_GET[ self::QUERYSTRING_PARAMETER_NAME ] ) );
+		$user_array = $user_finder->get_wp_user_array();
 
-		list( $user_id, $password ) = explode( '~', $autologin_querystring, 2 );
+		if ( isset( $user_array['wp_user'] ) ) {
+			/** @var WP_User $wp_user */
+			$wp_user = $user_array['wp_user'];
 
+		} elseif ( ! empty( $user_array['user_data'] ) && 0 === get_current_user_id() ) {
+			// If no WP_User account was found, but other user data was found that could be used for WooCommerce, prepopulate the checkout fields.
+			$woocommerce_checkout = new Checkout( $this->logger );
+			$woocommerce_checkout->prefill_checkout_fields( ...$user_array['user_data'] );
+			return;
+		} else {
+			return;
+		}
 
-		$user_id = intval( $user_id );
+		$current_user = wp_get_current_user();
 
-		if ( get_current_user_id() === $user_id ) {
-
-			$this->logger->debug( "User {$user_id} already logged in." );
+		if ( $current_user->ID === $wp_user->ID ) {
+			// Already logged in.
 
 			// TODO: always expire codes when used.
 			// TODO: Test this thoroughly.
 
-			$wp_login_endpoint = str_replace( get_site_url(), '', wp_login_url() );
-			if ( stristr( filter_var( getenv( 'REQUEST_URI' ) ), $wp_login_endpoint )
-				&& isset( $_GET['redirect_to'] ) ) {
+			$this->logger->debug( "User {$wp_user->ID} already logged in." );
 
-				$redirect_to = urldecode( filter_var( wp_unslash( $_GET['redirect_to'] ), FILTER_SANITIZE_STRING ) );
-				wp_safe_redirect( $redirect_to );
-				exit;
-
-			}
-
-			return false;
-		}
-
-
-
-
-
-		}
-
-		return false;
-
-	}
-
-
-			return;
-			return;
-		}
-
-
-
-
-
+			$this->maybe_redirect();
 
 			return;
 		}
 
+		$ip_address = $this->api->get_ip_address();
 
-		$input = filter_var( wp_unslash( $_GET['nltr'] ), FILTER_SANITIZE_STRIPPED );
-		if ( false === $input ) {
+		if ( empty( $ip_address ) ) {
+			// This would be empty during cron jobs and WP CLI.
 			return;
 		}
 
@@ -137,13 +123,21 @@ class Login {
 			return;
 		}
 
+		$user_login = $wp_user->user_login;
 
+		// Rate limit too many failed attempts at logging in the one user.
+		if ( ! $this->api->should_allow_login_attempt( $user_login ) ) {
 			return;
 		}
 
+		// @see https://developer.wordpress.org/reference/functions/wp_set_current_user/
+		wp_set_current_user( $wp_user->ID, $wp_user->user_login );
+		wp_set_auth_cookie( $wp_user->ID );
+		do_action( 'wp_login', $wp_user->user_login, $wp_user );
 
-			if ( get_current_user_id() === $wp_user->ID ) {
+		$this->logger->info( "User {$wp_user->user_login} logged in via {$user_array['source']}." );
 
+		$this->maybe_redirect();
 	}
 
 	/**
@@ -151,21 +145,35 @@ class Login {
 	 *
 	 * @return void
 	 */
+	protected function maybe_redirect(): void {
 
+		$request_uri = filter_var( getenv( 'REQUEST_URI' ) );
+		if ( empty( $request_uri ) ) {
+			// Unusual.
 			return;
 		}
 
+		// Check is the requested URL wp-login.php.
+		$wp_login_endpoint = str_replace( get_site_url(), '', wp_login_url() );
+		if ( ! stristr( $request_uri, $wp_login_endpoint ) ) {
 			return;
 		}
 
+		if ( isset( $_GET['redirect_to'] ) ) {
 
+			$url = filter_var( wp_unslash( $_GET['redirect_to'] ), FILTER_SANITIZE_STRING );
+			if ( false === $url ) {
 				return;
 			}
+			$redirect_to = urldecode( $url );
 
 		} else {
-		}
-	}
+			// TODO: There's a filter determining what the destination URL should be when logging in a user.
+			$redirect_to = get_site_url();
 		}
 
+		wp_safe_redirect( $redirect_to );
+		exit();
 	}
+
 }
