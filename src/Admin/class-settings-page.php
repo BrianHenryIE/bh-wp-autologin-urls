@@ -11,6 +11,7 @@
 
 namespace BrianHenryIE\WP_Autologin_URLs\Admin;
 
+use BrianHenryIE\WP_Autologin_URLs\Admin\Partials\Klaviyo_Private_Key;
 use BrianHenryIE\WP_Autologin_URLs\Admin\Partials\Log_Level;
 use BrianHenryIE\WP_Autologin_URLs\Admin\Partials\Use_WP_Login;
 use BrianHenryIE\WP_Autologin_URLs\API\Settings_Interface;
@@ -121,6 +122,7 @@ class Settings_Page {
 		$fields[] = new Admin_Enable( $settings_page_slug_name, $this->settings );
 		$fields[] = new Regex_Subject_Filters( $settings_page_slug_name, $this->settings );
 		$fields[] = new Use_WP_Login( $settings_page_slug_name, $this->settings );
+		$fields[] = new Klaviyo_Private_Key( $settings_page_slug_name, $this->settings );
 		$fields[] = new Log_Level( $settings_page_slug_name, $this->settings );
 
 		foreach ( $fields as $field ) {

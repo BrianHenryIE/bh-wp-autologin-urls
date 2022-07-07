@@ -160,4 +160,11 @@ class Settings implements Settings_Interface, Logger_Settings_Interface {
 	public function get_plugin_basename(): string {
 		return defined( 'BH_WP_AUTOLOGIN_URLS_BASENAME' ) ? BH_WP_AUTOLOGIN_URLS_BASENAME : 'bh-wp-autologin-urls/bh-wp-autologin-urls.php';
 	}
+
+	/**
+	 * Return the API key to query the Klaviyo API for user details, if entered.
+	 */
+	public function get_klaviyo_private_api_key(): ?string {
+		return get_option( 'bh_wp_autologin_urls_klaviyo_private_key', null );
+	}
 }
