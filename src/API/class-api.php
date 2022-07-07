@@ -12,6 +12,7 @@
 
 namespace BrianHenryIE\WP_Autologin_URLs\API;
 
+use BrianHenryIE\WP_Autologin_URLs\API\Integrations\Autologin_URLs;
 use BrianHenryIE\WP_Autologin_URLs\RateLimit\Rate;
 use BrianHenryIE\WP_Autologin_URLs\WP_Includes\Login;
 use BrianHenryIE\WP_Autologin_URLs\WP_Rate_Limiter\WordPress_Rate_Limiter;
@@ -161,9 +162,9 @@ class API implements API_Interface {
 		$autologin_code = $this->generate_code( $user, $expires_in );
 
 		if ( ! $this->settings->get_should_use_wp_login() ) {
-			$user_link = add_query_arg( Login::QUERYSTRING_PARAMETER_NAME, $autologin_code, $url );
+			$user_link = add_query_arg( Autologin_URLs::QUERYSTRING_PARAMETER_NAME, $autologin_code, $url );
 		} else {
-			$user_link = add_query_arg( Login::QUERYSTRING_PARAMETER_NAME, $autologin_code, wp_login_url( $url ) );
+			$user_link = add_query_arg( Autologin_URLs::QUERYSTRING_PARAMETER_NAME, $autologin_code, wp_login_url( $url ) );
 		}
 
 		return $user_link;

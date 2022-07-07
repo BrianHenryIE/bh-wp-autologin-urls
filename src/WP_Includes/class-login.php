@@ -107,40 +107,6 @@ class Login {
 
 
 
-		if ( $this->api->verify_autologin_password( $user_id, $password ) ) {
-
-			// @see https://developer.wordpress.org/reference/functions/wp_set_current_user/
-
-			$user = get_user_by( 'id', $user_id );
-
-			if ( $user ) {
-
-				wp_set_current_user( $user_id, $user->user_login );
-				wp_set_auth_cookie( $user_id );
-				do_action( 'wp_login', $user->user_login, $user );
-
-				$this->logger->info( "User {$user->user_login} logged in via Autologin URL." );
-
-				// TODO: Test this thoroughly.
-				$wp_login_endpoint = str_replace( get_site_url(), '', wp_login_url() );
-				$request_uri       = filter_var( getenv( 'REQUEST_URI' ) );
-				if ( false !== $request_uri
-					&& stristr( $request_uri, $wp_login_endpoint )
-					&& isset( $_GET['redirect_to'] ) ) {
-
-					$url = filter_var( wp_unslash( $_GET['redirect_to'] ), FILTER_SANITIZE_STRING );
-					if ( false === $url ) {
-						return false;
-					}
-					$redirect_to = urldecode( $url );
-					wp_safe_redirect( $redirect_to );
-					exit();
-
-				}
-
-				return true;
-
-			}
 		}
 
 		return false;
