@@ -59,39 +59,49 @@ class Checkout {
 			WC()->customer->set_shipping_last_name( $user_info['last_name'] );
 		}
 
-		/**
-		 * Try to get one past order placed by this email address.
-		 *
-		 * @var WC_Order[] $customer_orders
-		 */
-		$customer_orders = wc_get_orders(
-			array(
-				'customer' => $email_address,
-				'limit'    => 1,
-				'order'    => 'DESC',
-				'orderby'  => 'id',
-				'paginate' => false,
-			)
-		);
-
-		if ( count( $customer_orders ) > 0 ) {
-
-			$order = $customer_orders[0];
-
-			WC()->customer->set_billing_country( $order->get_billing_country() );
-			WC()->customer->set_billing_postcode( $order->get_billing_postcode() );
-			WC()->customer->set_billing_state( $order->get_billing_state() );
-			WC()->customer->set_billing_last_name( $order->get_billing_last_name() );
-			WC()->customer->set_billing_first_name( $order->get_billing_first_name() );
-			WC()->customer->set_billing_address_1( $order->get_billing_address_1() );
-			WC()->customer->set_billing_address_2( $order->get_billing_address_2() );
-			WC()->customer->set_billing_city( $order->get_billing_city() );
-			WC()->customer->set_billing_company( $order->get_billing_company() );
-			WC()->customer->set_billing_phone( $order->get_billing_phone() );
-
-			$this->logger->info( "Set customer checkout details from past order #{$order->get_id()}" );
+		if ( ! isset( $user_info['email'] ) ) {
+			return;
 		}
 
+		// Otherwise "wc_get_order was called incorrectly" warning is shown.
+		add_action(
+			'woocommerce_after_register_post_type',
+			function() use ( $user_info ) {
+
+				/**
+				 * Try to get one past order placed by this email address.
+				 *
+				 * @var WC_Order[] $customer_orders
+				 */
+				$customer_orders = wc_get_orders(
+					array(
+						'customer' => $user_info['email'],
+						'limit'    => 1,
+						'order'    => 'DESC',
+						'orderby'  => 'id',
+						'paginate' => false,
+					)
+				);
+
+				if ( count( $customer_orders ) > 0 ) {
+
+					$order = $customer_orders[0];
+
+					WC()->customer->set_billing_country( $order->get_billing_country() );
+					WC()->customer->set_billing_postcode( $order->get_billing_postcode() );
+					WC()->customer->set_billing_state( $order->get_billing_state() );
+					WC()->customer->set_billing_last_name( $order->get_billing_last_name() );
+					WC()->customer->set_billing_first_name( $order->get_billing_first_name() );
+					WC()->customer->set_billing_address_1( $order->get_billing_address_1() );
+					WC()->customer->set_billing_address_2( $order->get_billing_address_2() );
+					WC()->customer->set_billing_city( $order->get_billing_city() );
+					WC()->customer->set_billing_company( $order->get_billing_company() );
+					WC()->customer->set_billing_phone( $order->get_billing_phone() );
+
+					$this->logger->info( "Set customer checkout details from past order #{$order->get_id()}" );
+				}
+			}
+		);
 	}
 
 }
