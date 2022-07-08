@@ -33,10 +33,9 @@ class Checkout {
 	 *
 	 * TODO: Prefill additional fields returned by Klaviyo.
 	 *
-	 * @param string                                     $email_address The user's email address.
-	 * @param array{first_name:string, last_name:string} $user_info Information e.g. first name, last name that might be available from MailPoet/Newsletter.
+	 * @param array{email:string, first_name:string, last_name:string} $user_info Information e.g. first name, last name that might be available from MailPoet/Newsletter/Klaviyo.
 	 */
-	public function prefill_checkout_fields( string $email_address, array $user_info ): void {
+	public function prefill_checkout_fields( array $user_info ): void {
 
 		if ( ! function_exists( 'WC' ) ) {
 			return;
@@ -44,7 +43,9 @@ class Checkout {
 
 		WC()->initialize_cart();
 
-		WC()->customer->set_billing_email( $email_address );
+		if ( ! empty( $user_info['email'] ) ) {
+			WC()->customer->set_billing_email( $user_info['email'] );
+		}
 
 		if ( ! empty( $user_info['first_name'] ) ) {
 			WC()->customer->set_first_name( $user_info['first_name'] );

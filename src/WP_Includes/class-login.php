@@ -90,7 +90,7 @@ class Login {
 		} elseif ( ! empty( $user_array['user_data'] ) && 0 === get_current_user_id() ) {
 			// If no WP_User account was found, but other user data was found that could be used for WooCommerce, prepopulate the checkout fields.
 			$woocommerce_checkout = new Checkout( $this->logger );
-			$woocommerce_checkout->prefill_checkout_fields( ...$user_array['user_data'] );
+			$woocommerce_checkout->prefill_checkout_fields( $user_array['user_data'] );
 			return;
 		} else {
 			return;
