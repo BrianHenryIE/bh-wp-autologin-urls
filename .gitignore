@@ -59,3 +59,6 @@ xdebug.sh
 DOCKER_ENV
 docker_tag
 .phpunit.result.cache
+
+vendor-prefixed
+dist-archive

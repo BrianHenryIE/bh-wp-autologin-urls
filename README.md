@@ -16,7 +16,7 @@ Also useful for logging users back in when they get reply notifications for thei
 
 This plugin makes no theme/user-facing changes.
 
-![Example Email](./assets/screenshot-1.png "BH WP Autologin URLs example email screenshot")
+![Example Email](./.wordpress-org/screenshot-1.png "BH WP Autologin URLs example email screenshot")
 Example email sent via [Comment Reply Email Notification](https://wordpress.org/plugins/comment-reply-email-notification/) plugin.
 
 ## Installation & Configuration
@@ -31,7 +31,7 @@ There is no configuration needed. By default:
 
 The settings page can be found in the admin UI under `Settings`/`Autologin URLs`, as a link on the Plugins page, or at `/wp-admin/options-general.php?page=bh-wp-autologin-urls`.
 
-![Settings Page](./assets/screenshot-2.png "BH WP Autologin URLs Settings Page screenshot")
+![Settings Page](./.wordpress-org/screenshot-2.png "BH WP Autologin URLs Settings Page screenshot")
 
 ## Operation
 
@@ -46,7 +46,7 @@ Logs to see the frequency of its usefulness are available at: `wp-admin/admin.ph
 
 WooCommerce's "Customer Payment Page" link has been changed to include an autologin code and to copy to clipboard when clicked (to avoid logging out shop managers).
 
-![WooCommerce Order Page](./assets/screenshot-3.gif "BH WP Autologin URLs WooCommerce Order Page screenshot")
+![WooCommerce Order Page](./.wordpress-org/screenshot-3.gif "BH WP Autologin URLs WooCommerce Order Page screenshot")
 
 ### Secure
 

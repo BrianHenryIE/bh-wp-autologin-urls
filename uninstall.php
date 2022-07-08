@@ -29,7 +29,7 @@ if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
 	throw new \Exception( 'WP_UNINSTALL_PLUGIN not defined' );
 }
 
-use BrianHenryIE\WP_Autologin_URLs\API\Settings_Interface;
+use BrianHenryIE\WP_Autologin_URLs\Settings_Interface;
 
 /**
  * Delete the passwords stored as transients in wp_options.

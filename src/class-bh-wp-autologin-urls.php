@@ -12,19 +12,18 @@
  * @subpackage bh-wp-autologin-urls/includes
  */
 
-namespace BrianHenryIE\WP_Autologin_URLs\WP_Includes;
+namespace BrianHenryIE\WP_Autologin_URLs;
 
 use BrianHenryIE\WP_Autologin_URLs\Admin\User_Edit;
-use BrianHenryIE\WP_Autologin_URLs\API\API_Interface;
-use BrianHenryIE\WP_Autologin_URLs\API\API;
 use BrianHenryIE\WP_Autologin_URLs\Admin\Admin;
 use BrianHenryIE\WP_Autologin_URLs\Admin\Settings_Page;
 use BrianHenryIE\WP_Autologin_URLs\Admin\Plugins_Page;
-use BrianHenryIE\WP_Autologin_URLs\API\Settings;
-use BrianHenryIE\WP_Autologin_URLs\API\Settings_Interface;
 use BrianHenryIE\WP_Autologin_URLs\WooCommerce\Admin_Order_UI;
+use BrianHenryIE\WP_Autologin_URLs\WP_Includes\Cron;
+use BrianHenryIE\WP_Autologin_URLs\WP_Includes\I18n;
+use BrianHenryIE\WP_Autologin_URLs\WP_Includes\Login;
+use BrianHenryIE\WP_Autologin_URLs\WP_Includes\WP_Mail;
 use Psr\Log\LoggerInterface;
-use BrianHenryIE\WP_Autologin_URLs\API\DB_Data_Store;
 
 /**
  * The core plugin class.

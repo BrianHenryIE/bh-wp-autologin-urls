@@ -11,7 +11,7 @@
 namespace BrianHenryIE\WP_Autologin_URLs\Admin\Partials;
 
 use BrianHenryIE\WP_Autologin_URLs\API\Settings;
-use BrianHenryIE\WP_Autologin_URLs\API\Settings_Interface;
+use BrianHenryIE\WP_Autologin_URLs\Settings_Interface;
 
 /**
  * @coversDefaultClass \BrianHenryIE\WP_Autologin_URLs\Admin\Partials\Expiry_Age

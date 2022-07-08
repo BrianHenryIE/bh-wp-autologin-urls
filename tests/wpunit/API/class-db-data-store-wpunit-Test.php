@@ -1,13 +1,13 @@
 <?php
 
-namespace BrianHenryIE\WP_Autologin_URLs\API;
+namespace BrianHenryIE\WP_Autologin_URLs\API\Data_Stores;
 
 use BrianHenryIE\ColorLogger\ColorLogger;
 use DateTimeImmutable;
 use DateTimeZone;
 
 /**
- * @coversDefaultClass \BrianHenryIE\WP_Autologin_URLs\API\DB_Data_Store
+ * @coversDefaultClass \BrianHenryIE\WP_Autologin_URLs\API\Data_Stores\DB_Data_Store
  */
 class DB_Data_Store_WPUnit_Test extends \Codeception\TestCase\WPTestCase {
 

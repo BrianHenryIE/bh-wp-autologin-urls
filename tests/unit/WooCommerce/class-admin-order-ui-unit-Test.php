@@ -2,8 +2,8 @@
 
 namespace BrianHenryIE\WP_Autologin_URLs\WooCommerce;
 
-use BrianHenryIE\WP_Autologin_URLs\API\API_Interface;
-use BrianHenryIE\WP_Autologin_URLs\API\Settings_Interface;
+use BrianHenryIE\WP_Autologin_URLs\API_Interface;
+use BrianHenryIE\WP_Autologin_URLs\Settings_Interface;
 use Codeception\Stub\Expected;
 
 /**

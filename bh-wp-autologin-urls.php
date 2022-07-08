@@ -23,8 +23,8 @@
 namespace BH_WP_Autologin_URLs {
 
 	use BrianHenryIE\WP_Autologin_URLs\API\API;
-	use BrianHenryIE\WP_Autologin_URLs\API\DB_Data_Store;
-	use BrianHenryIE\WP_Autologin_URLs\WP_Includes\BH_WP_Autologin_URLs;
+	use BrianHenryIE\WP_Autologin_URLs\API\Data_Stores\DB_Data_Store;
+	use BrianHenryIE\WP_Autologin_URLs\BH_WP_Autologin_URLs;
 	use BrianHenryIE\WP_Autologin_URLs\API\Settings;
 	use BrianHenryIE\WP_Autologin_URLs\WP_Logger\Logger;
 
@@ -38,7 +38,7 @@ namespace BH_WP_Autologin_URLs {
 	/**
 	 * Currently plugin version.
 	 */
-	define( 'BH_WP_AUTOLOGIN_URLS_VERSION', '1.4.0' );
+	define( 'BH_WP_AUTOLOGIN_URLS_VERSION', '1.5.0' );
 	define( 'BH_WP_AUTOLOGIN_URLS_BASENAME', plugin_basename( __FILE__ ) );
 
 	/**
@@ -73,7 +73,7 @@ namespace BH_WP_Autologin_URLs {
 
 namespace {
 
-	use BrianHenryIE\WP_Autologin_URLs\API\API_Interface;
+	use BrianHenryIE\WP_Autologin_URLs\API_Interface;
 
 	add_action( 'plugins_loaded', 'define_add_autologin_to_url_function', 2 );
 

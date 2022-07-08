@@ -12,8 +12,11 @@
 
 namespace BrianHenryIE\WP_Autologin_URLs\API;
 
+use BrianHenryIE\WP_Autologin_URLs\API\Data_Stores\Transient_Data_Store;
 use BrianHenryIE\WP_Autologin_URLs\API\Integrations\Autologin_URLs;
+use BrianHenryIE\WP_Autologin_URLs\API_Interface;
 use BrianHenryIE\WP_Autologin_URLs\RateLimit\Rate;
+use BrianHenryIE\WP_Autologin_URLs\Settings_Interface;
 use BrianHenryIE\WP_Autologin_URLs\WP_Includes\Login;
 use BrianHenryIE\WP_Autologin_URLs\WP_Rate_Limiter\WordPress_Rate_Limiter;
 use DateTimeImmutable;

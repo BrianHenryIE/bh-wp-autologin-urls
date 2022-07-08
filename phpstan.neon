@@ -3,18 +3,18 @@ parameters:
     paths:
         - src
     excludePaths:
-        - src/strauss/*
+        - vendor-prefixed
     bootstrapFiles:
         - phpstanbootstrap.php
         - src/autoload.php
         - vendor/php-stubs/wordpress-stubs/wordpress-stubs.php
         - vendor/wp-cli/wp-cli/php/class-wp-cli-command.php
-        - vendor/php-stubs/woocommerce-stubs/woocommerce-stubs.php
-        - vendor/php-stubs/woocommerce-stubs/woocommerce-packages-stubs.php
+#        - vendor/php-stubs/woocommerce-stubs/woocommerce-stubs.php
+#        - vendor/php-stubs/woocommerce-stubs/woocommerce-packages-stubs.php
     scanFiles:
         - vendor/antecedent/patchwork/Patchwork.php
     scanDirectories:
-        - src/strauss
+        - vendor-prefixed
         - wp-content/plugins
         - vendor/wp-cli
     ignoreErrors:
@@ -29,3 +29,7 @@ parameters:
         - '/Function add_autologin_to_url\(\) has parameter \$user with no typehint specified\./'
         # Setting an empty array with type associative array in the comments prints this.
         - '/does not accept default value of type array\(\)/'
+        # The Klaviyo SDK isn't strongly typed
+        - '/Access to an undefined property BrianHenryIE\\WP_Autologin_URLs\\Klaviyo\\Client::\$Profiles\./'
+        # The public root-namespaced function add_autologin_to_url() can accept int|string|WP_User.
+        - '/Function add_autologin_to_url\(\) has parameter \$user with no type specified\./'

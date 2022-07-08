@@ -2,8 +2,8 @@
 
 namespace BrianHenryIE\WP_Autologin_URLs\API\Integrations;
 
-use BrianHenryIE\WP_Autologin_URLs\API\API_Interface;
-use BrianHenryIE\WP_Autologin_URLs\API\Settings_Interface;
+use BrianHenryIE\WP_Autologin_URLs\API_Interface;
+use BrianHenryIE\WP_Autologin_URLs\Settings_Interface;
 use BrianHenryIE\WP_Autologin_URLs\API\User_Finder_Interface;
 use Exception;
 use Psr\Log\LoggerInterface;

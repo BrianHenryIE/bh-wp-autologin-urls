@@ -1,18 +1,18 @@
 <?php
 
-namespace BrianHenryIE\WP_Autologin_URLs\WP_Includes;
+namespace BrianHenryIE\WP_Autologin_URLs;
 
 use BrianHenryIE\ColorLogger\ColorLogger;
-use BrianHenryIE\WP_Autologin_URLs\Admin\Admin;
 use BrianHenryIE\WP_Autologin_URLs\Admin\Plugins_Page;
-use BrianHenryIE\WP_Autologin_URLs\API\API_Interface;
-use BrianHenryIE\WP_Autologin_URLs\API\Settings_Interface;
 use BrianHenryIE\WP_Autologin_URLs\WooCommerce\Admin_Order_UI;
+use BrianHenryIE\WP_Autologin_URLs\WP_Includes\Cron;
+use BrianHenryIE\WP_Autologin_URLs\WP_Includes\I18n;
+use BrianHenryIE\WP_Autologin_URLs\WP_Includes\Login;
 use Codeception\Stub\Expected;
 use WP_Mock\Matcher\AnyInstance;
 
 /**
- * @coversDefaultClass \BrianHenryIE\WP_Autologin_URLs\WP_Includes\BH_WP_Autologin_URLs
+ * @coversDefaultClass \BrianHenryIE\WP_Autologin_URLs\BH_WP_Autologin_URLs
  */
 class BH_WP_Autologin_URLs_Unit_Test extends \Codeception\Test\Unit {
 

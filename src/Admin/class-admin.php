@@ -11,7 +11,7 @@
 
 namespace BrianHenryIE\WP_Autologin_URLs\Admin;
 
-use BrianHenryIE\WP_Autologin_URLs\API\Settings_Interface;
+use BrianHenryIE\WP_Autologin_URLs\Settings_Interface;
 
 /**
  * The admin area functionality of the plugin.

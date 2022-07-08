@@ -10,7 +10,7 @@
 
 namespace BrianHenryIE\WP_Autologin_URLs\Admin;
 
-use BrianHenryIE\WP_Autologin_URLs\API\Settings_Interface;
+use BrianHenryIE\WP_Autologin_URLs\Settings_Interface;
 use Psr\Log\NullLogger;
 
 /**
@@ -67,7 +67,7 @@ class Settings_Page_Unit_Test extends \Codeception\Test\Unit {
 		global $plugin_root_dir;
 
 		// Verify the actual file exists.
-		$this->assertFileExists( $plugin_root_dir . '/admin/partials/admin-display.php' );
+		$this->assertFileExists( $plugin_root_dir . '/src/admin/partials/admin-display.php' );
 	}
 
 	/**

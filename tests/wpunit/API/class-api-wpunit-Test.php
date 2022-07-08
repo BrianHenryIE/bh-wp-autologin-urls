@@ -9,7 +9,7 @@
 namespace BrianHenryIE\WP_Autologin_URLs\API;
 
 use BrianHenryIE\ColorLogger\ColorLogger;
-use Psr\Log\LoggerInterface;
+use BrianHenryIE\WP_Autologin_URLs\Settings_Interface;
 use Codeception\Stub\Expected;
 
 /**

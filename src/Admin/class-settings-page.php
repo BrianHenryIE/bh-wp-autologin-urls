@@ -14,7 +14,7 @@ namespace BrianHenryIE\WP_Autologin_URLs\Admin;
 use BrianHenryIE\WP_Autologin_URLs\Admin\Partials\Klaviyo_Private_Key;
 use BrianHenryIE\WP_Autologin_URLs\Admin\Partials\Log_Level;
 use BrianHenryIE\WP_Autologin_URLs\Admin\Partials\Use_WP_Login;
-use BrianHenryIE\WP_Autologin_URLs\API\Settings_Interface;
+use BrianHenryIE\WP_Autologin_URLs\Settings_Interface;
 use BrianHenryIE\WP_Autologin_URLs\Admin\Partials\Settings_Section_Element_Abstract;
 use BrianHenryIE\WP_Autologin_URLs\Admin\Partials\Admin_Enable;
 use BrianHenryIE\WP_Autologin_URLs\Admin\Partials\Expiry_Age;

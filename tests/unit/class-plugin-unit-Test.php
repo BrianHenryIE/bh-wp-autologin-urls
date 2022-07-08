@@ -9,7 +9,6 @@
 namespace BrianHenryIE\WP_Autologin_URLs;
 
 use BrianHenryIE\WP_Autologin_URLs\API\API;
-use BrianHenryIE\WP_Autologin_URLs\WP_Includes\BH_WP_Autologin_URLs;
 use BrianHenryIE\WP_Autologin_URLs\WP_Logger\Logger;
 
 class Plugin_Unit_Test extends \Codeception\Test\Unit {
@@ -34,7 +33,7 @@ class Plugin_Unit_Test extends \Codeception\Test\Unit {
 			function( $api, $settings, $logger ) {}
 		);
 
-		$plugin_root_dir = dirname( __DIR__, 2 ) . '/src';
+		global $plugin_root_dir;
 
 		\Patchwork\redefine(
 			array( Logger::class, '__construct' ),

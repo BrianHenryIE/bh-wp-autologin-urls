@@ -9,8 +9,9 @@
  * @subpackage bh-wp-autologin-urls/api
  */
 
-namespace BrianHenryIE\WP_Autologin_URLs\API;
+namespace BrianHenryIE\WP_Autologin_URLs\API\Data_Stores;
 
+use BrianHenryIE\WP_Autologin_URLs\API\Data_Store_Interface;
 use DateTimeInterface;
 use Psr\Log\LoggerAwareTrait;
 use Psr\Log\LoggerInterface;

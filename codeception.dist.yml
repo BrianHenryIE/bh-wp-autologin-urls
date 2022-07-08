@@ -22,14 +22,21 @@ params:
 coverage:
     enabled: true
     include:
-        - src/*
+        - /src/*
+        - /bh-wp-autologin-urls.php
+        - /uninstall.php
     exclude:
+        - /vendor/*
+        - /dist-archive/*
+        - /tests/*
+        - /scratch/*
+        - /wordpress/*
+        - /vendor-prefixed/*
         - /*/interface-*.*
-        - src/strauss/*
         - /*/index.php
         - /*/*.txt
-        - src/autoload.php
-        - src/autoload-classmap.php
+        - autoload.php
+        - autoload-classmap.php
         - /*/*.css
         - /*/*.js
 bootstrap: bootstrap.php

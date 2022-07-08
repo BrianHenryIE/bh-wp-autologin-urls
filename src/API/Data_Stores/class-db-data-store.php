@@ -8,8 +8,9 @@
  * @package    brianhenryie/bh-wp-autologin-urls
  */
 
-namespace BrianHenryIE\WP_Autologin_URLs\API;
+namespace BrianHenryIE\WP_Autologin_URLs\API\Data_Stores;
 
+use BrianHenryIE\WP_Autologin_URLs\API\Data_Store_Interface;
 use DateInterval;
 use DateTime;
 use DateTimeImmutable;

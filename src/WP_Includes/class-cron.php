@@ -7,7 +7,7 @@
 
 namespace BrianHenryIE\WP_Autologin_URLs\WP_Includes;
 
-use BrianHenryIE\WP_Autologin_URLs\API\API_Interface;
+use BrianHenryIE\WP_Autologin_URLs\API_Interface;
 use Psr\Log\LoggerAwareTrait;
 use Psr\Log\LoggerInterface;
 
@@ -58,7 +58,7 @@ class Cron {
 	/**
 	 * Simple function to invoke from cron.
 	 *
-	 * @uses \BrianHenryIE\WP_Autologin_URLs\API\API_Interface::delete_expired_codes()
+	 * @uses \BrianHenryIE\WP_Autologin_URLs\API_Interface::delete_expired_codes()
 	 * @hooked bh_wp_autologin_urls_delete_expired_codes
 	 * @see self::DELETE_EXPIRED_CODES_JOB_NAME
 	 */

@@ -11,7 +11,7 @@
  * @subpackage bh-wp-autologin-urls/api
  */
 
-namespace BrianHenryIE\WP_Autologin_URLs\API;
+namespace BrianHenryIE\WP_Autologin_URLs;
 
 use DateTimeInterface;
 use WP_User;

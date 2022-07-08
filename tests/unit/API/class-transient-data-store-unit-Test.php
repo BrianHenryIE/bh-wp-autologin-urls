@@ -9,6 +9,7 @@
 namespace BrianHenryIE\WP_Autologin_URLs\API;
 
 use BrianHenryIE\ColorLogger\ColorLogger;
+use BrianHenryIE\WP_Autologin_URLs\API\Data_Stores\Transient_Data_Store;
 use BrianHenryIE\WP_Autologin_URLs\WP_Includes\Settings_Interface;
 
 /**

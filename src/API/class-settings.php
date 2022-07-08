@@ -13,10 +13,11 @@
 
 namespace BrianHenryIE\WP_Autologin_URLs\API;
 
-use BrianHenryIE\WP_Autologin_URLs\WP_Logger\Logger_Settings_Interface;
-use Psr\Log\LogLevel;
 use BrianHenryIE\WP_Autologin_URLs\Admin\Admin;
+use BrianHenryIE\WP_Autologin_URLs\Settings_Interface;
+use BrianHenryIE\WP_Autologin_URLs\WP_Logger\Logger_Settings_Interface;
 use BrianHenryIE\WP_Autologin_URLs\WP_Logger\Logger;
+use Psr\Log\LogLevel;
 
 /**
  * Class Settings

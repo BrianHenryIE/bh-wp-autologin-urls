@@ -10,10 +10,10 @@
 
 namespace BrianHenryIE\WP_Autologin_URLs\Admin;
 
-use BrianHenryIE\WP_Autologin_URLs\API\Settings_Interface;
+use BrianHenryIE\WP_Autologin_URLs\Settings_Interface;
 
 /**
- * Class Admin_Test
+ * @coversDefaultClass \BrianHenryIE\WP_Autologin_URLs\Admin\Admin
  */
 class Admin_Unit_Test extends \Codeception\Test\Unit {
 
@@ -30,6 +30,8 @@ class Admin_Unit_Test extends \Codeception\Test\Unit {
 	 * Verifies enqueue_styles() calls wp_enqueue_style() with appropriate parameters.
 	 * Verifies the .css file exists.
 	 *
+	 * @covers ::enqueue_styles
+	 *
 	 * @see Admin::enqueue_styles()
 	 * @see wp_enqueue_style()
 	 */
@@ -41,17 +43,18 @@ class Admin_Unit_Test extends \Codeception\Test\Unit {
 		\WP_Mock::userFunction(
 			'plugin_dir_url',
 			array(
-				'return' => $plugin_root_dir . '/admin/',
+				'return' => 'http://localhost/wp-content/plugins/bh-wp-autologin-urls/src/Admin/',
 			)
 		);
 
-		$css_file = $plugin_root_dir . '/admin/css/bh-wp-autologin-urls-admin.css';
+		$css_file = $plugin_root_dir . '/src/admin/css/bh-wp-autologin-urls-admin.css';
+		$css_url  = 'http://localhost/wp-content/plugins/bh-wp-autologin-urls/src/Admin/css/bh-wp-autologin-urls-admin.css';
 
 		\WP_Mock::userFunction(
 			'wp_enqueue_style',
 			array(
 				'times' => 1,
-				'args'  => array( 'bh-wp-autologin-urls', $css_file, array(), '1.2.3', 'all' ),
+				'args'  => array( 'bh-wp-autologin-urls', $css_url, array(), '1.2.3', 'all' ),
 			)
 		);
 
@@ -73,6 +76,8 @@ class Admin_Unit_Test extends \Codeception\Test\Unit {
 	 * Verifies enqueue_scripts() calls wp_enqueue_script() with appropriate parameters.
 	 * Verifies the .js file exists.
 	 *
+	 * @covers ::enqueue_scripts
+	 *
 	 * @see Admin::enqueue_scripts()
 	 * @see wp_enqueue_script()
 	 */
@@ -84,12 +89,13 @@ class Admin_Unit_Test extends \Codeception\Test\Unit {
 		\WP_Mock::userFunction(
 			'plugin_dir_url',
 			array(
-				'return' => $plugin_root_dir . '/admin/',
+				'return' => 'http://localhost/wp-conent/plugins/bh-wp-autologin-urls/src/admin/',
 			)
 		);
 
 		$handle    = 'bh-wp-autologin-urls';
-		$src       = $plugin_root_dir . '/admin/js/bh-wp-autologin-urls-admin.js';
+		$src       = $plugin_root_dir . '/src/admin/js/bh-wp-autologin-urls-admin.js';
+		$url       = 'http://localhost/wp-conent/plugins/bh-wp-autologin-urls/src/admin/js/bh-wp-autologin-urls-admin.js';
 		$deps      = array( 'jquery' );
 		$ver       = '1.2.3';
 		$in_footer = true;
@@ -98,7 +104,7 @@ class Admin_Unit_Test extends \Codeception\Test\Unit {
 			'wp_enqueue_script',
 			array(
 				'times' => 1,
-				'args'  => array( $handle, $src, $deps, $ver, $in_footer ),
+				'args'  => array( $handle, $url, $deps, $ver, $in_footer ),
 			)
 		);
 

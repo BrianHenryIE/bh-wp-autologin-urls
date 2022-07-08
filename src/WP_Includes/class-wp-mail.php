@@ -11,8 +11,8 @@
 
 namespace BrianHenryIE\WP_Autologin_URLs\WP_Includes;
 
-use BrianHenryIE\WP_Autologin_URLs\API\API_Interface;
-use BrianHenryIE\WP_Autologin_URLs\API\Settings_Interface;
+use BrianHenryIE\WP_Autologin_URLs\API_Interface;
+use BrianHenryIE\WP_Autologin_URLs\Settings_Interface;
 
 /**
  * The wp_mail hooked functionality of the plugin.

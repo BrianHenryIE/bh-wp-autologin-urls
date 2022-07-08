@@ -10,7 +10,7 @@
 
 namespace BrianHenryIE\WP_Autologin_URLs\Admin\Partials;
 
-use BrianHenryIE\WP_Autologin_URLs\API\Settings_Interface;
+use BrianHenryIE\WP_Autologin_URLs\Settings_Interface;
 
 class Klaviyo_Private_Key extends Settings_Section_Element_Abstract {
 
