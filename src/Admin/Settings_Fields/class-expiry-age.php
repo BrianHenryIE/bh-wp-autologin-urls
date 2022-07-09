@@ -8,7 +8,7 @@
  * @package BH_WP_Autologin_URLs\admin\partials
  */
 
-namespace BrianHenryIE\WP_Autologin_URLs\Admin\Partials;
+namespace BrianHenryIE\WP_Autologin_URLs\Admin\Settings_Fields;
 
 use BrianHenryIE\WP_Autologin_URLs\Settings_Interface;
 

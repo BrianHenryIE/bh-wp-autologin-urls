@@ -8,13 +8,13 @@
  * @author Brian Henry <BrianHenryIE@gmail.com>
  */
 
-namespace BrianHenryIE\WP_Autologin_URLs\Admin\Partials;
+namespace BrianHenryIE\WP_Autologin_URLs\Admin\Settings_Fields;
 
 use BrianHenryIE\WP_Autologin_URLs\API\Settings;
 use BrianHenryIE\WP_Autologin_URLs\Settings_Interface;
 
 /**
- * @coversDefaultClass \BrianHenryIE\WP_Autologin_URLs\Admin\Partials\Expiry_Age
+ * @coversDefaultClass \BrianHenryIE\WP_Autologin_URLs\Admin\Settings_Fields\Expiry_Age
  *
  * phpcs:disable WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
  */

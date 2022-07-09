@@ -8,7 +8,7 @@
  * @author Brian Henry <BrianHenryIE@gmail.com>
  */
 
-namespace BrianHenryIE\WP_Autologin_URLs\Admin\Partials;
+namespace BrianHenryIE\WP_Autologin_URLs\Admin\Settings_Fields;
 
 /**
  * Class BH_WP_Autologin_URLs_Admin_Display_Test
@@ -71,7 +71,7 @@ class BH_WP_Autologin_URLs_Admin_Display_Unit_Test extends \Codeception\Test\Uni
 		// Don't output anything.
 		ob_start();
 
-		require_once $plugin_root_dir . '/src/Admin/Partials/admin-display.php';
+		require_once $plugin_root_dir . '/src/Admin/partials/admin-display.php';
 
 		ob_end_clean();
 	}

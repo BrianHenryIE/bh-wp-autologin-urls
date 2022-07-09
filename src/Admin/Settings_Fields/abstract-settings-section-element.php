@@ -9,7 +9,7 @@
  * @subpackage bh-wp-autologin-urls/admin
  */
 
-namespace BrianHenryIE\WP_Autologin_URLs\Admin\Partials;
+namespace BrianHenryIE\WP_Autologin_URLs\Admin\Settings_Fields;
 
 /**
  * Code common across setting elements.

@@ -11,14 +11,14 @@
 
 namespace BrianHenryIE\WP_Autologin_URLs\Admin;
 
-use BrianHenryIE\WP_Autologin_URLs\Admin\Partials\Klaviyo_Private_Key;
-use BrianHenryIE\WP_Autologin_URLs\Admin\Partials\Log_Level;
-use BrianHenryIE\WP_Autologin_URLs\Admin\Partials\Use_WP_Login;
+use BrianHenryIE\WP_Autologin_URLs\Admin\Settings_Fields\Klaviyo_Private_Key;
+use BrianHenryIE\WP_Autologin_URLs\Admin\Settings_Fields\Log_Level;
+use BrianHenryIE\WP_Autologin_URLs\Admin\Settings_Fields\Use_WP_Login;
 use BrianHenryIE\WP_Autologin_URLs\Settings_Interface;
-use BrianHenryIE\WP_Autologin_URLs\Admin\Partials\Settings_Section_Element_Abstract;
-use BrianHenryIE\WP_Autologin_URLs\Admin\Partials\Admin_Enable;
-use BrianHenryIE\WP_Autologin_URLs\Admin\Partials\Expiry_Age;
-use BrianHenryIE\WP_Autologin_URLs\Admin\Partials\Regex_Subject_Filters;
+use BrianHenryIE\WP_Autologin_URLs\Admin\Settings_Fields\Settings_Section_Element_Abstract;
+use BrianHenryIE\WP_Autologin_URLs\Admin\Settings_Fields\Admin_Enable;
+use BrianHenryIE\WP_Autologin_URLs\Admin\Settings_Fields\Expiry_Age;
+use BrianHenryIE\WP_Autologin_URLs\Admin\Settings_Fields\Regex_Subject_Filters;
 use Psr\Log\LoggerAwareTrait;
 use Psr\Log\LoggerInterface;
 
@@ -77,7 +77,7 @@ class Settings_Page {
 		$logger      = $this->logger;
 		$example_url = site_url() . '/?autologin=' . get_current_user_id() . '~Yxu1UQG8IwJO';
 
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'Admin/Partials/admin-display.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'Admin/partials/admin-display.php';
 	}
 
 	/**

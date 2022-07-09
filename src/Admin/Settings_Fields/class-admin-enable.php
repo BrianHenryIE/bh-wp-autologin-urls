@@ -1,6 +1,6 @@
 <?php
 /**
- * This settings field is a checkbox to signify if autologin URLs should be redirect URLs via wp-login.php.
+ * This settings field is a checkbox to signify if autologin codes should be added to emails sent to admins.
  *
  * @link       https://BrianHenry.ie
  * @since      1.0.0
@@ -9,15 +9,15 @@
  * @subpackage bh-wp-autologin-urls/admin/partials
  */
 
-namespace BrianHenryIE\WP_Autologin_URLs\Admin\Partials;
+namespace BrianHenryIE\WP_Autologin_URLs\Admin\Settings_Fields;
 
 use BrianHenryIE\WP_Autologin_URLs\Settings_Interface;
 use BrianHenryIE\WP_Autologin_URLs\API\Settings;
 
 /**
- * Class
+ * Class Admin_Enable
  */
-class Use_WP_Login extends Settings_Section_Element_Abstract {
+class Admin_Enable extends Settings_Section_Element_Abstract {
 
 	/**
 	 * Admin_Enable constructor.
@@ -25,21 +25,19 @@ class Use_WP_Login extends Settings_Section_Element_Abstract {
 	 * @param string             $settings_page The slug of the page this setting is being displayed on.
 	 * @param Settings_Interface $settings The existing settings saved in the database.
 	 */
-	public function __construct( string $settings_page, Settings_Interface $settings ) {
+	public function __construct( $settings_page, $settings ) {
 
 		parent::__construct( $settings_page );
 
-		$this->value = $settings->get_should_use_wp_login() ? 'use_wp_login_is_enabled' : 'use_wp_login_is_not_enabled';
+		$this->value = $settings->get_add_autologin_for_admins_is_enabled() ? 'admin_is_enabled' : 'admin_is_not_enabled';
 
-		$this->id    = Settings::SHOULD_USE_WP_LOGIN;
-		$this->title = __( 'Use wp-login.php?', 'bh-wp-autologin-urls' );
+		$this->id    = Settings::ADMIN_ENABLED;
+		$this->title = __( 'Add to admin emails?', 'bh-wp-autologin-urls' );
 		$this->page  = $settings_page;
 
-		$this->register_setting_args['type']    = 'string';
-		$this->register_setting_args['default'] = 'use_wp_login_is_not_enabled';
-
-		$this->add_settings_field_args['helper']       = __( 'If users are not being logged in or if they need to refresh the page after landing, this will perform the login on wp-login.php before redirecting to the correct URL.', 'bh-wp-autologin-urls' );
+		$this->add_settings_field_args['helper']       = __( 'When enabled, emails to administrators <i>will</i> contain autologin URLs.', 'bh-wp-autologin-urls' );
 		$this->add_settings_field_args['supplemental'] = __( 'default: false', 'bh-wp-autologin-urls' );
+
 	}
 
 	/**
@@ -52,8 +50,8 @@ class Use_WP_Login extends Settings_Section_Element_Abstract {
 		$value = $this->value;
 
 		// This is what is POSTed when the checkbox is ticked.
-		$checkbox_value = 'use_wp_login_is_enabled';
-		$is_checked     = 'use_wp_login_is_enabled' === $value ? 'checked ' : '';
+		$checkbox_value = 'admin_is_enabled';
+		$is_checked     = 'admin_is_enabled' === $value ? 'checked ' : '';
 		$label          = $arguments['helper'];
 
 		printf( '<fieldset><label for="%1$s"><input id="%1$s" name="%1$s" type="checkbox" value="%2$s" %3$s />%4$s</label></fieldset>', esc_attr( $this->id ), esc_attr( $checkbox_value ), esc_attr( $is_checked ), wp_kses( $label, array( 'i' => array() ) ) );
@@ -70,10 +68,10 @@ class Use_WP_Login extends Settings_Section_Element_Abstract {
 	 */
 	public function sanitize_callback( $value ) {
 
-		if ( 'use_wp_login_is_enabled' === $value ) {
-			return 'use_wp_login_is_enabled';
+		if ( 'admin_is_enabled' === $value ) {
+			return 'admin_is_enabled';
 		} elseif ( null === $value ) {
-			return 'use_wp_login_is_not_enabled';
+			return 'admin_is_not_enabled';
 		} else {
 			return $this->value;
 		}

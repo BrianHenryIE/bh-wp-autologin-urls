@@ -8,7 +8,7 @@
  * @author Brian Henry <BrianHenryIE@gmail.com>
  */
 
-namespace BrianHenryIE\WP_Autologin_URLs\Admin\partials;
+namespace BrianHenryIE\WP_Autologin_URLs\Admin\Settings_Fields;
 
 /**
  * Class Settings_Section_Element_Test
