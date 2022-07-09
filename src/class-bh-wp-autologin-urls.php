@@ -14,6 +14,7 @@
 
 namespace BrianHenryIE\WP_Autologin_URLs;
 
+use BrianHenryIE\WP_Autologin_URLs\Admin\Plugin_Installer;
 use BrianHenryIE\WP_Autologin_URLs\Admin\User_Edit;
 use BrianHenryIE\WP_Autologin_URLs\Admin\Admin;
 use BrianHenryIE\WP_Autologin_URLs\Admin\Settings_Page;
@@ -89,6 +90,7 @@ class BH_WP_Autologin_URLs {
 
 		$this->define_admin_hooks();
 		$this->define_plugins_page_hooks();
+		$this->define_plugin_installer_hooks();
 
 		$this->define_wp_mail_hooks();
 
@@ -159,6 +161,16 @@ class BH_WP_Autologin_URLs {
 
 		add_filter( "plugin_action_links_{$plugin_basename}", array( $plugins_page, 'action_links' ), 10, 4 );
 		add_filter( 'plugin_row_meta', array( $plugins_page, 'row_meta' ), 20, 4 );
+	}
+
+	/**
+	 * Add a Settings link and a link to "Plugin updated successfully." page that is displayed after updating.
+	 */
+	protected function define_plugin_installer_hooks(): void {
+
+		$plugins_page = new Plugin_Installer( $this->settings, $this->logger );
+
+		add_filter( 'install_plugin_complete_actions', array( $plugins_page, 'add_settings_link' ), 10, 3 );
 	}
 
 	/**
