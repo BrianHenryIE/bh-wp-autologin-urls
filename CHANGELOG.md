@@ -1,3 +1,8 @@
+### 1.6.0
+
+* Add: Settings and logs link on plugin install confirmation page
+* Fix: Prefilling WooCommerce customer data when no WP_User available: missing function parameter, wc_get_orders called too soon 
+
 ### 1.5.0
 
 * Add: Support for using Klaviyo tracking links as autologin links
