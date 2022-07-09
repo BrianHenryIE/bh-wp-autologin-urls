@@ -168,9 +168,9 @@ class BH_WP_Autologin_URLs {
 	 */
 	protected function define_plugin_installer_hooks(): void {
 
-		$plugins_page = new Plugin_Installer( $this->settings, $this->logger );
+		$plugin_installer = new Plugin_Installer( $this->settings, $this->logger );
 
-		add_filter( 'install_plugin_complete_actions', array( $plugins_page, 'add_settings_link' ), 10, 3 );
+		add_filter( 'install_plugin_complete_actions', array( $plugin_installer, 'add_settings_link' ), 10, 3 );
 	}
 
 	/**
