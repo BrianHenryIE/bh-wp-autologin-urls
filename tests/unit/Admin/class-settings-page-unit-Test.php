@@ -98,6 +98,7 @@ class Settings_Page_Unit_Test extends \Codeception\Test\Unit {
 		\WP_Mock::userFunction(
 			'plugin_dir_path',
 			array(
+				'times'  => 1,
 				'return' => __DIR__ . '/../',
 			)
 		);
