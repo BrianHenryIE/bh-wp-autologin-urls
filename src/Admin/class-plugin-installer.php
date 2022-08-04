@@ -41,6 +41,8 @@ class Plugin_Installer {
 	/**
 	 * Add the settings page link to the existing links.
 	 *
+	 * These are only displayed on subsequent plugin installs, not the first.
+	 *
 	 * @hooked install_plugin_complete_actions
 	 * @see \Plugin_Installer_Skin::after()
 	 *
