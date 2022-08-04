@@ -62,7 +62,7 @@ class Klaviyo implements User_Finder_Interface, LoggerAwareInterface {
 	 * Determine is the querystring needed for this integration present.
 	 */
 	public function is_querystring_valid(): bool {
-		return isset( $_GET[ self::QUERYSTRING_PARAMETER_NAME ] );
+		return ! empty( $_GET[ self::QUERYSTRING_PARAMETER_NAME ] );
 	}
 
 	/**
