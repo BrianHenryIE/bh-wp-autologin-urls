@@ -41,9 +41,41 @@ class Checkout {
 			return;
 		}
 
-		WC()->initialize_cart();
+		// If we're here, it means there is no WP_User object for this email address.
+		// We try to pre-fill the checkout by setting the WC_Customer fields.
+		// But when WooCommerce shuts down, it sends out a "your account has been created" email.
+		// This function should prevent the account being created, but TODO: test does the data persist to the checkout.
 
-		if ( ! empty( $user_info['email'] ) ) {
+		return; // Until further testing.
+
+		/**
+		 * Manually initialize the cart, so the customer save function can be overwritten, and the shutdown action
+		 * is not added.
+		 *
+		 * Otherwise, when WooCommerce shuts down, it calls the customer save function, and will create a user account
+		 * for every email address entered (and will send them an email telling them about the account they didn't
+		 * really sign up for).
+		 *
+		 * If the customer has already been initialized, it should be safe to use the existing one.
+		 *
+		 * @see WooCommerce::initialize_cart()
+		 */
+		if ( is_null( WC()->customer ) || ! WC()->customer instanceof \WC_Customer ) {
+			WC()->customer = new class( get_current_user_id(), true ) extends \WC_Customer {
+				public function save() {
+					if( empty( $this->get_email() ) ){
+						return $this->get_id();
+					}
+					return parent::save();
+				}
+			};
+			add_action( 'shutdown', array( WC()->customer, 'save' ), 10 );
+		}
+		if ( is_null( WC()->cart ) || ! WC()->cart instanceof \WC_Cart ) {
+			WC()->cart = new \WC_Cart();
+		}
+
+		if ( ! empty( $user_info['email'] ) && is_email( $user_info['email'] ) ) {
 			WC()->customer->set_billing_email( $user_info['email'] );
 		}
 
