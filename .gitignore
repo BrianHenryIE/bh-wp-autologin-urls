@@ -40,7 +40,6 @@ cache
 
 node_modules
 scratch
-src/strauss/
 wp-content/
 wordpress
 vendor/
