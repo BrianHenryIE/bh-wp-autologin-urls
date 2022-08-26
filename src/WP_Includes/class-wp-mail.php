@@ -62,6 +62,16 @@ class WP_Mail {
 	 */
 	public function add_autologin_links_to_email( array $wp_mail_args ): array {
 
+		$to = $wp_mail_args['to'];
+
+		if( is_array( $to ) && count( $to ) !== 1 ) {
+			return $wp_mail_args;
+		}
+
+		if( is_array( $to ) ) {
+			$to = array_pop( $to );
+		}
+
 		$user = get_user_by( 'email', $wp_mail_args['to'] );
 
 		// If the email recipient does not have a user account on this site, return the message unchanged.
