@@ -6,7 +6,7 @@ parameters:
         - vendor-prefixed
     bootstrapFiles:
         - phpstanbootstrap.php
-        - src/autoload.php
+        - autoload.php
         - vendor/php-stubs/wordpress-stubs/wordpress-stubs.php
         - vendor/wp-cli/wp-cli/php/class-wp-cli-command.php
 #        - vendor/php-stubs/woocommerce-stubs/woocommerce-stubs.php
@@ -15,7 +15,7 @@ parameters:
         - vendor/antecedent/patchwork/Patchwork.php
     scanDirectories:
         - vendor-prefixed
-        - wp-content/plugins
+#        - wp-content/plugins
         - vendor/wp-cli
     ignoreErrors:
         # LoggerAwareTrait allows for null $logger, but we set it in the constructor.
