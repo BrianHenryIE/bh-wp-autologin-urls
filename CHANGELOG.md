@@ -1,3 +1,10 @@
+### 1.6.1
+
+Fix: Fatal error when Klaviyo querystring was defined but empty
+Fix: fatal error when `plugin_action_links_{}` filter called with null as parameter values (Jetpack)
+Fix: (temp) Error when WooCommerce shuts down due to virtual WC_Customer
+Fix: error when wp_mail's $to is an array
+
 ### 1.6.0
 
 * Add: Settings and logs link on plugin install confirmation page
