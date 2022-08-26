@@ -27,15 +27,17 @@ class Checkout_WPUnit_Test extends \Codeception\TestCase\WPTestCase {
 
 		$logger = new ColorLogger();
 
-		$email_address = 'test@example.org';
-		$user_info     = array(
+		$user_info = array(
+			'email'      => 'test@example.org',
 			'first_name' => 'Brian',
 			'last_name'  => 'Henry',
 		);
 
 		$sut = new Checkout( $logger );
 
-		$sut->prefill_checkout_fields( $email_address, $user_info );
+		$sut->prefill_checkout_fields( $user_info );
+
+		do_action( 'woocommerce_after_register_post_type' );
 
 		$this->assertSame( 'Sacramento', WC()->customer->get_billing_city() );
 	}
@@ -51,15 +53,15 @@ class Checkout_WPUnit_Test extends \Codeception\TestCase\WPTestCase {
 
 		$logger = new ColorLogger();
 
-		$email_address = 'test@example.org';
-		$user_info     = array(
+		$user_info = array(
+			'email'      => 'test@example.org',
 			'first_name' => 'Brian',
 			'last_name'  => 'Henry',
 		);
 
 		$sut = new Checkout( $logger );
 
-		$sut->prefill_checkout_fields( $email_address, array( $email_address, $user_info ) );
+		$sut->prefill_checkout_fields( $user_info );
 
 		$this->assertSame( 'Brian', WC()->customer->get_first_name() );
 	}
