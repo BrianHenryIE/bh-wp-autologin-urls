@@ -110,7 +110,7 @@ class Uninstall_Unit_Test extends \Codeception\Test\Unit {
 
 		include $plugin_root_dir . '/uninstall.php';
 
-		$this->assertEquals( 4, $wpdb->mockery_getExpectationCount() );
+		\Mockery::close();
 
 	}
 
