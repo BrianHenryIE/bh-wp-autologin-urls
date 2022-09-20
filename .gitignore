@@ -61,3 +61,5 @@ docker_tag
 
 vendor-prefixed
 dist-archive
+
+languages/*.pot
