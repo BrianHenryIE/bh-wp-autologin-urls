@@ -71,7 +71,6 @@
     "pablo-sg-pacheco/wp-namespace-autoloader": "dev-master#015c9654459fd267cf12fa7846d3bf36b11c3bd7"
   },
   "require-dev": {
-    "psr/container": "^1",
     "ext-dom": "*",
     "10up/wp_mock": "0.4.2",
     "antecedent/patchwork": "^2.1",
@@ -92,17 +91,19 @@
     "kporras07/composer-symlinks": "dev-master",
     "lucatume/wp-browser": "*",
     "mheap/phpunit-github-actions-printer": "dev-master",
-    "phpcompatibility/phpcompatibility-wp": "*",
-    "phpunit/phpcov": "*",
-    "squizlabs/php_codesniffer": "*",
-    "phpstan/phpstan": "*",
-    "phpstan/extension-installer": "*",
-    "szepeviktor/phpstan-wordpress": "*",
     "php-stubs/woocommerce-stubs": "*",
-    "woocommerce/woocommerce-sniffs": "*",
+    "phpcompatibility/phpcompatibility-wp": "*",
+    "phpstan/extension-installer": "*",
+    "phpstan/phpstan": "*",
+    "phpunit/phpcov": "*",
+    "psr/container": "1.0.0",
+    "squizlabs/php_codesniffer": "*",
+    "szepeviktor/phpstan-wordpress": "*",
     "voku/portable-ascii": "dev-master",
+    "woocommerce/woocommerce-sniffs": "*",
     "wordpress/wordpress": "*",
     "wp-cli/dist-archive-command": "dev-main",
+    "wp-cli/i18n-command": "^2.4",
     "wp-cli/wp-cli-bundle": "*",
     "wp-coding-standards/wpcs": "*  ",
     "wpackagist-plugin/mailpoet": "*",
@@ -124,9 +125,6 @@
       },
       "ericmartel/codeception-email-mailtrap": {
         "Fixed undefined property ": "https://github.com/ericmartel/codeception-email-mailtrap/pull/7.patch"
-      },
-      "wp-cli/dist-archive-command": {
-        "Copy non-ignored files to temp": "https://github.com/wp-cli/dist-archive-command/pull/61.patch"
       },
       "brianhenryie/strauss": {
         "Fix blocked by your allow-plugins config": "https://github.com/BrianHenryIE/strauss/pull/45.patch",
@@ -200,7 +198,8 @@
     ],
     "delete-databases": [
       "export $(grep -v '^#' .env.testing | xargs); mysql -e \"DROP TABLE IF EXISTS $TEST_SITE_DB_NAME;\" mysql -e \"DROP TABLE IF EXISTS $TEST_DB_NAME;\"",
-      "export $(grep -v '^#' .env.testing | xargs); DB_DIR=$(mysql -e \"select @@datadir\" -N -B); rm -rf $DB_DIR$TEST_SITE_DB_NAME; rm -rf  $DB_DIR$TEST_DB_NAME;"
+      "export $(grep -v '^#' .env.testing | xargs); DB_DIR=$(mysql -e \"select @@datadir\" -N -B); rm -rf $DB_DIR$TEST_SITE_DB_NAME; rm -rf  $DB_DIR$TEST_DB_NAME;",
+      "mysql -e \"FLUSH TABLES;\""
     ],
     "save-acceptance-database": [
       "export $(grep -v '^#' .env.testing | xargs); mysqldump -u $TEST_SITE_DB_USER -p$TEST_SITE_DB_PASSWORD  $TEST_SITE_DB_NAME > tests/_data/dump.sql;"
@@ -223,6 +222,7 @@
       "updated_files=$( git status | grep 'modified:\\s.*.php$' | cut -c14- | awk '{ printf(\"%s \", $0) }' ); vendor/bin/phpcbf $(echo $updated_files); vendor/bin/phpcs $(echo $updated_files); vendor/bin/phpstan analyse $(echo $updated_files) --memory-limit 2G"
     ],
     "create-plugin-archive": [
+      "vendor/bin/wp i18n make-pot src languages/bh-wp-autologin-urls.pot --domain=bh-wp-autologin-urls",
       "vendor/bin/wp dist-archive . ./dist-archive --plugin-dirname=$(basename \"$PWD\") --create-target-dir"
     ]
   }
