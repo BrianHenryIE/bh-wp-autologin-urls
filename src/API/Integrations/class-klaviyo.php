@@ -12,6 +12,7 @@ use BrianHenryIE\WP_Autologin_URLs\API\User_Finder_Interface;
 use BrianHenryIE\WP_Autologin_URLs\Klaviyo\API\ProfilesApi;
 use BrianHenryIE\WP_Autologin_URLs\Klaviyo\Client;
 use Exception;
+use Klaviyo\ApiException;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
 use Psr\Log\LoggerInterface;
@@ -116,8 +117,13 @@ class Klaviyo implements User_Finder_Interface, LoggerAwareInterface {
 		/** @var ProfilesApi $profiles */
 		$profiles = $this->client->Profiles;
 
-		/** @var array{id?:string} $response */
-		$response = $profiles->exchange( array( 'exchange_id' => $kx_parameter ) );
+		try {
+			/** @var array{id?:string} $response */
+			$response = $profiles->exchange( array( 'exchange_id' => $kx_parameter ) );
+		} catch ( ApiException $exception ) {
+			$this->logger->error( $exception->getMessage() );
+			return array();
+		}
 
 		if ( ! isset( $response['id'] ) ) {
 			$this->logger->debug( 'No Klaviyo profile id found for _kx ' . $kx_parameter );
