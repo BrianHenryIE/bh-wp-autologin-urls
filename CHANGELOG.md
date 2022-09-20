@@ -1,3 +1,12 @@
+### 1.6.3
+
+* Fix: Catch Klaviyo API errors
+* Language: Include generated .pot file
+
+### 1.6.2
+
+* Dependency: updated logger library for performance
+
 ### 1.6.1
 
 Fix: Fatal error when Klaviyo querystring was defined but empty
