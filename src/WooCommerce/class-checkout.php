@@ -63,7 +63,7 @@ class Checkout {
 		if ( is_null( WC()->customer ) || ! WC()->customer instanceof \WC_Customer ) {
 			WC()->customer = new class( get_current_user_id(), true ) extends \WC_Customer {
 				public function save() {
-					if( empty( $this->get_email() ) ){
+					if ( empty( $this->get_email() ) ) {
 						return $this->get_id();
 					}
 					return parent::save();

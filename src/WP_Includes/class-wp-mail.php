@@ -64,11 +64,11 @@ class WP_Mail {
 
 		$to = $wp_mail_args['to'];
 
-		if( is_array( $to ) && count( $to ) !== 1 ) {
+		if ( is_array( $to ) && count( $to ) !== 1 ) {
 			return $wp_mail_args;
 		}
 
-		if( is_array( $to ) ) {
+		if ( is_array( $to ) ) {
 			$to = array_pop( $to );
 		}
 
