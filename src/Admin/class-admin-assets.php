@@ -20,7 +20,7 @@ use BrianHenryIE\WP_Autologin_URLs\Settings_Interface;
  * @subpackage bh-wp-autologin-urls/admin
  * @author     BrianHenryIE <BrianHenryIE@gmail.com>
  */
-class Admin {
+class Admin_Assets {
 
 	/**
 	 * Needed for the css/js handle, and the version for cache invalidation.
@@ -47,7 +47,7 @@ class Admin {
 	 */
 	public function enqueue_styles(): void {
 
-		wp_enqueue_style( $this->settings->get_plugin_slug(), plugin_dir_url( __FILE__ ) . 'css/bh-wp-autologin-urls-admin.css', array(), $this->settings->get_plugin_version(), 'all' );
+		wp_enqueue_style( $this->settings->get_plugin_slug(), plugin_dir_url( $this->settings->get_plugin_basename() ) . 'assets/bh-wp-autologin-urls-admin.css', array(), $this->settings->get_plugin_version(), 'all' );
 	}
 
 	/**
@@ -59,7 +59,7 @@ class Admin {
 	 */
 	public function enqueue_scripts(): void {
 
-		wp_enqueue_script( $this->settings->get_plugin_slug(), plugin_dir_url( __FILE__ ) . 'js/bh-wp-autologin-urls-admin.js', array( 'jquery' ), $this->settings->get_plugin_version(), true );
+		wp_enqueue_script( $this->settings->get_plugin_slug(), plugin_dir_url( $this->settings->get_plugin_basename() ) . 'assets/bh-wp-autologin-urls-admin.js', array( 'jquery' ), $this->settings->get_plugin_version(), true );
 	}
 
 }

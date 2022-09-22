@@ -16,7 +16,7 @@ namespace BrianHenryIE\WP_Autologin_URLs;
 
 use BrianHenryIE\WP_Autologin_URLs\Admin\Plugin_Installer;
 use BrianHenryIE\WP_Autologin_URLs\Admin\User_Edit;
-use BrianHenryIE\WP_Autologin_URLs\Admin\Admin;
+use BrianHenryIE\WP_Autologin_URLs\Admin\Admin_Assets;
 use BrianHenryIE\WP_Autologin_URLs\Admin\Settings_Page;
 use BrianHenryIE\WP_Autologin_URLs\Admin\Plugins_Page;
 use BrianHenryIE\WP_Autologin_URLs\WooCommerce\Admin_Order_UI;
@@ -135,10 +135,10 @@ class BH_WP_Autologin_URLs {
 	 */
 	protected function define_admin_hooks(): void {
 
-		$plugin_admin = new Admin( $this->settings );
+		$admin_assets = new Admin_Assets( $this->settings );
 
-		add_action( 'admin_enqueue_scripts', array( $plugin_admin, 'enqueue_styles' ) );
-		add_action( 'admin_enqueue_scripts', array( $plugin_admin, 'enqueue_scripts' ) );
+		add_action( 'admin_enqueue_scripts', array( $admin_assets, 'enqueue_styles' ) );
+		add_action( 'admin_enqueue_scripts', array( $admin_assets, 'enqueue_scripts' ) );
 
 		$plugin_settings_page = new Settings_Page( $this->settings, $this->logger );
 

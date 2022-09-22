@@ -1,3 +1,7 @@
+# Serve the assets folder normally, and stop processing before the other rules.
+RewriteEngine on
+RewriteRule assets/.* - [L]
+
 # Serve the contents of /wordpress/ from the root URL for the project.
 RewriteEngine on
 RewriteCond %{HTTP_HOST} ^.*bh-wp-autologin-urls$ [NC,OR]
