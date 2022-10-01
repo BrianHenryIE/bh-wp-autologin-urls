@@ -103,7 +103,7 @@ class Admin_Order_UI {
 			return;
 		}
 
-		wp_enqueue_script( 'bh-wp-autologin-urls-woocommerce-admin', plugin_dir_url( __FILE__ ) . 'js/bh-wp-autologin-urls-woocommerce-admin.js', array( 'jquery' ), $this->settings->get_plugin_version(), true );
+		wp_enqueue_script( 'bh-wp-autologin-urls-woocommerce-admin', plugin_dir_url( $this->settings->get_plugin_basename() ) . 'assets/bh-wp-autologin-urls-woocommerce-admin.js', array( 'jquery' ), $this->settings->get_plugin_version(), true );
 	}
 
 	/**
@@ -119,7 +119,7 @@ class Admin_Order_UI {
 			return;
 		}
 
-		wp_enqueue_style( 'bh-wp-autologin-urls-woocommerce-admin', plugin_dir_url( __FILE__ ) . 'css/bh-wp-autologin-urls-woocommerce-admin.css', array(), $this->settings->get_plugin_version(), 'all' );
+		wp_enqueue_style( 'bh-wp-autologin-urls-woocommerce-admin', plugin_dir_url( $this->settings->get_plugin_basename() ) . 'assets/bh-wp-autologin-urls-woocommerce-admin.css', array(), $this->settings->get_plugin_version(), 'all' );
 	}
 
 	/**
