@@ -130,7 +130,7 @@ class Checkout {
 					WC()->customer->set_billing_company( $order->get_billing_company() );
 					WC()->customer->set_billing_phone( $order->get_billing_phone() );
 
-					$this->logger->info( "Set customer checkout details from past order #{$order->get_id()}" );
+					$this->logger->info( "Set customer checkout details from past order wc_order:{$order->get_id()}" );
 				}
 			}
 		);

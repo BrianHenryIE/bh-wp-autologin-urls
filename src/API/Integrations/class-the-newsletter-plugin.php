@@ -96,7 +96,7 @@ class The_Newsletter_Plugin implements User_Finder_Interface, LoggerAwareInterfa
 
 		if ( $wp_user instanceof WP_User ) {
 
-			$this->logger->info( "User {$wp_user->user_login} found via Newsletter URL." );
+			$this->logger->info( "User wp_user:{$wp_user->ID} found via Newsletter URL." );
 
 			$result['wp_user'] = $wp_user;
 

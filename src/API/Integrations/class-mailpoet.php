@@ -115,7 +115,7 @@ class MailPoet implements User_Finder_Interface, LoggerAwareInterface {
 
 		if ( $wp_user instanceof WP_User ) {
 
-			$this->logger->info( "User {$wp_user->user_login} found via MailPoet URL." );
+			$this->logger->info( "User wp_user:{$wp_user->ID} found via MailPoet URL." );
 
 			$result['wp_user'] = $wp_user;
 

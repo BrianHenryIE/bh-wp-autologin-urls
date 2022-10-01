@@ -104,7 +104,7 @@ class Klaviyo implements User_Finder_Interface, LoggerAwareInterface {
 			return $result;
 		}
 
-		$this->logger->info( "User {$user->user_login} found via Klaviyo Email URL." );
+		$this->logger->info( "User wp_user:{$user->ID} found via Klaviyo Email URL." );
 
 		$result['wp_user'] = $user;
 
@@ -120,7 +120,7 @@ class Klaviyo implements User_Finder_Interface, LoggerAwareInterface {
 		try {
 			/** @var array{id?:string} $response */
 			$response = $profiles->exchange( array( 'exchange_id' => $kx_parameter ) );
-		} catch ( ApiException $exception ) {
+		} catch ( ApiException $exception ) { // ApiException seemingly not catching 429 errors.
 			$this->logger->error( $exception->getMessage() );
 			return array();
 		}
