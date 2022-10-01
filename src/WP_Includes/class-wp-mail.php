@@ -6,7 +6,6 @@
  * @since      1.0.0
  *
  * @package    bh-wp-autologin-urls
- * @subpackage bh-wp-autologin-urls/wp_mail
  */
 
 namespace BrianHenryIE\WP_Autologin_URLs\WP_Includes;
@@ -16,10 +15,6 @@ use BrianHenryIE\WP_Autologin_URLs\Settings_Interface;
 
 /**
  * The wp_mail hooked functionality of the plugin.
- *
- * @package    bh-wp-autologin-urls
- * @subpackage bh-wp-autologin-urls/wp_mail
- * @author     BrianHenryIE <BrianHenryIE@gmail.com>
  */
 class WP_Mail {
 
@@ -57,7 +52,7 @@ class WP_Mail {
 	 *
 	 * @param array{to:string, subject:string, message:string, headers?:string|array<string>, attachments:string|array<string>} $wp_mail_args The arguments passed to wp_mail() (before processing).
 	 *
-	 * @return array{to:string, subject:string, message:string, headers?:string|array<string>, attachments:string|array<string>}
+	 * @return array{to:string|array<string>, subject:string, message:string, headers?:string|array<string>, attachments:string|array<string>}
 	 * @see wp_mail()
 	 */
 	public function add_autologin_links_to_email( array $wp_mail_args ): array {

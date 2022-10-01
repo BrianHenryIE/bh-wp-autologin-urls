@@ -9,7 +9,6 @@
  * @since      1.0.0
  *
  * @package    bh-wp-autologin-urls
- * @subpackage bh-wp-autologin-urls/includes
  */
 
 namespace BrianHenryIE\WP_Autologin_URLs\WP_Includes;
@@ -19,11 +18,6 @@ namespace BrianHenryIE\WP_Autologin_URLs\WP_Includes;
  *
  * Loads and defines the internationalization files for this plugin
  * so that it is ready for translation.
- *
- * @since      1.0.0
- * @package    bh-wp-autologin-urls
- * @subpackage bh-wp-autologin-urls/includes
- * @author     BrianHenryIE <BrianHenryIE@gmail.com>
  */
 class I18n {
 

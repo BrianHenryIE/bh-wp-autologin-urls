@@ -6,18 +6,12 @@
  * @since      1.2.1
  *
  * @package    bh-wp-autologin-urls
- * @subpackage bh-wp-autologin-urls/api
  */
 
 namespace BrianHenryIE\WP_Autologin_URLs\API;
 
 use DateTimeInterface;
 
-/**
- * Interface Data_Store_Interface
- *
- * @package BH_WP_Autologin_URLs\api
- */
 interface Data_Store_Interface {
 
 	/**

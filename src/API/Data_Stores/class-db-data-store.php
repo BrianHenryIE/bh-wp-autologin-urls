@@ -24,10 +24,6 @@ use Psr\Log\LoggerAwareTrait;
  * Creates a custom database table via standard $wpdb functions to store and retrieve the autologin codes.
  *
  * phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery
- *
- * Class DB_Data_Store
- *
- * @package BH_WP_Autologin_URLs\api
  */
 class DB_Data_Store implements Data_Store_Interface {
 	use LoggerAwareTrait;

@@ -6,7 +6,6 @@
  * @since      1.0.0
  *
  * @package    bh-wp-autologin-urls
- * @subpackage bh-wp-autologin-urls/admin
  */
 
 namespace BrianHenryIE\WP_Autologin_URLs\Admin;
@@ -22,13 +21,8 @@ use BrianHenryIE\WP_Autologin_URLs\Admin\Settings_Fields\Regex_Subject_Filters;
 use Psr\Log\LoggerAwareTrait;
 use Psr\Log\LoggerInterface;
 
-
 /**
  * The setting page of the plugin.
- *
- * @package    bh-wp-autologin-urls
- * @subpackage bh-wp-autologin-urls/admin
- * @author     BrianHenryIE <BrianHenryIE@gmail.com>
  */
 class Settings_Page {
 	use LoggerAwareTrait;

@@ -6,7 +6,6 @@
  * @since      1.2.1
  *
  * @package    bh-wp-autologin-urls
- * @subpackage bh-wp-autologin-urls/api
  */
 
 namespace BrianHenryIE\WP_Autologin_URLs\API\Data_Stores;
@@ -16,11 +15,6 @@ use DateTimeInterface;
 use Psr\Log\LoggerAwareTrait;
 use Psr\Log\LoggerInterface;
 
-/**
- * Class Transient_Data_Store
- *
- * @package BH_WP_Autologin_URLs\api
- */
 class Transient_Data_Store implements Data_Store_Interface {
 	use LoggerAwareTrait;
 

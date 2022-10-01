@@ -6,7 +6,6 @@
  * @since      1.0.0
  *
  * @package    bh-wp-autologin-urls
- * @subpackage bh-wp-autologin-urls/admin
  */
 
 namespace BrianHenryIE\WP_Autologin_URLs\Admin;
@@ -15,10 +14,6 @@ use BrianHenryIE\WP_Autologin_URLs\Settings_Interface;
 
 /**
  * The admin area functionality of the plugin.
- *
- * @package    bh-wp-autologin-urls
- * @subpackage bh-wp-autologin-urls/admin
- * @author     BrianHenryIE <BrianHenryIE@gmail.com>
  */
 class Admin_Assets {
 

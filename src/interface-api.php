@@ -8,7 +8,6 @@
  * @since      1.0.0
  *
  * @package    bh-wp-autologin-urls
- * @subpackage bh-wp-autologin-urls/api
  */
 
 namespace BrianHenryIE\WP_Autologin_URLs;
@@ -16,9 +15,6 @@ namespace BrianHenryIE\WP_Autologin_URLs;
 use DateTimeInterface;
 use WP_User;
 
-/**
- * Interface API_Interface
- */
 interface API_Interface {
 
 	/**

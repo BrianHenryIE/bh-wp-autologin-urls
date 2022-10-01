@@ -8,20 +8,15 @@
  * @since      1.0.0
  *
  * @package    bh-wp-autologin-urls
- * @subpackage bh-wp-autologin-urls/api
  */
 
 namespace BrianHenryIE\WP_Autologin_URLs\API;
 
-use BrianHenryIE\WP_Autologin_URLs\Admin\Admin;
 use BrianHenryIE\WP_Autologin_URLs\Settings_Interface;
 use BrianHenryIE\WP_Autologin_URLs\WP_Logger\Logger_Settings_Interface;
 use BrianHenryIE\WP_Autologin_URLs\WP_Logger\Logger;
 use Psr\Log\LogLevel;
 
-/**
- * Class Settings
- */
 class Settings implements Settings_Interface, Logger_Settings_Interface {
 
 	const ADMIN_ENABLED                   = 'bh_wp_autologin_urls_is_admin_enabled';

@@ -9,7 +9,6 @@
  * @since      1.0.0
  *
  * @package    bh-wp-autologin-urls
- * @subpackage bh-wp-autologin-urls/includes
  */
 
 namespace BrianHenryIE\WP_Autologin_URLs;
@@ -34,11 +33,6 @@ use Psr\Log\LoggerInterface;
  *
  * Also maintains the unique identifier of this plugin as well as the current
  * version of the plugin.
- *
- * @since      1.0.0
- * @package    bh-wp-autologin-urls
- * @subpackage bh-wp-autologin-urls/includes
- * @author     BrianHenryIE <BrianHenryIE@gmail.com>
  *
  * phpcs:disable Squiz.PHP.DisallowMultipleAssignments.Found
  */

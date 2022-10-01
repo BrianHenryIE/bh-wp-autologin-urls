@@ -6,7 +6,6 @@
  * @since      1.2.0
  *
  * @package    bh-wp-autologin-urls
- * @subpackage bh-wp-autologin-urls/admin
  */
 
 namespace BrianHenryIE\WP_Autologin_URLs\Admin;
@@ -14,13 +13,8 @@ namespace BrianHenryIE\WP_Autologin_URLs\Admin;
 use BrianHenryIE\WP_Autologin_URLs\API_Interface;
 use WP_User;
 
-
 /**
  * The extra field on the user edit page.
- *
- * @package    bh-wp-autologin-urls
- * @subpackage bh-wp-autologin-urls/admin
- * @author     BrianHenryIE <BrianHenryIE@gmail.com>
  */
 class User_Edit {
 

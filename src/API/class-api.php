@@ -29,11 +29,6 @@ use WP_User;
 
 /**
  * The core plugin functionality.
- *
- * @since      1.0.0
- * @package    bh-wp-autologin-urls
- * @subpackage bh-wp-autologin-urls/api
- * @author     BrianHenryIE <BrianHenryIE@gmail.com>
  */
 class API implements API_Interface {
 

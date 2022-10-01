@@ -6,7 +6,6 @@
  * @since      1.0.0
  *
  * @package    bh-wp-autologin-urls
- * @subpackage bh-wp-autologin-urls/admin/partials
  */
 
 namespace BrianHenryIE\WP_Autologin_URLs\Admin\Settings_Fields;
