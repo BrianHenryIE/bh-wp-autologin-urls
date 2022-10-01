@@ -18,6 +18,9 @@
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
  * Text Domain:       bh-wp-autologin-urls
  * Domain Path:       /languages
+ *
+ * GitHub Plugin URI: https://github.com/BrianHenryIE/bh-wp-autologin-urls
+ * Release Asset:     true
  */
 
 namespace BH_WP_Autologin_URLs {
