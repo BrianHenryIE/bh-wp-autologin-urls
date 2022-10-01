@@ -4,11 +4,11 @@
  *
  * @link              https://BrianHenry.ie
  * @since             1.0.0
- * @package           bh-wp-autologin-urls
+ * @package           brianhenryie/bh-wp-autologin-urls
  *
  * @wordpress-plugin
  * Plugin Name:       Autologin URLs
- * Plugin URI:        https://wordpress.org/plugins/bh-wp-autologin-urls
+ * Plugin URI:        https://wordpress.org/BrianHenryIE/bh-wp-autologin-urls
  * Description:       Adds autologin credentials to URLs to this site in emails sent to users.
  * Version:           1.6.3
  * Requires PHP:      7.4
