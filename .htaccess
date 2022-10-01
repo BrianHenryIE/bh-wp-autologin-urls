@@ -1,6 +1,9 @@
 # Serve the assets folder normally, and stop processing before the other rules.
 RewriteEngine on
 RewriteRule assets/.* - [L]
+# Allow serving from vendor-prefixed too
+RewriteEngine on
+RewriteRule vendor-prefixed/.* - [L]
 
 # Serve the contents of /wordpress/ from the root URL for the project.
 RewriteEngine on
