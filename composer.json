@@ -9,6 +9,11 @@
       "email": "BrianHenryIE@gmail.com"
     }
   ],
+  "autoload-dev": {
+    "psr-4": {
+      "BrianHenryIE\\WP_Autologin_URLs\\": ["tests/integration","tests/unit","tests/wpunit"]
+    }
+  },
   "minimum-stability": "dev",
   "prefer-stable": true,
   "config": {
@@ -222,8 +227,11 @@
       "updated_files=$( git status | grep 'modified:\\s.*.php$' | cut -c14- | awk '{ printf(\"%s \", $0) }' ); vendor/bin/phpcbf $(echo $updated_files); vendor/bin/phpcs $(echo $updated_files); vendor/bin/phpstan analyse $(echo $updated_files) --memory-limit 2G"
     ],
     "create-plugin-archive": [
-      "vendor/bin/wp i18n make-pot src languages/bh-wp-autologin-urls.pot --domain=bh-wp-autologin-urls",
+      "vendor/bin/wp i18n make-pot src languages/$(basename \"$PWD\").pot --domain=$(basename \"$PWD\")",
       "vendor/bin/wp dist-archive . ./dist-archive --plugin-dirname=$(basename \"$PWD\") --create-target-dir"
+    ],
+    "github-actions":  [
+      "act -P ubuntu-latest=shivammathur/node:latest"
     ]
   }
 }
