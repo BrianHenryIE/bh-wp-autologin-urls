@@ -15,7 +15,9 @@ parameters:
         - vendor/antecedent/patchwork/Patchwork.php
     scanDirectories:
         - vendor-prefixed
-#        - wp-content/plugins
+        - wp-content/plugins/newsletter
+        - wp-content/plugins/mailpoet
+        - wp-content/plugins/woocommerce
         - vendor/wp-cli
     ignoreErrors:
         # LoggerAwareTrait allows for null $logger, but we set it in the constructor.
