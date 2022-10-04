@@ -75,4 +75,15 @@ interface API_Interface {
 	 * @return ?string IPv4|v6 IP address or null, presumable if CLI/cron.
 	 */
 	public function get_ip_address(): ?string;
+
+	/**
+	 * Maybe send email to the wp_user with a "magic link" to log in.
+	 *
+	 * @param string  $username_or_email_address The username or email as entered by the user in the login form.
+	 * @param ?string $url The page the user should be sent, e.g. checkout, my-account. Defaults to site URL.
+	 * @param int     $expires_in Number of seconds the link should be valid. Defaults to 15 minutes.
+	 *
+	 * @return array{username_or_email_address:string, expires_in:int, expires_in_friendly:string, template_path?:string, success:bool, error?:bool, message?:string}
+	 */
+	public function send_magic_link( string $username_or_email_address, ?string $url = null, int $expires_in = 900 ): array;
 }

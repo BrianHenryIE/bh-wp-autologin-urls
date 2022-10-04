@@ -354,4 +354,99 @@ class API implements API_Interface {
 		// Return null, not false, or the string.
 		return empty( $ip_address ) ? null : $ip_address;
 	}
+
+	/**
+	 * Maybe send email to the wp_user with a "magic link" to log in.
+	 *
+	 * TODO: Add settings options: enable/disable feature, configure subject, configure expiry time.
+	 *
+	 * @param string  $username_or_email_address The username or email as entered by the user in the login form.
+	 * @param ?string $url The page the user should be sent, e.g. checkout, my-account. Defaults to site URL.
+	 * @param int     $expires_in Number of seconds the link should be valid. Defaults to 15 minutes.
+	 *
+	 * @return array{username_or_email_address:string, expires_in:int, expires_in_friendly:string, template_path?:string, success:bool, error?:bool, message?:string}
+	 */
+	public function send_magic_link( string $username_or_email_address, ?string $url = null, int $expires_in = 900 ): array {
+
+		$url = $url ?? get_site_url();
+
+		$expires_in_friendly = human_time_diff( time() - $expires_in );
+
+		$result = array(
+			'username_or_email_address' => $username_or_email_address,
+			'expires_in'                => $expires_in,
+			'expires_in_friendly'       => $expires_in_friendly,
+		);
+
+		$wp_user = get_user_by( 'login', $username_or_email_address );
+
+		if ( ! ( $wp_user instanceof WP_User ) ) {
+
+			$wp_user = get_user_by( 'email', $username_or_email_address );
+
+			if ( ! ( $wp_user instanceof WP_User ) ) {
+
+				// NB: Do not tell the user if the username exists.
+				$result['success'] = false;
+
+				$this->logger->debug( "No WP_User found for {$username_or_email_address}", array( 'result' => $result ) );
+
+				return $result;
+			}
+		}
+
+		$to = $wp_user->user_email;
+
+		$subject = __( 'Sign-in Link', 'bh-wp-autologin-urls' );
+
+		$template = 'email/magic-link.php';
+
+		$template_email_magic_link = WP_PLUGIN_DIR . '/' . plugin_dir_path( $this->settings->get_plugin_basename() ) . 'templates/' . $template;
+
+		// Check the child theme for template overrides.
+		if ( file_exists( get_stylesheet_directory() . $template ) ) {
+			$template_email_magic_link = get_stylesheet_directory() . $template;
+		} elseif ( file_exists( get_stylesheet_directory() . 'templates/' . $template ) ) {
+			$template_email_magic_link = get_stylesheet_directory() . 'templates/' . $template;
+		}
+
+		$autologin_url = $this->add_autologin_to_url( $url, $wp_user, $expires_in );
+
+		// Add a marker for later logging use of the email.
+		$autologin_url = add_query_arg( array( 'magic' => 'true' ), $autologin_url );
+
+		/**
+		 * Allow overriding the email template.
+		 *
+		 * @var string $autologin_url The URL which will log the user in.
+		 * @var string $expires_in_friendly Human-readable form of the number of seconds until expiry.
+		 */
+		$template_email_magic_link = apply_filters( 'template_email_magic_link', $template_email_magic_link );
+
+		$result['template_path'] = $template_email_magic_link;
+
+		ob_start();
+
+		include $template_email_magic_link;
+
+		// NB: Do not log the message because it contains a password!
+		$message = ob_get_clean();
+
+		$mail_success = wp_mail( $to, $subject, $message );
+
+		$result['success'] = $mail_success;
+
+		if ( false === $mail_success ) {
+			$result['error'] = true;
+			$this->logger->error( 'Failed sending magic login email.', array( 'result' => $result ) );
+		} else {
+
+			$result['message'] = 'If a user exists for `' . $username_or_email_address . '` an email has been sent to that user with a login link.';
+
+			$this->logger->info( "Magic login email sent to wp_user:{$wp_user->ID}." );
+		}
+
+		return $result;
+
+	}
 }

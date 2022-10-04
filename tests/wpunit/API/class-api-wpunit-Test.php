@@ -45,12 +45,7 @@ class API_WPUnit_Test extends \Codeception\TestCase\WPTestCase {
 	 */
 	protected function set_return_password_for_test_user(): void {
 
-		$user_id = $this->factory->user->create(
-			array(
-				'user_login' => 'brian',
-				'user_email' => 'brianhenryie@gmail.com',
-			)
-		);
+		$user_id = wp_create_user( 'brian', 'abc123', 'brianhenryie@gmail.com' );
 
 		// Specify the user id for later comparing.
 
@@ -70,25 +65,6 @@ class API_WPUnit_Test extends \Codeception\TestCase\WPTestCase {
 	}
 
 	/**
-	 * Test helper method for verifying the number of transients in the database before and after executing methods.
-	 *
-	 * @return int
-	 */
-	private function get_plugin_transients_count(): int {
-
-		global $wpdb;
-
-		// phpcs:disable WordPress.DB.PreparedSQL.NotPrepared
-		$rowcount = $wpdb->get_var(
-			'SELECT COUNT(*) FROM ' . $wpdb->options . ' WHERE option_name LIKE "_transient_bh_autologin_%"'
-		);
-
-		// An empty set is null, whereas I want its count as zero.
-		return null === $rowcount ? 0 : $rowcount;
-	}
-
-
-	/**
 	 * Test a simple successful code generation and its being saved in the database.
 	 *
 	 * @covers ::generate_code
@@ -103,7 +79,7 @@ class API_WPUnit_Test extends \Codeception\TestCase\WPTestCase {
 		);
 		$api             = new API( $this->settings, $logger, $data_store_mock );
 
-		$user_id = $this->factory->user->create();
+		$user_id = wp_create_user( 'testuser', 'abc123', 'test@example.org' );
 		$user    = get_user_by( 'id', $user_id );
 
 		$generated_code = $api->generate_code( $user, 3600 );
@@ -410,13 +386,50 @@ class API_WPUnit_Test extends \Codeception\TestCase\WPTestCase {
 
 		$url = get_site_url() . '/my-account/';
 
-		$user = wp_create_user( 'test-user', '123' );
+		/** @var int $wp_user_id */
+		$wp_user_id = wp_create_user( 'test-user', '123' );
 
-		$result = $api->add_autologin_to_url( $url, $user );
+		$result = $api->add_autologin_to_url( $url, $wp_user_id );
 
-		$expected = 'http://example.org/wp-login.php?redirect_to=http%3A%2F%2Fexample.org%2Fmy-account%2F&autologin=' . $user . '~mockpassw0rd';
+		$expected = "http://example.org/wp-login.php?redirect_to=http%3A%2F%2Fexample.org%2Fmy-account%2F&autologin={$wp_user_id}~mockpassw0rd";
 
 		$this->assertEquals( $expected, $result );
 
+	}
+
+	/**
+	 * @covers ::send_magic_link
+	 */
+	public function test_send_magic_link(): void {
+
+		$logger          = new ColorLogger();
+		$settings        = $this->makeEmpty(
+			Settings_Interface::class,
+			array(
+				'get_plugin_basename' => 'bh-wp-autologin-urls/bh-wp-autologin-urls.php',
+			)
+		);
+		$data_store_mock = $this->makeEmpty( Data_Store_Interface::class );
+		$api             = new API( $settings, $logger, $data_store_mock );
+
+		$user_id = wp_create_user( 'brian', 'abc123', 'brianhenryie@gmail.com' );
+
+		$email_sent = false;
+
+		add_filter(
+			'wp_mail',
+			function( array $args ) use ( &$email_sent ): array {
+
+				if ( 'Sign-in Link' === $args['subject'] ) {
+					$email_sent = true;
+				}
+
+				return $args;
+			}
+		);
+
+		$result = $api->send_magic_link( 'brian' );
+
+		$this->assertTrue( $email_sent );
 	}
 }

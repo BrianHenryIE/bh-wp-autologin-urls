@@ -4,6 +4,8 @@ namespace BrianHenryIE\WP_Autologin_URLs;
 
 use BrianHenryIE\ColorLogger\ColorLogger;
 use BrianHenryIE\WP_Autologin_URLs\Admin\Plugins_Page;
+use BrianHenryIE\WP_Autologin_URLs\Login\Login_Ajax;
+use BrianHenryIE\WP_Autologin_URLs\Login\Login_Assets;
 use BrianHenryIE\WP_Autologin_URLs\WooCommerce\Admin_Order_UI;
 use BrianHenryIE\WP_Autologin_URLs\WP_Includes\Cron;
 use BrianHenryIE\WP_Autologin_URLs\WP_Includes\I18n;
@@ -142,6 +144,32 @@ class BH_WP_Autologin_URLs_Unit_Test extends \Codeception\Test\Unit {
 		\WP_Mock::expectActionAdded(
 			'admin_enqueue_scripts',
 			array( new AnyInstance( Admin_Order_UI::class ), 'enqueue_styles' )
+		);
+
+		$logger   = new ColorLogger();
+		$settings = $this->makeEmpty( Settings_Interface::class );
+		$api      = $this->makeEmpty( API_Interface::class );
+		new BH_WP_Autologin_URLs( $api, $settings, $logger );
+	}
+
+	/**
+	 * @covers ::define_login_ui_hooks
+	 */
+	public function test_define_login_ui_hooks(): void {
+
+		\WP_Mock::expectActionAdded(
+			'login_enqueue_scripts',
+			array( new AnyInstance( Login_Assets::class ), 'enqueue_styles' )
+		);
+
+		\WP_Mock::expectActionAdded(
+			'login_enqueue_scripts',
+			array( new AnyInstance( Login_Assets::class ), 'enqueue_scripts' )
+		);
+
+		\WP_Mock::expectActionAdded(
+			'wp_ajax_nopriv_bh_wp_autologin_urls_send_magic_link',
+			array( new AnyInstance( Login_Ajax::class ), 'email_magic_link' )
 		);
 
 		$logger   = new ColorLogger();

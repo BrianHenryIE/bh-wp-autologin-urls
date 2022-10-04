@@ -18,6 +18,8 @@ use BrianHenryIE\WP_Autologin_URLs\Admin\User_Edit;
 use BrianHenryIE\WP_Autologin_URLs\Admin\Admin_Assets;
 use BrianHenryIE\WP_Autologin_URLs\Admin\Settings_Page;
 use BrianHenryIE\WP_Autologin_URLs\Admin\Plugins_Page;
+use BrianHenryIE\WP_Autologin_URLs\Login\Login_Ajax;
+use BrianHenryIE\WP_Autologin_URLs\Login\Login_Assets;
 use BrianHenryIE\WP_Autologin_URLs\WooCommerce\Admin_Order_UI;
 use BrianHenryIE\WP_Autologin_URLs\WP_Includes\Cron;
 use BrianHenryIE\WP_Autologin_URLs\WP_Includes\I18n;
@@ -82,7 +84,9 @@ class BH_WP_Autologin_URLs {
 
 		$this->set_locale();
 
-		$this->define_admin_hooks();
+		$this->define_admin_ui_hooks();
+		$this->define_login_ui_hooks();
+
 		$this->define_plugins_page_hooks();
 		$this->define_plugin_installer_hooks();
 
@@ -127,7 +131,7 @@ class BH_WP_Autologin_URLs {
 	 *
 	 * @since    1.0.0
 	 */
-	protected function define_admin_hooks(): void {
+	protected function define_admin_ui_hooks(): void {
 
 		$admin_assets = new Admin_Assets( $this->settings );
 
@@ -142,6 +146,21 @@ class BH_WP_Autologin_URLs {
 
 		$user_edit = new User_Edit( $this->api );
 		add_action( 'edit_user_profile', array( $user_edit, 'make_password_available_on_user_page' ), 1, 1 );
+	}
+
+	/**
+	 * Hooks related to the wp-login.php UI.
+	 */
+	protected function define_login_ui_hooks(): void {
+
+		$login_assets = new Login_Assets( $this->settings );
+
+		add_action( 'login_enqueue_scripts', array( $login_assets, 'enqueue_styles' ) );
+		add_action( 'login_enqueue_scripts', array( $login_assets, 'enqueue_scripts' ) );
+
+		$login_ajax = new Login_Ajax( $this->api, $this->logger );
+
+		add_action( 'wp_ajax_nopriv_bh_wp_autologin_urls_send_magic_link', array( $login_ajax, 'email_magic_link' ) );
 	}
 
 	/**
