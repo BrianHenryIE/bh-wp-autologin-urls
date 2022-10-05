@@ -104,7 +104,7 @@ class Klaviyo implements User_Finder_Interface, LoggerAwareInterface {
 			return $result;
 		}
 
-		$this->logger->info( "User wp_user:{$user->ID} found via Klaviyo Email URL." );
+		$this->logger->info( "User wp_user:{$user->ID} klaviyo:{$user_data['klaviyo_user_id']} found via Klaviyo Email URL." );
 
 		$result['wp_user'] = $user;
 
@@ -153,6 +153,8 @@ class Klaviyo implements User_Finder_Interface, LoggerAwareInterface {
 		);
 
 		$user_data = array();
+
+		$user_data['klaviyo_user_id'] = $klaviyo_user_id;
 
 		foreach ( $klaviyo_user as $key => $value ) {
 			if ( isset( $user_data_map[ $key ] ) ) {
