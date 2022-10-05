@@ -1,4 +1,3 @@
-
 (function( $ ) {
     'use strict';
 
@@ -7,8 +6,8 @@
         // Copy to clipboard.
         $('.wc-order-status a').click(function(e){
 
-            // Since we're logged in as an admin, and this is now a login link, prevent the link from working as normal,
-            // otherwise the admin gets logged out.
+            // Since we're logged in as an admin, and this is now a login link,
+            // prevent the link from working as normal, otherwise the admin gets logged out.
             e.preventDefault();
 
             // Get the URL.

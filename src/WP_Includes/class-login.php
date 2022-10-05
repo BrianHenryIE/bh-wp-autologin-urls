@@ -2,6 +2,8 @@
 /**
  * The actual logging in functionality of the plugin.
  *
+ * Distinct from login UI.
+ *
  * @link       https://BrianHenry.ie
  * @since      1.0.0
  *
@@ -42,6 +44,12 @@ class Login {
 	 */
 	protected API_Interface $api;
 
+	/**
+	 * This plugin can parse URLs for MailPoet, The Newsletter Plugin, and Klaviyo, and AutologinUrls own
+	 * querystring parameter. The factory returns valid User_Finders for each.
+	 *
+	 * @var User_Finder_Factory
+	 */
 	protected User_Finder_Factory $user_finder_factory;
 
 	/**
@@ -64,6 +72,8 @@ class Login {
 	}
 
 	/**
+	 * The primary handler of the plugin, that reads the request querystring and checks it for autologin parameters.
+	 *
 	 * @hooked plugins_loaded
 	 *
 	 * phpcs:disable WordPress.Security.NonceVerification.Recommended
@@ -83,8 +93,7 @@ class Login {
 
 		$user_array = $user_finder->get_wp_user_array();
 
-		if ( isset( $user_array['wp_user'] ) ) {
-			/** @var WP_User $wp_user */
+		if ( isset( $user_array['wp_user'] ) && $user_array['wp_user'] instanceof WP_User ) {
 			$wp_user = $user_array['wp_user'];
 
 		} elseif ( ! empty( $user_array['user_data'] ) && 0 === get_current_user_id() ) {

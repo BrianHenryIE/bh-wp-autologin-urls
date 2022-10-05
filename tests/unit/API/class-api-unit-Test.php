@@ -8,9 +8,11 @@
 
 namespace BrianHenryIE\WP_Autologin_URLs\API;
 
+use BrianHenryIE\ColorLogger\ColorLogger;
 use BrianHenryIE\WP_Autologin_URLs\Settings_Interface;
 use Psr\Log\LoggerInterface;
 use Codeception\Stub\Expected;
+use WP_Mock\Matcher\AnyInstance;
 use WP_User;
 
 /**
@@ -35,6 +37,7 @@ class API_Unit_Test extends \Codeception\Test\Unit {
 	 * @see wp_generate_password()
 	 *
 	 * @covers ::generate_code
+	 * @covers ::generate_password
 	 */
 	public function test_generate_code() {
 
@@ -219,12 +222,12 @@ class API_Unit_Test extends \Codeception\Test\Unit {
 		$value = hash( 'sha256', "{$user_id}{$code}" );
 
 		$settings_mock      = $this->makeEmpty( Settings_Interface::class );
-		$logger_mock        = $this->makeEmpty( LoggerInterface::class );
+		$logger             = new ColorLogger();
 		$data_store_mock    = $this->makeEmpty(
 			Data_Store_Interface::class,
 			array( 'get_value_for_code' => $value )
 		);
-		$autologin_urls_api = new API( $settings_mock, $logger_mock, $data_store_mock );
+		$autologin_urls_api = new API( $settings_mock, $logger, $data_store_mock );
 
 		$is_valid_autologin_password = $autologin_urls_api->verify_autologin_password( 123, 'q1w2e3r4t5y6' );
 

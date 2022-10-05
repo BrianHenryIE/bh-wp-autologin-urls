@@ -30,10 +30,11 @@ namespace BH_WP_Autologin_URLs {
 	use BrianHenryIE\WP_Autologin_URLs\BH_WP_Autologin_URLs;
 	use BrianHenryIE\WP_Autologin_URLs\API\Settings;
 	use BrianHenryIE\WP_Autologin_URLs\WP_Logger\Logger;
+	use Exception;
 
 	// If this file is called directly, abort.
 	if ( ! defined( 'ABSPATH' ) ) {
-		throw new \Exception();
+		throw new Exception();
 	}
 
 	require_once plugin_dir_path( __FILE__ ) . 'autoload.php';

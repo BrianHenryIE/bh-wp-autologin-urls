@@ -72,6 +72,7 @@
     "php": ">=7.4",
     "brianhenryie/bh-wp-logger": "dev-master",
     "brianhenryie/bh-wp-rate-limiter": "dev-master",
+    "ext-json": "*",
     "klaviyo/sdk": "^1.0",
     "pablo-sg-pacheco/wp-namespace-autoloader": "dev-master#015c9654459fd267cf12fa7846d3bf36b11c3bd7"
   },

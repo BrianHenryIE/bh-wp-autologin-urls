@@ -2,6 +2,9 @@
 /**
  * The additions to the admin user-edit page.
  *
+ * TODO: Copy to clipboard.
+ * TODO: Send magic login email.
+ *
  * @link       https://BrianHenry.ie
  * @since      1.2.0
  *
