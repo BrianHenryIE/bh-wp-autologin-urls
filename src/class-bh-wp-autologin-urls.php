@@ -18,6 +18,7 @@ use BrianHenryIE\WP_Autologin_URLs\Admin\User_Edit;
 use BrianHenryIE\WP_Autologin_URLs\Admin\Admin_Assets;
 use BrianHenryIE\WP_Autologin_URLs\Admin\Settings_Page;
 use BrianHenryIE\WP_Autologin_URLs\Admin\Plugins_Page;
+use BrianHenryIE\WP_Autologin_URLs\Logger\Klaviyo_Logs;
 use BrianHenryIE\WP_Autologin_URLs\Login\Login_Ajax;
 use BrianHenryIE\WP_Autologin_URLs\Login\Login_Assets;
 use BrianHenryIE\WP_Autologin_URLs\WooCommerce\Admin_Order_UI;
@@ -99,6 +100,8 @@ class BH_WP_Autologin_URLs {
 
 		$this->define_woocommerce_admin_order_ui_hooks();
 		$this->define_woocommerce_login_form_hooks();
+
+		$this->define_logger_hooks();
 	}
 
 	/**
@@ -248,5 +251,17 @@ class BH_WP_Autologin_URLs {
 		$login_form = new Login_Form( $this->settings );
 
 		add_action( 'woocommerce_before_customer_login_form', array( $login_form, 'enqueue_script' ) );
+	}
+
+	/**
+	 * Register filters for augmenting the data printed on the logs table.
+	 *
+	 * @see wp-admin/admin.php?page=bh-wp-autologin-urls-logs
+	 */
+	protected function define_logger_hooks(): void {
+
+		$klaviyo_logs = new Klaviyo_Logs();
+
+		add_filter( 'bh-wp-autologin-urls_bh_wp_logger_column', array( $klaviyo_logs, 'link_to_klaviyo_profile_search' ), 10, 5 );
 	}
 }

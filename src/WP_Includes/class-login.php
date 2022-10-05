@@ -128,14 +128,12 @@ class Login {
 		}
 
 		// Log each attempt to log in, prevent too many attempts by any one IP.
-		if ( ! $this->api->should_allow_login_attempt( $ip_address ) ) {
+		if ( ! $this->api->should_allow_login_attempt( "ip:{$ip_address}" ) ) {
 			return;
 		}
 
-		$user_login = $wp_user->user_login;
-
 		// Rate limit too many failed attempts at logging in the one user.
-		if ( ! $this->api->should_allow_login_attempt( $user_login ) ) {
+		if ( ! $this->api->should_allow_login_attempt( "wp_user:{$wp_user->ID}" ) ) {
 			return;
 		}
 
@@ -144,7 +142,7 @@ class Login {
 		wp_set_auth_cookie( $wp_user->ID );
 		do_action( 'wp_login', $wp_user->user_login, $wp_user );
 
-		$this->logger->info( "User {$wp_user->user_login} logged in via {$user_array['source']}." );
+		$this->logger->info( "User wp_user:{$wp_user->ID} logged in via {$user_array['source']}." );
 
 		$this->maybe_redirect();
 	}

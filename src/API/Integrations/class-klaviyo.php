@@ -1,5 +1,9 @@
 <?php
 /**
+ * Links in email sent from Klaviyo each have a tracking parameter (`_kx=...`) which can be queried against
+ * the Klaviyo API to get the user details, then the email address is used to find any corresponding
+ * WordPress user account.
+ *
  * @see https://developers.klaviyo.com/en/reference/exchange
  *
  * @package brianhenryie/bh-wp-autologin-urls
@@ -69,7 +73,7 @@ class Klaviyo implements User_Finder_Interface, LoggerAwareInterface {
 	/**
 	 *
 	 *
-	 * @return array{source:string, wp_user:\WP_User|null, user_data?:array<string,string>}
+	 * @return array{source:string, wp_user:\WP_User|null, user_data:array<void>|array<string,string>}
 	 */
 	public function get_wp_user_array(): array {
 
@@ -88,10 +92,14 @@ class Klaviyo implements User_Finder_Interface, LoggerAwareInterface {
 
 		$user_data = $this->get_user_data( $klaviyo_parameter );
 
+		if ( empty( $user_data ) ) {
+			$this->logger->debug( 'Email not returned from Klaviyo.' );
+			return $result;
+		}
+
 		$result['user_data'] = $user_data;
 
 		if ( ! isset( $user_data['email'] ) ) {
-			$this->logger->debug( 'Email not returned from Klaviyo' );
 			return $result;
 		}
 
@@ -100,25 +108,42 @@ class Klaviyo implements User_Finder_Interface, LoggerAwareInterface {
 		$user = get_user_by( 'email', $user_email );
 
 		if ( ! ( $user instanceof WP_User ) ) {
-			$this->logger->debug( 'No WP_User account found for Klaviyo user ' . $user_email );
+			$this->logger->debug( "No WP_User account found for Klaviyo user {$user_data['klaviyo_user_id']}" );
 			return $result;
 		}
 
-		$this->logger->info( "User wp_user:{$user->ID} klaviyo:{$user_data['klaviyo_user_id']} found via Klaviyo Email URL." );
+		$this->logger->info( "User wp_user:{$user->ID}, klaviyo:{$user->ID} {$user_data['klaviyo_user_id']} found via Klaviyo Email URL." );
 
 		$result['wp_user'] = $user;
 
 		return $result;
 	}
 
-
+	/**
+	 * Query the Klaviyo API for the user data.
+	 * Map that data to an array using the WooCommerce field names.
+	 *
+	 * @see https://developers.klaviyo.com/en/reference/exchange
+	 * @see https://developers.klaviyo.com/en/reference/get-profile
+	 *
+	 * @param string $kx_parameter The Klaviyo tracking URL parameter.
+	 *
+	 * @return array<void>|array{klaviyo_user_id:string,address:string,address_2:string,city:string,country:string,state:string,postcode:string,company:string,first_name:string,email:string,billing_phone:string,last_name:string}
+	 * @throws \BrianHenryIE\WP_Autologin_URLs\Klaviyo\ApiException
+	 */
 	protected function get_user_data( string $kx_parameter ): array {
 
 		/** @var ProfilesApi $profiles */
 		$profiles = $this->client->Profiles;
 
 		try {
-			/** @var array{id?:string} $response */
+			/**
+			 * Get the Klaviyo profile id from the tracking URL parameter.
+			 *
+			 * @see https://developers.klaviyo.com/en/reference/exchange
+			 *
+			 * @var array{id?:string} $response
+			 */
 			$response = $profiles->exchange( array( 'exchange_id' => $kx_parameter ) );
 		} catch ( ApiException $exception ) { // ApiException seemingly not catching 429 errors.
 			$this->logger->error( $exception->getMessage() );
@@ -127,13 +152,16 @@ class Klaviyo implements User_Finder_Interface, LoggerAwareInterface {
 
 		if ( ! isset( $response['id'] ) ) {
 			$this->logger->debug( 'No Klaviyo profile id found for _kx ' . $kx_parameter );
-			// Throw exception?
 			return array();
 		}
 
 		$klaviyo_user_id = $response['id'];
 
 		/**
+		 * Query the Klaviyo API for the profile data.
+		 *
+		 * @see https://developers.klaviyo.com/en/reference/get-profile
+		 *
 		 * @var array{'$address1':string,'$address2':string,'$city':string,'$country':string,'$region':string,'$zip':string,'$organization':string,'$first_name':string,'$email':string,'$phone_number':string,'$title':string,'$last_name':string} $klaviyo_user
 		 */
 		$klaviyo_user = $profiles->getProfile( $klaviyo_user_id );
@@ -160,6 +188,10 @@ class Klaviyo implements User_Finder_Interface, LoggerAwareInterface {
 			if ( isset( $user_data_map[ $key ] ) ) {
 				$user_data[ $user_data_map[ $key ] ] = (string) $value;
 			}
+		}
+
+		if ( isset( $user_data['email'] ) ) {
+			$user_data['billing_email'] = $user_data['email'];
 		}
 
 		return $user_data;

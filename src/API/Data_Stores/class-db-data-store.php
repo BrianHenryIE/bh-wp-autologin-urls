@@ -127,7 +127,7 @@ class DB_Data_Store implements Data_Store_Interface {
 
 		if ( false === $result ) {
 			$this->logger->error(
-				'Error saving autologin code for user ' . $user_id,
+				'Error saving autologin code for wp_user:' . $user_id,
 				array(
 					'user_id'    => $user_id,
 					'code'       => $code,
@@ -141,7 +141,7 @@ class DB_Data_Store implements Data_Store_Interface {
 		}
 
 		$this->logger->debug(
-			'Saved autologin code for user ' . $user_id,
+			'Saved autologin code for wp_user:' . $user_id,
 			array(
 				'user_id' => $user_id,
 				'expires' => $expires_at,
