@@ -432,7 +432,9 @@ class API implements API_Interface {
 		// NB: Do not log the message because it contains a password!
 		$message = ob_get_clean();
 
-		$mail_success = wp_mail( $to, $subject, $message );
+		$headers = array('Content-Type: text/html; charset=UTF-8');
+
+		$mail_success = wp_mail( $to, $subject, $message, $headers );
 
 		$result['success'] = $mail_success;
 
