@@ -1,3 +1,10 @@
+
+### 1.7.0
+
+* Add: Magic-link emails on wp-login.php and WooCommerce login forms
+* Add: Git Updater
+* Improved PHPCS and logging
+
 ### 1.6.3
 
 * Fix: Catch Klaviyo API errors
