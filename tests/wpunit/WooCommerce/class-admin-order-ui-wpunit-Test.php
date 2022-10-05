@@ -39,6 +39,13 @@ class Admin_Order_UI_WPUnit_Test extends \Codeception\TestCase\WPTestCase {
 
 		$payment_url = site_url() . '/checkout/';
 
+		// Set `is_admin()` to true.
+		$GLOBALS['current_screen'] = new class() {
+			public function in_admin(): bool {
+				return true;
+			}
+		};
+
 		$result = $sut->add_to_payment_url( $payment_url, $order );
 
 		$this->assertEquals( $result, 'added' );

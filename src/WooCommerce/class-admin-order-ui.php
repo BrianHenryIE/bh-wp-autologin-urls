@@ -65,6 +65,11 @@ class Admin_Order_UI {
 	 */
 	public function add_to_payment_url( string $payment_url, WC_Order $order ): string {
 
+		// Without this check for admin UI, autologin codes were being created on every REST request by the 3PF fulfillment.
+		if ( ! is_admin() ) {
+			return $payment_url;
+		}
+
 		$payment_url = $this->api->add_autologin_to_url( $payment_url, $order->get_billing_email() );
 
 		return $payment_url;
