@@ -1,4 +1,11 @@
 
+
+### 1.7.1
+
+* Fix: set content type on HTML emails
+* Fix: do not generate autologin URLs when serving WC_Orders over REST API
+* Improve: hyperlinks in log table
+
 ### 1.7.0
 
 * Add: Magic-link emails on wp-login.php and WooCommerce login forms
