@@ -252,7 +252,7 @@ class API implements API_Interface {
 	 * @param ?DateTimeInterface $before The date from which to purge old codes.
 	 *
 	 * @return array{deleted_count:int|null}
-	 * @throws \Exception
+	 * @throws \Exception A DateTime exception when 'now' is used. I.e. never.
 	 */
 	public function delete_expired_codes( ?DateTimeInterface $before = null ): array {
 		$before = $before ?? new DateTimeImmutable( 'now', new DateTimeZone( 'UTC' ) );
@@ -421,7 +421,7 @@ class API implements API_Interface {
 		 * @var string $autologin_url The URL which will log the user in.
 		 * @var string $expires_in_friendly Human-readable form of the number of seconds until expiry.
 		 */
-		$template_email_magic_link = apply_filters( 'template_email_magic_link', $template_email_magic_link );
+		$template_email_magic_link = apply_filters( 'bh_wp_autologin_urls_magic_link_email_template', $template_email_magic_link );
 
 		$result['template_path'] = $template_email_magic_link;
 

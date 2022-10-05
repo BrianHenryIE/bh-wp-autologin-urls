@@ -2,7 +2,8 @@
 /**
  * The template for the email sent when the "Email Magic Link" button is pressed.
  *
- * This can be overridden with the `template_email_magic_link` filter.
+ * This can be overridden with the `bh_wp_autologin_urls_magic_link_email_template` filter.
+ * Or by providing a templates/email/magic-link.php or email/magic-link.php file in your child theme.
  *
  * @see API::send_magic_link()
  *
