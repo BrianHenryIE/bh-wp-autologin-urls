@@ -42,6 +42,10 @@ class Login_Assets {
 	 */
 	public function enqueue_styles(): void {
 
+		if ( ! $this->settings->is_magic_link_enabled() ) {
+			return;
+		}
+
 		wp_enqueue_style( $this->settings->get_plugin_slug(), plugin_dir_url( $this->settings->get_plugin_basename() ) . 'assets/bh-wp-autologin-urls-login.css', array(), $this->settings->get_plugin_version(), 'all' );
 	}
 
@@ -53,6 +57,10 @@ class Login_Assets {
 	 * @since    1.0.0
 	 */
 	public function enqueue_scripts(): void {
+
+		if ( ! $this->settings->is_magic_link_enabled() ) {
+			return;
+		}
 
 		$handle = 'bh-wp-autologin-urls-login-screen';
 

@@ -62,8 +62,9 @@ class Login_Assets_Unit_Test extends \Codeception\Test\Unit {
 		$settings                   = $this->makeEmpty(
 			Settings_Interface::class,
 			array(
-				'get_plugin_slug'    => Expected::once( 'bh-wp-autologin-urls' ),
-				'get_plugin_version' => Expected::once( '1.2.3' ),
+				'get_plugin_slug'       => Expected::once( 'bh-wp-autologin-urls' ),
+				'get_plugin_version'    => Expected::once( '1.2.3' ),
+				'is_magic_link_enabled' => true,
 			)
 		);
 		$bh_wp_autologin_urls_login = new Login_Assets( $settings );
@@ -149,7 +150,8 @@ class Login_Assets_Unit_Test extends \Codeception\Test\Unit {
 		$settings                   = $this->makeEmpty(
 			Settings_Interface::class,
 			array(
-				'get_plugin_version' => Expected::once( '1.2.3' ),
+				'get_plugin_version'    => Expected::once( '1.2.3' ),
+				'is_magic_link_enabled' => true,
 			)
 		);
 		$bh_wp_autologin_urls_login = new Login_Assets( $settings );

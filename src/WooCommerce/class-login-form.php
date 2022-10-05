@@ -40,6 +40,10 @@ class Login_Form {
 	 */
 	public function enqueue_script(): void {
 
+		if ( ! $this->settings->is_magic_link_enabled() ) {
+			return;
+		}
+
 		$url = plugin_dir_url( $this->settings->get_plugin_basename() ) . 'assets/bh-wp-autologin-urls-woocommerce-login.js';
 
 		$handle = 'bh-wp-autologin-urls-woocommerce-login-form';

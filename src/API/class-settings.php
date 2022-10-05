@@ -23,6 +23,7 @@ class Settings implements Settings_Interface, Logger_Settings_Interface {
 	const SUBJECT_FILTER_REGEX_DICTIONARY = 'bh_wp_autologin_urls_subject_filter_regex_dictionary';
 	const LOG_LEVEL                       = 'bh_wp_autologin_urls_log_level';
 	const SHOULD_USE_WP_LOGIN             = 'bh_wp_autologin_urls_should_use_wp_login';
+	const MAGIC_LINK_ENABLED              = 'bh_wp_autologin_urls_magic_link_enabled';
 
 	const DEFAULT_LOG_LEVEL = LogLevel::NOTICE;
 
@@ -162,5 +163,12 @@ class Settings implements Settings_Interface, Logger_Settings_Interface {
 	 */
 	public function get_klaviyo_private_api_key(): ?string {
 		return get_option( 'bh_wp_autologin_urls_klaviyo_private_key', null );
+	}
+
+	/**
+	 * Enable/disable the magic link feature.
+	 */
+	public function is_magic_link_enabled(): bool {
+		return get_option( self::MAGIC_LINK_ENABLED, true );
 	}
 }
