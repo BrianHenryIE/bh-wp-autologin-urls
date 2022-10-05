@@ -79,6 +79,10 @@ class Autologin_URLs implements User_Finder_Interface, LoggerAwareInterface {
 			}
 		}
 
+		if ( isset( $_GET['magic'] ) ) {
+			$result['source'] = 'Magic Email';
+		}
+
 		return $result;
 	}
 

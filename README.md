@@ -1,8 +1,8 @@
-[![WordPress tested 5.9](https://img.shields.io/badge/WordPress-v5.9%20tested-0073aa.svg)](https://wordpress.org/plugins/bh-wp-autologin-urls) [![PHPCS WPCS](https://img.shields.io/badge/PHPCS-WordPress%20Coding%20Standards-8892BF.svg)](https://github.com/WordPress-Coding-Standards/WordPress-Coding-Standards) [![PHPUnit ](.github/coverage.svg)](https://brianhenryie.github.io/bh-wp-autologin-urls/) [![PHPStan ](https://img.shields.io/badge/PHPStan-Level%208-2a5ea7.svg)](https://github.com/szepeviktor/phpstan-wordpress) [![Active installs](https://img.shields.io/badge/Active%20Installs-30%2B-ffb900.svg)](https://wordpress.org/plugins/bh-wp-autologin-urls/advanced/)
+[![WordPress tested 6.0](https://img.shields.io/badge/WordPress-v6.0%20tested-0073aa.svg)](https://wordpress.org/plugins/bh-wp-autologin-urls) [![PHPCS WPCS](https://img.shields.io/badge/PHPCS-WordPress%20Coding%20Standards-8892BF.svg)](https://github.com/WordPress-Coding-Standards/WordPress-Coding-Standards) [![PHPUnit ](.github/coverage.svg)](https://brianhenryie.github.io/bh-wp-autologin-urls/) [![PHPStan ](https://img.shields.io/badge/PHPStan-Level%208-2a5ea7.svg)](https://github.com/szepeviktor/phpstan-wordpress) [![Active installs](https://img.shields.io/badge/Active%20Installs-30%2B-ffb900.svg)](https://wordpress.org/plugins/bh-wp-autologin-urls/advanced/)
 
 # Autologin URLs
 
-Adds single-use passwords to WordPress emails' URLs for frictionless login.
+Adds single-use passwords to WordPress emails' URLs for frictionless login, and magic-link emails for passwordless login. 
 
 ## Overview
 
@@ -14,10 +14,13 @@ It should also help solve the problem with WooCommerce abandoned cart emails whe
 
 Also useful for logging users back in when they get reply notifications for their comments, bbPress posts etc.
 
-This plugin makes no theme/user-facing changes.
 
 ![Example Email](./.wordpress-org/screenshot-1.png "BH WP Autologin URLs example email screenshot")
 Example email sent via [Comment Reply Email Notification](https://wordpress.org/plugins/comment-reply-email-notification/) plugin.
+
+This plugin makes minor theme/user-facing changes on login forms. An additional "Email Magic Link" button is added which sends an email containing with an autologin URL to instantly log in users. This applies to wp-login.php and to WooCommerce login forms.
+
+![Magic Link Button](./.wordpress-org/wp-login-magic-link-sent.png "Additional Email Magic Link button added to wp-login.php")
 
 ## Installation & Configuration
 
@@ -105,11 +108,11 @@ $autologin_urls = $GLOBALS['bh-wp-autologin-urls'];
 * Client-side settings page validation
 * Test adding an autologin code to a URL which already has one overwrites the old one (and leaves only the one).
 * ~~The Newsletter Plugin integration~~ – and any plugin that doesn't use wp_mail
-* Magic link button on wp-login.php
+* ~~Magic link button on wp-login.php~~
 * Use:
       `$wp_hasher = new PasswordHash( 8, true );`
       `$hashed = $wp_hasher->HashPassword( $password );`
-
+* Add "send magic link" to wp-admin/user.php for admin use.
 
 ## Licence
 

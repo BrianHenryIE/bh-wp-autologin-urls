@@ -1,0 +1,21 @@
+
+.submit {
+    clear:both;
+    float: right;
+}
+
+p.submit {
+    text-align:right;
+}
+
+#wp-submit {
+    margin-left: 5px;
+}
+
+#login form .forgetmenot {
+    margin-bottom: 5px;
+}
+#autologin-magic-link{
+    display: inline-block;
+    margin-bottom: 5px;
+}

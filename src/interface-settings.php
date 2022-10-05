@@ -93,5 +93,9 @@ interface Settings_Interface {
 	 */
 	public function get_klaviyo_private_api_key(): ?string;
 
+	/**
+	 * Enable/disable the magic link feature.
+	 */
+	public function is_magic_link_enabled(): bool;
 }
 
