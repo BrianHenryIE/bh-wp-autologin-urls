@@ -21,6 +21,7 @@ use BrianHenryIE\WP_Autologin_URLs\Admin\Plugins_Page;
 use BrianHenryIE\WP_Autologin_URLs\Login\Login_Ajax;
 use BrianHenryIE\WP_Autologin_URLs\Login\Login_Assets;
 use BrianHenryIE\WP_Autologin_URLs\WooCommerce\Admin_Order_UI;
+use BrianHenryIE\WP_Autologin_URLs\WooCommerce\Login_Form;
 use BrianHenryIE\WP_Autologin_URLs\WP_Includes\Cron;
 use BrianHenryIE\WP_Autologin_URLs\WP_Includes\I18n;
 use BrianHenryIE\WP_Autologin_URLs\WP_Includes\Login;
@@ -97,6 +98,7 @@ class BH_WP_Autologin_URLs {
 		$this->define_cron_hooks();
 
 		$this->define_woocommerce_admin_order_ui_hooks();
+		$this->define_woocommerce_login_form_hooks();
 	}
 
 	/**
@@ -236,5 +238,15 @@ class BH_WP_Autologin_URLs {
 		add_action( 'admin_enqueue_scripts', array( $admin_order_ui, 'enqueue_script' ) );
 		add_action( 'admin_enqueue_scripts', array( $admin_order_ui, 'enqueue_styles' ) );
 
+	}
+
+	/**
+	 * Register the action for enqueuing the JavaScript to add the magic-link button to the WooCommerce login form.
+	 */
+	protected function define_woocommerce_login_form_hooks(): void {
+
+		$login_form = new Login_Form( $this->settings );
+
+		add_action( 'woocommerce_before_customer_login_form', array( $login_form, 'enqueue_script' ) );
 	}
 }

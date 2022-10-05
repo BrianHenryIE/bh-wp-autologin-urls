@@ -15,7 +15,7 @@
 		// Set the button to disabled by default. When the page is reloaded and the input already has text, it should be enabled.
 		$('#autologin-magic-link').prop('disabled', $('#user_login').val().trim().length === 0);
 
-		// When the log level is changed, POST it to be saved.
+		// Enable/disable the button when the username is filled/empty.
 		$('#user_login').keyup(function(e) {
 
 			// TODO: If Enter is pressed and the password field is empty, send the email.

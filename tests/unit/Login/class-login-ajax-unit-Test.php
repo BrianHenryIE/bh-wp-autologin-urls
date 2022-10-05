@@ -45,7 +45,7 @@ class Login_Ajax_Unit_Test extends \Codeception\Test\Unit {
 		\WP_Mock::userFunction(
 			'check_ajax_referer',
 			array(
-				'args'   => array( Login_Assets::class, false, false ),
+				'args'   => array( Login_Ajax::class, false, false ),
 				'return' => true,
 				'times'  => 1,
 			)
@@ -72,7 +72,7 @@ class Login_Ajax_Unit_Test extends \Codeception\Test\Unit {
 		\WP_Mock::userFunction(
 			'human_time_diff',
 			array(
-				'args'   => array( 900 ),
+				'args'   => array( \WP_Mock\Functions::type( 'int' ) ),
 				'return' => '15 mins',
 				'times'  => 1,
 			)

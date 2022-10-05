@@ -60,7 +60,7 @@ class Login_Assets {
 
 		$ajax_data      = array(
 			'ajaxurl'   => admin_url( 'admin-ajax.php' ),
-			'_wp_nonce' => wp_create_nonce( self::class ),
+			'_wp_nonce' => wp_create_nonce( Login_Ajax::class ),
 		);
 		$ajax_data_json = wp_json_encode( $ajax_data, JSON_PRETTY_PRINT );
 
