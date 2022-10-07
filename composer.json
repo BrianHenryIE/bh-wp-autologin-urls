@@ -36,8 +36,8 @@
       "url": "https://github.com/brianhenryie/bh-wp-private-uploads"
     },
     "brianhenryie/bh-wp-rate-limiter": {
-      "type": "path",
-      "url": "../bh-wp-rate-limiter"
+      "url": "https://github.com/BrianHenryIE/bh-wp-rate-limiter",
+      "type": "git"
     },
     "brianhenryie/composer-phpstorm": {
       "url": "https://github.com/BrianHenryIE/composer-phpstorm",

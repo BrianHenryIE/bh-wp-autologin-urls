@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b5d7ceeb4b215408d12f74d71204987f",
+    "content-hash": "4a210a89c41b5df88238128496ca135c",
     "packages": [
         {
             "name": "beberlei/assert",
@@ -380,10 +380,10 @@
         {
             "name": "brianhenryie/bh-wp-rate-limiter",
             "version": "dev-master",
-            "dist": {
-                "type": "path",
-                "url": "../bh-wp-rate-limiter",
-                "reference": "21ffe1107454789b162cf9fd4138842f2d7a42b0"
+            "source": {
+                "type": "git",
+                "url": "https://github.com/BrianHenryIE/bh-wp-rate-limiter",
+                "reference": "a880d648bb4ad104cfcb91eae25a37f9d82c64f6"
             },
             "require": {
                 "nikolaposa/rate-limit": "dev-psr-16",
@@ -417,6 +417,7 @@
                 "wp-cli/wp-cli-bundle": "*",
                 "wp-coding-standards/wpcs": "*"
             },
+            "default-branch": true,
             "type": "wordpress-library",
             "autoload": {
                 "classmap": [
@@ -433,9 +434,7 @@
                 }
             ],
             "description": "Rate limiter using WordPress cache for storage.",
-            "transport-options": {
-                "relative": true
-            }
+            "time": "2022-10-07T19:40:44+00:00"
         },
         {
             "name": "guzzlehttp/guzzle",
