@@ -1,5 +1,9 @@
+### 1.8.0
 
-
+* Add: ignore requests from bots (check HTTP_USER_AGENT for "bot")
+* Fix: do not redirect_to wp-login.php, unwrap the inner redirect_to and use that
+* Fix: unprefixed Klaviyo\ApiException.
+    
 ### 1.7.1
 
 * Fix: set content type on HTML emails
