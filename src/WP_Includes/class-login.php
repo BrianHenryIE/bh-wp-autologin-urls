@@ -161,18 +161,20 @@ class Login {
 	 */
 	protected function maybe_redirect(): void {
 
-		$request_uri = filter_var( getenv( 'REQUEST_URI' ) );
-		if ( empty( $request_uri ) ) {
-			// Unusual.
+		if ( ! isset( $_SERVER['REQUEST_URI'] ) ) {
+			// Cron, WP CLI.
 			return;
 		}
 
-		// Check is the requested URL wp-login.php.
+		$request_uri = esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ) );
+
+		// Check is the requested URL wp-login.php. Otherwise we don't want to redirect.
 		$wp_login_endpoint = str_replace( get_site_url(), '', wp_login_url() );
 		if ( ! stristr( $request_uri, $wp_login_endpoint ) ) {
 			return;
 		}
 
+		// Check we're on wp-login.php?redirect_to=...
 		if ( isset( $_GET['redirect_to'] ) ) {
 
 			$url = filter_var( wp_unslash( $_GET['redirect_to'] ), FILTER_SANITIZE_STRING );

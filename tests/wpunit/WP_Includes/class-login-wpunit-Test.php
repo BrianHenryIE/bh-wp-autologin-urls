@@ -133,4 +133,83 @@ class Login_WPUnit_Test extends \Codeception\TestCase\WPTestCase {
 		$this->assertEquals( $user_id, $logged_in_user_id );
 
 	}
+
+	/**
+	 * @covers ::maybe_redirect
+	 */
+	public function test_maybe_redirect_happy_path(): void {
+
+		$logger = new ColorLogger();
+
+		$settings = $this->makeEmpty( Settings_Interface::class );
+
+		$api = $this->makeEmpty(
+			API_Interface::class,
+			array(
+				'get_ip_address'             => Expected::never(),
+				'should_allow_login_attempt' => Expected::never(),
+			)
+		);
+
+		$new_user = array(
+			'user_pass'  => 'password',
+			'user_login' => 'test_user',
+		);
+		$user_id  = wp_insert_user( $new_user );
+		/** @var WP_User $wp_user */
+		$wp_user = get_user_by( 'id', $user_id );
+
+		wp_set_current_user( $user_id );
+
+		$user_finder = $this->makeEmpty(
+			User_Finder_Interface::class,
+			array(
+				'is_querystring_valid' => true,
+				'get_wp_user_array'    => array(
+					'wp_user' => $wp_user,
+					'source'  => 'mock',
+				),
+			)
+		);
+
+		$user_finder_factory = $this->makeEmpty(
+			User_Finder_Factory::class,
+			array(
+				'get_user_finder' => $user_finder,
+			)
+		);
+
+		$sut = new Login( $api, $settings, $logger, $user_finder_factory );
+
+		$exception = null;
+
+		$_SERVER['REQUEST_URI'] = 'http://example.org/wp-login.php?redirect_to=http%3A%2F%2Fexample.org%2Fmy-account%';
+		$_GET['redirect_to']    = rawurlencode( 'http://example.org/my-account' );
+
+		add_filter(
+			'wp_redirect',
+			function( $location ) {
+				throw new \Exception( $location );
+			}
+		);
+
+		add_filter(
+			'allowed_redirect_hosts',
+			function() {
+				return array( 'example.org' );
+			}
+		);
+
+		try {
+			$sut->process();
+		} catch ( \Exception $e ) {
+			$exception = $e;
+		}
+
+		$this->assertNotNull( $exception );
+
+		/** @var \Exception $exception */
+		$this->assertEquals( 'http://example.org/my-account', $exception->getMessage() );
+	}
+
 }
