@@ -398,6 +398,65 @@ class API_WPUnit_Test extends \Codeception\TestCase\WPTestCase {
 	}
 
 	/**
+	 * It was happening that links to wp-login.php were redirecting to wp-login.php?redirect_to... etc.
+	 *
+	 * @covers ::add_autologin_to_url
+	 */
+	public function test_add_autologin_to_url_russian_doll(): void {
+
+		$logger          = new ColorLogger();
+		$settings        = $this->makeEmpty(
+			Settings_Interface::class,
+			array(
+				'get_should_use_wp_login' => true,
+			)
+		);
+		$data_store_mock = $this->makeEmpty( Data_Store_Interface::class );
+		$api             = new API( $settings, $logger, $data_store_mock );
+
+		$url = get_site_url() . '/my-account/';
+
+		$url = wp_login_url( wp_login_url( $url ) );
+
+		/** @var int $wp_user_id */
+		$wp_user_id = wp_create_user( 'test-user', '123' );
+
+		$result = $api->add_autologin_to_url( $url, $wp_user_id );
+
+		$expected = "http://example.org/wp-login.php?redirect_to=http%3A%2F%2Fexample.org%2Fmy-account%2F&autologin={$wp_user_id}~mockpassw0rd";
+
+		$this->assertEquals( $expected, $result );
+	}
+
+
+	/**
+	 * @covers ::add_autologin_to_url
+	 */
+	public function test_add_autologin_to_url_russian_doll_redirect_to_wp_login(): void {
+
+		$logger          = new ColorLogger();
+		$settings        = $this->makeEmpty(
+			Settings_Interface::class,
+			array(
+				'get_should_use_wp_login' => false,
+			)
+		);
+		$data_store_mock = $this->makeEmpty( Data_Store_Interface::class );
+		$api             = new API( $settings, $logger, $data_store_mock );
+
+		$url = 'http://example.org/wp-login.php?redirect_to=http%3A%2F%2Fexample.org%2Fwp-login.php';
+
+		/** @var int $wp_user_id */
+		$wp_user_id = wp_create_user( 'test-user', '123' );
+
+		$result = $api->add_autologin_to_url( $url, $wp_user_id );
+
+		$expected = "http://example.org?autologin={$wp_user_id}~mockpassw0rd";
+
+		$this->assertEquals( $expected, $result );
+	}
+
+	/**
 	 * @covers ::send_magic_link
 	 */
 	public function test_send_magic_link(): void {

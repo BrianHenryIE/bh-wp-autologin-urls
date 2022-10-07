@@ -159,9 +159,37 @@ class API implements API_Interface {
 		// taken place in this method.
 		$autologin_code = $this->generate_code( $user, $expires_in );
 
+		/**
+		 * The typical `wp-login.php` can be configured to be a different URL.
+		 *
+		 * @var array{host:string,path:string} $parsed_wp_login_url
+		 */
+		$parsed_wp_login_url = wp_parse_url( wp_login_url() );
+		$parsed_url          = wp_parse_url( $url );
+
+		// Redirecting to wp-login.php always send the user to a login screen, defeating the point of this plugin.
+		while ( isset( $parsed_url['host'], $parsed_url['path'] ) && $parsed_url['host'] === $parsed_wp_login_url['host'] && $parsed_url['path'] === $parsed_wp_login_url['path'] ) {
+
+			if ( isset( $parsed_url['query'] ) ) {
+				parse_str( $parsed_url['query'], $query_get );
+
+				if ( isset( $query_get['redirect_to'] ) ) {
+					$url = $query_get['redirect_to'];
+				} else {
+					$url = get_site_url();
+				}
+			} else {
+				// There must be a neater way of assigning $url but today I want to work on something else.
+				$url = get_site_url();
+			}
+
+			$parsed_url = wp_parse_url( $url );
+		}
+
 		if ( ! $this->settings->get_should_use_wp_login() ) {
 			$user_link = add_query_arg( Autologin_URLs::QUERYSTRING_PARAMETER_NAME, $autologin_code, $url );
 		} else {
+			// TODO: If it is already a wp-login.php URL, deconstruct to avoid a Russian doll situation.
 			$user_link = add_query_arg( Autologin_URLs::QUERYSTRING_PARAMETER_NAME, $autologin_code, wp_login_url( $url ) );
 		}
 
@@ -308,6 +336,7 @@ class API implements API_Interface {
 					'interval'             => $interval,
 					'allowed_access_count' => $allowed_access_count,
 					'status'               => $status,
+					'_SERVER'              => $_SERVER,
 				)
 			);
 
