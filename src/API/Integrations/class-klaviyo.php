@@ -11,12 +11,12 @@
 
 namespace BrianHenryIE\WP_Autologin_URLs\API\Integrations;
 
+use BrianHenryIE\WP_Autologin_URLs\Klaviyo\ApiException;
 use BrianHenryIE\WP_Autologin_URLs\Settings_Interface;
 use BrianHenryIE\WP_Autologin_URLs\API\User_Finder_Interface;
 use BrianHenryIE\WP_Autologin_URLs\Klaviyo\API\ProfilesApi;
 use BrianHenryIE\WP_Autologin_URLs\Klaviyo\Client;
 use Exception;
-use Klaviyo\ApiException;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
 use Psr\Log\LoggerInterface;
