@@ -80,6 +80,13 @@ class Login {
 	 */
 	public function process(): void {
 
+		// Check for bots.
+		$user_agent = filter_input( INPUT_SERVER, 'HTTP_USER_AGENT' );
+		$bot        = false !== strpos( $user_agent, 'bot' );
+		if ( $bot ) {
+			return;
+		}
+
 		// TODO: If we're logged in already, just return. It will save a lot of wasted processing.
 		// Maybe use a cookie to only use an autologin URL once every x minutes.
 
