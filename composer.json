@@ -131,10 +131,6 @@
       },
       "ericmartel/codeception-email-mailtrap": {
         "Fixed undefined property ": "https://github.com/ericmartel/codeception-email-mailtrap/pull/7.patch"
-      },
-      "brianhenryie/strauss": {
-        "Fix blocked by your allow-plugins config": "https://github.com/BrianHenryIE/strauss/pull/45.patch",
-        "Static in array and ternary": "https://github.com/BrianHenryIE/strauss/pull/46.patch"
       }
     },
     "strauss": {
