@@ -2,6 +2,7 @@ parameters:
     level: 8
     paths:
         - src
+        - bh-wp-autologin-urls.php
     excludePaths:
         - vendor-prefixed
     bootstrapFiles:
