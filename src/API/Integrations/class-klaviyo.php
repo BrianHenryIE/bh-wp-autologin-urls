@@ -146,7 +146,7 @@ class Klaviyo implements User_Finder_Interface, LoggerAwareInterface {
 			 */
 			$response = $profiles->exchange( array( 'exchange_id' => $kx_parameter ) );
 		} catch ( ApiException $exception ) { // ApiException seemingly not catching 429 errors.
-			$this->logger->error( $exception->getMessage() );
+			$this->logger->error( $exception->getMessage(), array( 'exception' => $exception ) );
 			return array();
 		}
 

@@ -120,7 +120,7 @@ class Login {
 			// TODO: always expire codes when used.
 			// TODO: Test this thoroughly.
 
-			$this->logger->debug( "User {$wp_user->ID} already logged in." );
+			$this->logger->debug( "wp_user:{$wp_user->ID} already logged in." );
 
 			$this->maybe_redirect();
 
