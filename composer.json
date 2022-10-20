@@ -9,6 +9,12 @@
       "email": "BrianHenryIE@gmail.com"
     }
   ],
+  "autoload": {
+    "classmap": ["vendor-prefixed"],
+    "wordpress": {
+      "BrianHenryIE\\WP_Autologin_URLs\\": "src"
+    }
+  },
   "autoload-dev": {
     "psr-4": {
       "BrianHenryIE\\WP_Autologin_URLs\\": ["tests/integration","tests/unit","tests/wpunit"]
@@ -23,7 +29,8 @@
       "composer/installers": true,
       "cweagans/composer-patches": true,
       "dealerdirect/phpcodesniffer-composer-installer": true,
-      "phpstan/extension-installer": true
+      "phpstan/extension-installer": true,
+      "alleyinteractive/composer-wordpress-autoloader": true
     }
   },
   "repositories": {
@@ -70,11 +77,11 @@
   },
   "require": {
     "php": ">=7.4",
+    "ext-json": "*",
+    "alleyinteractive/composer-wordpress-autoloader": "^1.0",
     "brianhenryie/bh-wp-logger": "dev-master",
     "brianhenryie/bh-wp-rate-limiter": "dev-master",
-    "ext-json": "*",
-    "klaviyo/sdk": "^1.0",
-    "pablo-sg-pacheco/wp-namespace-autoloader": "dev-master#015c9654459fd267cf12fa7846d3bf36b11c3bd7"
+    "klaviyo/sdk": "^1.0"
   },
   "require-dev": {
     "ext-dom": "*",
@@ -92,7 +99,6 @@
     "codeception/util-universalframework": "^1.0",
     "cweagans/composer-patches": "*",
     "dealerdirect/phpcodesniffer-composer-installer": "*",
-    "hoa/console": "^3.17",
     "jaschilz/php-coverage-badger": "^2.0",
     "kporras07/composer-symlinks": "dev-master",
     "lucatume/wp-browser": "*",

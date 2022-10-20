@@ -15,7 +15,9 @@ namespace BrianHenryIE\WP_Autologin_URLs;
 
 use BrianHenryIE\WP_Autologin_URLs\Pablo_Pacheco\WP_Namespace_Autoloader\WP_Namespace_Autoloader;
 
-require_once __DIR__ . '/vendor-prefixed/autoload.php';
+//require_once __DIR__ . '/vendor-prefixed/autoload.php';
 
-$wpcs_autoloader = new WP_Namespace_Autoloader( array( 'classes_dir' => array( 'src' ) ) );
-$wpcs_autoloader->init();
+//$wpcs_autoloader = new WP_Namespace_Autoloader( array( 'classes_dir' => array( 'src' ) ) );
+//$wpcs_autoloader->init();
+
+require_once __DIR__ . '/vendor/autoload.php';
