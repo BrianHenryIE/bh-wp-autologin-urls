@@ -8,7 +8,7 @@
 
 namespace BrianHenryIE\WP_Autologin_URLs\WP_Includes;
 
-use BrianHenryIE\WP_Autologin_URLs\Admin\Admin;
+use BrianHenryIE\WP_Autologin_URLs\Admin\Admin_Assets;
 use BrianHenryIE\WP_Autologin_URLs\Admin\Plugins_Page;
 
 /**
@@ -24,7 +24,7 @@ class BH_WP_Autologin_URLs_Integration_Test extends \Codeception\TestCase\WPTest
 		$action_name       = 'admin_enqueue_scripts';
 		$expected_priority = 10;
 
-		$class_type  = Admin::class;
+		$class_type  = Admin_Assets::class;
 		$method_name = 'enqueue_styles';
 
 		$function_is_hooked = $this->is_function_hooked_on_action( $class_type, $method_name, $action_name, $expected_priority );
@@ -40,7 +40,7 @@ class BH_WP_Autologin_URLs_Integration_Test extends \Codeception\TestCase\WPTest
 		$action_name       = 'admin_enqueue_scripts';
 		$expected_priority = 10;
 
-		$class_type  = Admin::class;
+		$class_type  = Admin_Assets::class;
 		$method_name = 'enqueue_scripts';
 
 		$function_is_hooked = $this->is_function_hooked_on_action( $class_type, $method_name, $action_name, $expected_priority );
