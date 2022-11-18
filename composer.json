@@ -73,23 +73,26 @@
     "wp-oop/transient-cache": {
       "url": "https://github.com/BrianHenryIE/transient-cache",
       "type": "git"
+    },
+    "alleyinteractive/composer-wordpress-autoloader": {
+      "url": "../composer-wordpress-autoloader",
+      "type": "path"
     }
   },
   "require": {
     "php": ">=7.4",
     "ext-json": "*",
-    "alleyinteractive/composer-wordpress-autoloader": "^1.0",
+    "alleyinteractive/wordpress-autoloader": "^1.1",
     "brianhenryie/bh-wp-logger": "dev-master",
     "brianhenryie/bh-wp-rate-limiter": "dev-master",
     "klaviyo/sdk": "^1.0"
   },
   "require-dev": {
-    "ext-dom": "*",
-    "10up/wp_mock": "0.4.2",
+    "10up/wp_mock": "dev-trunk",
     "antecedent/patchwork": "^2.1",
     "brianhenryie/color-logger": "^1.0",
     "brianhenryie/composer-phpstorm": "dev-master",
-    "brianhenryie/strauss": "*",
+    "brianhenryie/strauss": "dev-master",
     "codeception/module-asserts": "^1.0",
     "codeception/module-cli": "^1.0",
     "codeception/module-db": "^1.0.0",
@@ -99,6 +102,7 @@
     "codeception/util-universalframework": "^1.0",
     "cweagans/composer-patches": "*",
     "dealerdirect/phpcodesniffer-composer-installer": "*",
+    "ext-dom": "*",
     "jaschilz/php-coverage-badger": "^2.0",
     "kporras07/composer-symlinks": "dev-master",
     "lucatume/wp-browser": "*",
@@ -131,12 +135,6 @@
     "patches": {
       "jaschilz/php-coverage-badger": {
         "Allow customising the text": "https://github.com/JASchilz/PHPCoverageBadge/pull/1.patch"
-      },
-      "10up/wp_mock": {
-        "Add AnyObject matcher": "https://github.com/10up/wp_mock/pull/161.patch"
-      },
-      "ericmartel/codeception-email-mailtrap": {
-        "Fixed undefined property ": "https://github.com/ericmartel/codeception-email-mailtrap/pull/7.patch"
       }
     },
     "strauss": {

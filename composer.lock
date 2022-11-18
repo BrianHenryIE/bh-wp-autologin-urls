@@ -4,65 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "693da907ba1dd05e81f6eba2b865dfaa",
+    "content-hash": "ccca205b676b7bfe416cebf266fa646d",
     "packages": [
-        {
-            "name": "alleyinteractive/composer-wordpress-autoloader",
-            "version": "v1.0.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/alleyinteractive/composer-wordpress-autoloader.git",
-                "reference": "5f72de0cc7060c2475117c3231335b0899200230"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/alleyinteractive/composer-wordpress-autoloader/zipball/5f72de0cc7060c2475117c3231335b0899200230",
-                "reference": "5f72de0cc7060c2475117c3231335b0899200230",
-                "shasum": ""
-            },
-            "require": {
-                "alleyinteractive/wordpress-autoloader": "^1.1.1",
-                "composer-plugin-api": "^2.0",
-                "php": "^7.4.0|^8.0|^8.1"
-            },
-            "require-dev": {
-                "composer/composer": "*",
-                "phpunit/phpunit": "^9.5.8",
-                "squizlabs/php_codesniffer": "^4.0"
-            },
-            "type": "composer-plugin",
-            "extra": {
-                "class": "ComposerWordPressAutoloader\\Plugin"
-            },
-            "autoload": {
-                "files": [
-                    "src/autoload.php"
-                ],
-                "psr-4": {
-                    "ComposerWordPressAutoloader\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "GPL-2.0-or-later"
-            ],
-            "authors": [
-                {
-                    "name": "Alley Interactive",
-                    "email": "info@alley.co"
-                },
-                {
-                    "name": "Sean Fisher",
-                    "email": "sean@alley.co"
-                }
-            ],
-            "description": "Autoload files using WordPress File Conventions using Composer",
-            "support": {
-                "issues": "https://github.com/alleyinteractive/composer-wordpress-autoloader/issues",
-                "source": "https://github.com/alleyinteractive/composer-wordpress-autoloader/tree/v1.0.0"
-            },
-            "time": "2022-09-01T03:42:52+00:00"
-        },
         {
             "name": "alleyinteractive/wordpress-autoloader",
             "version": "v1.1.1",
@@ -180,7 +123,7 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/BrianHenryIE/bh-wp-logger",
-                "reference": "4f1ad954800e58b75fb18238eb61c5b22b3079c3"
+                "reference": "7c9ad9f78465f78b601f8d4129f6f520bc782c46"
             },
             "require": {
                 "brianhenryie/bh-wp-private-uploads": "dev-master",
@@ -229,9 +172,6 @@
                     "jaschilz/php-coverage-badger": {
                         "Allow customising the text": "https://github.com/JASchilz/PHPCoverageBadge/pull/1.patch"
                     },
-                    "10up/wp_mock": {
-                        "Add AnyObject matcher": "https://github.com/10up/wp_mock/pull/161.patch"
-                    },
                     "wptrt/admin-notices": {
                         "dev-merged": "https://github.com/BrianHenryIE/admin-notices/pull/1.patch"
                     }
@@ -249,6 +189,160 @@
                             "vendor/wordpress/wordpress/src",
                             "vendor/wordpress/wordpress/build",
                             "wp-content/plugins/bh-wp-logger-test-plugin",
+                            "wordpress/wp-content"
+                        ],
+                        "include_folders": [
+                            "vendor/wordpress/wordpress/"
+                        ],
+                        "composer-symlinks": false
+                    }
+                }
+            },
+            "autoload": {
+                "classmap": [
+                    "src/"
+                ]
+            },
+            "autoload-dev": {
+                "classmap": [
+                    "test-plugin/"
+                ]
+            },
+            "scripts": {
+                "post-install-cmd": [
+                    "vendor/bin/wp core download --path=wordpress --allow-root || true;",
+                    "Kporras07\\ComposerSymlinks\\ScriptHandler::createSymlinks",
+                    "@setup-wordpress",
+                    "BrianHenryIE\\ComposerPhpStorm\\ExcludeFolders::update",
+                    "BrianHenryIE\\ComposerPhpStorm\\PHPUnitRunConfigurations::update"
+                ],
+                "post-update-cmd": [
+                    "@setup-wordpress",
+                    "Kporras07\\ComposerSymlinks\\ScriptHandler::createSymlinks",
+                    "BrianHenryIE\\ComposerPhpStorm\\ExcludeFolders::update",
+                    "BrianHenryIE\\ComposerPhpStorm\\PHPUnitRunConfigurations::update"
+                ],
+                "setup-wordpress": [
+                    "wp core download --path=wordpress --allow-root || true",
+                    "export $(grep -v '^#' .env.testing | xargs); wp config create --dbname=$TEST_SITE_DB_NAME --dbuser=$TEST_SITE_DB_USER --dbpass=$TEST_SITE_DB_PASSWORD --allow-root --extra-php=\"\ndefine( 'WP_DEBUG_LOG', true );\ndefine( 'SCRIPT_DEBUG', true );\" || true",
+                    "export $(grep -v '^#' .env.testing | xargs); vendor/bin/wp core install --url=\"localhost:8080/$PLUGIN_SLUG\" --title=\"$PLUGIN_NAME\" --admin_user=admin --admin_password=password --admin_email=admin@example.org || true; wp plugin activate $PLUGIN_SLUG || true;",
+                    "wp user create bob bob@example.org --user_pass=password || true;",
+                    "wp core update --allow-root || true",
+                    "patch ./wordpress/wp-config.php ./patches/wp-debug.diff -s -N -f --no-backup-if-mismatch --reject-file= || true;",
+                    "patch ./wordpress/wp-includes/plugin.php ./patches/42670.diff -s -N -f --no-backup-if-mismatch --reject-file= || true;",
+                    "mkdir -p wordpress/wp-content/uploads"
+                ],
+                "create-databases": [
+                    "export $(grep -v '^#' .env.testing | xargs); [[ $(mysqld --version) =~ .*MariaDB.* ]] && mysql -e \"CREATE USER IF NOT EXISTS '\"$TEST_DB_USER\"'@'%' IDENTIFIED BY '\"$TEST_DB_PASSWORD\"';\" || mysql -e \"CREATE USER IF NOT EXISTS '\"$TEST_DB_USER\"'@'%' IDENTIFIED WITH mysql_native_password BY '\"$TEST_DB_PASSWORD\"';\";",
+                    "export $(grep -v '^#' .env.testing | xargs); mysql -e \"CREATE DATABASE IF NOT EXISTS \"$TEST_SITE_DB_NAME\"; USE \"$TEST_SITE_DB_NAME\"; GRANT ALL PRIVILEGES ON \"$TEST_SITE_DB_NAME\".* TO '\"$TEST_DB_USER\"'@'%';\";",
+                    "export $(grep -v '^#' .env.testing | xargs); mysql -e \"CREATE DATABASE IF NOT EXISTS \"$TEST_DB_NAME\"; USE \"$TEST_DB_NAME\"; GRANT ALL PRIVILEGES ON \"$TEST_DB_NAME\".* TO '\"$TEST_DB_USER\"'@'%';\";",
+                    "@restore-acceptance-database"
+                ],
+                "delete-databases": [
+                    "export $(grep -v '^#' .env.testing | xargs); mysql -e \"DROP TABLE IF EXISTS $TEST_SITE_DB_NAME;\" mysql -e \"DROP TABLE IF EXISTS $TEST_DB_NAME;\"",
+                    "export $(grep -v '^#' .env.testing | xargs); DB_DIR=$(mysql -e \"select @@datadir\" -N -B); rm -rf $DB_DIR$TEST_SITE_DB_NAME; rm -rf  $DB_DIR$TEST_DB_NAME;",
+                    "mysql -e \"FLUSH TABLES;\""
+                ],
+                "save-acceptance-database": [
+                    "export $(grep -v '^#' .env.testing | xargs); mysqldump -u $TEST_SITE_DB_USER -p$TEST_SITE_DB_PASSWORD  $TEST_SITE_DB_NAME > tests/_data/dump.sql;"
+                ],
+                "restore-acceptance-database": [
+                    "export $(grep -v '^#' .env.testing | xargs); mysql $TEST_SITE_DB_NAME < tests/_data/dump.sql"
+                ],
+                "coverage-tests": [
+                    "vendor/bin/codecept run unit --coverage unit.cov",
+                    "vendor/bin/codecept run wpunit --coverage wpunit.cov",
+                    "vendor/bin/phpcov merge --clover tests/_output/clover.xml --html tests/_output/html tests/_output;",
+                    "open tests/_output/html/index.html"
+                ],
+                "lint": [
+                    "vendor/bin/phpcbf || true",
+                    "vendor/bin/phpcs || true",
+                    "vendor/bin/phpstan analyse --memory-limit 2G"
+                ],
+                "lint-changes": [
+                    "updated_files=$( git status | grep 'modified:\\s.*.php$' | cut -c14- | awk '{ printf(\"%s \", $0) }' ); vendor/bin/phpcbf $(echo $updated_files); vendor/bin/phpcs $(echo $updated_files); vendor/bin/phpstan analyse $(echo $updated_files) --memory-limit 2G"
+                ]
+            },
+            "license": [
+                "GPL-2.0+-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "Brian Henry",
+                    "email": "BrianHenryIE@gmail.com"
+                }
+            ],
+            "description": "This is a short description of what plugin_title does.",
+            "time": "2022-10-28T18:18:10+00:00"
+        },
+        {
+            "name": "brianhenryie/bh-wp-private-uploads",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/brianhenryie/bh-wp-private-uploads",
+                "reference": "f72ef4b75ff0cd74e4313fb4d63fddae4ec6c386"
+            },
+            "require": {
+                "ext-fileinfo": "*",
+                "php": ">=7.4",
+                "psr/log": "^1.0.0",
+                "wptrt/admin-notices": "dev-master"
+            },
+            "require-dev": {
+                "10up/wp_mock": "0.4.2",
+                "antecedent/patchwork": "^2.1",
+                "brianhenryie/bh-wp-logger": "dev-master",
+                "brianhenryie/color-logger": "^1.0",
+                "brianhenryie/composer-phpstorm": "dev-master",
+                "brianhenryie/strauss": "*",
+                "codeception/module-asserts": "^1.0",
+                "codeception/module-cli": "^1.0",
+                "codeception/module-db": "^1.0.0",
+                "codeception/module-filesystem": "^1.0",
+                "codeception/module-phpbrowser": "^1.0.0",
+                "codeception/module-webdriver": "^1.0",
+                "codeception/util-universalframework": "^1.0",
+                "cweagans/composer-patches": "*",
+                "dealerdirect/phpcodesniffer-composer-installer": "*",
+                "jaschilz/php-coverage-badger": "^2.0",
+                "kporras07/composer-symlinks": "dev-master",
+                "lucatume/wp-browser": "*",
+                "pablo-sg-pacheco/wp-namespace-autoloader": "*",
+                "phpcompatibility/phpcompatibility-wp": "*",
+                "phpstan/extension-installer": "^1.1",
+                "phpunit/phpcov": "*",
+                "squizlabs/php_codesniffer": "*",
+                "szepeviktor/phpstan-wordpress": "^0.7.2",
+                "voku/portable-ascii": "dev-master",
+                "wordpress/wordpress": "*",
+                "wp-cli/dist-archive-command": "dev-main",
+                "wp-cli/wp-cli-bundle": "*",
+                "wp-coding-standards/wpcs": "*",
+                "wpackagist-theme/twentytwenty": "*"
+            },
+            "default-branch": true,
+            "type": "library",
+            "extra": {
+                "patches": {
+                    "jaschilz/php-coverage-badger": {
+                        "Allow customising the text": "https://github.com/JASchilz/PHPCoverageBadge/pull/1.patch"
+                    },
+                    "wptrt/admin-notices": {
+                        "dev-merged": "https://github.com/BrianHenryIE/admin-notices/pull/1.patch"
+                    }
+                },
+                "symlinks": {
+                    "wp-content": "wordpress/wp-content",
+                    "test-plugin": "wp-content/plugins/bh-wp-private-uploads-test-plugin"
+                },
+                "phpstorm": {
+                    "exclude_folders": {
+                        "folders": [
+                            "vendor/wordpress/wordpress/src",
+                            "vendor/wordpress/wordpress/build",
+                            "wp-content/plugins/bh-wp-private-uploads-test-plugin",
                             "wordpress/wp-content"
                         ],
                         "include_folders": [
@@ -324,142 +418,13 @@
                 ],
                 "lint-changes": [
                     "updated_files=$( git status | grep 'modified:\\s.*.php$' | cut -c14- | awk '{ printf(\"%s \", $0) }' ); vendor/bin/phpcbf $(echo $updated_files); vendor/bin/phpcs $(echo $updated_files); vendor/bin/phpstan analyse $(echo $updated_files) --memory-limit 2G"
-                ]
-            },
-            "license": [
-                "GPL-2.0+-or-later"
-            ],
-            "authors": [
-                {
-                    "name": "Brian Henry",
-                    "email": "BrianHenryIE@gmail.com"
-                }
-            ],
-            "description": "This is a short description of what plugin_title does.",
-            "time": "2022-10-16T03:46:11+00:00"
-        },
-        {
-            "name": "brianhenryie/bh-wp-private-uploads",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/brianhenryie/bh-wp-private-uploads",
-                "reference": "a7f29f0030ec2d4505ddc934e8a4514b08075094"
-            },
-            "require": {
-                "ext-fileinfo": "*",
-                "php": ">=7.4",
-                "psr/log": "^1.0.0",
-                "wptrt/admin-notices": "dev-master"
-            },
-            "require-dev": {
-                "10up/wp_mock": "0.4.2",
-                "antecedent/patchwork": "^2.1",
-                "brianhenryie/bh-wp-logger": "dev-master",
-                "brianhenryie/color-logger": "^1.0",
-                "brianhenryie/composer-phpstorm": "dev-master",
-                "brianhenryie/strauss": "*",
-                "codeception/module-asserts": "^1.0",
-                "codeception/module-cli": "^1.0",
-                "codeception/module-db": "^1.0.0",
-                "codeception/module-filesystem": "^1.0",
-                "codeception/module-phpbrowser": "^1.0.0",
-                "codeception/module-webdriver": "^1.0",
-                "codeception/util-universalframework": "^1.0",
-                "cweagans/composer-patches": "*",
-                "dealerdirect/phpcodesniffer-composer-installer": "*",
-                "jaschilz/php-coverage-badger": "^2.0",
-                "kporras07/composer-symlinks": "dev-master",
-                "lucatume/wp-browser": "*",
-                "pablo-sg-pacheco/wp-namespace-autoloader": "*",
-                "phpcompatibility/phpcompatibility-wp": "*",
-                "phpstan/extension-installer": "^1.1",
-                "phpunit/phpcov": "*",
-                "squizlabs/php_codesniffer": "*",
-                "szepeviktor/phpstan-wordpress": "^0.7.2",
-                "voku/portable-ascii": "dev-master",
-                "wordpress/wordpress": "*",
-                "wp-cli/dist-archive-command": "dev-master",
-                "wp-cli/wp-cli-bundle": "*",
-                "wp-coding-standards/wpcs": "*",
-                "wpackagist-theme/twentytwenty": "*"
-            },
-            "default-branch": true,
-            "type": "library",
-            "extra": {
-                "patches": {
-                    "jaschilz/php-coverage-badger": {
-                        "Allow customising the text": "https://github.com/JASchilz/PHPCoverageBadge/pull/1.patch"
-                    },
-                    "10up/wp_mock": {
-                        "Add AnyObject matcher": "https://github.com/BrianHenryIE/wp_mock/pull/1.patch"
-                    },
-                    "wptrt/admin-notices": {
-                        "dev-merged": "https://github.com/BrianHenryIE/admin-notices/pull/1.patch"
-                    }
-                },
-                "symlinks": {
-                    "wp-content": "wordpress/wp-content",
-                    "test-plugin": "wp-content/plugins/bh-wp-private-uploads-test-plugin"
-                },
-                "phpstorm": {
-                    "exclude_folders": {
-                        "folders": [
-                            "vendor/wordpress/wordpress/src",
-                            "vendor/wordpress/wordpress/build",
-                            "wp-content/plugins/bh-wp-private-uploads-test-plugin",
-                            "wordpress/wp-content"
-                        ],
-                        "include_folders": [
-                            "vendor/wordpress/wordpress/"
-                        ],
-                        "composer-symlinks": false
-                    }
-                }
-            },
-            "autoload": {
-                "classmap": [
-                    "src/"
-                ]
-            },
-            "autoload-dev": {
-                "classmap": [
-                    "test-plugin/"
-                ]
-            },
-            "scripts": {
-                "post-install-cmd": [
-                    "vendor/bin/wp core download --path=wordpress --allow-root || true;",
-                    "export $(grep -v '^#' .env.testing | xargs); vendor/bin/wp config create --dbname=$TEST_SITE_DB_NAME --dbuser=$TEST_SITE_DB_USER --dbpass=$TEST_SITE_DB_PASSWORD --allow-root --extra-php=\"define( 'WP_DEBUG', true ); define( 'WP_DEBUG_LOG', true );\" || true",
-                    "Kporras07\\ComposerSymlinks\\ScriptHandler::createSymlinks",
-                    "mkdir -p wordpress/wp-content/uploads",
-                    "BrianHenryIE\\ComposerPhpStorm\\ExcludeFolders::update",
-                    "BrianHenryIE\\ComposerPhpStorm\\PHPUnitRunConfigurations::update"
                 ],
-                "post-update-cmd": [
-                    "vendor/bin/wp core download --path=wordpress --allow-root || true; wp core update --allow-root || true",
-                    "export $(grep -v '^#' .env.testing | xargs); vendor/bin/wp config create --dbname=$TEST_SITE_DB_NAME --dbuser=$TEST_SITE_DB_USER --dbpass=$TEST_SITE_DB_PASSWORD --allow-root --extra-php=\"define( 'WP_DEBUG', true ); define( 'WP_DEBUG_LOG', true );\" || true",
-                    "Kporras07\\ComposerSymlinks\\ScriptHandler::createSymlinks",
-                    "mkdir -p wordpress/wp-content/uploads",
-                    "BrianHenryIE\\ComposerPhpStorm\\ExcludeFolders::update",
-                    "BrianHenryIE\\ComposerPhpStorm\\PHPUnitRunConfigurations::update"
+                "create-plugin-archive": [
+                    "vendor/bin/wp i18n make-pot src languages/$(basename \"$PWD\").pot --domain=$(basename \"$PWD\")",
+                    "vendor/bin/wp dist-archive . ./dist-archive --plugin-dirname=$(basename \"$PWD\") --create-target-dir"
                 ],
-                "save-acceptance-database": [
-                    "export $(grep -v '^#' .env.testing | xargs); mysqldump -u $TEST_SITE_DB_USER -p$TEST_SITE_DB_PASSWORD  $TEST_SITE_DB_NAME > tests/_data/dump.sql;"
-                ],
-                "coverage-tests": [
-                    "vendor/bin/codecept run unit --coverage unit.cov",
-                    "vendor/bin/codecept run wpunit --coverage wpunit.cov",
-                    "vendor/bin/phpcov merge --clover tests/_output/clover.xml --html tests/_output/html tests/_output;",
-                    "open tests/_output/html/index.html"
-                ],
-                "lint": [
-                    "vendor/bin/phpcbf || true",
-                    "vendor/bin/phpcs || true",
-                    "vendor/bin/phpstan analyse --memory-limit 1G"
-                ],
-                "lint-changes": [
-                    "updated_files=$( git status | grep 'modified:\\s.*.php$' | cut -c14- | awk '{ printf(\"%s \", $0) }' ); vendor/bin/phpcbf $(echo $updated_files); vendor/bin/phpcs $(echo $updated_files); vendor/bin/phpstan analyse $(echo $updated_files) --memory-limit 1G"
+                "github-actions": [
+                    "act -P ubuntu-latest=shivammathur/node:latest"
                 ]
             },
             "license": [
@@ -476,7 +441,7 @@
                 }
             ],
             "description": "This is a short description of what plugin_title does.",
-            "time": "2022-10-18T05:57:52+00:00"
+            "time": "2022-10-28T20:46:36+00:00"
         },
         {
             "name": "brianhenryie/bh-wp-rate-limiter",
@@ -751,16 +716,16 @@
         },
         {
             "name": "guzzlehttp/psr7",
-            "version": "2.4.1",
+            "version": "2.4.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/psr7.git",
-                "reference": "69568e4293f4fa993f3b0e51c9723e1e17c41379"
+                "reference": "67c26b443f348a51926030c83481b85718457d3d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/psr7/zipball/69568e4293f4fa993f3b0e51c9723e1e17c41379",
-                "reference": "69568e4293f4fa993f3b0e51c9723e1e17c41379",
+                "url": "https://api.github.com/repos/guzzle/psr7/zipball/67c26b443f348a51926030c83481b85718457d3d",
+                "reference": "67c26b443f348a51926030c83481b85718457d3d",
                 "shasum": ""
             },
             "require": {
@@ -850,7 +815,7 @@
             ],
             "support": {
                 "issues": "https://github.com/guzzle/psr7/issues",
-                "source": "https://github.com/guzzle/psr7/tree/2.4.1"
+                "source": "https://github.com/guzzle/psr7/tree/2.4.3"
             },
             "funding": [
                 {
@@ -866,7 +831,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-08-28T14:45:39+00:00"
+            "time": "2022-10-26T14:07:24+00:00"
         },
         {
             "name": "katzgrau/klogger",
@@ -1591,29 +1556,31 @@
     "packages-dev": [
         {
             "name": "10up/wp_mock",
-            "version": "0.4.2",
+            "version": "dev-trunk",
             "source": {
                 "type": "git",
                 "url": "https://github.com/10up/wp_mock.git",
-                "reference": "9019226eb50df275aa86bb15bfc98a619601ee49"
+                "reference": "9b6fbab08bfa5a695e73401645aa9a60b2b54389"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/10up/wp_mock/zipball/9019226eb50df275aa86bb15bfc98a619601ee49",
-                "reference": "9019226eb50df275aa86bb15bfc98a619601ee49",
+                "url": "https://api.github.com/repos/10up/wp_mock/zipball/9b6fbab08bfa5a695e73401645aa9a60b2b54389",
+                "reference": "9b6fbab08bfa5a695e73401645aa9a60b2b54389",
                 "shasum": ""
             },
             "require": {
                 "antecedent/patchwork": "^2.1",
-                "mockery/mockery": "^1.0",
-                "php": ">=7.1",
-                "phpunit/phpunit": ">=7.0"
+                "mockery/mockery": "^1.5",
+                "php": ">=7.3 < 9.0",
+                "phpunit/phpunit": "^9.5.24"
             },
             "require-dev": {
-                "behat/behat": "^3.0",
-                "php-coveralls/php-coveralls": "^2.1",
-                "sebastian/comparator": ">=1.2.3"
+                "behat/behat": "^v3.11.0",
+                "php-coveralls/php-coveralls": "^v2.5.3",
+                "sebastian/comparator": "^4.0.8",
+                "sempro/phpunit-pretty-print": "^1.4"
             },
+            "default-branch": true,
             "type": "library",
             "autoload": {
                 "psr-4": {
@@ -1630,9 +1597,9 @@
             "description": "A mocking library to take the pain out of unit testing for WordPress",
             "support": {
                 "issues": "https://github.com/10up/wp_mock/issues",
-                "source": "https://github.com/10up/wp_mock/tree/master"
+                "source": "https://github.com/10up/wp_mock/tree/trunk"
             },
-            "time": "2019-03-16T03:44:39+00:00"
+            "time": "2022-11-01T11:37:05+00:00"
         },
         {
             "name": "antecedent/patchwork",
@@ -1904,16 +1871,16 @@
         },
         {
             "name": "brianhenryie/strauss",
-            "version": "0.11.1",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/BrianHenryIE/strauss.git",
-                "reference": "4dd221d18ac4a9e204df60f94a5f51bffcc3d636"
+                "reference": "484325d5cf7c452d2beccb518938c9a0f3889c99"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/BrianHenryIE/strauss/zipball/4dd221d18ac4a9e204df60f94a5f51bffcc3d636",
-                "reference": "4dd221d18ac4a9e204df60f94a5f51bffcc3d636",
+                "url": "https://api.github.com/repos/BrianHenryIE/strauss/zipball/484325d5cf7c452d2beccb518938c9a0f3889c99",
+                "reference": "484325d5cf7c452d2beccb518938c9a0f3889c99",
                 "shasum": ""
             },
             "require": {
@@ -1932,6 +1899,7 @@
                 "phpunit/phpunit": "^9",
                 "squizlabs/php_codesniffer": "^3.5"
             },
+            "default-branch": true,
             "bin": [
                 "bin/strauss"
             ],
@@ -1958,9 +1926,9 @@
             "description": "Composes all dependencies as a package inside a WordPress plugin",
             "support": {
                 "issues": "https://github.com/BrianHenryIE/strauss/issues",
-                "source": "https://github.com/BrianHenryIE/strauss/tree/0.11.1"
+                "source": "https://github.com/BrianHenryIE/strauss/tree/master"
             },
-            "time": "2022-10-09T21:24:38+00:00"
+            "time": "2022-10-09T21:30:25+00:00"
         },
         {
             "name": "codeception/codeception",
@@ -3477,23 +3445,23 @@
         },
         {
             "name": "doctrine/inflector",
-            "version": "2.0.5",
+            "version": "2.0.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/inflector.git",
-                "reference": "ade2b3bbfb776f27f0558e26eed43b5d9fe1b392"
+                "reference": "d9d313a36c872fd6ee06d9a6cbcf713eaa40f024"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/inflector/zipball/ade2b3bbfb776f27f0558e26eed43b5d9fe1b392",
-                "reference": "ade2b3bbfb776f27f0558e26eed43b5d9fe1b392",
+                "url": "https://api.github.com/repos/doctrine/inflector/zipball/d9d313a36c872fd6ee06d9a6cbcf713eaa40f024",
+                "reference": "d9d313a36c872fd6ee06d9a6cbcf713eaa40f024",
                 "shasum": ""
             },
             "require": {
                 "php": "^7.2 || ^8.0"
             },
             "require-dev": {
-                "doctrine/coding-standard": "^9",
+                "doctrine/coding-standard": "^10",
                 "phpstan/phpstan": "^1.8",
                 "phpstan/phpstan-phpunit": "^1.1",
                 "phpstan/phpstan-strict-rules": "^1.3",
@@ -3548,7 +3516,7 @@
             ],
             "support": {
                 "issues": "https://github.com/doctrine/inflector/issues",
-                "source": "https://github.com/doctrine/inflector/tree/2.0.5"
+                "source": "https://github.com/doctrine/inflector/tree/2.0.6"
             },
             "funding": [
                 {
@@ -3564,7 +3532,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-09-07T09:01:28+00:00"
+            "time": "2022-10-20T09:10:12+00:00"
         },
         {
             "name": "doctrine/instantiator",
@@ -3901,636 +3869,6 @@
             "time": "2020-07-09T08:09:16+00:00"
         },
         {
-            "name": "hoa/consistency",
-            "version": "1.17.05.02",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/hoaproject/Consistency.git",
-                "reference": "fd7d0adc82410507f332516faf655b6ed22e4c2f"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/hoaproject/Consistency/zipball/fd7d0adc82410507f332516faf655b6ed22e4c2f",
-                "reference": "fd7d0adc82410507f332516faf655b6ed22e4c2f",
-                "shasum": ""
-            },
-            "require": {
-                "hoa/exception": "~1.0",
-                "php": ">=5.5.0"
-            },
-            "require-dev": {
-                "hoa/stream": "~1.0",
-                "hoa/test": "~2.0"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Hoa\\Consistency\\": "."
-                },
-                "files": [
-                    "Prelude.php"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "authors": [
-                {
-                    "name": "Ivan Enderlin",
-                    "email": "ivan.enderlin@hoa-project.net"
-                },
-                {
-                    "name": "Hoa community",
-                    "homepage": "https://hoa-project.net/"
-                }
-            ],
-            "description": "The Hoa\\Consistency library.",
-            "homepage": "https://hoa-project.net/",
-            "keywords": [
-                "autoloader",
-                "callable",
-                "consistency",
-                "entity",
-                "flex",
-                "keyword",
-                "library"
-            ],
-            "support": {
-                "docs": "https://central.hoa-project.net/Documentation/Library/Consistency",
-                "email": "support@hoa-project.net",
-                "forum": "https://users.hoa-project.net/",
-                "irc": "irc://chat.freenode.net/hoaproject",
-                "issues": "https://github.com/hoaproject/Consistency/issues",
-                "source": "https://central.hoa-project.net/Resource/Library/Consistency"
-            },
-            "abandoned": true,
-            "time": "2017-05-02T12:18:12+00:00"
-        },
-        {
-            "name": "hoa/console",
-            "version": "3.17.05.02",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/hoaproject/Console.git",
-                "reference": "e231fd3ea70e6d773576ae78de0bdc1daf331a66"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/hoaproject/Console/zipball/e231fd3ea70e6d773576ae78de0bdc1daf331a66",
-                "reference": "e231fd3ea70e6d773576ae78de0bdc1daf331a66",
-                "shasum": ""
-            },
-            "require": {
-                "hoa/consistency": "~1.0",
-                "hoa/event": "~1.0",
-                "hoa/exception": "~1.0",
-                "hoa/file": "~1.0",
-                "hoa/protocol": "~1.0",
-                "hoa/stream": "~1.0",
-                "hoa/ustring": "~4.0"
-            },
-            "require-dev": {
-                "hoa/test": "~2.0"
-            },
-            "suggest": {
-                "ext-pcntl": "To enable hoa://Event/Console/Window:resize.",
-                "hoa/dispatcher": "To use the console kit.",
-                "hoa/router": "To use the console kit."
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "3.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Hoa\\Console\\": "."
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "authors": [
-                {
-                    "name": "Ivan Enderlin",
-                    "email": "ivan.enderlin@hoa-project.net"
-                },
-                {
-                    "name": "Hoa community",
-                    "homepage": "https://hoa-project.net/"
-                }
-            ],
-            "description": "The Hoa\\Console library.",
-            "homepage": "https://hoa-project.net/",
-            "keywords": [
-                "autocompletion",
-                "chrome",
-                "cli",
-                "console",
-                "cursor",
-                "getoption",
-                "library",
-                "option",
-                "parser",
-                "processus",
-                "readline",
-                "terminfo",
-                "tput",
-                "window"
-            ],
-            "support": {
-                "docs": "https://central.hoa-project.net/Documentation/Library/Console",
-                "email": "support@hoa-project.net",
-                "forum": "https://users.hoa-project.net/",
-                "irc": "irc://chat.freenode.net/hoaproject",
-                "issues": "https://github.com/hoaproject/Console/issues",
-                "source": "https://central.hoa-project.net/Resource/Library/Console"
-            },
-            "abandoned": true,
-            "time": "2017-05-02T12:26:19+00:00"
-        },
-        {
-            "name": "hoa/event",
-            "version": "1.17.01.13",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/hoaproject/Event.git",
-                "reference": "6c0060dced212ffa3af0e34bb46624f990b29c54"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/hoaproject/Event/zipball/6c0060dced212ffa3af0e34bb46624f990b29c54",
-                "reference": "6c0060dced212ffa3af0e34bb46624f990b29c54",
-                "shasum": ""
-            },
-            "require": {
-                "hoa/consistency": "~1.0",
-                "hoa/exception": "~1.0"
-            },
-            "require-dev": {
-                "hoa/test": "~2.0"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Hoa\\Event\\": "."
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "authors": [
-                {
-                    "name": "Ivan Enderlin",
-                    "email": "ivan.enderlin@hoa-project.net"
-                },
-                {
-                    "name": "Hoa community",
-                    "homepage": "https://hoa-project.net/"
-                }
-            ],
-            "description": "The Hoa\\Event library.",
-            "homepage": "https://hoa-project.net/",
-            "keywords": [
-                "event",
-                "library",
-                "listener",
-                "observer"
-            ],
-            "support": {
-                "docs": "https://central.hoa-project.net/Documentation/Library/Event",
-                "email": "support@hoa-project.net",
-                "forum": "https://users.hoa-project.net/",
-                "irc": "irc://chat.freenode.net/hoaproject",
-                "issues": "https://github.com/hoaproject/Event/issues",
-                "source": "https://central.hoa-project.net/Resource/Library/Event"
-            },
-            "abandoned": true,
-            "time": "2017-01-13T15:30:50+00:00"
-        },
-        {
-            "name": "hoa/exception",
-            "version": "1.17.01.16",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/hoaproject/Exception.git",
-                "reference": "091727d46420a3d7468ef0595651488bfc3a458f"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/hoaproject/Exception/zipball/091727d46420a3d7468ef0595651488bfc3a458f",
-                "reference": "091727d46420a3d7468ef0595651488bfc3a458f",
-                "shasum": ""
-            },
-            "require": {
-                "hoa/consistency": "~1.0",
-                "hoa/event": "~1.0"
-            },
-            "require-dev": {
-                "hoa/test": "~2.0"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Hoa\\Exception\\": "."
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "authors": [
-                {
-                    "name": "Ivan Enderlin",
-                    "email": "ivan.enderlin@hoa-project.net"
-                },
-                {
-                    "name": "Hoa community",
-                    "homepage": "https://hoa-project.net/"
-                }
-            ],
-            "description": "The Hoa\\Exception library.",
-            "homepage": "https://hoa-project.net/",
-            "keywords": [
-                "exception",
-                "library"
-            ],
-            "support": {
-                "docs": "https://central.hoa-project.net/Documentation/Library/Exception",
-                "email": "support@hoa-project.net",
-                "forum": "https://users.hoa-project.net/",
-                "irc": "irc://chat.freenode.net/hoaproject",
-                "issues": "https://github.com/hoaproject/Exception/issues",
-                "source": "https://central.hoa-project.net/Resource/Library/Exception"
-            },
-            "abandoned": true,
-            "time": "2017-01-16T07:53:27+00:00"
-        },
-        {
-            "name": "hoa/file",
-            "version": "1.17.07.11",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/hoaproject/File.git",
-                "reference": "35cb979b779bc54918d2f9a4e02ed6c7a1fa67ca"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/hoaproject/File/zipball/35cb979b779bc54918d2f9a4e02ed6c7a1fa67ca",
-                "reference": "35cb979b779bc54918d2f9a4e02ed6c7a1fa67ca",
-                "shasum": ""
-            },
-            "require": {
-                "hoa/consistency": "~1.0",
-                "hoa/event": "~1.0",
-                "hoa/exception": "~1.0",
-                "hoa/iterator": "~2.0",
-                "hoa/stream": "~1.0"
-            },
-            "require-dev": {
-                "hoa/test": "~2.0"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Hoa\\File\\": "."
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "authors": [
-                {
-                    "name": "Ivan Enderlin",
-                    "email": "ivan.enderlin@hoa-project.net"
-                },
-                {
-                    "name": "Hoa community",
-                    "homepage": "https://hoa-project.net/"
-                }
-            ],
-            "description": "The Hoa\\File library.",
-            "homepage": "https://hoa-project.net/",
-            "keywords": [
-                "Socket",
-                "directory",
-                "file",
-                "finder",
-                "library",
-                "link",
-                "temporary"
-            ],
-            "support": {
-                "docs": "https://central.hoa-project.net/Documentation/Library/File",
-                "email": "support@hoa-project.net",
-                "forum": "https://users.hoa-project.net/",
-                "irc": "irc://chat.freenode.net/hoaproject",
-                "issues": "https://github.com/hoaproject/File/issues",
-                "source": "https://central.hoa-project.net/Resource/Library/File"
-            },
-            "abandoned": true,
-            "time": "2017-07-11T07:42:15+00:00"
-        },
-        {
-            "name": "hoa/iterator",
-            "version": "2.17.01.10",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/hoaproject/Iterator.git",
-                "reference": "d1120ba09cb4ccd049c86d10058ab94af245f0cc"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/hoaproject/Iterator/zipball/d1120ba09cb4ccd049c86d10058ab94af245f0cc",
-                "reference": "d1120ba09cb4ccd049c86d10058ab94af245f0cc",
-                "shasum": ""
-            },
-            "require": {
-                "hoa/consistency": "~1.0",
-                "hoa/exception": "~1.0"
-            },
-            "require-dev": {
-                "hoa/test": "~2.0"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "2.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Hoa\\Iterator\\": "."
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "authors": [
-                {
-                    "name": "Ivan Enderlin",
-                    "email": "ivan.enderlin@hoa-project.net"
-                },
-                {
-                    "name": "Hoa community",
-                    "homepage": "https://hoa-project.net/"
-                }
-            ],
-            "description": "The Hoa\\Iterator library.",
-            "homepage": "https://hoa-project.net/",
-            "keywords": [
-                "iterator",
-                "library"
-            ],
-            "support": {
-                "docs": "https://central.hoa-project.net/Documentation/Library/Iterator",
-                "email": "support@hoa-project.net",
-                "forum": "https://users.hoa-project.net/",
-                "irc": "irc://chat.freenode.net/hoaproject",
-                "issues": "https://github.com/hoaproject/Iterator/issues",
-                "source": "https://central.hoa-project.net/Resource/Library/Iterator"
-            },
-            "abandoned": true,
-            "time": "2017-01-10T10:34:47+00:00"
-        },
-        {
-            "name": "hoa/protocol",
-            "version": "1.17.01.14",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/hoaproject/Protocol.git",
-                "reference": "5c2cf972151c45f373230da170ea015deecf19e2"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/hoaproject/Protocol/zipball/5c2cf972151c45f373230da170ea015deecf19e2",
-                "reference": "5c2cf972151c45f373230da170ea015deecf19e2",
-                "shasum": ""
-            },
-            "require": {
-                "hoa/consistency": "~1.0",
-                "hoa/exception": "~1.0"
-            },
-            "require-dev": {
-                "hoa/test": "~2.0"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Hoa\\Protocol\\": "."
-                },
-                "files": [
-                    "Wrapper.php"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "authors": [
-                {
-                    "name": "Ivan Enderlin",
-                    "email": "ivan.enderlin@hoa-project.net"
-                },
-                {
-                    "name": "Hoa community",
-                    "homepage": "https://hoa-project.net/"
-                }
-            ],
-            "description": "The Hoa\\Protocol library.",
-            "homepage": "https://hoa-project.net/",
-            "keywords": [
-                "library",
-                "protocol",
-                "resource",
-                "stream",
-                "wrapper"
-            ],
-            "support": {
-                "docs": "https://central.hoa-project.net/Documentation/Library/Protocol",
-                "email": "support@hoa-project.net",
-                "forum": "https://users.hoa-project.net/",
-                "irc": "irc://chat.freenode.net/hoaproject",
-                "issues": "https://github.com/hoaproject/Protocol/issues",
-                "source": "https://central.hoa-project.net/Resource/Library/Protocol"
-            },
-            "abandoned": true,
-            "time": "2017-01-14T12:26:10+00:00"
-        },
-        {
-            "name": "hoa/stream",
-            "version": "1.17.02.21",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/hoaproject/Stream.git",
-                "reference": "3293cfffca2de10525df51436adf88a559151d82"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/hoaproject/Stream/zipball/3293cfffca2de10525df51436adf88a559151d82",
-                "reference": "3293cfffca2de10525df51436adf88a559151d82",
-                "shasum": ""
-            },
-            "require": {
-                "hoa/consistency": "~1.0",
-                "hoa/event": "~1.0",
-                "hoa/exception": "~1.0",
-                "hoa/protocol": "~1.0"
-            },
-            "require-dev": {
-                "hoa/test": "~2.0"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Hoa\\Stream\\": "."
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "authors": [
-                {
-                    "name": "Ivan Enderlin",
-                    "email": "ivan.enderlin@hoa-project.net"
-                },
-                {
-                    "name": "Hoa community",
-                    "homepage": "https://hoa-project.net/"
-                }
-            ],
-            "description": "The Hoa\\Stream library.",
-            "homepage": "https://hoa-project.net/",
-            "keywords": [
-                "Context",
-                "bucket",
-                "composite",
-                "filter",
-                "in",
-                "library",
-                "out",
-                "protocol",
-                "stream",
-                "wrapper"
-            ],
-            "support": {
-                "docs": "https://central.hoa-project.net/Documentation/Library/Stream",
-                "email": "support@hoa-project.net",
-                "forum": "https://users.hoa-project.net/",
-                "irc": "irc://chat.freenode.net/hoaproject",
-                "issues": "https://github.com/hoaproject/Stream/issues",
-                "source": "https://central.hoa-project.net/Resource/Library/Stream"
-            },
-            "abandoned": true,
-            "time": "2017-02-21T16:01:06+00:00"
-        },
-        {
-            "name": "hoa/ustring",
-            "version": "4.17.01.16",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/hoaproject/Ustring.git",
-                "reference": "e6326e2739178799b1fe3fdd92029f9517fa17a0"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/hoaproject/Ustring/zipball/e6326e2739178799b1fe3fdd92029f9517fa17a0",
-                "reference": "e6326e2739178799b1fe3fdd92029f9517fa17a0",
-                "shasum": ""
-            },
-            "require": {
-                "hoa/consistency": "~1.0",
-                "hoa/exception": "~1.0"
-            },
-            "require-dev": {
-                "hoa/test": "~2.0"
-            },
-            "suggest": {
-                "ext-iconv": "ext/iconv must be present (or a third implementation) to use Hoa\\Ustring::transcode().",
-                "ext-intl": "To get a better Hoa\\Ustring::toAscii() and Hoa\\Ustring::compareTo()."
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "4.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Hoa\\Ustring\\": "."
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "authors": [
-                {
-                    "name": "Ivan Enderlin",
-                    "email": "ivan.enderlin@hoa-project.net"
-                },
-                {
-                    "name": "Hoa community",
-                    "homepage": "https://hoa-project.net/"
-                }
-            ],
-            "description": "The Hoa\\Ustring library.",
-            "homepage": "https://hoa-project.net/",
-            "keywords": [
-                "library",
-                "search",
-                "string",
-                "unicode"
-            ],
-            "support": {
-                "docs": "https://central.hoa-project.net/Documentation/Library/Ustring",
-                "email": "support@hoa-project.net",
-                "forum": "https://users.hoa-project.net/",
-                "irc": "irc://chat.freenode.net/hoaproject",
-                "issues": "https://github.com/hoaproject/Ustring/issues",
-                "source": "https://central.hoa-project.net/Resource/Library/Ustring"
-            },
-            "abandoned": true,
-            "time": "2017-01-16T07:08:25+00:00"
-        },
-        {
             "name": "illuminate/contracts",
             "version": "v6.20.44",
             "source": {
@@ -4686,16 +4024,16 @@
         },
         {
             "name": "json-mapper/json-mapper",
-            "version": "2.13.0",
+            "version": "2.14.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/JsonMapper/JsonMapper.git",
-                "reference": "0a9da8210f20f2d09ad7f2026aa5089ae027715b"
+                "reference": "081568d110d5241a63b9cce130f4f3b36ab8e697"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/JsonMapper/JsonMapper/zipball/0a9da8210f20f2d09ad7f2026aa5089ae027715b",
-                "reference": "0a9da8210f20f2d09ad7f2026aa5089ae027715b",
+                "url": "https://api.github.com/repos/JsonMapper/JsonMapper/zipball/081568d110d5241a63b9cce130f4f3b36ab8e697",
+                "reference": "081568d110d5241a63b9cce130f4f3b36ab8e697",
                 "shasum": ""
             },
             "require": {
@@ -4744,7 +4082,7 @@
                 "issues": "https://github.com/JsonMapper/JsonMapper/issues",
                 "source": "https://github.com/JsonMapper/JsonMapper"
             },
-            "time": "2022-08-17T19:27:13+00:00"
+            "time": "2022-11-15T09:36:24+00:00"
         },
         {
             "name": "justinrainbow/json-schema",
@@ -5628,16 +4966,16 @@
         },
         {
             "name": "nesbot/carbon",
-            "version": "2.62.1",
+            "version": "2.63.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/briannesbitt/Carbon.git",
-                "reference": "01bc4cdefe98ef58d1f9cb31bdbbddddf2a88f7a"
+                "reference": "ad35dd71a6a212b98e4b87e97389b6fa85f0e347"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/01bc4cdefe98ef58d1f9cb31bdbbddddf2a88f7a",
-                "reference": "01bc4cdefe98ef58d1f9cb31bdbbddddf2a88f7a",
+                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/ad35dd71a6a212b98e4b87e97389b6fa85f0e347",
+                "reference": "ad35dd71a6a212b98e4b87e97389b6fa85f0e347",
                 "shasum": ""
             },
             "require": {
@@ -5726,20 +5064,20 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-09-02T07:48:13+00:00"
+            "time": "2022-10-30T18:34:28+00:00"
         },
         {
             "name": "nikic/php-parser",
-            "version": "v4.15.1",
+            "version": "v4.15.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nikic/PHP-Parser.git",
-                "reference": "0ef6c55a3f47f89d7a374e6f835197a0b5fcf900"
+                "reference": "f59bbe44bf7d96f24f3e2b4ddc21cd52c1d2adbc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/0ef6c55a3f47f89d7a374e6f835197a0b5fcf900",
-                "reference": "0ef6c55a3f47f89d7a374e6f835197a0b5fcf900",
+                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/f59bbe44bf7d96f24f3e2b4ddc21cd52c1d2adbc",
+                "reference": "f59bbe44bf7d96f24f3e2b4ddc21cd52c1d2adbc",
                 "shasum": ""
             },
             "require": {
@@ -5780,9 +5118,9 @@
             ],
             "support": {
                 "issues": "https://github.com/nikic/PHP-Parser/issues",
-                "source": "https://github.com/nikic/PHP-Parser/tree/v4.15.1"
+                "source": "https://github.com/nikic/PHP-Parser/tree/v4.15.2"
             },
-            "time": "2022-09-04T07:30:47+00:00"
+            "time": "2022-11-12T15:38:23+00:00"
         },
         {
             "name": "phar-io/manifest",
@@ -5897,16 +5235,16 @@
         },
         {
             "name": "php-stubs/woocommerce-stubs",
-            "version": "v7.0.0",
+            "version": "v7.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-stubs/woocommerce-stubs.git",
-                "reference": "2bbe0ba67081cfad17d33ac503883fdc6e68a386"
+                "reference": "5564ded763442309397201d7873a30eb362b4851"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-stubs/woocommerce-stubs/zipball/2bbe0ba67081cfad17d33ac503883fdc6e68a386",
-                "reference": "2bbe0ba67081cfad17d33ac503883fdc6e68a386",
+                "url": "https://api.github.com/repos/php-stubs/woocommerce-stubs/zipball/5564ded763442309397201d7873a30eb362b4851",
+                "reference": "5564ded763442309397201d7873a30eb362b4851",
                 "shasum": ""
             },
             "require": {
@@ -5935,22 +5273,22 @@
             ],
             "support": {
                 "issues": "https://github.com/php-stubs/woocommerce-stubs/issues",
-                "source": "https://github.com/php-stubs/woocommerce-stubs/tree/v7.0.0"
+                "source": "https://github.com/php-stubs/woocommerce-stubs/tree/v7.1.0"
             },
-            "time": "2022-10-12T08:25:57+00:00"
+            "time": "2022-11-08T20:15:11+00:00"
         },
         {
             "name": "php-stubs/wordpress-stubs",
-            "version": "v6.0.2",
+            "version": "v6.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-stubs/wordpress-stubs.git",
-                "reference": "165b84f082db851e76ec51bebcde550d03976893"
+                "reference": "19e7966c8e70a99a4824b3e5d1526680a151f13b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-stubs/wordpress-stubs/zipball/165b84f082db851e76ec51bebcde550d03976893",
-                "reference": "165b84f082db851e76ec51bebcde550d03976893",
+                "url": "https://api.github.com/repos/php-stubs/wordpress-stubs/zipball/19e7966c8e70a99a4824b3e5d1526680a151f13b",
+                "reference": "19e7966c8e70a99a4824b3e5d1526680a151f13b",
                 "shasum": ""
             },
             "replace": {
@@ -5982,9 +5320,9 @@
             ],
             "support": {
                 "issues": "https://github.com/php-stubs/wordpress-stubs/issues",
-                "source": "https://github.com/php-stubs/wordpress-stubs/tree/v6.0.2"
+                "source": "https://github.com/php-stubs/wordpress-stubs/tree/v6.1.0"
             },
-            "time": "2022-09-30T17:46:11+00:00"
+            "time": "2022-11-09T05:33:25+00:00"
         },
         {
             "name": "php-webdriver/webdriver",
@@ -6115,16 +5453,16 @@
         },
         {
             "name": "phpcompatibility/phpcompatibility-paragonie",
-            "version": "1.3.1",
+            "version": "1.3.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHPCompatibility/PHPCompatibilityParagonie.git",
-                "reference": "ddabec839cc003651f2ce695c938686d1086cf43"
+                "reference": "bba5a9dfec7fcfbd679cfaf611d86b4d3759da26"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHPCompatibility/PHPCompatibilityParagonie/zipball/ddabec839cc003651f2ce695c938686d1086cf43",
-                "reference": "ddabec839cc003651f2ce695c938686d1086cf43",
+                "url": "https://api.github.com/repos/PHPCompatibility/PHPCompatibilityParagonie/zipball/bba5a9dfec7fcfbd679cfaf611d86b4d3759da26",
+                "reference": "bba5a9dfec7fcfbd679cfaf611d86b4d3759da26",
                 "shasum": ""
             },
             "require": {
@@ -6161,26 +5499,27 @@
                 "paragonie",
                 "phpcs",
                 "polyfill",
-                "standards"
+                "standards",
+                "static analysis"
             ],
             "support": {
                 "issues": "https://github.com/PHPCompatibility/PHPCompatibilityParagonie/issues",
                 "source": "https://github.com/PHPCompatibility/PHPCompatibilityParagonie"
             },
-            "time": "2021-02-15T10:24:51+00:00"
+            "time": "2022-10-25T01:46:02+00:00"
         },
         {
             "name": "phpcompatibility/phpcompatibility-wp",
-            "version": "2.1.3",
+            "version": "2.1.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHPCompatibility/PHPCompatibilityWP.git",
-                "reference": "d55de55f88697b9cdb94bccf04f14eb3b11cf308"
+                "reference": "b6c1e3ee1c35de6c41a511d5eb9bd03e447480a5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHPCompatibility/PHPCompatibilityWP/zipball/d55de55f88697b9cdb94bccf04f14eb3b11cf308",
-                "reference": "d55de55f88697b9cdb94bccf04f14eb3b11cf308",
+                "url": "https://api.github.com/repos/PHPCompatibility/PHPCompatibilityWP/zipball/b6c1e3ee1c35de6c41a511d5eb9bd03e447480a5",
+                "reference": "b6c1e3ee1c35de6c41a511d5eb9bd03e447480a5",
                 "shasum": ""
             },
             "require": {
@@ -6215,13 +5554,14 @@
                 "compatibility",
                 "phpcs",
                 "standards",
+                "static analysis",
                 "wordpress"
             ],
             "support": {
                 "issues": "https://github.com/PHPCompatibility/PHPCompatibilityWP/issues",
                 "source": "https://github.com/PHPCompatibility/PHPCompatibilityWP"
             },
-            "time": "2021-12-30T16:37:40+00:00"
+            "time": "2022-10-24T09:00:36+00:00"
         },
         {
             "name": "phpstan/extension-installer",
@@ -6269,16 +5609,16 @@
         },
         {
             "name": "phpstan/phpstan",
-            "version": "1.8.10",
+            "version": "1.9.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "0c4459dc42c568b818b3f25186589f3acddc1823"
+                "reference": "d6fdf01c53978b6429f1393ba4afeca39cc68afa"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/0c4459dc42c568b818b3f25186589f3acddc1823",
-                "reference": "0c4459dc42c568b818b3f25186589f3acddc1823",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/d6fdf01c53978b6429f1393ba4afeca39cc68afa",
+                "reference": "d6fdf01c53978b6429f1393ba4afeca39cc68afa",
                 "shasum": ""
             },
             "require": {
@@ -6308,7 +5648,7 @@
             ],
             "support": {
                 "issues": "https://github.com/phpstan/phpstan/issues",
-                "source": "https://github.com/phpstan/phpstan/tree/1.8.10"
+                "source": "https://github.com/phpstan/phpstan/tree/1.9.2"
             },
             "funding": [
                 {
@@ -6324,20 +5664,20 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-10-17T14:23:35+00:00"
+            "time": "2022-11-10T09:56:11+00:00"
         },
         {
             "name": "phpunit/php-code-coverage",
-            "version": "9.2.17",
+            "version": "9.2.19",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-code-coverage.git",
-                "reference": "aa94dc41e8661fe90c7316849907cba3007b10d8"
+                "reference": "c77b56b63e3d2031bd8997fcec43c1925ae46559"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/aa94dc41e8661fe90c7316849907cba3007b10d8",
-                "reference": "aa94dc41e8661fe90c7316849907cba3007b10d8",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/c77b56b63e3d2031bd8997fcec43c1925ae46559",
+                "reference": "c77b56b63e3d2031bd8997fcec43c1925ae46559",
                 "shasum": ""
             },
             "require": {
@@ -6393,7 +5733,7 @@
             ],
             "support": {
                 "issues": "https://github.com/sebastianbergmann/php-code-coverage/issues",
-                "source": "https://github.com/sebastianbergmann/php-code-coverage/tree/9.2.17"
+                "source": "https://github.com/sebastianbergmann/php-code-coverage/tree/9.2.19"
             },
             "funding": [
                 {
@@ -6401,7 +5741,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2022-08-30T12:24:04+00:00"
+            "time": "2022-11-18T07:47:47+00:00"
         },
         {
             "name": "phpunit/php-file-iterator",
@@ -6708,16 +6048,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "9.5.25",
+            "version": "9.5.26",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "3e6f90ca7e3d02025b1d147bd8d4a89fd4ca8a1d"
+                "reference": "851867efcbb6a1b992ec515c71cdcf20d895e9d2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/3e6f90ca7e3d02025b1d147bd8d4a89fd4ca8a1d",
-                "reference": "3e6f90ca7e3d02025b1d147bd8d4a89fd4ca8a1d",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/851867efcbb6a1b992ec515c71cdcf20d895e9d2",
+                "reference": "851867efcbb6a1b992ec515c71cdcf20d895e9d2",
                 "shasum": ""
             },
             "require": {
@@ -6790,7 +6130,7 @@
             ],
             "support": {
                 "issues": "https://github.com/sebastianbergmann/phpunit/issues",
-                "source": "https://github.com/sebastianbergmann/phpunit/tree/9.5.25"
+                "source": "https://github.com/sebastianbergmann/phpunit/tree/9.5.26"
             },
             "funding": [
                 {
@@ -6806,7 +6146,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-09-25T03:44:45+00:00"
+            "time": "2022-10-28T06:00:21+00:00"
         },
         {
             "name": "psr/container",
@@ -8253,16 +7593,16 @@
         },
         {
             "name": "symfony/console",
-            "version": "v5.4.14",
+            "version": "v5.4.15",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/console.git",
-                "reference": "984ea2c0f45f42dfed01d2f3987b187467c4b16d"
+                "reference": "ea59bb0edfaf9f28d18d8791410ee0355f317669"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/console/zipball/984ea2c0f45f42dfed01d2f3987b187467c4b16d",
-                "reference": "984ea2c0f45f42dfed01d2f3987b187467c4b16d",
+                "url": "https://api.github.com/repos/symfony/console/zipball/ea59bb0edfaf9f28d18d8791410ee0355f317669",
+                "reference": "ea59bb0edfaf9f28d18d8791410ee0355f317669",
                 "shasum": ""
             },
             "require": {
@@ -8332,7 +7672,7 @@
                 "terminal"
             ],
             "support": {
-                "source": "https://github.com/symfony/console/tree/v5.4.14"
+                "source": "https://github.com/symfony/console/tree/v5.4.15"
             },
             "funding": [
                 {
@@ -8348,7 +7688,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-10-07T08:01:20+00:00"
+            "time": "2022-10-26T21:41:52+00:00"
         },
         {
             "name": "symfony/css-selector",
@@ -8418,16 +7758,16 @@
         },
         {
             "name": "symfony/dom-crawler",
-            "version": "v5.4.12",
+            "version": "v5.4.15",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/dom-crawler.git",
-                "reference": "291c1e92281a09152dda089f782e23dedd34bd4f"
+                "reference": "b8fd0ff9a0f00d944f1534f6d21e84f92eda7258"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/dom-crawler/zipball/291c1e92281a09152dda089f782e23dedd34bd4f",
-                "reference": "291c1e92281a09152dda089f782e23dedd34bd4f",
+                "url": "https://api.github.com/repos/symfony/dom-crawler/zipball/b8fd0ff9a0f00d944f1534f6d21e84f92eda7258",
+                "reference": "b8fd0ff9a0f00d944f1534f6d21e84f92eda7258",
                 "shasum": ""
             },
             "require": {
@@ -8473,7 +7813,7 @@
             "description": "Eases DOM navigation for HTML and XML documents",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/dom-crawler/tree/v5.4.12"
+                "source": "https://github.com/symfony/dom-crawler/tree/v5.4.15"
             },
             "funding": [
                 {
@@ -8489,7 +7829,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-08-03T13:09:21+00:00"
+            "time": "2022-10-27T08:04:35+00:00"
         },
         {
             "name": "symfony/event-dispatcher",
@@ -8782,16 +8122,16 @@
         },
         {
             "name": "symfony/polyfill-ctype",
-            "version": "v1.26.0",
+            "version": "v1.27.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-ctype.git",
-                "reference": "6fd1b9a79f6e3cf65f9e679b23af304cd9e010d4"
+                "reference": "5bbc823adecdae860bb64756d639ecfec17b050a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-ctype/zipball/6fd1b9a79f6e3cf65f9e679b23af304cd9e010d4",
-                "reference": "6fd1b9a79f6e3cf65f9e679b23af304cd9e010d4",
+                "url": "https://api.github.com/repos/symfony/polyfill-ctype/zipball/5bbc823adecdae860bb64756d639ecfec17b050a",
+                "reference": "5bbc823adecdae860bb64756d639ecfec17b050a",
                 "shasum": ""
             },
             "require": {
@@ -8806,7 +8146,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-main": "1.26-dev"
+                    "dev-main": "1.27-dev"
                 },
                 "thanks": {
                     "name": "symfony/polyfill",
@@ -8844,7 +8184,7 @@
                 "portable"
             ],
             "support": {
-                "source": "https://github.com/symfony/polyfill-ctype/tree/v1.26.0"
+                "source": "https://github.com/symfony/polyfill-ctype/tree/v1.27.0"
             },
             "funding": [
                 {
@@ -8860,20 +8200,20 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-05-24T11:49:31+00:00"
+            "time": "2022-11-03T14:55:06+00:00"
         },
         {
             "name": "symfony/polyfill-intl-grapheme",
-            "version": "v1.26.0",
+            "version": "v1.27.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-intl-grapheme.git",
-                "reference": "433d05519ce6990bf3530fba6957499d327395c2"
+                "reference": "511a08c03c1960e08a883f4cffcacd219b758354"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-intl-grapheme/zipball/433d05519ce6990bf3530fba6957499d327395c2",
-                "reference": "433d05519ce6990bf3530fba6957499d327395c2",
+                "url": "https://api.github.com/repos/symfony/polyfill-intl-grapheme/zipball/511a08c03c1960e08a883f4cffcacd219b758354",
+                "reference": "511a08c03c1960e08a883f4cffcacd219b758354",
                 "shasum": ""
             },
             "require": {
@@ -8885,7 +8225,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-main": "1.26-dev"
+                    "dev-main": "1.27-dev"
                 },
                 "thanks": {
                     "name": "symfony/polyfill",
@@ -8925,7 +8265,7 @@
                 "shim"
             ],
             "support": {
-                "source": "https://github.com/symfony/polyfill-intl-grapheme/tree/v1.26.0"
+                "source": "https://github.com/symfony/polyfill-intl-grapheme/tree/v1.27.0"
             },
             "funding": [
                 {
@@ -8941,20 +8281,20 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-05-24T11:49:31+00:00"
+            "time": "2022-11-03T14:55:06+00:00"
         },
         {
             "name": "symfony/polyfill-intl-normalizer",
-            "version": "v1.26.0",
+            "version": "v1.27.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-intl-normalizer.git",
-                "reference": "219aa369ceff116e673852dce47c3a41794c14bd"
+                "reference": "19bd1e4fcd5b91116f14d8533c57831ed00571b6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-intl-normalizer/zipball/219aa369ceff116e673852dce47c3a41794c14bd",
-                "reference": "219aa369ceff116e673852dce47c3a41794c14bd",
+                "url": "https://api.github.com/repos/symfony/polyfill-intl-normalizer/zipball/19bd1e4fcd5b91116f14d8533c57831ed00571b6",
+                "reference": "19bd1e4fcd5b91116f14d8533c57831ed00571b6",
                 "shasum": ""
             },
             "require": {
@@ -8966,7 +8306,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-main": "1.26-dev"
+                    "dev-main": "1.27-dev"
                 },
                 "thanks": {
                     "name": "symfony/polyfill",
@@ -9009,7 +8349,7 @@
                 "shim"
             ],
             "support": {
-                "source": "https://github.com/symfony/polyfill-intl-normalizer/tree/v1.26.0"
+                "source": "https://github.com/symfony/polyfill-intl-normalizer/tree/v1.27.0"
             },
             "funding": [
                 {
@@ -9025,20 +8365,20 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-05-24T11:49:31+00:00"
+            "time": "2022-11-03T14:55:06+00:00"
         },
         {
             "name": "symfony/polyfill-mbstring",
-            "version": "v1.26.0",
+            "version": "v1.27.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-mbstring.git",
-                "reference": "9344f9cb97f3b19424af1a21a3b0e75b0a7d8d7e"
+                "reference": "8ad114f6b39e2c98a8b0e3bd907732c207c2b534"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-mbstring/zipball/9344f9cb97f3b19424af1a21a3b0e75b0a7d8d7e",
-                "reference": "9344f9cb97f3b19424af1a21a3b0e75b0a7d8d7e",
+                "url": "https://api.github.com/repos/symfony/polyfill-mbstring/zipball/8ad114f6b39e2c98a8b0e3bd907732c207c2b534",
+                "reference": "8ad114f6b39e2c98a8b0e3bd907732c207c2b534",
                 "shasum": ""
             },
             "require": {
@@ -9053,7 +8393,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-main": "1.26-dev"
+                    "dev-main": "1.27-dev"
                 },
                 "thanks": {
                     "name": "symfony/polyfill",
@@ -9092,7 +8432,7 @@
                 "shim"
             ],
             "support": {
-                "source": "https://github.com/symfony/polyfill-mbstring/tree/v1.26.0"
+                "source": "https://github.com/symfony/polyfill-mbstring/tree/v1.27.0"
             },
             "funding": [
                 {
@@ -9108,20 +8448,20 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-05-24T11:49:31+00:00"
+            "time": "2022-11-03T14:55:06+00:00"
         },
         {
             "name": "symfony/polyfill-php73",
-            "version": "v1.26.0",
+            "version": "v1.27.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-php73.git",
-                "reference": "e440d35fa0286f77fb45b79a03fedbeda9307e85"
+                "reference": "9e8ecb5f92152187c4799efd3c96b78ccab18ff9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-php73/zipball/e440d35fa0286f77fb45b79a03fedbeda9307e85",
-                "reference": "e440d35fa0286f77fb45b79a03fedbeda9307e85",
+                "url": "https://api.github.com/repos/symfony/polyfill-php73/zipball/9e8ecb5f92152187c4799efd3c96b78ccab18ff9",
+                "reference": "9e8ecb5f92152187c4799efd3c96b78ccab18ff9",
                 "shasum": ""
             },
             "require": {
@@ -9130,7 +8470,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-main": "1.26-dev"
+                    "dev-main": "1.27-dev"
                 },
                 "thanks": {
                     "name": "symfony/polyfill",
@@ -9171,7 +8511,7 @@
                 "shim"
             ],
             "support": {
-                "source": "https://github.com/symfony/polyfill-php73/tree/v1.26.0"
+                "source": "https://github.com/symfony/polyfill-php73/tree/v1.27.0"
             },
             "funding": [
                 {
@@ -9187,20 +8527,20 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-05-24T11:49:31+00:00"
+            "time": "2022-11-03T14:55:06+00:00"
         },
         {
             "name": "symfony/polyfill-php80",
-            "version": "v1.26.0",
+            "version": "v1.27.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-php80.git",
-                "reference": "cfa0ae98841b9e461207c13ab093d76b0fa7bace"
+                "reference": "7a6ff3f1959bb01aefccb463a0f2cd3d3d2fd936"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-php80/zipball/cfa0ae98841b9e461207c13ab093d76b0fa7bace",
-                "reference": "cfa0ae98841b9e461207c13ab093d76b0fa7bace",
+                "url": "https://api.github.com/repos/symfony/polyfill-php80/zipball/7a6ff3f1959bb01aefccb463a0f2cd3d3d2fd936",
+                "reference": "7a6ff3f1959bb01aefccb463a0f2cd3d3d2fd936",
                 "shasum": ""
             },
             "require": {
@@ -9209,7 +8549,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-main": "1.26-dev"
+                    "dev-main": "1.27-dev"
                 },
                 "thanks": {
                     "name": "symfony/polyfill",
@@ -9254,7 +8594,7 @@
                 "shim"
             ],
             "support": {
-                "source": "https://github.com/symfony/polyfill-php80/tree/v1.26.0"
+                "source": "https://github.com/symfony/polyfill-php80/tree/v1.27.0"
             },
             "funding": [
                 {
@@ -9270,7 +8610,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-05-10T07:21:04+00:00"
+            "time": "2022-11-03T14:55:06+00:00"
         },
         {
             "name": "symfony/process",
@@ -9415,16 +8755,16 @@
         },
         {
             "name": "symfony/string",
-            "version": "v5.4.14",
+            "version": "v5.4.15",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/string.git",
-                "reference": "089e7237497fae7a9c404d0c3aeb8db3254733e4"
+                "reference": "571334ce9f687e3e6af72db4d3b2a9431e4fd9ed"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/string/zipball/089e7237497fae7a9c404d0c3aeb8db3254733e4",
-                "reference": "089e7237497fae7a9c404d0c3aeb8db3254733e4",
+                "url": "https://api.github.com/repos/symfony/string/zipball/571334ce9f687e3e6af72db4d3b2a9431e4fd9ed",
+                "reference": "571334ce9f687e3e6af72db4d3b2a9431e4fd9ed",
                 "shasum": ""
             },
             "require": {
@@ -9481,7 +8821,7 @@
                 "utf8"
             ],
             "support": {
-                "source": "https://github.com/symfony/string/tree/v5.4.14"
+                "source": "https://github.com/symfony/string/tree/v5.4.15"
             },
             "funding": [
                 {
@@ -9751,22 +9091,22 @@
         },
         {
             "name": "szepeviktor/phpstan-wordpress",
-            "version": "v1.1.3",
+            "version": "v1.1.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/szepeviktor/phpstan-wordpress.git",
-                "reference": "e644df734e1bbe95810e0f617d17df091048a94e"
+                "reference": "3934e622e8434092aef69761d684281812fef868"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/szepeviktor/phpstan-wordpress/zipball/e644df734e1bbe95810e0f617d17df091048a94e",
-                "reference": "e644df734e1bbe95810e0f617d17df091048a94e",
+                "url": "https://api.github.com/repos/szepeviktor/phpstan-wordpress/zipball/3934e622e8434092aef69761d684281812fef868",
+                "reference": "3934e622e8434092aef69761d684281812fef868",
                 "shasum": ""
             },
             "require": {
                 "php": "^7.2 || ^8.0",
                 "php-stubs/wordpress-stubs": "^4.7 || ^5.0 || ^6.0",
-                "phpstan/phpstan": "^1.6",
+                "phpstan/phpstan": "^1.8.7",
                 "symfony/polyfill-php73": "^1.12.0"
             },
             "require-dev": {
@@ -9774,8 +9114,8 @@
                 "dealerdirect/phpcodesniffer-composer-installer": "^0.7",
                 "php-parallel-lint/php-parallel-lint": "^1.1",
                 "phpstan/phpstan-strict-rules": "^1.2",
-                "phpunit/phpunit": "^8 || ^9",
-                "szepeviktor/phpcs-psr-12-neutron-hybrid-ruleset": "^0.6"
+                "phpunit/phpunit": "^8.0 || ^9.0",
+                "szepeviktor/phpcs-psr-12-neutron-hybrid-ruleset": "^0.6.1"
             },
             "type": "phpstan-extension",
             "extra": {
@@ -9804,7 +9144,7 @@
             ],
             "support": {
                 "issues": "https://github.com/szepeviktor/phpstan-wordpress/issues",
-                "source": "https://github.com/szepeviktor/phpstan-wordpress/tree/v1.1.3"
+                "source": "https://github.com/szepeviktor/phpstan-wordpress/tree/v1.1.5"
             },
             "funding": [
                 {
@@ -9816,7 +9156,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2022-09-22T13:14:50+00:00"
+            "time": "2022-11-12T15:03:29+00:00"
         },
         {
             "name": "theseer/tokenizer",
@@ -10042,11 +9382,11 @@
         },
         {
             "name": "wordpress/wordpress",
-            "version": "6.0.3",
+            "version": "6.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/WordPress/wordpress-develop",
-                "reference": "75f4a8a2a567b28283fd4d457a713a5e770df216"
+                "reference": "031cedc06d612c4a74f7b6d3e77d8145f2954a25"
             },
             "require": {
                 "php": ">=5.6"
@@ -10073,6 +9413,7 @@
                     "@lint -n"
                 ],
                 "test": [
+                    "Composer\\Config::disableProcessTimeout",
                     "@php ./vendor/phpunit/phpunit/phpunit"
                 ]
             },
@@ -10090,7 +9431,7 @@
             "support": {
                 "issues": "https://core.trac.wordpress.org/"
             },
-            "time": "2022-10-17T20:14:27+00:00"
+            "time": "2022-11-15T19:01:18+00:00"
         },
         {
             "name": "wp-cli/cache-command",
@@ -10438,16 +9779,16 @@
         },
         {
             "name": "wp-cli/db-command",
-            "version": "v2.0.23",
+            "version": "v2.0.24",
             "source": {
                 "type": "git",
                 "url": "https://github.com/wp-cli/db-command.git",
-                "reference": "0d9e365147b8ff93ea36760db6495d38813e5c18"
+                "reference": "196f4d3d171b79e19650182c645f854643439c9e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/wp-cli/db-command/zipball/0d9e365147b8ff93ea36760db6495d38813e5c18",
-                "reference": "0d9e365147b8ff93ea36760db6495d38813e5c18",
+                "url": "https://api.github.com/repos/wp-cli/db-command/zipball/196f4d3d171b79e19650182c645f854643439c9e",
+                "reference": "196f4d3d171b79e19650182c645f854643439c9e",
                 "shasum": ""
             },
             "require": {
@@ -10506,9 +9847,9 @@
             "homepage": "https://github.com/wp-cli/db-command",
             "support": {
                 "issues": "https://github.com/wp-cli/db-command/issues",
-                "source": "https://github.com/wp-cli/db-command/tree/v2.0.23"
+                "source": "https://github.com/wp-cli/db-command/tree/v2.0.24"
             },
-            "time": "2022-10-13T20:42:23+00:00"
+            "time": "2022-10-28T17:58:13+00:00"
         },
         {
             "name": "wp-cli/dist-archive-command",
@@ -10516,12 +9857,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/wp-cli/dist-archive-command.git",
-                "reference": "e3af252280468232dad386bae8682c8edeb2d217"
+                "reference": "85351b28fff56552969ed643315c48803d73314d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/wp-cli/dist-archive-command/zipball/e3af252280468232dad386bae8682c8edeb2d217",
-                "reference": "e3af252280468232dad386bae8682c8edeb2d217",
+                "url": "https://api.github.com/repos/wp-cli/dist-archive-command/zipball/85351b28fff56552969ed643315c48803d73314d",
+                "reference": "85351b28fff56552969ed643315c48803d73314d",
                 "shasum": ""
             },
             "require": {
@@ -10570,7 +9911,7 @@
                 "issues": "https://github.com/wp-cli/dist-archive-command/issues",
                 "source": "https://github.com/wp-cli/dist-archive-command/tree/main"
             },
-            "time": "2022-10-17T20:16:36+00:00"
+            "time": "2022-11-04T22:15:14+00:00"
         },
         {
             "name": "wp-cli/embed-command",
@@ -11517,16 +10858,16 @@
         },
         {
             "name": "wp-cli/php-cli-tools",
-            "version": "v0.11.15",
+            "version": "v0.11.16",
             "source": {
                 "type": "git",
                 "url": "https://github.com/wp-cli/php-cli-tools.git",
-                "reference": "b6edd35988892ea1451392eb7a26d9dbe98c836d"
+                "reference": "c32e51a5c9993ad40591bc426b21f5422a5ed293"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/wp-cli/php-cli-tools/zipball/b6edd35988892ea1451392eb7a26d9dbe98c836d",
-                "reference": "b6edd35988892ea1451392eb7a26d9dbe98c836d",
+                "url": "https://api.github.com/repos/wp-cli/php-cli-tools/zipball/c32e51a5c9993ad40591bc426b21f5422a5ed293",
+                "reference": "c32e51a5c9993ad40591bc426b21f5422a5ed293",
                 "shasum": ""
             },
             "require": {
@@ -11565,9 +10906,9 @@
             ],
             "support": {
                 "issues": "https://github.com/wp-cli/php-cli-tools/issues",
-                "source": "https://github.com/wp-cli/php-cli-tools/tree/v0.11.15"
+                "source": "https://github.com/wp-cli/php-cli-tools/tree/v0.11.16"
             },
-            "time": "2022-08-15T10:15:55+00:00"
+            "time": "2022-11-03T15:19:26+00:00"
         },
         {
             "name": "wp-cli/rewrite-command",
@@ -12308,15 +11649,15 @@
         },
         {
             "name": "wpackagist-plugin/mailpoet",
-            "version": "3.101.0",
+            "version": "4.0.0",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/mailpoet/",
-                "reference": "tags/3.101.0"
+                "reference": "tags/4.0.0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/mailpoet.3.101.0.zip"
+                "url": "https://downloads.wordpress.org/plugin/mailpoet.4.0.0.zip"
             },
             "require": {
                 "composer/installers": "^1.0 || ^2.0"
@@ -12326,15 +11667,15 @@
         },
         {
             "name": "wpackagist-plugin/newsletter",
-            "version": "7.5.3",
+            "version": "7.5.6",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/newsletter/",
-                "reference": "tags/7.5.3"
+                "reference": "tags/7.5.6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/newsletter.7.5.3.zip"
+                "url": "https://downloads.wordpress.org/plugin/newsletter.7.5.6.zip"
             },
             "require": {
                 "composer/installers": "^1.0 || ^2.0"
@@ -12344,15 +11685,15 @@
         },
         {
             "name": "wpackagist-plugin/woocommerce",
-            "version": "7.0.0",
+            "version": "7.1.0",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/woocommerce/",
-                "reference": "tags/7.0.0"
+                "reference": "tags/7.1.0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/woocommerce.7.0.0.zip"
+                "url": "https://downloads.wordpress.org/plugin/woocommerce.7.1.0.zip"
             },
             "require": {
                 "composer/installers": "^1.0 || ^2.0"
@@ -12398,15 +11739,15 @@
         },
         {
             "name": "wpackagist-plugin/wp-super-cache",
-            "version": "1.9",
+            "version": "1.9.1",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/wp-super-cache/",
-                "reference": "tags/1.9"
+                "reference": "tags/1.9.1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/wp-super-cache.1.9.zip"
+                "url": "https://downloads.wordpress.org/plugin/wp-super-cache.1.9.1.zip"
             },
             "require": {
                 "composer/installers": "^1.0 || ^2.0"
@@ -12416,15 +11757,15 @@
         },
         {
             "name": "wpackagist-theme/storefront",
-            "version": "4.1.3",
+            "version": "4.2.0",
             "source": {
                 "type": "svn",
                 "url": "https://themes.svn.wordpress.org/storefront/",
-                "reference": "4.1.3"
+                "reference": "4.2.0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/theme/storefront.4.1.3.zip"
+                "url": "https://downloads.wordpress.org/theme/storefront.4.2.0.zip"
             },
             "require": {
                 "composer/installers": "^1.0 || ^2.0"
@@ -12434,15 +11775,15 @@
         },
         {
             "name": "wpackagist-theme/twentytwenty",
-            "version": "2.0",
+            "version": "2.1",
             "source": {
                 "type": "svn",
                 "url": "https://themes.svn.wordpress.org/twentytwenty/",
-                "reference": "2.0"
+                "reference": "2.1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/theme/twentytwenty.2.0.zip"
+                "url": "https://downloads.wordpress.org/theme/twentytwenty.2.1.zip"
             },
             "require": {
                 "composer/installers": "^1.0 || ^2.0"
@@ -12512,7 +11853,9 @@
     "stability-flags": {
         "brianhenryie/bh-wp-logger": 20,
         "brianhenryie/bh-wp-rate-limiter": 20,
+        "10up/wp_mock": 20,
         "brianhenryie/composer-phpstorm": 20,
+        "brianhenryie/strauss": 20,
         "kporras07/composer-symlinks": 20,
         "mheap/phpunit-github-actions-printer": 20,
         "voku/portable-ascii": 20,
