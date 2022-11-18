@@ -251,6 +251,7 @@ class BH_WP_Autologin_URLs {
 		$login_form = new Login_Form( $this->settings );
 
 		add_action( 'woocommerce_before_customer_login_form', array( $login_form, 'enqueue_script' ) );
+		add_action( 'woocommerce_before_checkout_form', array( $login_form, 'enqueue_script' ) );
 	}
 
 	/**

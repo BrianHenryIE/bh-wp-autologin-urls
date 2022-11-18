@@ -35,6 +35,7 @@ class Login_Form {
 	 * Register the JavaScript when the WooCommerce login form is printed.
 	 *
 	 * @hooked woocommerce_before_customer_login_form.
+	 * @hooked woocommerce_before_checkout_form
 	 *
 	 * @since    1.7.0
 	 */
