@@ -66,7 +66,7 @@ abstract class Settings_Section_Element_Abstract {
 	/**
 	 * The options array used when registering the setting.
 	 *
-	 * @var array{type:string, description:string, sanitize_callback:callable, show_in_rest:bool|array, default:mixed} $register_setting_args Data used to describe the setting when registered.
+	 * @var array{type:string, description:string, sanitize_callback:callable, show_in_rest:bool|array<string,mixed>, default:mixed} $register_setting_args Data used to describe the setting when registered.
 	 */
 	protected array $register_setting_args = array();
 

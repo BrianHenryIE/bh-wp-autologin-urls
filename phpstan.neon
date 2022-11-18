@@ -36,3 +36,5 @@ parameters:
         - '/Access to an undefined property BrianHenryIE\\WP_Autologin_URLs\\Klaviyo\\Client::\$Profiles\./'
         # The public root-namespaced function add_autologin_to_url() can accept int|string|WP_User.
         - '/Function add_autologin_to_url\(\) has parameter \$user with no type specified\./'
+        # When setting array's default value to an empty array but still type annotating, this message appears:
+        - '/.*does not accept default value of type array{}./'
