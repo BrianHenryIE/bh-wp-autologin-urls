@@ -10,6 +10,7 @@
 
 namespace BrianHenryIE\WP_Autologin_URLs\Admin;
 
+use BrianHenryIE\WP_Autologin_URLs\Admin\Settings_Fields\Enable_Magic_Links;
 use BrianHenryIE\WP_Autologin_URLs\Admin\Settings_Fields\Klaviyo_Private_Key;
 use BrianHenryIE\WP_Autologin_URLs\Admin\Settings_Fields\Log_Level;
 use BrianHenryIE\WP_Autologin_URLs\Admin\Settings_Fields\Use_WP_Login;
@@ -112,6 +113,7 @@ class Settings_Page {
 		 */
 		$fields = array();
 
+		$fields[] = new Enable_Magic_Links( $settings_page_slug_name, $this->settings );
 		$fields[] = new Expiry_Age( $settings_page_slug_name, $this->settings );
 		$fields[] = new Admin_Enable( $settings_page_slug_name, $this->settings );
 		$fields[] = new Regex_Subject_Filters( $settings_page_slug_name, $this->settings );

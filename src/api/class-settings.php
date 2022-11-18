@@ -17,6 +17,9 @@ use BrianHenryIE\WP_Autologin_URLs\WP_Logger\Logger_Settings_Interface;
 use BrianHenryIE\WP_Autologin_URLs\WP_Logger\Logger;
 use Psr\Log\LogLevel;
 
+/**
+ * Plain old typed object wrapping WordPress wp_options.
+ */
 class Settings implements Settings_Interface, Logger_Settings_Interface {
 
 	const ADMIN_ENABLED                   = 'bh_wp_autologin_urls_is_admin_enabled';
@@ -169,6 +172,6 @@ class Settings implements Settings_Interface, Logger_Settings_Interface {
 	 * Enable/disable the magic link feature.
 	 */
 	public function is_magic_link_enabled(): bool {
-		return get_option( self::MAGIC_LINK_ENABLED, true );
+		return 'magic_links_is_enabled' === get_option( self::MAGIC_LINK_ENABLED, 'magic_links_is_not_enabled' );
 	}
 }
