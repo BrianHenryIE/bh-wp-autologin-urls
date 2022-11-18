@@ -151,7 +151,7 @@ class Settings_Page_Unit_Test extends \Codeception\Test\Unit {
 		$settings      = $this->makeEmpty( Settings_Interface::class );
 		$settings_page = new Settings_Page( $settings, $logger );
 
-		$number_of_settings_elements = 6;
+		$number_of_settings_elements = 7;
 
 		\WP_Mock::userFunction(
 			'add_settings_field',
@@ -165,6 +165,23 @@ class Settings_Page_Unit_Test extends \Codeception\Test\Unit {
 			array(
 				'times' => $number_of_settings_elements,
 			)
+		);
+
+		\WP_Mock::userFunction(
+			'wp_login_url',
+		);
+		\WP_Mock::userFunction(
+			'trailingslashit',
+		);
+		\WP_Mock::userFunction(
+			'is_plugin_active',
+			array(
+				'times'  => 1,
+				'return' => false,
+			)
+		);
+		\WP_Mock::userFunction(
+			'site_url',
 		);
 
 		$settings_page->setup_fields();
