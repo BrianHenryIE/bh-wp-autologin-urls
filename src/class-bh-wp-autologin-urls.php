@@ -200,7 +200,7 @@ class BH_WP_Autologin_URLs {
 
 		$plugin_wp_mail = new WP_Mail( $this->api, $this->settings );
 
-		add_filter( 'wp_mail', array( $plugin_wp_mail, 'add_autologin_links_to_email' ), 3, 4 );
+		add_filter( 'wp_mail', array( $plugin_wp_mail, 'add_autologin_links_to_email' ), 3 );
 	}
 
 	/**
