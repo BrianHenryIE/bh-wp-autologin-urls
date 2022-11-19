@@ -67,7 +67,7 @@ class Settings_Page_Unit_Test extends \Codeception\Test\Unit {
 		global $plugin_root_dir;
 
 		// Verify the actual file exists.
-		$this->assertFileExists( $plugin_root_dir . '/src/admin/partials/admin-display.php' );
+		$this->assertFileExists( $plugin_root_dir . '/templates/admin/settings-page.php' );
 	}
 
 	/**
@@ -94,7 +94,12 @@ class Settings_Page_Unit_Test extends \Codeception\Test\Unit {
 			'get_current_user_id'
 		);
 
-		// The it includes the template file.
+		global $plugin_root_dir;
+		if ( ! defined( 'WP_PLUGIN_DIR' ) ) {
+			define( 'WP_PLUGIN_DIR', $plugin_root_dir );
+		}
+
+		// Then it includes the template file.
 		\WP_Mock::userFunction(
 			'plugin_dir_path',
 			array(
@@ -102,6 +107,17 @@ class Settings_Page_Unit_Test extends \Codeception\Test\Unit {
 				'return' => __DIR__ . '/../',
 			)
 		);
+
+		\WP_Mock::userFunction(
+			'get_stylesheet_directory'
+		);
+
+		// TODO: Move this!
+		$mock_admin_display = __DIR__ . '/partials/admin-display.php';
+
+		\WP_Mock::onFilter( 'bh_wp_autologin_urls_admin_settings_page_template' )
+				->with( 'templates/admin/settings-page.php' )
+				->reply( $mock_admin_display );
 
 		ob_start();
 
