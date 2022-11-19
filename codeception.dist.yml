@@ -25,7 +25,7 @@ coverage:
         - /src/*
         - /bh-wp-autologin-urls.php
         - /uninstall.php
-        - /templates
+        - /templates/*
     exclude:
         - /vendor/*
         - /dist-archive/*
