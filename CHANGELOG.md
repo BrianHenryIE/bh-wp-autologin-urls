@@ -1,3 +1,11 @@
+### 1.9.0
+
+* Add: checkbox to enable/disable magic links
+* Add: magic link button on WooCommerce checkout
+* Add: enable overriding the settings page template
+* Improve: logging
+* Dev: use Alley Interactive autoloader
+
 ### 1.8.0
 
 * Add: ignore requests from bots (check HTTP_USER_AGENT for "bot")

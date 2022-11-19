@@ -3,13 +3,13 @@ Contributors: BrianHenryIE
 Donate link: https://BrianHenry.ie
 Tags: login, email, links, users, newsletter, notification, simple, wp_mail
 Requires at least: 4.5.0
-Tested up to: 5.3.2
-Requires PHP: 5.7
+Tested up to: 6.1.0
+Requires PHP: 7.4
 Stable tag: trunk
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Logs in users through URLs in emails sent from WordPress.
+Adds single-use passwords to WordPress emails' URLs for frictionless login. Add magic email link to login screen.
 
 == Description ==
 
@@ -34,6 +34,67 @@ An API is available for developers to use autologin codes elsewhere in WordPress
 2. The settings interface.
 
 == Changelog ==
+
+= 1.9.0 =
+
+* Add: checkbox to enable/disable magic links
+* Add: magic link button on WooCommerce checkout
+* Add: enable overriding the settings page template
+* Improve: logging
+* Dev: use Alley Interactive autoloader
+
+= 1.8.0 =
+
+* Add: ignore requests from bots (check HTTP_USER_AGENT for "bot")
+* Fix: do not redirect_to wp-login.php, unwrap the inner redirect_to and use that
+* Fix: unprefixed Klaviyo\ApiException.
+
+= 1.7.1 =
+
+* Fix: set content type on HTML emails
+* Fix: do not generate autologin URLs when serving WC_Orders over REST API
+* Improve: hyperlinks in log table
+
+= 1.7.0 =
+
+* Add: Magic-link emails on wp-login.php and WooCommerce login forms
+* Add: Git Updater
+* Improved PHPCS and logging
+
+= 1.6.3 =
+
+* Fix: Catch Klaviyo API errors
+* Language: Include generated .pot file
+
+= 1.6.2 =
+
+* Dependency: updated logger library for performance
+
+= 1.6.1 =
+
+Fix: Fatal error when Klaviyo querystring was defined but empty
+Fix: fatal error when `plugin_action_links_{}` filter called with null as parameter values (Jetpack)
+Fix: (temp) Error when WooCommerce shuts down due to virtual WC_Customer
+Fix: error when wp_mail's $to is an array
+
+= 1.6.0 =
+
+* Add: Settings and logs link on plugin install confirmation page
+* Fix: Prefilling WooCommerce customer data when no WP_User available: missing function parameter, wc_get_orders called too soon
+
+= 1.5.0 =
+
+* Add: Support for using Klaviyo tracking links as autologin links
+* Change: Use library nikolaposa/rate-limit for rate limiting rather than internal code
+* Add: interface for integrations
+* Fix: Return early when user is already logged in
+* Fix: Error when Guzzle not prefixed
+* Dev: Project structure changed
+
+= 1.4.0 =
+
+* Add: On admin UI single order page, add the autologin code to the "Customer payment page" link
+* Security: Exclude emails with multiple recipients
 
 = 1.1.2 =
 
