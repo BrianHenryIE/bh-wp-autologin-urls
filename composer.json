@@ -52,10 +52,6 @@
       "url": "https://github.com/BrianHenryIE/rate-limit",
       "type": "git"
     },
-    "pablo-sg-pacheco/wp-namespace-autoloader": {
-      "url": "https://github.com/pablo-sg-pacheco/wp-namespace-autoloader",
-      "type": "git"
-    },
     "wordpress/wordpress": {
       "url": "https://github.com/WordPress/wordpress-develop",
       "type": "git"
@@ -67,10 +63,6 @@
     "wp-oop/transient-cache": {
       "url": "https://github.com/BrianHenryIE/transient-cache",
       "type": "git"
-    },
-    "alleyinteractive/composer-wordpress-autoloader": {
-      "url": "../composer-wordpress-autoloader",
-      "type": "path"
     }
   },
   "require": {
