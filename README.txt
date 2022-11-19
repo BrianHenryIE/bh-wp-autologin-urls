@@ -72,10 +72,10 @@ An API is available for developers to use autologin codes elsewhere in WordPress
 
 = 1.6.1 =
 
-Fix: Fatal error when Klaviyo querystring was defined but empty
-Fix: fatal error when `plugin_action_links_{}` filter called with null as parameter values (Jetpack)
-Fix: (temp) Error when WooCommerce shuts down due to virtual WC_Customer
-Fix: error when wp_mail's $to is an array
+* Fix: Fatal error when Klaviyo querystring was defined but empty
+* Fix: fatal error when `plugin_action_links_{}` filter called with null as parameter values (Jetpack)
+* Fix: (temp) Error when WooCommerce shuts down due to virtual WC_Customer
+* Fix: error when wp_mail's $to is an array
 
 = 1.6.0 =
 
@@ -95,6 +95,17 @@ Fix: error when wp_mail's $to is an array
 
 * Add: On admin UI single order page, add the autologin code to the "Customer payment page" link
 * Security: Exclude emails with multiple recipients
+
+= 1.3.3 =
+
+* Add: Use custom table for storing codes, because transients are too ephemeral
+* Add: Option to bounce users through wp-login.php, to avoid caching issues
+* Add: Logs users in from links in The Newsletter Plugin
+* Add: Logs users in from links in MailPoet
+* Add: Prefill WooCommerce checkout data for mailing list users without accounts
+* Add: More secure verification via hash_equals
+* Add: Rate limiting bad login attempts
+* Add: Logging (mostly off by default)
 
 = 1.1.2 =
 
