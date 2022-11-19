@@ -9,12 +9,6 @@
       "email": "BrianHenryIE@gmail.com"
     }
   ],
-  "autoload": {
-    "classmap": ["vendor-prefixed"],
-    "wordpress": {
-      "BrianHenryIE\\WP_Autologin_URLs\\": "src"
-    }
-  },
   "autoload-dev": {
     "psr-4": {
       "BrianHenryIE\\WP_Autologin_URLs\\": ["tests/integration","tests/unit","tests/wpunit"]
