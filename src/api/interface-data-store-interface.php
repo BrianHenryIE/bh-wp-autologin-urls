@@ -26,13 +26,12 @@ interface Data_Store_Interface {
 	/**
 	 * Retrieve the value stored for the given autologin code, if it has not expired.
 	 *
-	 * TODO Would be nice to know the user id for logging.
-	 *
 	 * @param string $code The autologin code in the user's URL.
+	 * @param bool   $delete Indicate should the code be deleted after retrieving it.
 	 *
 	 * @return string|null
 	 */
-	public function get_value_for_code( string $code ): ?string;
+	public function get_value_for_code( string $code, bool $delete = true ): ?string;
 
 	/**
 	 * Delete codes that are no longer valid.

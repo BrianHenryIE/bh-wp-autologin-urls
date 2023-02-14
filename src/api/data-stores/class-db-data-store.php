@@ -52,6 +52,7 @@ class DB_Data_Store implements Data_Store_Interface {
 	 * @var string
 	 */
 	public static $db_version_option_name = 'bh_wp_autologin_urls_db_version';
+
 	/**
 	 * Create or upgrade the database.
 	 *
@@ -153,12 +154,13 @@ class DB_Data_Store implements Data_Store_Interface {
 	 * Retrieve the value stored for the given autologin code, if it has not expired.
 	 *
 	 * @param string $code The autologin code in the user's URL.
+	 * @param bool   $delete Delete the code after fetching it. I.e. this is a single use code.
 	 *
 	 * @return string|null
 	 * @throws Exception DateTime exception.
 	 * @throws Exception For `$wpdb->last_error`.
 	 */
-	public function get_value_for_code( string $code ): ?string {
+	public function get_value_for_code( string $code, bool $delete = true ): ?string {
 
 		global $wpdb;
 
@@ -183,10 +185,12 @@ class DB_Data_Store implements Data_Store_Interface {
 		}
 
 		// Delete the code so it can only be used once (whether valid or not).
-		$wpdb->delete(
-			$wpdb->prefix . 'autologin_urls',
-			array( 'hash' => $key )
-		);
+		if ( $delete ) {
+			$wpdb->delete(
+				$wpdb->prefix . 'autologin_urls',
+				array( 'hash' => $key )
+			);
+		}
 
 		$expires_at = new DateTimeImmutable( $result->expires_at, new DateTimeZone( 'UTC' ) );
 

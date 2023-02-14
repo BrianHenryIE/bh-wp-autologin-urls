@@ -15,6 +15,10 @@ use DateTimeInterface;
 use Psr\Log\LoggerAwareTrait;
 use Psr\Log\LoggerInterface;
 
+/**
+ * Deprecated class that uses WordPress transients for storage. Less reliable than a custom database table,
+ * but potentially useful for many use cases.
+ */
 class Transient_Data_Store implements Data_Store_Interface {
 	use LoggerAwareTrait;
 
@@ -55,10 +59,11 @@ class Transient_Data_Store implements Data_Store_Interface {
 	 * Deletes the transient when found, so autologin codes can only be used once.
 	 *
 	 * @param string $code The code as supplied to the user, which has never been saved by us.
+	 * @param bool   $delete Should the code be expiried immediately after use.
 	 *
 	 * @return string|null
 	 */
-	public function get_value_for_code( string $code ): ?string {
+	public function get_value_for_code( string $code, bool $delete = true ): ?string {
 
 		$transient_name = self::TRANSIENT_PREFIX . hash( 'sha256', $code );
 
@@ -68,7 +73,9 @@ class Transient_Data_Store implements Data_Store_Interface {
 			return null;
 		}
 
-		delete_transient( $transient_name );
+		if ( $delete ) {
+			delete_transient( $transient_name );
+		}
 
 		return $value;
 	}

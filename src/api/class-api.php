@@ -262,8 +262,9 @@ class API implements API_Interface {
 	 * @return bool
 	 */
 	public function verify_autologin_password( int $user_id, string $password ): bool {
+		$delete = true;
 
-		$saved_details = $this->data_store->get_value_for_code( $password );
+		$saved_details = $this->data_store->get_value_for_code( $password, $delete );
 
 		if ( null === $saved_details ) {
 			return false;

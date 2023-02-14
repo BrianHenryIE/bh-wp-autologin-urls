@@ -3,8 +3,11 @@
 namespace BrianHenryIE\WP_Autologin_URLs\API\Data_Stores;
 
 use BrianHenryIE\ColorLogger\ColorLogger;
+use Codeception\Stub\Expected;
 use DateTimeImmutable;
 use DateTimeZone;
+use stdClass;
+use wpdb;
 
 /**
  * @coversDefaultClass \BrianHenryIE\WP_Autologin_URLs\API\Data_Stores\DB_Data_Store
@@ -84,29 +87,33 @@ class DB_Data_Store_WPUnit_Test extends \Codeception\TestCase\WPTestCase {
 					return $query;
 				}
 
-				$exception = new class( $query ) extends \Exception{
-					/**
-					 * Store the query in the exception for later.
-					 *
-					 * @var string
-					 */
-					public string $query;
-					public function __construct( $query ) {
-						$message  = '';
-						$code     = 0;
-						$previous = null;
-						parent::__construct( $message, $code, $previous );
-						$this->query = $query;
-					}
-				};
+				$exception = new \Exception( $query );
+
+				// $exception = new class( $query ) extends \Exception{
+				// **
+				// * Store the query in the exception for later.
+				// *
+				// * @var string
+				// */
+				// public string $query;
+				// public function __construct( string $query ) {
+				// $message  = '';
+				// $code     = 0;
+				// $previous = null;
+				// parent::__construct( $message, $code, $previous );
+				// $this->query = $query;
+				// }
+				// };
 				throw $exception;
 			}
 		);
 
+		$query = '';
+
 		try {
 			$sut->save( $user_id, $code, $expires_in );
 		} catch ( \Exception $exception ) {
-			$query = $exception->query;
+			$query = $exception->getMessage();
 		}
 
 		// phpcs:ignore Squiz.PHP.CommentedOutCode.Found
@@ -137,6 +144,64 @@ class DB_Data_Store_WPUnit_Test extends \Codeception\TestCase\WPTestCase {
 		$expected = hash( 'sha256', $user_id . $code );
 
 		$this->assertEquals( $expected, $result );
+	}
+
+	/**
+	 * @covers ::get_value_for_code
+	 */
+	public function test_get_value_for_code_delete_after(): void {
+		$logger = new ColorLogger();
+
+		$sut = new DB_Data_Store( $logger );
+
+		$db_query_result             = new stdClass();
+		$db_query_result->expires_at = ( (int) gmdate( 'Y' ) + 1 ) . '-01-01 01:01:01';
+		$db_query_result->userhash   = 'not_relevant_to_this_test';
+
+		global $wpdb;
+		$wpdb_before = $wpdb;
+
+		$wpdb             = $this->make(
+			wpdb::class,
+			array(
+				'get_row' => Expected::once( $db_query_result ),
+				'delete'  => Expected::once(),
+			)
+		);
+		$wpdb->last_error = null; // Must be empty for this test.
+
+		$sut->get_value_for_code( 'dummy_code', true );
+
+		$wpdb = $wpdb_before;
+	}
+
+	/**
+	 * @covers ::get_value_for_code
+	 */
+	public function test_get_value_for_code_do_not_delete_after(): void {
+		$logger = new ColorLogger();
+
+		$sut = new DB_Data_Store( $logger );
+
+		$db_query_result             = new stdClass();
+		$db_query_result->expires_at = ( (int) gmdate( 'Y' ) + 1 ) . '-01-01 01:01:01';
+		$db_query_result->userhash   = 'not_relevant_to_this_test';
+
+		global $wpdb;
+		$wpdb_before = $wpdb;
+
+		$wpdb             = $this->make(
+			wpdb::class,
+			array(
+				'get_row' => Expected::once( $db_query_result ),
+				'delete'  => Expected::never(),
+			)
+		);
+		$wpdb->last_error = null; // Must be empty for this test.
+
+		$sut->get_value_for_code( 'dummy_code', false );
+
+		$wpdb = $wpdb_before;
 	}
 
 	/**
