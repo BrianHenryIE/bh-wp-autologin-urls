@@ -1,3 +1,8 @@
+### 1.10.0
+
+* Add `bh_wp_autologin_urls_should_delete_code_after_use` filter
+* Improved logging
+
 ### 1.9.0
 
 * Add: checkbox to enable/disable magic links
