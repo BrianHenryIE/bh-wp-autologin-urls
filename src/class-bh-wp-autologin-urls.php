@@ -37,8 +37,6 @@ use Psr\Log\LoggerInterface;
  *
  * Also maintains the unique identifier of this plugin as well as the current
  * version of the plugin.
- *
- * phpcs:disable Squiz.PHP.DisallowMultipleAssignments.Found
  */
 class BH_WP_Autologin_URLs {
 
