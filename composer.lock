@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ccca205b676b7bfe416cebf266fa646d",
+    "content-hash": "11c6074015a275047970934119bc2b47",
     "packages": [
         {
             "name": "alleyinteractive/wordpress-autoloader",
@@ -1868,6 +1868,57 @@
                 "phpstorm"
             ],
             "time": "2020-03-22T18:43:05+00:00"
+        },
+        {
+            "name": "brianhenryie/php-diff-test",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/brianhenryie/php-diff-test",
+                "reference": "a911b2618a10385c1b8348c57677c45cfc0e0d5b"
+            },
+            "require": {
+                "composer-runtime-api": "^2.2",
+                "phpunit/php-code-coverage": "*",
+                "phpunit/phpunit": "*"
+            },
+            "require-dev": {
+                "phpstan/phpstan": "^1.9",
+                "squizlabs/php_codesniffer": "*"
+            },
+            "default-branch": true,
+            "bin": [
+                "bin/phpdifftest"
+            ],
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "BrianHenryIE\\PhpDiffTest\\": "src"
+                }
+            },
+            "autoload-dev": {
+                "classmap": [
+                    "tests"
+                ]
+            },
+            "scripts": {
+                "lint": [
+                    "vendor/bin/phpcbf || true",
+                    "vendor/bin/phpcs || true",
+                    "vendor/bin/phpstan analyse --memory-limit 1G"
+                ]
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "BrianHenryIE",
+                    "email": "BrianHenryIE@gmail.com"
+                }
+            ],
+            "description": "Run only the tests that apply to changed lines.",
+            "time": "2023-02-14T04:59:43+00:00"
         },
         {
             "name": "brianhenryie/strauss",
@@ -11855,6 +11906,7 @@
         "brianhenryie/bh-wp-rate-limiter": 20,
         "10up/wp_mock": 20,
         "brianhenryie/composer-phpstorm": 20,
+        "brianhenryie/php-diff-test": 20,
         "brianhenryie/strauss": 20,
         "kporras07/composer-symlinks": 20,
         "mheap/phpunit-github-actions-printer": 20,

@@ -28,6 +28,10 @@
     }
   },
   "repositories": {
+    "brianhenryie/php-diff-test": {
+      "type": "git",
+      "url": "https://github.com/brianhenryie/php-diff-test"
+    },
     "brianhenryie/bh-wp-logger": {
       "url": "https://github.com/BrianHenryIE/bh-wp-logger",
       "type": "git"
@@ -74,10 +78,12 @@
     "klaviyo/sdk": "^1.0"
   },
   "require-dev": {
+    "ext-dom": "*",
     "10up/wp_mock": "dev-trunk",
     "antecedent/patchwork": "^2.1",
     "brianhenryie/color-logger": "^1.0",
     "brianhenryie/composer-phpstorm": "dev-master",
+    "brianhenryie/php-diff-test": "dev-master",
     "brianhenryie/strauss": "dev-master",
     "codeception/module-asserts": "^1.0",
     "codeception/module-cli": "^1.0",
@@ -88,7 +94,6 @@
     "codeception/util-universalframework": "^1.0",
     "cweagans/composer-patches": "*",
     "dealerdirect/phpcodesniffer-composer-installer": "*",
-    "ext-dom": "*",
     "jaschilz/php-coverage-badger": "^2.0",
     "kporras07/composer-symlinks": "dev-master",
     "lucatume/wp-browser": "*",
@@ -121,6 +126,9 @@
     "patches": {
       "jaschilz/php-coverage-badger": {
         "Allow customising the text": "https://github.com/JASchilz/PHPCoverageBadge/pull/1.patch"
+      },
+      "wp-cli/dist-archive-command": {
+        "Add Increment Version": "https://github.com/BrianHenryIE/dist-archive-command/commit/f37c375ba8069c9160d642dd0c00435e0f1c4804.patch"
       }
     },
     "strauss": {
