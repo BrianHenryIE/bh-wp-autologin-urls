@@ -89,21 +89,6 @@ class DB_Data_Store_WPUnit_Test extends \Codeception\TestCase\WPTestCase {
 
 				$exception = new \Exception( $query );
 
-				// $exception = new class( $query ) extends \Exception{
-				// **
-				// * Store the query in the exception for later.
-				// *
-				// * @var string
-				// */
-				// public string $query;
-				// public function __construct( string $query ) {
-				// $message  = '';
-				// $code     = 0;
-				// $previous = null;
-				// parent::__construct( $message, $code, $previous );
-				// $this->query = $query;
-				// }
-				// };
 				throw $exception;
 			}
 		);
