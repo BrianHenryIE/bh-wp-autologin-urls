@@ -12,6 +12,9 @@ use BrianHenryIE\ColorLogger\ColorLogger;
 use BrianHenryIE\WP_Autologin_URLs\Settings_Interface;
 use Psr\Log\LoggerInterface;
 use Codeception\Stub\Expected;
+use WP_Mock;
+use WP_Mock\Filter;
+use WP_Mock\Functions;
 use WP_Mock\Matcher\AnyInstance;
 use WP_User;
 
@@ -21,12 +24,12 @@ use WP_User;
 class API_Unit_Test extends \Codeception\Test\Unit {
 
 	protected function setUp(): void {
-		\WP_Mock::setUp();
+		WP_Mock::setUp();
 	}
 
 	protected function tearDown(): void {
 		parent::tearDown();
-		\WP_Mock::tearDown();
+		WP_Mock::tearDown();
 	}
 
 	/**
@@ -57,7 +60,7 @@ class API_Unit_Test extends \Codeception\Test\Unit {
 		 *
 		 * @see API::generate_password()
 		 */
-		\WP_Mock::userFunction(
+		WP_Mock::userFunction(
 			'wp_generate_password',
 			array(
 				'args'   => array( 12, false ),
@@ -91,7 +94,7 @@ class API_Unit_Test extends \Codeception\Test\Unit {
 		$user->ID = 123;
 
 		// phpcs:disable WordPress.WP.AlternativeFunctions.rand_rand
-		\WP_Mock::userFunction(
+		WP_Mock::userFunction(
 			'wp_generate_password',
 			array(
 				'args'   => array( 12, false ),
@@ -150,7 +153,7 @@ class API_Unit_Test extends \Codeception\Test\Unit {
 		 *
 		 * @see API::generate_password()
 		 */
-		\WP_Mock::userFunction(
+		WP_Mock::userFunction(
 			'wp_generate_password',
 			array(
 				'args'   => array( 12, false ),
@@ -182,10 +185,11 @@ class API_Unit_Test extends \Codeception\Test\Unit {
 		);
 		$autologin_urls_api = new API( $settings_mock, $logger_mock, $data_store_mock );
 
+		WP_Mock::expectFilter( 'bh_wp_autologin_urls_should_delete_code_after_use', true, 123 );
+
 		$is_valid_autologin_password = $autologin_urls_api->verify_autologin_password( 123, 'q1w2e3r4t5y6' );
 
 		$this->assertFalse( $is_valid_autologin_password );
-
 	}
 
 	/**

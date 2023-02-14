@@ -262,7 +262,16 @@ class API implements API_Interface {
 	 * @return bool
 	 */
 	public function verify_autologin_password( int $user_id, string $password ): bool {
-		$delete = true;
+		/**
+		 * Filter to enable reuse of autologin codes.
+		 *
+		 * The codes continue to be deleted at their expiry date, but returning false here allows each code to be used
+		 * an unlimited number of times until then.
+		 *
+		 * @param bool $delete Indicate if the code should be deleted after use.
+		 * @param int $user_id The id of the user we are attempting to log in.
+		 */
+		$delete = apply_filters( 'bh_wp_autologin_urls_should_delete_code_after_use', true, $user_id );
 
 		$saved_details = $this->data_store->get_value_for_code( $password, $delete );
 
