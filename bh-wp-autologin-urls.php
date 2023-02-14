@@ -23,95 +23,53 @@
  * Release Asset:     true
  */
 
-namespace BH_WP_Autologin_URLs {
+namespace BH_WP_Autologin_URLs;
 
-	use BrianHenryIE\WP_Autologin_URLs\API\API;
-	use BrianHenryIE\WP_Autologin_URLs\API\Data_Stores\DB_Data_Store;
-	use BrianHenryIE\WP_Autologin_URLs\BH_WP_Autologin_URLs;
-	use BrianHenryIE\WP_Autologin_URLs\API\Settings;
-	use BrianHenryIE\WP_Autologin_URLs\WP_Logger\Logger;
-	use Exception;
+use BrianHenryIE\WP_Autologin_URLs\API\API;
+use BrianHenryIE\WP_Autologin_URLs\API\Data_Stores\DB_Data_Store;
+use BrianHenryIE\WP_Autologin_URLs\BH_WP_Autologin_URLs;
+use BrianHenryIE\WP_Autologin_URLs\API\Settings;
+use BrianHenryIE\WP_Autologin_URLs\WP_Logger\Logger;
+use Exception;
 
-	// If this file is called directly, abort.
-	if ( ! defined( 'ABSPATH' ) ) {
-		throw new Exception();
-	}
-
-	require_once plugin_dir_path( __FILE__ ) . 'autoload.php';
-
-	/**
-	 * Currently plugin version.
-	 */
-	define( 'BH_WP_AUTOLOGIN_URLS_VERSION', '1.9.0' );
-	define( 'BH_WP_AUTOLOGIN_URLS_BASENAME', plugin_basename( __FILE__ ) );
-
-	/**
-	 * Function to keep the loader and settings objects out of the namespace.
-	 *
-	 * @return API
-	 */
-	function instantiate_bh_wp_autologin_urls(): API {
-
-		$settings  = new Settings();
-		$logger    = Logger::instance( $settings );
-		$datastore = new DB_Data_Store( $logger );
-		$api       = new API( $settings, $logger, $datastore );
-
-		new BH_WP_Autologin_URLs( $api, $settings, $logger );
-
-		return $api;
-	}
-
-	/**
-	 * Begins execution of the plugin.
-	 *
-	 * Since everything within the plugin is registered via hooks,
-	 * then kicking off the plugin from this point in the file does
-	 * not affect the page life cycle.
-	 *
-	 * @since    1.0.0
-	 */
-	$GLOBALS['bh-wp-autologin-urls'] = instantiate_bh_wp_autologin_urls();
-
+// If this file is called directly, abort.
+if ( ! defined( 'ABSPATH' ) ) {
+	throw new Exception();
 }
 
-namespace {
+require_once plugin_dir_path( __FILE__ ) . 'autoload.php';
 
-	use BrianHenryIE\WP_Autologin_URLs\API_Interface;
+/**
+ * Currently plugin version.
+ */
+define( 'BH_WP_AUTOLOGIN_URLS_VERSION', '1.9.0' );
+define( 'BH_WP_AUTOLOGIN_URLS_BASENAME', plugin_basename( __FILE__ ) );
 
-	add_action( 'plugins_loaded', 'define_add_autologin_to_url_function', 2 );
+/**
+ * Function to keep the loader and settings objects out of the namespace.
+ *
+ * @return API
+ */
+function instantiate_bh_wp_autologin_urls(): API {
 
-	/**
-	 * Create global functions for other plugins to use.
-	 * Expected to be hooked early on plugins_loaded.
-	 * Can be unhooked.
-	 *
-	 * This approach avoids users instantiating this object each time it is needed, thus preserving the cache.
-	 */
-	function define_add_autologin_to_url_function(): void {
+	$settings  = new Settings();
+	$logger    = Logger::instance( $settings );
+	$datastore = new DB_Data_Store( $logger );
+	$api       = new API( $settings, $logger, $datastore );
 
-		if ( ! function_exists( 'add_autologin_to_url' ) ) {
+	new BH_WP_Autologin_URLs( $api, $settings, $logger );
 
-			/**
-			 * Adds an autologin parameter to a URLs when possible.
-			 *
-			 * @param string             $url         The URL to append the autologin code to. This must be a link to this site.
-			 * @param int|string|WP_User $user        A valid user id, email, login or user object.
-			 * @param ?int               $expires_in  The number of seconds the code will work for.
-			 *
-			 * @return string
-			 */
-			function add_autologin_to_url( string $url, $user, ?int $expires_in = null ): string {
-
-				/**
-				 * The main plugin class with references to hooked classes.
-				 *
-				 * @var API_Interface $plugin_api
-				 */
-				$plugin_api = $GLOBALS['bh-wp-autologin-urls'];
-
-				return $plugin_api->add_autologin_to_url( $url, $user, $expires_in );
-			}
-		}
-	}
+	return $api;
 }
+
+/**
+ * Begins execution of the plugin.
+ *
+ * Since everything within the plugin is registered via hooks,
+ * then kicking off the plugin from this point in the file does
+ * not affect the page life cycle.
+ *
+ * @since    1.0.0
+ */
+$GLOBALS['bh-wp-autologin-urls'] = instantiate_bh_wp_autologin_urls();
+

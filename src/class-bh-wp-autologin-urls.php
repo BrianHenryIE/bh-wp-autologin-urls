@@ -126,6 +126,14 @@ class BH_WP_Autologin_URLs {
 
 		add_filter( 'add_autologin_to_message', array( $plugin_api, 'add_autologin_to_message' ), 10, 2 );
 		add_filter( 'add_autologin_to_url', array( $plugin_api, 'add_autologin_to_url' ), 10, 2 );
+
+		add_action(
+			'plugins_loaded',
+			function() {
+				require_once dirname( __DIR__ ) . '/functions.php';
+			},
+			2
+		);
 	}
 
 	/**
