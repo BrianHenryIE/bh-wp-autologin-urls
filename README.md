@@ -98,13 +98,10 @@ $autologin_urls = $GLOBALS['bh-wp-autologin-urls'];
 
 ## TODO
 
-* Regex for URLs with trailing brackets e.g. "(https://example.org)" 
 * Remove the autologin URL parameter in the browser location bar on success
 * Verify i18n is applied everywhere __()
 * Delete all passwords button in admin UI
-* Regex subject filters should be verified with `preg_match()` before saving
 * Error messages on settings page validation failures
-* Sanitize out regex pattern that would entirely disable the plugin
 * Client-side settings page validation
 * Test adding an autologin code to a URL which already has one overwrites the old one (and leaves only the one).
 * ~~The Newsletter Plugin integration~~ – and any plugin that doesn't use wp_mail

@@ -18,7 +18,6 @@ use BrianHenryIE\WP_Autologin_URLs\Settings_Interface;
 use BrianHenryIE\WP_Autologin_URLs\Admin\Settings_Fields\Settings_Section_Element_Abstract;
 use BrianHenryIE\WP_Autologin_URLs\Admin\Settings_Fields\Admin_Enable;
 use BrianHenryIE\WP_Autologin_URLs\Admin\Settings_Fields\Expiry_Age;
-use BrianHenryIE\WP_Autologin_URLs\Admin\Settings_Fields\Regex_Subject_Filters;
 use Psr\Log\LoggerAwareTrait;
 use Psr\Log\LoggerInterface;
 
@@ -136,7 +135,6 @@ class Settings_Page {
 		$fields[] = new Enable_Magic_Links( $settings_page_slug_name, $this->settings );
 		$fields[] = new Expiry_Age( $settings_page_slug_name, $this->settings );
 		$fields[] = new Admin_Enable( $settings_page_slug_name, $this->settings );
-		$fields[] = new Regex_Subject_Filters( $settings_page_slug_name, $this->settings );
 		$fields[] = new Use_WP_Login( $settings_page_slug_name, $this->settings );
 		$fields[] = new Klaviyo_Private_Key( $settings_page_slug_name, $this->settings );
 		$fields[] = new Log_Level( $settings_page_slug_name, $this->settings );
