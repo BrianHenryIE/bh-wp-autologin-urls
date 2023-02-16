@@ -167,7 +167,7 @@ class Settings_Page_Unit_Test extends \Codeception\Test\Unit {
 		$settings      = $this->makeEmpty( Settings_Interface::class );
 		$settings_page = new Settings_Page( $settings, $logger );
 
-		$number_of_settings_elements = 7;
+		$number_of_settings_elements = 6;
 
 		\WP_Mock::userFunction(
 			'add_settings_field',
