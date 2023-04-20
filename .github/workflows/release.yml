@@ -35,7 +35,7 @@ jobs:
         run: |
           $LOGTEXT="= ${{  github.ref_name }} ="
           echo "::debug Checking `readme.txt` for string \"$LOGTEXT\""
-          if [[ $(grep $LOGTEXT readme.txt) ]]; then echo "::info Updated changelog found"; else echo "::error No changelog found for ${{  github.ref_name }}"; exit 1; fi
+          if [[ $(grep "$LOGTEXT" readme.txt) ]]; then echo "::info Updated changelog found"; else echo "::error No changelog found for ${{  github.ref_name }}"; exit 1; fi
 
       - name: Install PHP
         uses: shivammathur/setup-php@2.11.0
