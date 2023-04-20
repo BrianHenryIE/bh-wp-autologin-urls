@@ -135,6 +135,11 @@
       "namespace_replacement_patterns": {
         "~BrianHenryIE\\\\(.*)~" : "BrianHenryIE\\WP_Autologin_URLs\\\\$1"
       },
+      "exclude_from_prefix": {
+        "packages": [
+          "psr/log"
+        ]
+      },
       "exclude_from_copy": {
         "file_patterns": [
           "~psr/log/Psr/Log/Test.*~"
