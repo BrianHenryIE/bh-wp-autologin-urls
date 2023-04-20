@@ -219,7 +219,7 @@ class BH_WP_Autologin_URLs {
 
 		$plugin_login = new Login( $this->api, $this->settings, $this->logger );
 
-		add_action( 'plugins_loaded', array( $plugin_login, 'process' ), 0 );
+		add_action( 'determine_current_user', array( $plugin_login, 'process' ), 30 );
 	}
 
 	/**
