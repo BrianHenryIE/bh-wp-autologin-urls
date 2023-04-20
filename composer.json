@@ -61,10 +61,6 @@
       "url": "https://github.com/WordPress/wordpress-develop",
       "type": "git"
     },
-    "wptrt/admin-notices": {
-      "type": "git",
-      "url": "https://github.com/brianhenryie/admin-notices"
-    },
     "wp-oop/transient-cache": {
       "url": "https://github.com/BrianHenryIE/transient-cache",
       "type": "git"
@@ -163,7 +159,8 @@
         ],
         "composer-symlinks": false
       }
-    }
+    },
+    "enable-patching": "true"
   },
   "scripts": {
     "post-install-cmd": [
