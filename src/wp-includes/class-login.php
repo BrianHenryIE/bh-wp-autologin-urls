@@ -167,6 +167,8 @@ class Login {
 		}
 
 		// Check we're on wp-login.php?redirect_to=...
+		// We won't have a nonce here if the link is from an email.
+		// phpcs:disable WordPress.Security.NonceVerification.Recommended
 		if ( isset( $_GET['redirect_to'] ) ) {
 
 			$url = filter_var( wp_unslash( $_GET['redirect_to'] ), FILTER_SANITIZE_STRING );
