@@ -7,9 +7,9 @@
  * @package           brianhenryie/bh-wp-autologin-urls
  *
  * @wordpress-plugin
- * Plugin Name:       Autologin URLs
+ * Plugin Name:       Magic Emails & Autologin URLs
  * Plugin URI:        https://wordpress.org/BrianHenryIE/bh-wp-autologin-urls
- * Description:       Adds autologin credentials to URLs to this site in emails sent to users.
+ * Description:       Log in users via emails sent from WordPress.
  * Version:           1.10.0
  * Requires PHP:      7.4
  * Author:            BrianHenryIE
