@@ -16,107 +16,22 @@ use BrianHenryIE\WP_Autologin_URLs\Admin\Plugins_Page;
  */
 class BH_WP_Autologin_URLs_Integration_Test extends \Codeception\TestCase\WPTestCase {
 
-	/**
-	 * Verify admin_enqueue_scripts action is correctly added for styles, at priority 10.
-	 */
-	public function test_action_admin_enqueue_scripts_styles(): void {
-
-		$action_name       = 'admin_enqueue_scripts';
-		$expected_priority = 10;
-
-		$class_type  = Admin_Assets::class;
-		$method_name = 'enqueue_styles';
-
-		$function_is_hooked = $this->is_function_hooked_on_action( $class_type, $method_name, $action_name, $expected_priority );
-
-		$this->assertNotFalse( $function_is_hooked );
-	}
-
-	/**
-	 * Verify admin_enqueue_scripts action is added for scripts, at priority 10.
-	 */
-	public function test_action_admin_enqueue_scripts_scripts(): void {
-
-		$action_name       = 'admin_enqueue_scripts';
-		$expected_priority = 10;
-
-		$class_type  = Admin_Assets::class;
-		$method_name = 'enqueue_scripts';
-
-		$function_is_hooked = $this->is_function_hooked_on_action( $class_type, $method_name, $action_name, $expected_priority );
-
-		$this->assertNotFalse( $function_is_hooked );
-	}
-
-	/**
-	 * Verify filter on wp_mail is added at priority 3.
-	 */
-	public function test_filter_wp_mail_add_autologin_links_to_email(): void {
-
-		$action_name       = 'wp_mail';
-		$expected_priority = 3;
-
-		$class_type  = WP_Mail::class;
-		$method_name = 'add_autologin_links_to_email';
-
-		$function_is_hooked = $this->is_function_hooked_on_action( $class_type, $method_name, $action_name, $expected_priority );
-
-		$this->assertNotFalse( $function_is_hooked );
-	}
-
-	/**
-	 * Verify the login functionality is hooked at plugins_loaded (I think that's as soon as possible)
-	 * at priority 2 (so another plugin can nip in at 1 and unhook, if required).
-	 */
-	public function test_action_plugins_loaded_wp_init_process_autologin(): void {
-
-		$action_name       = 'plugins_loaded';
-		$expected_priority = 0;
-
-		$class_type  = Login::class;
-		$method_name = 'wp_init_process_autologin';
-
-		$function_is_hooked = $this->is_function_hooked_on_action( $class_type, $method_name, $action_name, $expected_priority );
-
-		$this->assertNotFalse( $function_is_hooked );
-	}
-
-	/**
-	 * Verify action to call load textdomain is added.
-	 */
-	public function test_action_plugins_loaded_load_plugin_textdomain(): void {
-
-		$action_name       = 'init';
-		$expected_priority = 10;
-
-		$class_type  = I18n::class;
-		$method_name = 'load_plugin_textdomain';
-
-		$function_is_hooked = $this->is_function_hooked_on_action( $class_type, $method_name, $action_name, $expected_priority );
-
-		$this->assertNotFalse( $function_is_hooked );
-	}
-
-
-	/**
-	 * Ensure the `plugin_action_links` function is correctly added to the `plugin_action_links_*` fitler.
-	 */
-	public function test_add_filter_plugin_action_links(): void {
-
+	public function hooks() {
 		global $plugin_basename;
-
-		$action_name       = 'plugin_action_links_' . $plugin_basename;
-		$expected_priority = 10;
-
-		$class_type  = Plugins_Page::class;
-		$method_name = 'action_links';
-
-		$function_is_hooked = $this->is_function_hooked_on_action( $class_type, $method_name, $action_name, $expected_priority );
-
-		$this->assertNotFalse( $function_is_hooked );
-
+		$hooks = array(
+			array( 'init', I18n::class, 'load_plugin_textdomain' ),
+			array( 'admin_enqueue_scripts', Admin_Assets::class, 'enqueue_styles' ),
+			array( 'admin_enqueue_scripts', Admin_Assets::class, 'enqueue_scripts' ),
+			array( 'wp_mail', WP_Mail::class, 'add_autologin_links_to_email', 3 ),
+			array( 'plugins_loaded', Login::class, 'wp_init_process_autologin', 0 ),
+			array( 'plugin_action_links_' . $plugin_basename, Plugins_Page::class, 'action_links' ),
+		);
+		return $hooks;
 	}
 
+	/**
+	 * @dataProvider hooks
+	 */
 
 	protected function is_function_hooked_on_action( string $class_type, string $method_name, string $action_name, int $expected_priority = 10 ): bool {
 
