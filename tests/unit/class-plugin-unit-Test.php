@@ -18,6 +18,7 @@ class Plugin_Unit_Test extends \Codeception\Test\Unit {
 	}
 
 	protected function tearDown(): void {
+		parent::tearDown();
 		\WP_Mock::tearDown();
 		\Patchwork\restoreAll();
 	}
@@ -55,6 +56,15 @@ class Plugin_Unit_Test extends \Codeception\Test\Unit {
 				'times'  => 1,
 				'args'   => array( \WP_Mock\Functions::type( 'string' ) ),
 				'return' => 'bh-wp-autologin-urls/bh-wp-autologin-urls.php',
+			)
+		);
+
+		\WP_Mock::userFunction(
+			'get_option',
+			array(
+				'times'  => 1,
+				'args'   => array( 'bh_wp_autologin_urls_log_level', 'notice' ),
+				'return' => 'notice',
 			)
 		);
 
