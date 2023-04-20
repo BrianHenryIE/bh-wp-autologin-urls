@@ -1,4 +1,4 @@
-=== Autologin URLs ===
+=== Magic Emails & Autologin URLs ===
 Contributors: BrianHenryIE
 Donate link: https://BrianHenry.ie
 Tags: login, email, links, users, newsletter, notification, simple, wp_mail
@@ -9,11 +9,14 @@ Stable tag: trunk
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Adds single-use passwords to WordPress emails' URLs for frictionless login. Add magic email link to login screen.
+Adds magic email link to login screen. Adds single-use passwords to WordPress emails' URLs for frictionless login.
 
 == Description ==
 
-Users will be automatically logged in when clicking links in emails sent from WordPress:
+A new "Email Magic Link" button is added to the standard WordPress and WooCommerce login screens. If there is a user
+account for the username filled out, they will receive an email with a link to log them in without a password.
+
+All emails sent from WordPress will contain login codes in links pointing back to the website:
 
 * Comment reply emails
 * Abandoned cart emails
