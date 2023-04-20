@@ -1,3 +1,11 @@
+### 2.0.0
+
+* Breaking: UI for regex subject filters removed (functionality still exists through filters)
+* Fix: Use correct `determine_current_user` filter for login
+
+* Update library: RateLimit library has bugfix to handle `false` returned from transients for expected `array`
+* Update library: bh-wp-logger library has performance and feature improvements
+
 ### 1.10.0
 
 * Add `bh_wp_autologin_urls_should_delete_code_after_use` filter

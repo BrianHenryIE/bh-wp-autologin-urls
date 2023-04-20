@@ -3,7 +3,7 @@ Contributors: BrianHenryIE
 Donate link: https://BrianHenry.ie
 Tags: login, email, links, users, newsletter, notification, simple, wp_mail
 Requires at least: 4.5.0
-Tested up to: 6.1.0
+Tested up to: 6.2.0
 Requires PHP: 7.4
 Stable tag: trunk
 License: GPLv2 or later
@@ -34,6 +34,13 @@ An API is available for developers to use autologin codes elsewhere in WordPress
 2. The settings interface.
 
 == Changelog ==
+
+= 2.0.0 =
+
+* Breaking: UI for regex subject filters removed (functionality still exists through filters)
+* Fix: Use correct `determine_current_user` filter for login
+* Update library: RateLimit library has bugfix to handle `false` returned from transients for expected `array`
+* Update library: bh-wp-logger library has performance and feature improvements
 
 = 1.10.0 =
 
