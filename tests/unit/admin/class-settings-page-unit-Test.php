@@ -75,6 +75,8 @@ class Settings_Page_Unit_Test extends \Codeception\Test\Unit {
 	 */
 	public function tests_display_plugin_admin_page_file_included(): void {
 
+		self::markTestIncomplete( 'It keeps appending `\Patchwork\CodeManipulation\Stream::reinstateWrapper()` to the output' );
+
 		// Feed it the wrong folder name to test it includes files properly.
 
 		$logger        = new NullLogger();
@@ -83,12 +85,14 @@ class Settings_Page_Unit_Test extends \Codeception\Test\Unit {
 
 		// The method first generates an example URL for the current user.
 		\WP_Mock::userFunction(
-			'site_url'
+			'site_url',
+			array(
+				'times'  => 1,
+				'return' => 'http://example.org',
+			)
 		);
 
-		\WP_Mock::userFunction(
-			'esc_url'
-		);
+		\WP_Mock::passthruFunction( 'esc_url' );
 
 		\WP_Mock::userFunction(
 			'get_current_user_id'
@@ -112,7 +116,7 @@ class Settings_Page_Unit_Test extends \Codeception\Test\Unit {
 			'get_stylesheet_directory'
 		);
 
-		// TODO: Move this!
+		// TODO: Move this to `_data` folder!
 		$mock_admin_display = __DIR__ . '/partials/admin-display.php';
 
 		\WP_Mock::onFilter( 'bh_wp_autologin_urls_admin_settings_page_template' )
