@@ -76,15 +76,20 @@ class Login {
 	 *
 	 * @hooked plugins_loaded
 	 *
-	 * phpcs:disable WordPress.Security.NonceVerification.Recommended
+	 * @param int|bool $user_id The already determined user ID, or false if none.
+	 * @return int|bool
 	 */
-	public function process(): void {
+	public function process( $user_id ) {
+
+		if ( $user_id ) {
+			return $user_id;
+		}
 
 		// Check for bots.
 		$user_agent = filter_input( INPUT_SERVER, 'HTTP_USER_AGENT' );
 		$bot        = false !== strpos( $user_agent, 'bot' );
 		if ( $bot ) {
-			return;
+			return $user_id;
 		}
 
 		// TODO: If we're logged in already, just return. It will save a lot of wasted processing.
@@ -95,53 +100,38 @@ class Login {
 
 		if ( is_null( $user_finder ) ) {
 			// No querystring was present, this was not an attempt to log in.
-			return;
+			return $user_id;
 		}
 
 		$user_array = $user_finder->get_wp_user_array();
 
 		if ( isset( $user_array['wp_user'] ) && $user_array['wp_user'] instanceof WP_User ) {
 			$wp_user = $user_array['wp_user'];
-
-		} elseif ( ! empty( $user_array['user_data'] ) && 0 === get_current_user_id() ) {
+			$user_id = $wp_user->ID;
+		} elseif ( ! empty( $user_array['user_data'] ) ) {
 			// If no WP_User account was found, but other user data was found that could be used for WooCommerce, prepopulate the checkout fields.
 			$woocommerce_checkout = new Checkout( $this->logger );
 			$woocommerce_checkout->prefill_checkout_fields( $user_array['user_data'] );
-			return;
+			return $user_id;
 		} else {
-			return;
-		}
-
-		$current_user = wp_get_current_user();
-
-		if ( $current_user->ID === $wp_user->ID ) {
-			// Already logged in.
-
-			// TODO: always expire codes when used.
-			// TODO: Test this thoroughly.
-
-			$this->logger->debug( "wp_user:{$wp_user->ID} already logged in." );
-
-			$this->maybe_redirect();
-
-			return;
+			return $user_id;
 		}
 
 		$ip_address = $this->api->get_ip_address();
 
 		if ( empty( $ip_address ) ) {
 			// This would be empty during cron jobs and WP CLI.
-			return;
+			return $user_id;
 		}
 
 		// Log each attempt to log in, prevent too many attempts by any one IP.
 		if ( ! $this->api->should_allow_login_attempt( "ip:{$ip_address}" ) ) {
-			return;
+			return $user_id;
 		}
 
 		// Rate limit too many failed attempts at logging in the one user.
 		if ( ! $this->api->should_allow_login_attempt( "wp_user:{$wp_user->ID}" ) ) {
-			return;
+			return $user_id;
 		}
 
 		// @see https://developer.wordpress.org/reference/functions/wp_set_current_user/
@@ -152,6 +142,8 @@ class Login {
 		$this->logger->info( "User wp_user:{$wp_user->ID} logged in via {$user_array['source']}." );
 
 		$this->maybe_redirect();
+
+		return $user_id;
 	}
 
 	/**

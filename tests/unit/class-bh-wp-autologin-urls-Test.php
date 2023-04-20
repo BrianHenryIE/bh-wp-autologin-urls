@@ -51,7 +51,7 @@ class BH_WP_Autologin_URLs_Unit_Test extends \Codeception\Test\Unit {
 	 */
 	public function test_wp_login_hooks(): void {
 
-		\WP_Mock::expectActionAdded(
+		\WP_Mock::expectFilterAdded(
 			'determine_current_user',
 			array( new AnyInstance( Login::class ), 'process' ),
 			30

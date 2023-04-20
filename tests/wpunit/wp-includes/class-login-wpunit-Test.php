@@ -68,11 +68,9 @@ class Login_WPUnit_Test extends \Codeception\TestCase\WPTestCase {
 
 		$sut = new Login( $api, $settings, $logger, $user_finder_factory );
 
-		$sut->process();
+		$result = $sut->process( false );
 
-		$logged_in_user_id = get_current_user_id();
-
-		$this->assertEquals( $user_id, $logged_in_user_id );
+		$this->assertEquals( $user_id, $result );
 
 	}
 
@@ -126,12 +124,9 @@ class Login_WPUnit_Test extends \Codeception\TestCase\WPTestCase {
 
 		assert( get_current_user_id() === $wp_user->ID );
 
-		$sut->process();
+		$result = $sut->process( $wp_user->ID );
 
-		$logged_in_user_id = get_current_user_id();
-
-		$this->assertEquals( $user_id, $logged_in_user_id );
-
+		$this->assertEquals( $user_id, $result );
 	}
 
 	/**
@@ -146,8 +141,13 @@ class Login_WPUnit_Test extends \Codeception\TestCase\WPTestCase {
 		$api = $this->makeEmpty(
 			API_Interface::class,
 			array(
-				'get_ip_address'             => Expected::never(),
-				'should_allow_login_attempt' => Expected::never(),
+				'get_ip_address'             => Expected::once( '1.2.3.4' ),
+				'should_allow_login_attempt' => Expected::exactly(
+					2,
+					function( string $param ) {
+						return true;
+					}
+				),
 			)
 		);
 
@@ -201,7 +201,7 @@ class Login_WPUnit_Test extends \Codeception\TestCase\WPTestCase {
 		);
 
 		try {
-			$sut->process();
+			$sut->process( false );
 		} catch ( \Exception $e ) {
 			$exception = $e;
 		}
@@ -211,5 +211,4 @@ class Login_WPUnit_Test extends \Codeception\TestCase\WPTestCase {
 		/** @var \Exception $exception */
 		$this->assertEquals( 'http://example.org/my-account', $exception->getMessage() );
 	}
-
 }
