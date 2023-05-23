@@ -66,12 +66,13 @@ class Login_WPUnit_Test extends \Codeception\TestCase\WPTestCase {
 			)
 		);
 
+		$_GET['autologin'] = '1~q1w2e3r4';
+
 		$sut = new Login( $api, $settings, $logger, $user_finder_factory );
 
 		$result = $sut->process( false );
 
 		$this->assertEquals( $user_id, $result );
-
 	}
 
 	/**

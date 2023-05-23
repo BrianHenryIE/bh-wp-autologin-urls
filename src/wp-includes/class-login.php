@@ -81,7 +81,9 @@ class Login {
 	 */
 	public function process( $user_id ) {
 
-		if ( $user_id ) {
+		// If we're logged in already, or there's no querystring to parse, just return.
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		if ( $user_id || empty( $_GET ) ) {
 			return $user_id;
 		}
 
