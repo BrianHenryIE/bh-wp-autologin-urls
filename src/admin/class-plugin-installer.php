@@ -65,12 +65,6 @@ class Plugin_Installer {
 		$settings_url      = admin_url( '/options-general.php?page=' . $this->settings->get_plugin_slug() );
 		$install_actions[] = '<a href="' . $settings_url . '">Go to Autologin URLs settings</a>';
 
-		$install_actions[] = '•';
-
-		$logs_url          = admin_url( '/admin.php?page=' . $this->settings->get_plugin_slug() . '-logs' );
-		$install_actions[] = '<a href="' . $logs_url . '">Go to Autologin URLs logs</a>';
-
 		return $install_actions;
 	}
-
 }
