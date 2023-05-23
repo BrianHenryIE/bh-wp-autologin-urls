@@ -1,3 +1,8 @@
+### 2.1.1
+
+* Fix: Default expiry time when omitted in CLI was parsing as 0
+* Add: Warning that logs may contain autologin codes
+
 ### 2.1.0
 
 * Add: CLI commands `wp autologin-urls get-url` and `wp autologin-urls send-magic-link`
