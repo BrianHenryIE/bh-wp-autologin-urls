@@ -30,12 +30,13 @@ class Admin_Assets_Unit_Test extends \Codeception\Test\Unit {
 	 * Verifies enqueue_styles() calls wp_enqueue_style() with appropriate parameters.
 	 * Verifies the .css file exists.
 	 *
+	 * @covers ::__construct
 	 * @covers ::enqueue_styles
 	 *
 	 * @see Admin::enqueue_styles()
 	 * @see wp_enqueue_style()
 	 */
-	public function test_enqueue_styles() {
+	public function test_enqueue_styles(): void {
 
 		global $plugin_root_dir;
 
@@ -81,7 +82,7 @@ class Admin_Assets_Unit_Test extends \Codeception\Test\Unit {
 	 * @see Admin::enqueue_scripts()
 	 * @see wp_enqueue_script()
 	 */
-	public function test_enqueue_scripts() {
+	public function test_enqueue_scripts(): void {
 
 		global $plugin_root_dir;
 

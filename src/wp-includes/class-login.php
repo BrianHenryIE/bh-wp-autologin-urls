@@ -74,7 +74,7 @@ class Login {
 	/**
 	 * The primary handler of the plugin, that reads the request querystring and checks it for autologin parameters.
 	 *
-	 * @hooked plugins_loaded
+	 * @hooked determine_current_user
 	 *
 	 * @param int|bool $user_id The already determined user ID, or false if none.
 	 * @return int|bool
@@ -94,7 +94,6 @@ class Login {
 			return $user_id;
 		}
 
-		// TODO: If we're logged in already, just return. It will save a lot of wasted processing.
 		// Maybe use a cookie to only use an autologin URL once every x minutes.
 
 		// Checks does the querystring contain an autologin parameter.
@@ -175,8 +174,6 @@ class Login {
 
 	/**
 	 * If the request is for wp-login.php, we should redirect to home or to the specified redirect_to url.
-	 *
-	 * @return void
 	 */
 	protected function maybe_redirect(): void {
 
