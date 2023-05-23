@@ -38,6 +38,13 @@ An API is available for developers to use autologin codes elsewhere in WordPress
 
 == Changelog ==
 
+= 2.1.0 =
+
+* Add: CLI commands `wp autologin-urls get-url` and `wp autologin-urls send-magic-link`
+* Fix: Links to `/wp-admin` were redirecting to wp-login screen because `$_COOKIE` was not yet set
+* Performance: Return early when no querystring set
+* Fix: `wp_safe_redirect()` `exit()` is now conditional
+
 = 2.0.0 =
 
 * Breaking: UI for regex subject filters removed (functionality still exists through filters)
