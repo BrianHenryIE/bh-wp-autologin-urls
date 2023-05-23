@@ -136,6 +136,31 @@ class Login {
 			return $user_id;
 		}
 
+		/**
+		 * Although cookies will be set in a moment, they won't be available in the `$_COOKIE` array,
+		 * and they need to be to log into wp-admin via the autologin URL.
+		 *
+		 * @see wp-admin/admin.php
+		 * @see auth_redirect()
+		 * @see wp_parse_auth_cookie()
+		 */
+		add_action(
+			'set_auth_cookie',
+			function( $auth_cookie ) {
+				global $_COOKIE;
+				$_COOKIE[ AUTH_COOKIE ]        = $auth_cookie;
+				$_COOKIE[ SECURE_AUTH_COOKIE ] = $auth_cookie;
+			}
+		);
+
+		add_action(
+			'set_logged_in_cookie',
+			function( $logged_in_cookie ) {
+				global $_COOKIE;
+				$_COOKIE[ LOGGED_IN_COOKIE ] = $logged_in_cookie;
+			}
+		);
+
 		// @see https://developer.wordpress.org/reference/functions/wp_set_current_user/
 		wp_set_current_user( $wp_user->ID, $wp_user->user_login );
 		wp_set_auth_cookie( $wp_user->ID );
