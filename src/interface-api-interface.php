@@ -83,7 +83,7 @@ interface API_Interface {
 	 * @param ?string $url The page the user should be sent, e.g. checkout, my-account. Defaults to site URL.
 	 * @param int     $expires_in Number of seconds the link should be valid. Defaults to 15 minutes.
 	 *
-	 * @return array{username_or_email_address:string, expires_in:int, expires_in_friendly:string, template_path?:string, success:bool, error?:bool, message?:string}
+	 * @return array{username_or_email_address:string, expires_in:int, expires_in_friendly:string, wp_user?:WP_User, template_path?:string, success:bool, error?:bool, message?:string}
 	 */
 	public function send_magic_link( string $username_or_email_address, ?string $url = null, int $expires_in = 900 ): array;
 }

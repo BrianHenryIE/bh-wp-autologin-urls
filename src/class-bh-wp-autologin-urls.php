@@ -23,11 +23,14 @@ use BrianHenryIE\WP_Autologin_URLs\Login\Login_Ajax;
 use BrianHenryIE\WP_Autologin_URLs\Login\Login_Assets;
 use BrianHenryIE\WP_Autologin_URLs\WooCommerce\Admin_Order_UI;
 use BrianHenryIE\WP_Autologin_URLs\WooCommerce\Login_Form;
+use BrianHenryIE\WP_Autologin_URLs\WP_Includes\CLI;
 use BrianHenryIE\WP_Autologin_URLs\WP_Includes\Cron;
 use BrianHenryIE\WP_Autologin_URLs\WP_Includes\I18n;
 use BrianHenryIE\WP_Autologin_URLs\WP_Includes\Login;
 use BrianHenryIE\WP_Autologin_URLs\WP_Includes\WP_Mail;
+use Exception;
 use Psr\Log\LoggerInterface;
+use WP_CLI;
 
 /**
  * The core plugin class.
@@ -100,6 +103,8 @@ class BH_WP_Autologin_URLs {
 		$this->define_woocommerce_login_form_hooks();
 
 		$this->define_logger_hooks();
+
+		$this->define_cli_hooks();
 	}
 
 	/**
@@ -270,5 +275,24 @@ class BH_WP_Autologin_URLs {
 		$klaviyo_logs = new Klaviyo_Logs();
 
 		add_filter( 'bh-wp-autologin-urls_bh_wp_logger_column', array( $klaviyo_logs, 'link_to_klaviyo_profile_search' ), 10, 5 );
+	}
+
+	/**
+	 * Register actions for CLI commands.
+	 */
+	protected function define_cli_hooks(): void {
+
+		if ( ! class_exists( WP_CLI::class ) ) {
+			return;
+		}
+
+		$cli = new CLI( $this->api );
+
+		try {
+			WP_CLI::add_command( 'autologin-urls get-url', array( $cli, 'add_autologin_to_url' ) );
+			WP_CLI::add_command( 'autologin-urls send-magic-link', array( $cli, 'send_magic_link' ) );
+		} catch ( Exception $e ) {
+			$this->logger->error( 'Failed to register WP CLI commands: ' . $e->getMessage(), array( 'exception' => $e ) );
+		}
 	}
 }

@@ -300,9 +300,10 @@ class API implements API_Interface {
 	/**
 	 * Records each login attempt and checks if the same user/ip/querystring has been used too many times today.
 	 *
-	 * @param string $identifier An IP address or user login name to rate limit by.
+	 * Transient e.g. `_transient_bh-wp-autologin-urls/bh-wp-autologin-urlsip-127.0.0.1-86400`.
+	 * Transient e.g. `_transient_bh-wp-autologin-urls/bh-wp-autologin-urlswp_user-1-86400`.
 	 *
-	 * @return bool
+	 * @param string $identifier An IP address or user login name to rate limit by.
 	 */
 	public function should_allow_login_attempt( string $identifier ): bool {
 
@@ -403,7 +404,7 @@ class API implements API_Interface {
 	 * @param ?string $url The page the user should be sent, e.g. checkout, my-account. Defaults to site URL.
 	 * @param int     $expires_in Number of seconds the link should be valid. Defaults to 15 minutes.
 	 *
-	 * @return array{username_or_email_address:string, expires_in:int, expires_in_friendly:string, template_path?:string, success:bool, error?:bool, message?:string}
+	 * @return array{username_or_email_address:string, expires_in:int, expires_in_friendly:string, wp_user?:WP_User, template_path?:string, success:bool, error?:bool, message?:string}
 	 */
 	public function send_magic_link( string $username_or_email_address, ?string $url = null, int $expires_in = 900 ): array {
 
@@ -433,6 +434,8 @@ class API implements API_Interface {
 				return $result;
 			}
 		}
+
+		$result['wp_user'] = $wp_user;
 
 		$to = $wp_user->user_email;
 
