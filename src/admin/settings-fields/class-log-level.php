@@ -42,7 +42,7 @@ class Log_Level extends Settings_Section_Element_Abstract {
 		$this->title = __( 'Log level', 'bh-wp-autologin-urls' );
 		$this->page  = $settings_page;
 
-		$this->add_settings_field_args['helper']       = __( 'Set to Debug to diagnose problems, Info to see times this plugin is logging users in.', 'bh-wp-autologin-urls' );
+		$this->add_settings_field_args['helper']       = __( 'Set to Debug to diagnose problems, Info to see times this plugin is logging users in. Warning: debug logs will contain autologin codes.', 'bh-wp-autologin-urls' );
 		$this->add_settings_field_args['supplemental'] = __( 'default: Notice', 'bh-wp-autologin-urls' );
 
 		// TODO: Consider removing the ones that are never used in the plugin.
