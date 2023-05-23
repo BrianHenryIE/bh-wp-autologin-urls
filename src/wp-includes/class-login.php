@@ -184,8 +184,9 @@ class Login {
 			$redirect_to = get_site_url();
 		}
 
-		wp_safe_redirect( $redirect_to );
-		exit();
+		if ( wp_safe_redirect( $redirect_to ) ) {
+			exit();
+		}
 	}
 
 }
