@@ -46,10 +46,7 @@ class CLI {
 	 * ---
 	 *
 	 * [<expires_in>]
-	 * : Number of seconds the code should be valid.
-	 * ---
-	 * default: WEEK_IN_SECONDS
-	 * ---
+	 * : Number of seconds the code should be valid. Default WEEK_IN_SECONDS.
 	 *
 	 * ## EXAMPLES
 	 *
@@ -83,7 +80,7 @@ class CLI {
 			$full_url .= '#' . $parsed_url['fragment'];
 		}
 
-		$expires_in = intval( $args[2] );
+		$expires_in = isset( $args[2] ) ? intval( $args[2] ) : WEEK_IN_SECONDS;
 
 		$result = $this->api->add_autologin_to_url( $full_url, $user, $expires_in );
 
@@ -124,7 +121,7 @@ class CLI {
 
 		$user       = $args[0];
 		$url        = $args[1];
-		$expires_in = $args[2];
+		$expires_in = intval( $args[2] );
 
 		$result = $this->api->send_magic_link( $user, $url, $expires_in );
 
