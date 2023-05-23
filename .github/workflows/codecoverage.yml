@@ -31,10 +31,10 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Checkout GitHub Pages branch for code coverage report
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           ref: gh-pages
           path: tests/_output/html
@@ -131,7 +131,7 @@ jobs:
         run: vendor/bin/php-coverage-badger tests/_output/clover.xml .github/coverage.svg PHPUnit
 
       - name: Commit code coverage badge
-        uses: stefanzweifel/git-auto-commit-action@v4.1.1
+        uses: stefanzweifel/git-auto-commit-action@v4
         with:
           commit_message: "🤖 Commit code coverage badge"
           file_pattern: .github/coverage.svg
