@@ -27,3 +27,6 @@
 	</tbody>
 </table>
 
+<script>
+var autologin_url = '<?php echo esc_url( $autologin_url ); ?>';
+</script>
