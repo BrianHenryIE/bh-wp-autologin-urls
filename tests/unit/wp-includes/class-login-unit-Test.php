@@ -34,7 +34,7 @@ class Login_Unit_Test extends \Codeception\Test\Unit {
 
 		$sut = new Login( $api, $settings, $logger, $user_finder_factory );
 
-		$sut->process();
+		$sut->process( false );
 	}
 
 }
