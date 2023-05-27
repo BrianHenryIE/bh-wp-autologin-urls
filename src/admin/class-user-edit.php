@@ -3,7 +3,7 @@
  * The additions to the admin user-edit page.
  *
  * TODO: Copy to clipboard.
- * TODO: Send magic login email.
+ * TODO: Send magic login email button.
  *
  * @link       https://BrianHenry.ie
  * @since      1.2.0
@@ -14,6 +14,7 @@
 namespace BrianHenryIE\WP_Autologin_URLs\Admin;
 
 use BrianHenryIE\WP_Autologin_URLs\API_Interface;
+use BrianHenryIE\WP_Autologin_URLs\Settings_Interface;
 use WP_User;
 
 /**
@@ -22,22 +23,26 @@ use WP_User;
 class User_Edit {
 
 	/**
-	 * Core API methods to generate password/URL.
-	 *
-	 * @var API_Interface
+	 * Plugin settings, for determining the template path.
 	 */
-	protected $api;
+	protected Settings_Interface $settings;
+
+	/**
+	 * Core API methods to generate password/URL.
+	 */
+	protected API_Interface $api;
 
 	/**
 	 * Initialize the class and set its properties.
 	 *
-	 * @param   API_Interface $api The core plugin functions.
+	 * @param API_Interface      $api The core plugin functions.
+	 * @param Settings_Interface $settings The plugin settings.
 	 *
 	 * @since   1.0.0
 	 */
-	public function __construct( API_Interface $api ) {
-
-		$this->api = $api;
+	public function __construct( API_Interface $api, Settings_Interface $settings ) {
+		$this->settings = $settings;
+		$this->api      = $api;
 	}
 
 	/**
@@ -45,46 +50,41 @@ class User_Edit {
 	 * For use e.g. in support emails. ...tests.
 	 *
 	 * @hooked edit_user_profile
+	 * @hooked show_user_profile
 	 *
 	 * @see wordpress/wp-admin/user-edit.php
 	 *
 	 * @param WP_User $profileuser The current WP_User object.
 	 */
-	public function make_password_available_on_user_page( $profileuser ): void {
+	public function make_password_available_on_user_page( WP_User $profileuser ): void {
 
-		?>
+		// TODO: If WooCommerce is installed, this should go to my-account.
+		$append        = '/';
+		$autologin_url = $this->api->add_autologin_to_url( get_site_url() . $append, $profileuser, WEEK_IN_SECONDS );
 
-		<table class="form-table bh-wp-autologin-urls" role="presentation">
+		$template = 'admin/user-edit.php';
 
-			<tbody><tr>
+		$template_filepath = WP_PLUGIN_DIR . '/' . plugin_dir_path( $this->settings->get_plugin_basename() ) . 'templates/' . $template;
 
-				<th><label for="autologin-url">Single-use login URL</label></th>
+		// Check the child theme for template overrides.
+		if ( file_exists( get_stylesheet_directory() . $template ) ) {
+			$template_filepath = get_stylesheet_directory() . $template;
+		} elseif ( file_exists( get_stylesheet_directory() . 'templates/' . $template ) ) {
+			$template_filepath = get_stylesheet_directory() . 'templates/' . $template;
+		}
 
-				<td>
+		/**
+		 * Allow overriding the admin settings template.
+		 *
+		 * @param string $template_filepath The default or child-theme-overridden template to display an autologin url on the user profile edit admin ui.
+		 * @param array $args The variables that will be available to the template.
+		 */
+		$filtered_template_admin_settings_page = apply_filters( 'bh_wp_autologin_urls_admin_user_edit_template', $template_filepath, func_get_args() );
 
-					<?php
-
-					// TODO: If WooCommerce is installed, this should go to my-account.
-					$append        = '/';
-					$autologin_url = $this->api->add_autologin_to_url( get_site_url() . $append, $profileuser, WEEK_IN_SECONDS );
-
-					?>
-
-					<div class="user-edit-single-use-login-url">
-
-						<span>
-							<span class="text"><?php echo esc_url( $autologin_url ); ?></span>
-							<input type="text" id="autologin-url" name="autologin-url" value="<?php echo esc_url( $autologin_url ); ?>"/>
-						</span>
-					</div>
-				</td>
-
-			</tr>
-
-
-	</tbody></table>
-
-		<?php
+		if ( file_exists( $filtered_template_admin_settings_page ) ) {
+			include $filtered_template_admin_settings_page;
+		} else {
+			include $template_filepath;
+		}
 	}
-
 }

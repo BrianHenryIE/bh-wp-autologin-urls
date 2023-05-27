@@ -160,8 +160,9 @@ class BH_WP_Autologin_URLs {
 		add_action( 'admin_init', array( $plugin_settings_page, 'setup_sections' ) );
 		add_action( 'admin_init', array( $plugin_settings_page, 'setup_fields' ) );
 
-		$user_edit = new User_Edit( $this->api );
+		$user_edit = new User_Edit( $this->api, $this->settings );
 		add_action( 'edit_user_profile', array( $user_edit, 'make_password_available_on_user_page' ), 1, 1 );
+		add_action( 'show_user_profile', array( $user_edit, 'make_password_available_on_user_page' ), 1, 1 );
 	}
 
 	/**
