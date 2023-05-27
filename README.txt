@@ -3,7 +3,7 @@ Contributors: BrianHenryIE
 Donate link: https://BrianHenry.ie
 Tags: login, email, links, users, newsletter, notification, simple, wp_mail
 Requires at least: 4.5.0
-Tested up to: 6.2.0
+Tested up to: 6.2
 Requires PHP: 7.4
 Stable tag: trunk
 License: GPLv2 or later
@@ -37,6 +37,18 @@ An API is available for developers to use autologin codes elsewhere in WordPress
 2. The settings interface.
 
 == Changelog ==
+
+= 2.2.0 =
+
+* Add: configurable template for `user-edit.php` autologin URL
+* Add: `user-edit.php` autologin URL click to copy to keyboard
+* Fix: "Email Magic Link" on `wp-login.php` was disabled when Firefox autofilled the username
+* Fix: JS for logs page were excluded from the plugin archive
+
+= 2.1.1 =
+
+* Fix: Default expiry time when omitted in CLI was parsing as 0
+* Add: Warning that logs may contain autologin codes
 
 = 2.1.0 =
 

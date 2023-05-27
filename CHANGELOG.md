@@ -1,3 +1,10 @@
+### 2.2.0
+
+* Add: configurable template for `user-edit.php` autologin URL
+* Add: `user-edit.php` autologin URL click to copy to keyboard
+* Fix: "Email Magic Link" on `wp-login.php` was disabled when Firefox autofilled the username
+* Fix: JS for logs page were excluded from the plugin archive
+
 ### 2.1.1
 
 * Fix: Default expiry time when omitted in CLI was parsing as 0
