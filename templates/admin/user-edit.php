@@ -28,5 +28,5 @@
 </table>
 
 <script>
-var autologin_url = '<?php echo esc_url( $autologin_url ); ?>';
+var autologin_url = '<?php echo $autologin_url; ?>';
 </script>
