@@ -63,3 +63,9 @@ vendor-prefixed
 dist-archive
 
 languages/*.pot
+/test-results/
+/playwright-report/
+/playwright/.cache/
+/test-results/
+/playwright-report/
+/playwright/.cache/
