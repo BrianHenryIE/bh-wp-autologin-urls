@@ -13,7 +13,7 @@ test.describe( 'Plugins page tests', () => {
     // Create page once and sign in.
     page = await browser.newPage();
 
-    await page.goto('/wp-login.php?redirect_to=http%3A%2F%2Flocalhost%3A8889%2Fwp-admin%2F&reauth=1');
+    await page.goto('/wp-login.php?redirect_to=%2Fwp-admin%2F&reauth=1');
     await page.getByLabel('Username or Email Address').fill('admin');
     await page.locator('#user_pass').fill('password');
     await page.getByLabel('Password', {exact: true}).press('Enter');
