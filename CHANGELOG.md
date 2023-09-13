@@ -1,3 +1,10 @@
+### 2.next
+
+* Add: screenshots
+* Add: CLI documentation
+* Fix: minor wording
+* Dev: add Playwright tests
+
 ### 2.2.0
 
 * Add: configurable template for `user-edit.php` autologin URL
