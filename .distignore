@@ -1,5 +1,4 @@
 .*
-CHANGELOG.md
 codeception.dist.yml
 tests/
 composer.json
@@ -20,3 +19,4 @@ node_modules/
 package.json
 package-lock.json
 /vendor/
+*.rej*
