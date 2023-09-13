@@ -13,12 +13,12 @@ test.describe( 'Plugins page tests', () => {
     // Create page once and sign in.
     page = await browser.newPage();
 
-    await page.goto('http://localhost:8889/wp-login.php?redirect_to=http%3A%2F%2Flocalhost%3A8889%2Fwp-admin%2F&reauth=1');
+    await page.goto('/wp-login.php?redirect_to=http%3A%2F%2Flocalhost%3A8889%2Fwp-admin%2F&reauth=1');
     await page.getByLabel('Username or Email Address').fill('admin');
     await page.locator('#user_pass').fill('password');
     await page.getByLabel('Password', {exact: true}).press('Enter');
 
-    await page.goto('http://localhost:8889/wp-admin/plugins.php');
+    await page.goto('/wp-admin/plugins.php');
 
     pluginTableRow = page.locator("//*[@data-slug='bh-wp-autologin-urls']");
   });
