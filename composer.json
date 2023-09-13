@@ -211,9 +211,10 @@
       "export $(grep -v '^#' .env.testing | xargs); mysql $TEST_SITE_DB_NAME < tests/_data/dump.sql"
     ],
     "coverage-tests": [
+      "mkdir -p tests/_output/html/phpunit",
       "vendor/bin/codecept run unit --coverage unit.cov",
       "vendor/bin/codecept run wpunit --coverage wpunit.cov",
-      "vendor/bin/phpcov merge --clover tests/_output/clover.xml --html tests/_output/html tests/_output/phpunit;",
+      "vendor/bin/phpcov merge --clover tests/_output/clover.xml --html tests/_output/html/phpunit tests/_output;",
       "open tests/_output/html/phpunit/index.html"
     ],
     "lint": [
