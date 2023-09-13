@@ -213,8 +213,8 @@
     "coverage-tests": [
       "vendor/bin/codecept run unit --coverage unit.cov",
       "vendor/bin/codecept run wpunit --coverage wpunit.cov",
-      "vendor/bin/phpcov merge --clover tests/_output/clover.xml --html tests/_output/html tests/_output;",
-      "open tests/_output/html/index.html"
+      "vendor/bin/phpcov merge --clover tests/_output/clover.xml --html tests/_output/html tests/_output/phpunit;",
+      "open tests/_output/html/phpunit/index.html"
     ],
     "lint": [
       "vendor/bin/phpcbf || true",

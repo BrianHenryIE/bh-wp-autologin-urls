@@ -90,8 +90,11 @@ jobs:
       - name: Clear previous code coverage
         run: |
           cd tests/_output/html
-          rm -rf *
+          rm $( grep -Ril 'php-code-coverage' )
+          for dir in "_js" "templates" "_icons" "_css" "src"; do rm -rf $dir; done;
           cd ../../..
+          rm -rf tests/_output/html/phpunit
+          mkdir tests/_output/html/phpunit
 
       - name: Run unit tests
         run: XDEBUG_MODE=coverage vendor/bin/codecept run unit --coverage unit.cov --debug || true;
@@ -123,7 +126,7 @@ jobs:
         with:
           repository: tests/_output/html
           branch: gh-pages
-          commit_message: "🤖 Commit code coverage to gh-pages"
+          commit_message: "🤖 Commit PHPUnit code coverage to gh-pages"
         env:
           GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
 
@@ -133,5 +136,5 @@ jobs:
       - name: Commit code coverage badge
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
-          commit_message: "🤖 Commit code coverage badge"
+          commit_message: "🤖 Commit PHPUnit code coverage badge"
           file_pattern: .github/coverage.svg
