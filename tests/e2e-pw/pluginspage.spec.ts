@@ -20,6 +20,8 @@ test.describe( 'Plugins page tests', () => {
 
     await page.goto('/wp-admin/plugins.php');
 
+    await page.waitForLoadState( 'networkidle' );
+
     pluginTableRow = page.locator("//*[@data-slug='bh-wp-autologin-urls']");
   });
 
