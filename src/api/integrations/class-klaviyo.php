@@ -60,7 +60,6 @@ class Klaviyo implements User_Finder_Interface, LoggerAwareInterface {
 			0,
 			3
 		);
-
 	}
 
 	/**

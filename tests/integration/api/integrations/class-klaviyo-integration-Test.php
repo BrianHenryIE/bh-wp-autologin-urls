@@ -15,7 +15,7 @@ class Klaviyo_Integration_Test extends \Codeception\TestCase\WPTestCase {
 	 */
 	public function test_api_call(): void {
 
-		 $this->markTestIncomplete();
+		$this->markTestIncomplete();
 
 		$klaviyo_private_api_key = $_ENV['KLAVIYO_PRIVATE_API_KEY'];
 

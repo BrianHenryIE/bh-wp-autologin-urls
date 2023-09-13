@@ -74,8 +74,5 @@ class Transient_Data_Store_Unit_Test extends \Codeception\Test\Unit {
 		);
 
 		$sut->get_value_for_code( 'abc' );
-
 	}
-
-
 }

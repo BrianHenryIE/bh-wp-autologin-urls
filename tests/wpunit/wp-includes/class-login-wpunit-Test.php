@@ -145,7 +145,7 @@ class Login_WPUnit_Test extends \Codeception\TestCase\WPTestCase {
 				'get_ip_address'             => Expected::once( '1.2.3.4' ),
 				'should_allow_login_attempt' => Expected::exactly(
 					2,
-					function( string $param ) {
+					function ( string $param ) {
 						return true;
 					}
 				),
@@ -189,14 +189,14 @@ class Login_WPUnit_Test extends \Codeception\TestCase\WPTestCase {
 
 		add_filter(
 			'wp_redirect',
-			function( $location ) {
+			function ( $location ) {
 				throw new \Exception( $location );
 			}
 		);
 
 		add_filter(
 			'allowed_redirect_hosts',
-			function() {
+			function () {
 				return array( 'example.org' );
 			}
 		);

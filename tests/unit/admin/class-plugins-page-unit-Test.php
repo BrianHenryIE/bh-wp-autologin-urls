@@ -40,7 +40,7 @@ class Plugins_Page_Unit_Test extends \Codeception\Test\Unit {
 			Settings_Interface::class,
 			array(
 				'get_plugin_slug' => Expected::once(
-					function() {
+					function () {
 						return 'bh-wp-autologin-urls'; }
 				),
 			)
@@ -91,11 +91,11 @@ class Plugins_Page_Unit_Test extends \Codeception\Test\Unit {
 			Settings_Interface::class,
 			array(
 				'get_plugin_basename' => Expected::once(
-					function() {
+					function () {
 						return 'bh-wp-autologin-urls/bh-wp-autologin-urls.php'; }
 				),
 				'get_plugin_slug'     => Expected::once(
-					function() {
+					function () {
 						return 'bh-wp-autologin-urls'; }
 				),
 			)
@@ -109,5 +109,4 @@ class Plugins_Page_Unit_Test extends \Codeception\Test\Unit {
 
 		$this->assertContains( $expected, $result );
 	}
-
 }

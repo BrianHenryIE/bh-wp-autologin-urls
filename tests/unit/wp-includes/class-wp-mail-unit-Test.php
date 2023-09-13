@@ -41,7 +41,6 @@ class WP_Mail_Unit_Test extends \Codeception\Test\Unit {
 		$wp_mail = new WP_Mail( $api_mock, $settings_mock );
 
 		$this->assertInstanceOf( WP_Mail::class, $wp_mail );
-
 	}
 
 	/**
@@ -83,7 +82,6 @@ class WP_Mail_Unit_Test extends \Codeception\Test\Unit {
 		$filtered_email_args = $wp_mail->add_autologin_links_to_email( $email_args );
 
 		$this->assertEquals( $email_args, $filtered_email_args );
-
 	}
 
 	/**
@@ -131,7 +129,6 @@ class WP_Mail_Unit_Test extends \Codeception\Test\Unit {
 		$filtered_email_args = $wp_mail->add_autologin_links_to_email( $email_args );
 
 		$this->assertEquals( $email_args, $filtered_email_args );
-
 	}
 
 	/**
@@ -179,6 +176,5 @@ class WP_Mail_Unit_Test extends \Codeception\Test\Unit {
 		$filtered_email_args = $wp_mail->add_autologin_links_to_email( $email_args );
 
 		$this->assertEquals( $email_args, $filtered_email_args );
-
 	}
 }

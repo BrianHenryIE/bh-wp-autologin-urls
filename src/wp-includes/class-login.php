@@ -145,7 +145,7 @@ class Login {
 		 */
 		add_action(
 			'set_auth_cookie',
-			function( $auth_cookie ) {
+			function ( $auth_cookie ) {
 				global $_COOKIE;
 				$_COOKIE[ AUTH_COOKIE ]        = $auth_cookie;
 				$_COOKIE[ SECURE_AUTH_COOKIE ] = $auth_cookie;
@@ -154,7 +154,7 @@ class Login {
 
 		add_action(
 			'set_logged_in_cookie',
-			function( $logged_in_cookie ) {
+			function ( $logged_in_cookie ) {
 				global $_COOKIE;
 				$_COOKIE[ LOGGED_IN_COOKIE ] = $logged_in_cookie;
 			}
@@ -210,5 +210,4 @@ class Login {
 			exit();
 		}
 	}
-
 }

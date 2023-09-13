@@ -50,7 +50,6 @@ class Transient_Data_Store implements Data_Store_Interface {
 
 		// This could return false if not set.
 		set_transient( $transient_name, $value, $expires_in );
-
 	}
 
 	/**

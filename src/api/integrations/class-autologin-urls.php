@@ -85,5 +85,4 @@ class Autologin_URLs implements User_Finder_Interface, LoggerAwareInterface {
 
 		return $result;
 	}
-
 }

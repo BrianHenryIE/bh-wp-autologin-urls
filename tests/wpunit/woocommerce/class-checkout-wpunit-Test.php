@@ -69,5 +69,4 @@ class Checkout_WPUnit_Test extends \Codeception\TestCase\WPTestCase {
 
 		$this->assertSame( 'Brian', WC()->customer->get_first_name() );
 	}
-
 }

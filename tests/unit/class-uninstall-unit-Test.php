@@ -38,7 +38,7 @@ class Uninstall_Unit_Test extends \Codeception\Test\Unit {
 
 		// phpcs:disable WordPress.WhiteSpace.PrecisionAlignment.Found
 		$wpdb->shouldReceive( 'query' )
-			 ->never();
+			->never();
 
 		$caught_exception = null;
 		try {
@@ -87,11 +87,11 @@ class Uninstall_Unit_Test extends \Codeception\Test\Unit {
 			->with( $delete_transients_sql );
 
 		$wpdb->shouldReceive( 'prepare' )
-			 ->once()
+			->once()
 			->andReturn( $delete_transients_sql );
 
 		$wpdb->shouldReceive( 'esc_like' )
-			 ->andReturn( '\_transient\_timeout\_bh\_autologin\_\%' );
+			->andReturn( '\_transient\_timeout\_bh\_autologin\_\%' );
 
 		$wpdb->options = 'wp_options';
 
@@ -105,13 +105,11 @@ class Uninstall_Unit_Test extends \Codeception\Test\Unit {
 
 		$drop_table_sql = 'DROP TABLE IF EXISTS wp_autologin_urls';
 		$wpdb->shouldReceive( 'query' )
-			 ->once()
-			 ->with( $drop_table_sql );
+			->once()
+			->with( $drop_table_sql );
 
 		include $plugin_root_dir . '/uninstall.php';
 
 		\Mockery::close();
-
 	}
-
 }

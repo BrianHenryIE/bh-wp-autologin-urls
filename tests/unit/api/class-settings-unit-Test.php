@@ -233,5 +233,4 @@ class Settings_Unit_Test extends \Codeception\Test\Unit {
 
 		$this->assertEquals( 'bh-wp-autologin-urls/bh-wp-autologin-urls.php', $result );
 	}
-
 }

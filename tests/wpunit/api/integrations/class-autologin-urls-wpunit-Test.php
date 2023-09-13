@@ -89,7 +89,6 @@ class Autologin_URLs_WPUnit_Test extends \Codeception\TestCase\WPTestCase {
 		$result = $sut->get_wp_user_array();
 
 		$this->assertNull( $result['wp_user'] );
-
 	}
 
 

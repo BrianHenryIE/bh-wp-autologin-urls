@@ -14,7 +14,5 @@ class AdminProfilePageCest {
 		$I->amOnAdminPage( 'user-edit.php?user_id=2' );
 
 		$I->see( 'Single-use login URL' );
-
 	}
-
 }

@@ -204,6 +204,5 @@ class Admin_Enable_Unit_Test extends \Codeception\Test\Unit {
 		$actual = $sut->sanitize_callback( $data );
 
 		$this->assertEquals( $expected, $actual );
-
 	}
 }

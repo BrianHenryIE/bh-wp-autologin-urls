@@ -27,7 +27,5 @@ class LoginCest {
 		$I->amOnPage( '/?p=10' );
 
 		$I->see( 'Hello bob' );
-
 	}
-
 }

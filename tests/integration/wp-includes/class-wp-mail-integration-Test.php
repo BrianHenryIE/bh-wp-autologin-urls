@@ -41,7 +41,7 @@ class WP_Mail_Integration_Test extends \Codeception\TestCase\WPTestCase {
 
 		add_filter(
 			'wp_mail_from',
-			function() {
+			function () {
 				return 'brian@example.org';
 			}
 		);
@@ -62,7 +62,6 @@ class WP_Mail_Integration_Test extends \Codeception\TestCase\WPTestCase {
 		$expected_regex = '/brian http:\/\/example.org\?autologin=\d+~\w+ brian/';
 
 		$this->assertRegExp( $expected_regex, $phpmailer_message );
-
 	}
 
 	/**
@@ -118,6 +117,4 @@ class WP_Mail_Integration_Test extends \Codeception\TestCase\WPTestCase {
 		// To be sure, to be sure.
 		remove_filter( 'autologin_urls_for_admins', $should_add_password_filter, 10 );
 	}
-
-
 }

@@ -169,5 +169,4 @@ class Expiry_Age_Unit_Test extends \Codeception\Test\Unit {
 
 		$this->assertEquals( $expected, $actual );
 	}
-
 }

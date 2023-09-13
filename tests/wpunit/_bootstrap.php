@@ -11,7 +11,7 @@ require_once $plugin_root_dir . '/autoload.php';
 // Codeception/WP-Browser tests return localhost as the site_url, whereas WP_UnitTestCase was returning example.org.
 add_filter(
 	'pre_option_siteurl',
-	function(): string {
+	function (): string {
 		return 'http://example.org';
 	}
 );

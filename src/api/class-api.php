@@ -194,7 +194,6 @@ class API implements API_Interface {
 		}
 
 		return $user_link;
-
 	}
 
 	/**
@@ -381,14 +380,12 @@ class API implements API_Interface {
 
 		if ( class_exists( WC_Geolocation::class ) ) {
 			$ip_address = WC_Geolocation::get_ip_address();
-		} else {
-			if ( isset( $_SERVER['HTTP_X_REAL_IP'] ) ) {
+		} elseif ( isset( $_SERVER['HTTP_X_REAL_IP'] ) ) {
 				$ip_address = sanitize_text_field( wp_unslash( $_SERVER['HTTP_X_REAL_IP'] ) );
-			} elseif ( isset( $_SERVER['HTTP_X_FORWARDED_FOR'] ) ) {
-				$ip_address = (string) rest_is_ip_address( trim( current( preg_split( '/,/', sanitize_text_field( wp_unslash( $_SERVER['HTTP_X_FORWARDED_FOR'] ) ) ) ) ) );
-			} elseif ( isset( $_SERVER['REMOTE_ADDR'] ) ) {
-				$ip_address = filter_var( wp_unslash( $_SERVER['REMOTE_ADDR'] ), FILTER_VALIDATE_IP );
-			}
+		} elseif ( isset( $_SERVER['HTTP_X_FORWARDED_FOR'] ) ) {
+			$ip_address = (string) rest_is_ip_address( trim( current( preg_split( '/,/', sanitize_text_field( wp_unslash( $_SERVER['HTTP_X_FORWARDED_FOR'] ) ) ) ) ) );
+		} elseif ( isset( $_SERVER['REMOTE_ADDR'] ) ) {
+			$ip_address = filter_var( wp_unslash( $_SERVER['REMOTE_ADDR'] ), FILTER_VALIDATE_IP );
 		}
 
 		// Return null, not false, or the string.
@@ -491,6 +488,5 @@ class API implements API_Interface {
 		}
 
 		return $result;
-
 	}
 }

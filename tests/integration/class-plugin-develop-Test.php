@@ -43,6 +43,5 @@ class Plugin_Develop_Test extends \Codeception\TestCase\WPTestCase {
 		$this->assertNotFalse( $actual_action_priority );
 
 		$this->assertEquals( $expected_priority, $actual_action_priority );
-
 	}
 }

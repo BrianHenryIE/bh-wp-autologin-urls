@@ -58,13 +58,7 @@
     <rule ref="Squiz.PHP.DisallowMultipleAssignments.Found">
         <exclude-pattern>*/tests/*</exclude-pattern>
     </rule>
-    <rule ref="WordPress.DB.DirectDatabaseQuery.DirectQuery">
-        <exclude-pattern>*/tests/*</exclude-pattern>
-    </rule>
-    <rule ref="WordPress.DB.DirectDatabaseQuery.NoCaching">
-        <exclude-pattern>*/tests/*</exclude-pattern>
-    </rule>
-    <rule ref="WordPress.DB.DirectDatabaseQuery.SchemaChange">
+    <rule ref="WordPress.DB.DirectDatabaseQuery">
         <exclude-pattern>*/tests/*</exclude-pattern>
     </rule>
     <rule ref="WordPress.Files.FileName.InvalidClassFileName">
@@ -82,16 +76,7 @@
     <rule ref="WordPress.PHP.DevelopmentFunctions.error_log_set_error_handler">
         <exclude-pattern>*/tests/*</exclude-pattern>
     </rule>
-    <rule ref="WordPress.Security.NonceVerification.Recommended">
-        <exclude-pattern>*/tests/*</exclude-pattern>
-    </rule>
-    <rule ref="WordPress.Security.ValidatedSanitizedInput.InputNotValidated">
-        <exclude-pattern>*/tests/*</exclude-pattern>
-    </rule>
-    <rule ref="WordPress.Security.ValidatedSanitizedInput.InputNotSanitized">
-        <exclude-pattern>*/tests/*</exclude-pattern>
-    </rule>
-    <rule ref="WordPress.Security.ValidatedSanitizedInput.MissingUnslash">
+    <rule ref="WordPress.Security">
         <exclude-pattern>*/tests/*</exclude-pattern>
     </rule>
     <rule ref="WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents">

@@ -77,5 +77,4 @@ class Use_WP_Login extends Settings_Section_Element_Abstract {
 			return $this->value;
 		}
 	}
-
 }

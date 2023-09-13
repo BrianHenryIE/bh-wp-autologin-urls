@@ -21,7 +21,7 @@ class Admin_Order_UI_WPUnit_Test extends \Codeception\TestCase\WPTestCase {
 			API_Interface::class,
 			array(
 				'add_autologin_to_url' => Expected::once(
-					function( string $payment_url, $user ) {
+					function ( string $payment_url, $user ) {
 						assert( 'test@example.org' === $user );
 						return 'added';
 					}
@@ -49,7 +49,5 @@ class Admin_Order_UI_WPUnit_Test extends \Codeception\TestCase\WPTestCase {
 		$result = $sut->add_to_payment_url( $payment_url, $order );
 
 		$this->assertEquals( $result, 'added' );
-
 	}
-
 }

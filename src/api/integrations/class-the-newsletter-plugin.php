@@ -115,5 +115,4 @@ class The_Newsletter_Plugin implements User_Finder_Interface, LoggerAwareInterfa
 
 		return $result;
 	}
-
 }

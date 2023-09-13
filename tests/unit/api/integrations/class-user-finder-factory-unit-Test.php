@@ -29,7 +29,6 @@ class User_Finder_Factory_Unit_Test extends \Codeception\Test\Unit {
 		$result = $sut->get_user_finder();
 
 		$this->assertInstanceOf( Autologin_URLs::class, $result );
-
 	}
 
 	/**
@@ -56,5 +55,4 @@ class User_Finder_Factory_Unit_Test extends \Codeception\Test\Unit {
 
 		$this->assertInstanceOf( Klaviyo::class, $result );
 	}
-
 }

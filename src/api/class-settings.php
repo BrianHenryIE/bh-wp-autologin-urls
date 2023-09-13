@@ -52,7 +52,6 @@ class Settings implements Settings_Interface, Logger_Settings_Interface {
 			'/^Password Reset Request.*$/'          => 'Password Reset Request for Example Site',
 			'/^Please complete your registration$/' => 'Please complete your registration',
 		);
-
 	}
 
 	/**
@@ -97,7 +96,6 @@ class Settings implements Settings_Interface, Logger_Settings_Interface {
 		$disallowed_subjects_regex_dictionary = is_array( $disallowed_subjects_regex_dictionary ) ? $disallowed_subjects_regex_dictionary : $this->disallowed_subjects_regex_dictionary;
 
 		return $disallowed_subjects_regex_dictionary;
-
 	}
 
 	/**

@@ -206,5 +206,4 @@ class Settings_Page_Unit_Test extends \Codeception\Test\Unit {
 
 		$settings_page->setup_fields();
 	}
-
 }

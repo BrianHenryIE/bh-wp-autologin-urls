@@ -41,7 +41,7 @@ class Klaviyo_Logs {
 			return $column_output;
 		}
 
-		$callback = function( array $matches ): string {
+		$callback = function ( array $matches ): string {
 
 			$wp_user = get_user_by( 'id', $matches[1] );
 

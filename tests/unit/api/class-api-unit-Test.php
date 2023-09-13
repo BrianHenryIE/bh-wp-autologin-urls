@@ -72,7 +72,6 @@ class API_Unit_Test extends \Codeception\Test\Unit {
 		$generated_code = $autologin_urls_api->generate_code( $user, 3600 );
 
 		$this->assertEquals( '123~mockpassw0rd', $generated_code );
-
 	}
 
 	/**
@@ -108,7 +107,6 @@ class API_Unit_Test extends \Codeception\Test\Unit {
 		$generated_code_2 = $autologin_urls_api->generate_code( $user, 3600 );
 
 		$this->assertEquals( $generated_code_1, $generated_code_2 );
-
 	}
 
 	/**
@@ -126,7 +124,6 @@ class API_Unit_Test extends \Codeception\Test\Unit {
 		$generated_code = $autologin_urls_api->generate_code( null, 3600 );
 
 		$this->assertNull( $generated_code );
-
 	}
 
 
@@ -167,7 +164,6 @@ class API_Unit_Test extends \Codeception\Test\Unit {
 		$generated_code = $autologin_urls_api->generate_code( $user, null );
 
 		$this->assertEquals( '0~mockpassw0rd', $generated_code );
-
 	}
 
 	/**
@@ -210,7 +206,6 @@ class API_Unit_Test extends \Codeception\Test\Unit {
 		$is_valid_autologin_password = $autologin_urls_api->verify_autologin_password( 123, 'q1w2e3r4t5y6' );
 
 		$this->assertFalse( $is_valid_autologin_password );
-
 	}
 
 	/**
@@ -236,7 +231,5 @@ class API_Unit_Test extends \Codeception\Test\Unit {
 		$is_valid_autologin_password = $autologin_urls_api->verify_autologin_password( 123, 'q1w2e3r4t5y6' );
 
 		$this->assertTrue( $is_valid_autologin_password );
-
 	}
-
 }

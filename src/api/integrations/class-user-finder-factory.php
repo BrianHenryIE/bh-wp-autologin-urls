@@ -99,5 +99,4 @@ class User_Finder_Factory {
 
 		return null;
 	}
-
 }

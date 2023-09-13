@@ -98,4 +98,3 @@ interface Settings_Interface {
 	 */
 	public function is_magic_link_enabled(): bool;
 }
-

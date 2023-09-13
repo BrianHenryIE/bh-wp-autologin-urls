@@ -42,6 +42,4 @@ class The_Newsletter_Plugin_WPUnit_Test extends \Codeception\TestCase\WPTestCase
 
 		$this->assertFalse( $result );
 	}
-
-
 }

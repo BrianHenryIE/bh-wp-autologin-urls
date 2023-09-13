@@ -67,7 +67,6 @@ class Login_Integration_Test extends \Codeception\TestCase\WPTestCase {
 		$current_user_id = get_current_user_id();
 
 		$this->assertEquals( 0, $current_user_id );
-
 	}
 
 	/**
@@ -131,7 +130,6 @@ class Login_Integration_Test extends \Codeception\TestCase\WPTestCase {
 		$failures_for_user = get_transient( $failure_transient_name_for_user );
 
 		$this->assertEquals( 2, $failures_for_user['count'] );
-
 	}
 
 	/**
@@ -162,7 +160,6 @@ class Login_Integration_Test extends \Codeception\TestCase\WPTestCase {
 		$failure_transient_ip = get_transient( $failure_transient_name_ip );
 
 		$this->assertEquals( 2, $failure_transient_ip['count'] );
-
 	}
 
 	/**
@@ -198,7 +195,6 @@ class Login_Integration_Test extends \Codeception\TestCase\WPTestCase {
 		$current_user_id = get_current_user_id();
 
 		$this->assertEquals( 0, $current_user_id );
-
 	}
 
 	/**
@@ -231,7 +227,5 @@ class Login_Integration_Test extends \Codeception\TestCase\WPTestCase {
 		$current_user_id = get_current_user_id();
 
 		$this->assertEquals( 0, $current_user_id );
-
 	}
 }
-

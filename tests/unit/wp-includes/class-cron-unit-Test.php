@@ -31,7 +31,7 @@ class Cron_Unit_Test extends \Codeception\Test\Unit {
 			API_Interface::class,
 			array(
 				'delete_expired_codes' => Expected::once(
-					function() {
+					function () {
 						return array();
 					}
 				),
@@ -105,5 +105,4 @@ class Cron_Unit_Test extends \Codeception\Test\Unit {
 
 		$sut->schedule_job();
 	}
-
 }

@@ -85,5 +85,4 @@ class Login_Ajax {
 		$response['message'] = sprintf( __( 'Check your email for the login link. The link will expire in %1$s.', 'bh-wp-autologin-urls' ), $expires_in_friendly );
 		wp_send_json( $response );
 	}
-
 }

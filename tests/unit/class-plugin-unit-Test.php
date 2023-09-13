@@ -31,14 +31,14 @@ class Plugin_Unit_Test extends \Codeception\Test\Unit {
 		// Prevents code-coverage counting, and removes the need to define the WordPress functions that are used in that class.
 		\Patchwork\redefine(
 			array( BH_WP_Autologin_URLs::class, '__construct' ),
-			function( $api, $settings, $logger ) {}
+			function ( $api, $settings, $logger ) {}
 		);
 
 		global $plugin_root_dir;
 
 		\Patchwork\redefine(
 			array( Logger::class, '__construct' ),
-			function( $settings ) {}
+			function ( $settings ) {}
 		);
 
 		\WP_Mock::userFunction(
@@ -81,7 +81,5 @@ class Plugin_Unit_Test extends \Codeception\Test\Unit {
 		$this->assertArrayHasKey( 'bh-wp-autologin-urls', $GLOBALS );
 
 		$this->assertInstanceOf( API::class, $GLOBALS['bh-wp-autologin-urls'] );
-
 	}
-
 }

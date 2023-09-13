@@ -106,7 +106,7 @@ class Settings_Page {
 		add_settings_section(
 			'default',
 			'Settings',
-			function(){},
+			function (){},
 			$settings_page_slug_name
 		);
 	}

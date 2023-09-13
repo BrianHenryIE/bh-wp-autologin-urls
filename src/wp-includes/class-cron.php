@@ -69,5 +69,4 @@ class Cron {
 
 		$this->api->delete_expired_codes();
 	}
-
 }

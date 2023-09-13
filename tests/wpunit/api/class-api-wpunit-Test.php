@@ -57,11 +57,10 @@ class API_WPUnit_Test extends \Codeception\TestCase\WPTestCase {
 		wp_cache_flush();
 
 		// Specify the password for later comparing.
-		$specify_password = function( $password, $length, $special_chars, $extra_special_chars ) {
+		$specify_password = function ( $password, $length, $special_chars, $extra_special_chars ) {
 			return 'mockpassw0rd';
 		};
 		add_filter( 'random_password', $specify_password, 10, 4 );
-
 	}
 
 	/**
@@ -85,7 +84,6 @@ class API_WPUnit_Test extends \Codeception\TestCase\WPTestCase {
 		$generated_code = $api->generate_code( $user, 3600 );
 
 		$this->assertRegExp( '/^\d+~[A-Za-z\d]+$/', $generated_code );
-
 	}
 
 	/**
@@ -147,7 +145,6 @@ class API_WPUnit_Test extends \Codeception\TestCase\WPTestCase {
 		$actual = $api->add_autologin_to_url( $url, 123 );
 
 		$this->assertEquals( $expected, $actual );
-
 	}
 
 	/**
@@ -167,7 +164,6 @@ class API_WPUnit_Test extends \Codeception\TestCase\WPTestCase {
 		$actual = $api->add_autologin_to_url( $url, null );
 
 		$this->assertEquals( $expected, $actual );
-
 	}
 
 	/**
@@ -287,7 +283,6 @@ class API_WPUnit_Test extends \Codeception\TestCase\WPTestCase {
 		$actual = $api->add_autologin_to_url( $url, 'nouserpresent' );
 
 		$this->assertEquals( $expected, $actual );
-
 	}
 
 	/**
@@ -307,7 +302,6 @@ class API_WPUnit_Test extends \Codeception\TestCase\WPTestCase {
 		$actual = $api->add_autologin_to_url( $url, 'brian' );
 
 		$this->assertEquals( $expected, $actual );
-
 	}
 
 	/**
@@ -366,7 +360,6 @@ class API_WPUnit_Test extends \Codeception\TestCase\WPTestCase {
 			$this->assertStringEqualsFile( $test_result_path . $file, $updated_string );
 
 		}
-
 	}
 
 	/**
@@ -394,7 +387,6 @@ class API_WPUnit_Test extends \Codeception\TestCase\WPTestCase {
 		$expected = "http://example.org/wp-login.php?redirect_to=http%3A%2F%2Fexample.org%2Fmy-account%2F&autologin={$wp_user_id}~mockpassw0rd";
 
 		$this->assertEquals( $expected, $result );
-
 	}
 
 	/**
@@ -477,7 +469,7 @@ class API_WPUnit_Test extends \Codeception\TestCase\WPTestCase {
 
 		add_filter(
 			'wp_mail',
-			function( array $args ) use ( &$email_sent ): array {
+			function ( array $args ) use ( &$email_sent ): array {
 
 				if ( 'Sign-in Link' === $args['subject'] ) {
 					$email_sent = true;

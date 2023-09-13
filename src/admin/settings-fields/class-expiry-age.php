@@ -57,7 +57,6 @@ class Expiry_Age extends Settings_Section_Element_Abstract {
 		printf( '<span class="helper">%s</span>', esc_html( $arguments['helper'] ) );
 
 		printf( '<p class="description">%s</p>', esc_html( $arguments['supplemental'] ) );
-
 	}
 
 	/**
@@ -89,5 +88,4 @@ class Expiry_Age extends Settings_Section_Element_Abstract {
 
 		return intval( abs( $result ) );
 	}
-
 }

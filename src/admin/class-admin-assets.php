@@ -56,5 +56,4 @@ class Admin_Assets {
 
 		wp_enqueue_script( $this->settings->get_plugin_slug(), plugin_dir_url( $this->settings->get_plugin_basename() ) . 'assets/bh-wp-autologin-urls-admin.js', array( 'jquery' ), $this->settings->get_plugin_version(), true );
 	}
-
 }

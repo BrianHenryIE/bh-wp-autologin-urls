@@ -36,7 +36,6 @@ class Admin_Enable extends Settings_Section_Element_Abstract {
 
 		$this->add_settings_field_args['helper']       = __( 'When enabled, emails to administrators <i>will</i> contain autologin URLs.', 'bh-wp-autologin-urls' );
 		$this->add_settings_field_args['supplemental'] = __( 'default: false', 'bh-wp-autologin-urls' );
-
 	}
 
 	/**
@@ -75,5 +74,4 @@ class Admin_Enable extends Settings_Section_Element_Abstract {
 			return $this->value;
 		}
 	}
-
 }

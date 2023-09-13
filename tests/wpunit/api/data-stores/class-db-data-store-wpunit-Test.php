@@ -34,7 +34,7 @@ class DB_Data_Store_WPUnit_Test extends \Codeception\TestCase\WPTestCase {
 
 		$table_exists_before = array_reduce(
 			$tables_before,
-			function( bool $carry, $element ) {
+			function ( bool $carry, $element ) {
 				return $carry || 'wp_autologin_urls' === $element[0];
 			},
 			false
@@ -52,7 +52,7 @@ class DB_Data_Store_WPUnit_Test extends \Codeception\TestCase\WPTestCase {
 
 		$table_exists_after = array_reduce(
 			$tables_after,
-			function( bool $carry, $element ) {
+			function ( bool $carry, $element ) {
 				return $carry || 'wp_autologin_urls' === $element[0];
 			},
 			false
@@ -62,7 +62,6 @@ class DB_Data_Store_WPUnit_Test extends \Codeception\TestCase\WPTestCase {
 
 		add_action( 'query', array( $this, '_drop_temporary_tables' ) );
 		add_action( 'query', array( $this, '_create_temporary_tables' ) );
-
 	}
 
 	/**
@@ -81,7 +80,7 @@ class DB_Data_Store_WPUnit_Test extends \Codeception\TestCase\WPTestCase {
 
 		add_filter(
 			'query',
-			function( $query ) {
+			function ( $query ) {
 
 				if ( false === strpos( $query, 'expires_at' ) ) {
 					return $query;
@@ -106,7 +105,6 @@ class DB_Data_Store_WPUnit_Test extends \Codeception\TestCase\WPTestCase {
 		$matches = preg_match( '/INSERT INTO `\w+autologin_urls` \(`expires_at`, `hash`, `userhash`\) VALUES \(\'.*\', \'\w+\', \'\w+\'\)/', $query );
 
 		$this->assertEquals( 1, $matches );
-
 	}
 
 	/**
@@ -234,7 +232,5 @@ class DB_Data_Store_WPUnit_Test extends \Codeception\TestCase\WPTestCase {
 		$result = $sut->delete_expired_codes( $before );
 
 		$this->assertEquals( 1, $result['deleted_count'] );
-
 	}
-
 }

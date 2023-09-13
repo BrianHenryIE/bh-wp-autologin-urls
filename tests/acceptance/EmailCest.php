@@ -72,7 +72,5 @@ class EmailCest {
 		$I->seeInOpenedEmailBody( 'autologin=2~' );
 
 		$I->deleteAllEmails();
-
 	}
-
 }

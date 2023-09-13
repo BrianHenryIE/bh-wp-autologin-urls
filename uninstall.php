@@ -47,7 +47,6 @@ function bh_wp_autologin_urls_clear_transients(): void {
 			$wpdb->esc_like( '_transient_timeout_bh_autologin_%' )
 		)
 	);
-
 }
 bh_wp_autologin_urls_clear_transients();
 
@@ -63,7 +62,6 @@ function bh_wp_autologin_urls_delete_settings(): void {
 	delete_option( 'bh_wp_autologin_urls_seconds_until_expiry' );
 	delete_option( 'bh_wp_autologin_urls_is_admin_enabled' );
 	delete_option( 'bh_wp_autologin_urls_subject_filter_regex_dictionary' );
-
 }
 bh_wp_autologin_urls_delete_settings();
 

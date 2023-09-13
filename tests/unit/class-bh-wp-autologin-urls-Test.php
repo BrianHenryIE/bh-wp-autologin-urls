@@ -108,7 +108,7 @@ class BH_WP_Autologin_URLs_Unit_Test extends \Codeception\Test\Unit {
 			Settings_Interface::class,
 			array(
 				'get_plugin_basename' => Expected::once(
-					function() use ( $basename ) {
+					function () use ( $basename ) {
 						return $basename;}
 				),
 			)

@@ -92,6 +92,4 @@ class Settings_Section_Element_Unit_Test extends \Codeception\Test\Unit {
 
 		$stub->register_setting();
 	}
-
 }
-

@@ -99,7 +99,6 @@ abstract class Settings_Section_Element_Abstract {
 			$this->section,
 			$this->add_settings_field_args
 		);
-
 	}
 
 	/**
@@ -112,7 +111,6 @@ abstract class Settings_Section_Element_Abstract {
 			$this->id,
 			$this->register_setting_args
 		);
-
 	}
 
 	/**
@@ -132,5 +130,4 @@ abstract class Settings_Section_Element_Abstract {
 	 * @return mixed
 	 */
 	abstract public function sanitize_callback( $value );
-
 }

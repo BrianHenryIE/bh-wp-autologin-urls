@@ -7,7 +7,7 @@
 
 add_filter(
 	'pre_option_siteurl',
-	function(): string {
+	function (): string {
 		return 'http://example.org';
 	}
 );

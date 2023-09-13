@@ -48,5 +48,4 @@ class I18n_Unit_Test extends \Codeception\Test\Unit {
 
 		$i18n->load_plugin_textdomain();
 	}
-
 }

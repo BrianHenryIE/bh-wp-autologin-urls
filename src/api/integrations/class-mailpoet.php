@@ -136,5 +136,4 @@ class MailPoet implements User_Finder_Interface, LoggerAwareInterface {
 
 		return $result;
 	}
-
 }

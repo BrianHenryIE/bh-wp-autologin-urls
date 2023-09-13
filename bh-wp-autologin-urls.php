@@ -72,4 +72,3 @@ function instantiate_bh_wp_autologin_urls(): API {
  * @since    1.0.0
  */
 $GLOBALS['bh-wp-autologin-urls'] = instantiate_bh_wp_autologin_urls();
-

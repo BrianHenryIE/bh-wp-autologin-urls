@@ -77,7 +77,6 @@ class Log_Level extends Settings_Section_Element_Abstract {
 		$logs_url = admin_url( 'admin.php?page=bh-wp-autologin-urls-logs' );
 
 		printf( '<p class="description">%s – %s</p>', esc_html( $arguments['supplemental'] ), sprintf( '<a href="%s">View Logs</a>', esc_url( $logs_url ) ) );
-
 	}
 
 	/**
@@ -98,7 +97,5 @@ class Log_Level extends Settings_Section_Element_Abstract {
 
 		// Return the previous value.
 		return $this->value;
-
 	}
-
 }

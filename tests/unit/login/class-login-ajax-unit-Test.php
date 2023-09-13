@@ -88,5 +88,4 @@ class Login_Ajax_Unit_Test extends \Codeception\Test\Unit {
 
 		$login_ajax->email_magic_link();
 	}
-
 }

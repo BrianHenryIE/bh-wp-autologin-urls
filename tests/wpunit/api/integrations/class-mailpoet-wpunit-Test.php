@@ -99,7 +99,5 @@ class MailPoet_WPUnit_Test extends \Codeception\TestCase\WPTestCase {
 		$result = $sut->get_wp_user_array();
 
 		$this->assertEquals( $user_id, $result['wp_user']->ID );
-
 	}
-
 }

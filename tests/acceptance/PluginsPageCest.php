@@ -27,7 +27,6 @@ class PluginsPageCest {
 	public function testSettingsLink( AcceptanceTester $I ) {
 
 		$I->canSeeLink( 'Settings', $_ENV['TEST_SITE_WP_URL'] . 'wp-admin/options-general.php?page=bh-wp-autologin-urls' );
-
 	}
 
 	/**
@@ -39,7 +38,4 @@ class PluginsPageCest {
 
 		$I->canSeeLink( 'GitHub', 'https://github.com/BrianHenryIE/bh-wp-autologin-urls' );
 	}
-
-
-
 }

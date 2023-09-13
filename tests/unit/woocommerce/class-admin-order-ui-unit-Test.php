@@ -81,7 +81,7 @@ class Admin_Order_UI_Unit_Test extends \Codeception\Test\Unit {
 			Settings_Interface::class,
 			array(
 				'get_plugin_version' => Expected::once(
-					function() {
+					function () {
 						return '1.4.0'; }
 				),
 			)
@@ -138,7 +138,7 @@ class Admin_Order_UI_Unit_Test extends \Codeception\Test\Unit {
 			Settings_Interface::class,
 			array(
 				'get_plugin_version' => Expected::once(
-					function() {
+					function () {
 						return '1.4.0'; }
 				),
 			)

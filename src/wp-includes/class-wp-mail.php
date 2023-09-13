@@ -149,5 +149,4 @@ class WP_Mail {
 
 		return $wp_mail_args;
 	}
-
 }

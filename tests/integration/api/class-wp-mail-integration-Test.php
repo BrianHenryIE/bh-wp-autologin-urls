@@ -35,7 +35,7 @@ class WP_Mail_2_Integration_Test extends \Codeception\TestCase\WPTestCase {
 
 		add_filter(
 			'wp_mail_from',
-			function() {
+			function () {
 				return 'brian@example.org';
 			}
 		);
@@ -49,7 +49,6 @@ class WP_Mail_2_Integration_Test extends \Codeception\TestCase\WPTestCase {
 
 		// Confirm the function did not change the message text.
 		$this->assertEquals( $message, $phpmailer_message );
-
 	}
 
 	/**
@@ -69,7 +68,7 @@ class WP_Mail_2_Integration_Test extends \Codeception\TestCase\WPTestCase {
 
 		add_filter(
 			'wp_mail_from',
-			function() {
+			function () {
 				return 'brian@example.org';
 			}
 		);
@@ -83,7 +82,6 @@ class WP_Mail_2_Integration_Test extends \Codeception\TestCase\WPTestCase {
 
 		// Confirm the function did not change the message text.
 		$this->assertEquals( $message, $phpmailer_message );
-
 	}
 
 
@@ -106,7 +104,7 @@ class WP_Mail_2_Integration_Test extends \Codeception\TestCase\WPTestCase {
 
 		add_filter(
 			'wp_mail_from',
-			function() {
+			function () {
 				return 'brian@example.org';
 			}
 		);
@@ -120,7 +118,6 @@ class WP_Mail_2_Integration_Test extends \Codeception\TestCase\WPTestCase {
 
 		// Confirm the function did not change the message text.
 		$this->assertEquals( $message, $phpmailer_message );
-
 	}
 
 	/**
@@ -140,7 +137,7 @@ class WP_Mail_2_Integration_Test extends \Codeception\TestCase\WPTestCase {
 
 		add_filter(
 			'wp_mail_from',
-			function() {
+			function () {
 				return 'brian@example.org';
 			}
 		);
@@ -191,7 +188,7 @@ class WP_Mail_2_Integration_Test extends \Codeception\TestCase\WPTestCase {
 
 		add_filter(
 			'wp_mail_from',
-			function() {
+			function () {
 				return 'brian@example.org';
 			}
 		);

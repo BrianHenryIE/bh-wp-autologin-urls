@@ -96,5 +96,4 @@ class Enable_Magic_Links extends Settings_Section_Element_Abstract {
 			return $this->value;
 		}
 	}
-
 }

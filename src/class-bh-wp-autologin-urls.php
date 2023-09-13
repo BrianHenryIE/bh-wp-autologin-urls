@@ -134,7 +134,7 @@ class BH_WP_Autologin_URLs {
 
 		add_action(
 			'plugins_loaded',
-			function() {
+			function () {
 				require_once dirname( __DIR__ ) . '/functions.php';
 			},
 			2
@@ -252,7 +252,6 @@ class BH_WP_Autologin_URLs {
 
 		add_action( 'admin_enqueue_scripts', array( $admin_order_ui, 'enqueue_script' ) );
 		add_action( 'admin_enqueue_scripts', array( $admin_order_ui, 'enqueue_styles' ) );
-
 	}
 
 	/**

@@ -36,5 +36,4 @@ class Login_Unit_Test extends \Codeception\Test\Unit {
 
 		$sut->process( false );
 	}
-
 }

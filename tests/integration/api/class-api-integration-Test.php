@@ -47,15 +47,13 @@ class API_Integration_Test extends \Codeception\TestCase\WPTestCase {
 		// Specify the password for later comparing.
 		add_filter(
 			'random_password',
-			function( $password, $length, $special_chars, $extra_special_chars ) {
+			function ( $password, $length, $special_chars, $extra_special_chars ) {
 
 				return 'mockpassw0rd';
-
 			},
 			10,
 			4
 		);
-
 	}
 
 
@@ -70,7 +68,6 @@ class API_Integration_Test extends \Codeception\TestCase\WPTestCase {
 		$actual = add_autologin_to_url( $url, 123, 3600 );
 
 		$this->assertEquals( $expected, $actual );
-
 	}
 
 
@@ -85,7 +82,6 @@ class API_Integration_Test extends \Codeception\TestCase\WPTestCase {
 		$actual = apply_filters( 'add_autologin_to_url', $url, 123 );
 
 		$this->assertEquals( $expected, $actual );
-
 	}
 
 	/**
@@ -99,7 +95,5 @@ class API_Integration_Test extends \Codeception\TestCase\WPTestCase {
 		$actual = apply_filters( 'add_autologin_to_message', $message, 123 );
 
 		$this->assertEquals( $expected, $actual );
-
 	}
-
 }

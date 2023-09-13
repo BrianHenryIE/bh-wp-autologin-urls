@@ -63,5 +63,4 @@ class Klaviyo_Private_Key extends Settings_Section_Element_Abstract {
 
 		return $value;
 	}
-
 }
