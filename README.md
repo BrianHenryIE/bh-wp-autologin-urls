@@ -110,6 +110,7 @@ $autologin_urls = $GLOBALS['bh-wp-autologin-urls'];
       `$wp_hasher = new PasswordHash( 8, true );`
       `$hashed = $wp_hasher->HashPassword( $password );`
 * Add "send magic link" to wp-admin/user.php for admin use.
+* Add UI to expunge rate limit / add allow-list for IPs
 
 ## Licence
 
