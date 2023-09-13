@@ -4,6 +4,9 @@
  * * getting a URL with an autologin code in it
  * * sending the magic link email to a user
  *
+ * Someone else has written a WP CLI package which provides the same function without needing to be installed as a site plugin.
+ * @see https://github.com/aaemnnosttv/wp-cli-login-command
+ *
  * @package brianhenryie/bh-wp-autologin-urls
  */
 

@@ -96,6 +96,79 @@ Filters to configure the expiry time, admin enabled setting and subject exclusio
 $autologin_urls = $GLOBALS['bh-wp-autologin-urls'];
 ```
 
+## CLI
+
+```
+NAME
+
+wp autologin-urls get-url
+
+DESCRIPTION
+
+Append an autologin code to a URL.
+
+SYNOPSIS
+
+wp autologin-urls get-url <user> [<url>] [<expires_in>]
+
+OPTIONS
+
+  <user>
+    User id, username/login, or email address.
+
+[<url>]
+The URL to append to.
+---
+default: /
+---
+
+[<expires_in>]
+Number of seconds the code should be valid. Default WEEK_IN_SECONDS.
+
+EXAMPLES
+
+# Add an autologin code to the site root for brianhenryie which expires in one week.
+$ wp autologin-urls get-url brianhenryie
+
+# Add an autologin code to the URL /my-account for brianhenryie which expires in five minutes
+$ wp autologin-urls get-url brianhenryie my-account 300
+```
+
+```
+NAME
+
+  wp autologin-urls send-magic-link
+
+DESCRIPTION
+
+  Send a magic login email to a user.
+
+SYNOPSIS
+
+  wp autologin-urls send-magic-link <user> <url> [<expires_in>]
+
+OPTIONS
+
+  <user>
+    User id, username/login, or email address.
+
+  <url>
+    The URL the link in the email should go to.
+    ---
+    default: /
+    ---
+
+  [<expires_in>]
+    Number of seconds the code should be valid.
+    ---
+    default: 900
+    ---
+
+EXAMPLES
+
+  # Send a magic login link to user brianhenryie, if they exist.
+  $ wp autologin-urls send-magic-link brianhenryie
+```
 ## TODO
 
 * Remove the autologin URL parameter in the browser location bar on success
