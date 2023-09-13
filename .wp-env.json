@@ -16,7 +16,8 @@
     "wp-content/plugins/newsletter": "./wp-content/plugins/newsletter",
     "wp-content/plugins/wp-mail-logging": "./wp-content/plugins/wp-mail-logging",
     "wp-content/plugins/woocommerce": "./wp-content/plugins/woocommerce",
-    "wp-content/plugins/wp-mail-smtp": "./wp-content/plugins/wp-mail-smtp"
+    "wp-content/plugins/wp-mail-smtp": "./wp-content/plugins/wp-mail-smtp",
+    "wp-cli.yml": "./wp-cli.wp-env.yml"
   },
   "phpVersion": "7.4"
 }
