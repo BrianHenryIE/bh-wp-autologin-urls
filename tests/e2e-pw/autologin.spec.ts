@@ -10,13 +10,14 @@ test.describe( 'Autologin link tests', () => {
     // Create page once and sign in.
     page = await browser.newPage();
 
-    await page.goto('/wp-login.php');
+    await page.goto('/wp-login.php', {'waitUntil':'domcontentloaded'});
+
     await page.getByLabel('Username or Email Address').fill('admin');
     await page.waitForLoadState( 'networkidle' );
     await page.locator('.wp-pwd #user_pass').fill('password');
     await page.locator('#wp-submit').click();
 
-    await page.goto(loginRedirectUrl);
+    await page.goto(loginRedirectUrl, {'waitUntil':'domcontentloaded'});
   });
 
   async function createUser() {
@@ -35,9 +36,7 @@ test.describe( 'Autologin link tests', () => {
   }
 
   async function getAutoLoginUrlFromUserEditPage( username ) {
-    await page.goto('/wp-admin/users.php?s=' + username);
-
-    await page.waitForLoadState( 'networkidle' );
+    await page.goto('/wp-admin/users.php?s=' + username, {'waitUntil':'domcontentloaded'});
 
     await page.getByRole('link', { name: username, exact: true }).click();
 
@@ -57,9 +56,7 @@ test.describe( 'Autologin link tests', () => {
       return document.getElementById('wp-admin-bar-logout').firstChild.getAttribute("href");
     });
 
-    await page.goto(logoutLink);
-
-    await page.waitForLoadState( 'networkidle' );
+    await page.goto(logoutLink, {'waitUntil':'domcontentloaded'});
   }
 
   test('Get link from users.php and verify it works to login', async () => {
@@ -69,14 +66,10 @@ test.describe( 'Autologin link tests', () => {
 
     await logout();
 
-    await page.goto(autologinUrl);
+    await page.goto(autologinUrl, {'waitUntil':'domcontentloaded'});
 
-    await page.waitForLoadState( 'networkidle' );
+    await page.goto('/wp-admin/profile.php', {'waitUntil':'domcontentloaded'});
 
-    await page.getByRole('link', { name: 'My account' }).click();
-
-    await page.waitForLoadState( 'networkidle' );
-
-    await expect(page.locator('.woocommerce-MyAccount-content')).toContainText('Hello ' + username);
+    await expect(page.locator('#wp-admin-bar-my-account')).toContainText('Howdy, ' + username);
   });
 });

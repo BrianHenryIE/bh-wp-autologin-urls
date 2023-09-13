@@ -18,9 +18,7 @@ test.describe( 'Plugins page tests', () => {
     await page.locator('#user_pass').fill('password');
     await page.getByLabel('Password', {exact: true}).press('Enter');
 
-    await page.goto('/wp-admin/plugins.php');
-
-    await page.waitForLoadState( 'networkidle' );
+    await page.goto('/wp-admin/plugins.php', {'waitUntil':'domcontentloaded'});
 
     pluginTableRow = page.locator("//*[@data-slug='bh-wp-autologin-urls']");
   });
@@ -31,6 +29,7 @@ test.describe( 'Plugins page tests', () => {
     ).toBeVisible();
   });
 
+  // Fragile.
   test('verify plugin title is correct', async () => {
     await expect(pluginTableRow.locator('.plugin-title'))
         .toContainText('Magic Emails & Autologin URLs');
