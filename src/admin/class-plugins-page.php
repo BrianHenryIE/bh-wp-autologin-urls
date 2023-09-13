@@ -71,7 +71,7 @@ class Plugins_Page {
 
 		if ( $this->settings->get_plugin_basename() === $plugin_file_name ) {
 
-			$plugin_meta[] = '<a target="_blank" href="https://github.com/BrianHenryIE/' . $this->settings->get_plugin_slug() . '">View plugin on GitHub</a>';
+			$plugin_meta[] = '<a target="_blank" href="https://github.com/BrianHenryIE/' . $this->settings->get_plugin_slug() . '">View on GitHub</a>';
 		}
 
 		return $plugin_meta;
