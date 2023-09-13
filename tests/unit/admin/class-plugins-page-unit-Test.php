@@ -105,7 +105,7 @@ class Plugins_Page_Unit_Test extends \Codeception\Test\Unit {
 
 		$result = $sut->row_meta( array(), 'bh-wp-autologin-urls/bh-wp-autologin-urls.php', array(), '' );
 
-		$expected = '<a target="_blank" href="https://github.com/BrianHenryIE/bh-wp-autologin-urls">View plugin on GitHub</a>';
+		$expected = '<a target="_blank" href="https://github.com/BrianHenryIE/bh-wp-autologin-urls">View on GitHub</a>';
 
 		$this->assertContains( $expected, $result );
 	}
