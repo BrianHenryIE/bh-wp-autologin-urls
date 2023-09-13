@@ -109,7 +109,7 @@
     "wp-cli/dist-archive-command": "dev-main",
     "wp-cli/i18n-command": "^2.4",
     "wp-cli/wp-cli-bundle": "*",
-    "wp-coding-standards/wpcs": "*  ",
+    "wp-coding-standards/wpcs": "*",
     "wpackagist-plugin/mailpoet": "*",
     "wpackagist-plugin/newsletter": "*",
     "wpackagist-plugin/woocommerce": "*",
