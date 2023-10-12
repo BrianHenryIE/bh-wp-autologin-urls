@@ -10,15 +10,11 @@ test.describe( 'Autologin link tests', () => {
     // Create page once and sign in.
     page = await browser.newPage();
 
-    await page.goto('/wp-login.php', {waitUntil:'domcontentloaded'});
-
+    await page.goto('/wp-login.php?redirect_to=%2Fwp-admin%2F&reauth=1');
     await page.getByLabel('Username or Email Address').fill('admin');
-
-    // Without this, "password" was being filled in the "username" field.
+    await page.locator('#user_pass').fill('password');
+    await page.getByLabel('Password', {exact: true}).press('Enter');
     await page.waitForLoadState( 'networkidle' );
-
-    await page.locator('.wp-pwd #user_pass').fill('password');
-    await page.locator('#wp-submit').click();
 
     await page.goto(loginRedirectUrl, {waitUntil:'domcontentloaded'});
   });
@@ -71,6 +67,11 @@ test.describe( 'Autologin link tests', () => {
 
     await page.goto('/wp-admin/profile.php', {waitUntil:'domcontentloaded'});
 
-    await expect(page.locator('#wp-admin-bar-my-account')).toContainText('Howdy, ' + username);
+    const woocommerceMyAccount = page.locator('.woocommerce-MyAccount-content')
+    if (await woocommerceMyAccount.isVisible()) {
+      await expect(woocommerceMyAccount).toContainText('Hello ' + username);
+    } else {
+      await expect(page.locator('#wp-admin-bar-my-account')).toContainText('Howdy, ' + username);
+    }
   });
 });

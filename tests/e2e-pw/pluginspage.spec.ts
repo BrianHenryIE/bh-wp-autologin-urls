@@ -17,6 +17,7 @@ test.describe( 'Plugins page tests', () => {
     await page.getByLabel('Username or Email Address').fill('admin');
     await page.locator('#user_pass').fill('password');
     await page.getByLabel('Password', {exact: true}).press('Enter');
+    await page.waitForLoadState( 'networkidle' );
 
     await page.goto('/wp-admin/plugins.php', {waitUntil:'domcontentloaded'});
 

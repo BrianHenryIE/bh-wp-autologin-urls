@@ -10,14 +10,15 @@
     "afterStart": "./tests/e2e-pw/setup/initialize-external.sh"
   },
   "mappings": {
-    "wp-content/plugins/mailpoet": "./wp-content/plugins/mailpoet",
-    "wp-content/plugins/wp-super-cache": "./wp-content/plugins/wp-super-cache",
     "setup": "./tests/e2e-pw/setup",
+    "wp-cli.yml": "./wp-cli.wp-env.yml",
+    "wp-content/plugins/dashly": "./wp-content/plugins/dashly",
+    "wp-content/plugins/mailpoet": "./wp-content/plugins/mailpoet",
     "wp-content/plugins/newsletter": "./wp-content/plugins/newsletter",
-    "wp-content/plugins/wp-mail-logging": "./wp-content/plugins/wp-mail-logging",
     "wp-content/plugins/woocommerce": "./wp-content/plugins/woocommerce",
+    "wp-content/plugins/wp-mail-logging": "./wp-content/plugins/wp-mail-logging",
     "wp-content/plugins/wp-mail-smtp": "./wp-content/plugins/wp-mail-smtp",
-    "wp-cli.yml": "./wp-cli.wp-env.yml"
+    "wp-content/plugins/wp-super-cache": "./wp-content/plugins/wp-super-cache"
   },
   "phpVersion": "7.4"
 }

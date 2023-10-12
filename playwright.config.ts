@@ -6,6 +6,7 @@ import { defineConfig, devices } from '@playwright/test';
  */
 // require('dotenv').config();
 
+// "test:e2e": "wp-scripts test-playwright
 /**
  * See https://playwright.dev/docs/test-configuration.
  */
@@ -20,7 +21,10 @@ export default defineConfig({
   /* Opt out of parallel tests on CI. */
   workers: process.env.CI ? 1 : undefined,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
-  reporter: 'html',
+  // override that location using the PLAYWRIGHT_HTML_REPORT environment variable
+  reporter: [['html', { outputFolder: 'tests/_output/playwright-report/' + (new Date()).toISOString() }]],
+
+
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Base URL to use in actions like `await page.goto('/')`. */
@@ -29,6 +33,18 @@ export default defineConfig({
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
   },
+
+  // Folder for test artifacts such as screenshots, videos, traces, etc.
+  outputDir: './tests/_output/playwright-results',
+
+  // // path to the global setup files.
+  // globalSetup: require.resolve('./global-setup'),
+  //
+  // // path to the global teardown files.
+  // globalTeardown: require.resolve('./global-teardown'),
+  //
+  // // Each test is given 30 seconds.
+  // timeout: 30000,
 
   /* Configure projects for major browsers */
   projects: [

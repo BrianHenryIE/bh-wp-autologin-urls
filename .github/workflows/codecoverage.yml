@@ -91,7 +91,7 @@ jobs:
         run: |
           cd tests/_output/html
           rm $( grep -Ril 'php-code-coverage' )
-          for dir in "_js" "templates" "_icons" "_css" "src"; do rm -rf $dir; done;
+          for dir in "js" "templates" "icons" "css" "src"; do rm -rf $dir; done;
           cd ../../..
           rm -rf tests/_output/html/phpunit
           mkdir tests/_output/html/phpunit
@@ -103,16 +103,16 @@ jobs:
         run: XDEBUG_MODE=coverage vendor/bin/codecept run wpunit --coverage wpunit.cov --debug || true;
 
       - name: Merge code coverage
-        run: vendor/bin/phpcov merge --clover tests/_output/clover.xml --html tests/_output/html tests/_output;
+        run: vendor/bin/phpcov merge --clover tests/_output/clover.xml --html tests/_output/html/phpunit tests/_output;
 
       - name: Edit phpcov html output to work with gh-pages
         run: |
-          cd tests/_output/html
+          cd tests/_output/html/phpunit
           mv _css css; find . -depth -name '*.html' -exec sed -i "s/_css\//css\//" {} +
           mv _icons icons; find . -depth -name '*.html' -exec sed -i "s/_icons\//icons\//" {} +
           mv _js js; find . -depth -name '*.html' -exec sed -i "s/_js\//js\//" {} +
           git add *
-          cd ../../..
+          cd ../../../..
 
       - name: Discard environment changes before committing other changes
         run: |

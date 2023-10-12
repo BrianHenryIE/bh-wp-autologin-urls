@@ -21,11 +21,12 @@
     "process-timeout": 0,
     "sort-packages": true,
     "allow-plugins": {
+      "alleyinteractive/composer-wordpress-autoloader": true,
       "composer/installers": true,
       "cweagans/composer-patches": true,
       "dealerdirect/phpcodesniffer-composer-installer": true,
-      "phpstan/extension-installer": true,
-      "alleyinteractive/composer-wordpress-autoloader": true
+      "johnpbloch/wordpress-core-installer": true,
+      "phpstan/extension-installer": true
     }
   },
   "repositories": {
@@ -92,6 +93,7 @@
     "cweagans/composer-patches": "*",
     "dealerdirect/phpcodesniffer-composer-installer": "*",
     "jaschilz/php-coverage-badger": "^2.0",
+    "johnpbloch/wordpress": "*",
     "kporras07/composer-symlinks": "dev-master",
     "lucatume/wp-browser": "*",
     "mheap/phpunit-github-actions-printer": "dev-master",
@@ -169,24 +171,25 @@
   },
   "scripts": {
     "post-install-cmd": [
-      "vendor/bin/strauss",
-      "vendor/bin/wp core download --path=wordpress --allow-root || true;",
+      "strauss",
+      "wp core download --path=wordpress --allow-root || true;",
       "Kporras07\\ComposerSymlinks\\ScriptHandler::createSymlinks",
       "@setup-wordpress",
       "BrianHenryIE\\ComposerPhpStorm\\ExcludeFolders::update",
-      "BrianHenryIE\\ComposerPhpStorm\\PHPUnitRunConfigurations::update"
+      "BrianHenryIE\\ComposerPhpStorm\\PHPUnitRunConfigurations::update",
+      "@sync-composer-wpenv"
     ],
     "post-update-cmd": [
-      "vendor/bin/strauss",
+      "strauss",
       "@setup-wordpress",
       "Kporras07\\ComposerSymlinks\\ScriptHandler::createSymlinks",
       "BrianHenryIE\\ComposerPhpStorm\\ExcludeFolders::update",
-      "BrianHenryIE\\ComposerPhpStorm\\PHPUnitRunConfigurations::update"
+      "BrianHenryIE\\ComposerPhpStorm\\PHPUnitRunConfigurations::update",
+      "@sync-composer-wpenv"
     ],
     "setup-wordpress": [
-      "wp core download --path=wordpress --allow-root || true",
       "export $(grep -v '^#' .env.testing | xargs); wp config create --dbname=$TEST_SITE_DB_NAME --dbuser=$TEST_SITE_DB_USER --dbpass=$TEST_SITE_DB_PASSWORD --allow-root --extra-php=\"\ndefine( 'WP_DEBUG_LOG', true );\ndefine( 'SCRIPT_DEBUG', true );\" || true",
-      "export $(grep -v '^#' .env.testing | xargs); vendor/bin/wp core install --url=\"localhost:8080/$PLUGIN_SLUG\" --title=\"$PLUGIN_NAME\" --admin_user=admin --admin_password=password --admin_email=admin@example.org || true; wp plugin activate $PLUGIN_SLUG || true;",
+      "export $(grep -v '^#' .env.testing | xargs); wp core install --url=\"localhost:8080/$PLUGIN_SLUG\" --title=\"$PLUGIN_NAME\" --admin_user=admin --admin_password=password --admin_email=admin@example.org || true; wp plugin activate $PLUGIN_SLUG || true;",
       "wp user create bob bob@example.org --user_pass=password || true;",
       "wp core update --allow-root || true",
       "patch ./wordpress/wp-config.php ./patches/wp-debug.diff -s -N -f --no-backup-if-mismatch --reject-file= || true;",
@@ -196,8 +199,7 @@
     "create-databases": [
       "export $(grep -v '^#' .env.testing | xargs); [[ $(mysqld --version) =~ .*MariaDB.* ]] && mysql -e \"CREATE USER IF NOT EXISTS '\"$TEST_DB_USER\"'@'%' IDENTIFIED BY '\"$TEST_DB_PASSWORD\"';\" || mysql -e \"CREATE USER IF NOT EXISTS '\"$TEST_DB_USER\"'@'%' IDENTIFIED WITH mysql_native_password BY '\"$TEST_DB_PASSWORD\"';\";",
       "export $(grep -v '^#' .env.testing | xargs); mysql -e \"CREATE DATABASE IF NOT EXISTS \"$TEST_SITE_DB_NAME\"; USE \"$TEST_SITE_DB_NAME\"; GRANT ALL PRIVILEGES ON \"$TEST_SITE_DB_NAME\".* TO '\"$TEST_DB_USER\"'@'%';\";",
-      "export $(grep -v '^#' .env.testing | xargs); mysql -e \"CREATE DATABASE IF NOT EXISTS \"$TEST_DB_NAME\"; USE \"$TEST_DB_NAME\"; GRANT ALL PRIVILEGES ON \"$TEST_DB_NAME\".* TO '\"$TEST_DB_USER\"'@'%';\";",
-      "@restore-acceptance-database"
+      "export $(grep -v '^#' .env.testing | xargs); mysql -e \"CREATE DATABASE IF NOT EXISTS \"$TEST_DB_NAME\"; USE \"$TEST_DB_NAME\"; GRANT ALL PRIVILEGES ON \"$TEST_DB_NAME\".* TO '\"$TEST_DB_USER\"'@'%';\";"
     ],
     "delete-databases": [
       "export $(grep -v '^#' .env.testing | xargs); mysql -e \"DROP TABLE IF EXISTS $TEST_SITE_DB_NAME;\" mysql -e \"DROP TABLE IF EXISTS $TEST_DB_NAME;\"",
@@ -210,27 +212,31 @@
     "restore-acceptance-database": [
       "export $(grep -v '^#' .env.testing | xargs); mysql $TEST_SITE_DB_NAME < tests/_data/dump.sql"
     ],
-    "coverage-tests": [
+    "test-coverage": [
       "mkdir -p tests/_output/html/phpunit",
-      "vendor/bin/codecept run unit --coverage unit.cov",
-      "vendor/bin/codecept run wpunit --coverage wpunit.cov",
-      "vendor/bin/phpcov merge --clover tests/_output/clover.xml --html tests/_output/html/phpunit tests/_output;",
+      "codecept run unit --coverage unit.cov",
+      "codecept run wpunit --coverage wpunit.cov",
+      "phpcov merge --clover tests/_output/clover.xml --html tests/_output/html/phpunit tests/_output;",
       "open tests/_output/html/phpunit/index.html"
     ],
     "lint": [
-      "vendor/bin/phpcbf || true",
-      "vendor/bin/phpcs || true",
-      "vendor/bin/phpstan analyse --memory-limit 2G"
+      "phpcbf || true",
+      "phpcs || true",
+      "phpstan analyse --memory-limit 2G"
     ],
     "lint-changes": [
-      "updated_files=$( git status | grep 'modified:\\s.*.php$' | cut -c14- | awk '{ printf(\"%s \", $0) }' ); vendor/bin/phpcbf $(echo $updated_files); vendor/bin/phpcs $(echo $updated_files); vendor/bin/phpstan analyse $(echo $updated_files) --memory-limit 2G"
+      "updated_files=$( git status | grep 'modified:\\s.*.php$' | cut -c14- | awk '{ printf(\"%s \", $0) }' ); phpcbf $(echo $updated_files); phpcs $(echo $updated_files); phpstan analyse $(echo $updated_files) --memory-limit 2G"
     ],
     "create-plugin-archive": [
-      "vendor/bin/wp i18n make-pot src languages/$(basename \"$PWD\").pot --domain=$(basename \"$PWD\")",
-      "vendor/bin/wp dist-archive . ./dist-archive --plugin-dirname=$(basename \"$PWD\") --create-target-dir"
+      "wp i18n make-pot src languages/$(basename \"$PWD\").pot --domain=$(basename \"$PWD\")",
+      "wp dist-archive . ./dist-archive --plugin-dirname=$(basename \"$PWD\") --create-target-dir"
     ],
     "github-actions":  [
       "act -P ubuntu-latest=shivammathur/node:latest"
+    ],
+    "sync-composer-wpenv": [
+      "cat .wp-env.json | jq '.mappings | values[]' | xargs -I % sh -c 'if [ ! -d \"%\" ] && [ ! -f \"%\" ]; then jq \"del(.. | select(. == \\\"%\\\"))\" .wp-env.json | sponge .wp-env.json; fi'",
+      "find wp-content/plugins -type d -depth 1 ! -type l | sort -h | jq -Rn '[inputs]' | jq 'reduce .[] as $item ({}; . + {$item:$item})' | jq '.[] |= \"./\\(.)\"' | jq '. | {mappings: .}' | jq --sort-keys -s '.[] * $existing[]' --slurpfile existing .wp-env.json | sponge .wp-env.json"
     ]
   }
 }
