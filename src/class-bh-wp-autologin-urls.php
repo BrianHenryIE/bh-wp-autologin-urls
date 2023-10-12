@@ -18,6 +18,7 @@ use BrianHenryIE\WP_Autologin_URLs\Admin\User_Edit;
 use BrianHenryIE\WP_Autologin_URLs\Admin\Admin_Assets;
 use BrianHenryIE\WP_Autologin_URLs\Admin\Settings_Page;
 use BrianHenryIE\WP_Autologin_URLs\Admin\Plugins_Page;
+use BrianHenryIE\WP_Autologin_URLs\Admin\Users_List_Table;
 use BrianHenryIE\WP_Autologin_URLs\Logger\Klaviyo_Logs;
 use BrianHenryIE\WP_Autologin_URLs\Login\Login_Ajax;
 use BrianHenryIE\WP_Autologin_URLs\Login\Login_Assets;
@@ -29,6 +30,7 @@ use BrianHenryIE\WP_Autologin_URLs\WP_Includes\I18n;
 use BrianHenryIE\WP_Autologin_URLs\WP_Includes\Login;
 use BrianHenryIE\WP_Autologin_URLs\WP_Includes\WP_Mail;
 use Exception;
+use No3x\WPML\ORM\Model\User;
 use Psr\Log\LoggerInterface;
 use WP_CLI;
 
@@ -163,6 +165,10 @@ class BH_WP_Autologin_URLs {
 		$user_edit = new User_Edit( $this->api, $this->settings );
 		add_action( 'edit_user_profile', array( $user_edit, 'make_password_available_on_user_page' ), 1, 1 );
 		add_action( 'show_user_profile', array( $user_edit, 'make_password_available_on_user_page' ), 1, 1 );
+
+		$users_list_table = new Users_List_Table( $this->api, $this->settings );
+		add_filter( 'user_row_actions', array( $users_list_table, 'add_magic_email_link' ), 10, 2 );
+		add_action( 'admin_init', array( $users_list_table, 'send_magic_email_link' ) );
 	}
 
 	/**

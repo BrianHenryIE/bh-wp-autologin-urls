@@ -1,5 +1,6 @@
 ### 2.next
 
+* Add: "Send magic link email" button on users list table 
 * Add: screenshots
 * Add: CLI documentation
 * Fix: minor wording

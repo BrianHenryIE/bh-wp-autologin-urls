@@ -4,6 +4,7 @@ namespace BrianHenryIE\WP_Autologin_URLs;
 
 use BrianHenryIE\ColorLogger\ColorLogger;
 use BrianHenryIE\WP_Autologin_URLs\Admin\Plugins_Page;
+use BrianHenryIE\WP_Autologin_URLs\Admin\Users_List_Table;
 use BrianHenryIE\WP_Autologin_URLs\Login\Login_Ajax;
 use BrianHenryIE\WP_Autologin_URLs\Login\Login_Assets;
 use BrianHenryIE\WP_Autologin_URLs\WooCommerce\Admin_Order_UI;
@@ -187,6 +188,29 @@ class BH_WP_Autologin_URLs_Unit_Test extends \Codeception\Test\Unit {
 		\WP_Mock::expectActionAdded(
 			'woocommerce_before_customer_login_form',
 			array( new AnyInstance( Login_Form::class ), 'enqueue_script' )
+		);
+
+		$logger   = new ColorLogger();
+		$settings = $this->makeEmpty( Settings_Interface::class );
+		$api      = $this->makeEmpty( API_Interface::class );
+		new BH_WP_Autologin_URLs( $api, $settings, $logger );
+	}
+
+	/**
+	 * @covers ::define_admin_ui_hooks
+	 */
+	public function test_define_users_list_table_hooks(): void {
+
+		\WP_Mock::expectFilterAdded(
+			'user_row_actions',
+			array( new AnyInstance( Users_List_Table::class ), 'add_magic_email_link' ),
+			10,
+			2,
+		);
+
+		\WP_Mock::expectActionAdded(
+			'admin_init',
+			array( new AnyInstance( Users_List_Table::class ), 'send_magic_email_link' ),
 		);
 
 		$logger   = new ColorLogger();
