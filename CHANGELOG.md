@@ -1,7 +1,8 @@
-### 2.next
+### 2.3.0
 
-* Add: "Send magic link email" button on users list table 
-* Add: screenshots
+* Add: "Send magic link email" button on users list table
+* Fix: bug with bh-wp-logger – thanks @Amit-Biswas
+* Add: screenshots to .org plugin page
 * Add: CLI documentation
 * Fix: minor wording
 * Dev: add Playwright tests

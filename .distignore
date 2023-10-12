@@ -20,3 +20,9 @@ package.json
 package-lock.json
 /vendor/
 *.rej*
+
+/playwright-report
+/CONTRIBUTING.md
+/playwright.config.ts
+/test-results
+/wp-cli.wp-env.yml
