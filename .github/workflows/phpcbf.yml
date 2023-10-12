@@ -82,7 +82,7 @@ jobs:
           git checkout -- tests/_data/dump.sql
 
       - name: Commit PHPCBF changes
-        uses: stefanzweifel/git-auto-commit-action@v4.1.1
+        uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: "🤖 PHPCBF"
 
