@@ -98,7 +98,7 @@ class Checkout {
 		// Otherwise "wc_get_order was called incorrectly" warning is shown.
 		add_action(
 			'woocommerce_after_register_post_type',
-			function() use ( $user_info ) {
+			function () use ( $user_info ) {
 
 				/**
 				 * Try to get one past order placed by this email address.
@@ -135,5 +135,4 @@ class Checkout {
 			}
 		);
 	}
-
 }
