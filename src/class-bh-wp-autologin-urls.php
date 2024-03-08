@@ -28,9 +28,9 @@ use BrianHenryIE\WP_Autologin_URLs\WP_Includes\CLI;
 use BrianHenryIE\WP_Autologin_URLs\WP_Includes\Cron;
 use BrianHenryIE\WP_Autologin_URLs\WP_Includes\I18n;
 use BrianHenryIE\WP_Autologin_URLs\WP_Includes\Login;
+use BrianHenryIE\WP_Autologin_URLs\WP_Includes\REST_API;
 use BrianHenryIE\WP_Autologin_URLs\WP_Includes\WP_Mail;
 use Exception;
-use No3x\WPML\ORM\Model\User;
 use Psr\Log\LoggerInterface;
 use WP_CLI;
 
@@ -107,6 +107,7 @@ class BH_WP_Autologin_URLs {
 		$this->define_logger_hooks();
 
 		$this->define_cli_hooks();
+		$this->define_rest_api_hooks();
 	}
 
 	/**
@@ -300,5 +301,12 @@ class BH_WP_Autologin_URLs {
 		} catch ( Exception $e ) {
 			$this->logger->error( 'Failed to register WP CLI commands: ' . $e->getMessage(), array( 'exception' => $e ) );
 		}
+	}
+
+	protected function define_rest_api_hooks(): void {
+
+		$rest_api = new REST_API( $this->api );
+
+		add_action( 'rest_api_init', array( $rest_api, 'register_routes' ) );
 	}
 }

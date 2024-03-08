@@ -5,6 +5,7 @@ namespace BrianHenryIE\WP_Autologin_URLs;
 use BrianHenryIE\ColorLogger\ColorLogger;
 use BrianHenryIE\WP_Autologin_URLs\Admin\Plugins_Page;
 use BrianHenryIE\WP_Autologin_URLs\Admin\Users_List_Table;
+use BrianHenryIE\WP_Autologin_URLs\Includes\REST_API;
 use BrianHenryIE\WP_Autologin_URLs\Login\Login_Ajax;
 use BrianHenryIE\WP_Autologin_URLs\Login\Login_Assets;
 use BrianHenryIE\WP_Autologin_URLs\WooCommerce\Admin_Order_UI;
@@ -23,6 +24,7 @@ class BH_WP_Autologin_URLs_Unit_Test extends \Codeception\Test\Unit {
 	protected function setup(): void {
 		parent::setup();
 		\WP_Mock::setUp();
+		require_once codecept_absolute_path( 'wordpress/wp-includes/rest-api/endpoints/class-wp-rest-controller.php' );
 	}
 
 	protected function tearDown(): void {
@@ -211,6 +213,22 @@ class BH_WP_Autologin_URLs_Unit_Test extends \Codeception\Test\Unit {
 		\WP_Mock::expectActionAdded(
 			'admin_init',
 			array( new AnyInstance( Users_List_Table::class ), 'send_magic_email_link' ),
+		);
+
+		$logger   = new ColorLogger();
+		$settings = $this->makeEmpty( Settings_Interface::class );
+		$api      = $this->makeEmpty( API_Interface::class );
+		new BH_WP_Autologin_URLs( $api, $settings, $logger );
+	}
+
+	/**
+	 * @covers ::define_rest_api_hooks
+	 */
+	public function test_define_rest_api_hooks(): void {
+
+		\WP_Mock::expectActionAdded(
+			'rest_api_init',
+			array( new AnyInstance( REST_API::class ), 'register_routes' ),
 		);
 
 		$logger   = new ColorLogger();

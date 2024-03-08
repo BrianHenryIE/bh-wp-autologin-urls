@@ -104,6 +104,41 @@ class API implements API_Interface {
 	}
 
 	/**
+	 * Get the actual WP_User object from the id/username/email. Null when not found.
+	 *
+	 * @param null|int|string|WP_User $user A valid user id, email, login or user object.
+	 */
+	public function get_wp_user( $user ): ?WP_User {
+
+		if ( $user instanceof WP_User ) {
+			return $user;
+		}
+
+		if ( is_int( $user ) ) {
+
+			$user = get_user_by( 'ID', $user );
+
+		} elseif ( is_numeric( $user ) && 0 !== intval( $user ) ) {
+
+			// When string '123' is passed as the user id, convert it to an int.
+			$user = absint( $user );
+			$user = get_user_by( 'ID', $user );
+
+		} elseif ( is_string( $user ) && is_email( $user ) ) {
+
+			// When a string which is an email is passed.
+			$user = get_user_by( 'email', $user );
+
+		} elseif ( is_string( $user ) ) {
+
+			// When any other string is passed, assume it is a username.
+			$user = get_user_by( 'login', $user );
+		}
+
+		return $user instanceof WP_User ? $user : null;
+	}
+
+	/**
 	 * Public function for other plugins to use on links.
 	 *
 	 * @param string                  $url         The url to append the autologin code to. This must be a link to this site.
@@ -118,41 +153,10 @@ class API implements API_Interface {
 			return $url;
 		}
 
+		$user = $this->get_wp_user( $user );
+
 		if ( is_null( $user ) ) {
 			return $url;
-		}
-
-		if ( ! $user instanceof WP_User ) {
-
-			if ( is_int( $user ) ) {
-
-				$user = get_user_by( 'ID', $user );
-
-			} elseif ( is_string( $user ) && 0 !== intval( $user ) ) {
-
-				// When string '123' is passed as the user id, convert it to an int.
-				$user = intval( $user );
-				$user = get_user_by( 'ID', $user );
-
-			} elseif ( is_string( $user ) && is_email( $user ) ) {
-
-				// When a string which is an email is passed.
-				$user = get_user_by( 'email', $user );
-
-			} elseif ( is_string( $user ) ) {
-
-				// When any other string is passed, assume it is a username.
-				$user = get_user_by( 'login', $user );
-
-			} else {
-
-				return $url;
-			}
-
-			if ( false === $user ) {
-
-				return $url;
-			}
 		}
 
 		// Although this method could return null, the checks to prevent that have already
