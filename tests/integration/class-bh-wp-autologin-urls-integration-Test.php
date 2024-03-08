@@ -32,7 +32,6 @@ class BH_WP_Autologin_URLs_Integration_Test extends \Codeception\TestCase\WPTest
 	/**
 	 * @dataProvider hooks
 	 */
-
 	protected function is_function_hooked_on_action( string $class_type, string $method_name, string $action_name, int $expected_priority = 10 ): bool {
 
 		global $wp_filter;
