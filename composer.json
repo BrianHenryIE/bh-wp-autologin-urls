@@ -112,9 +112,11 @@
     "wp-cli/i18n-command": "^2.4",
     "wp-cli/wp-cli-bundle": "*",
     "wp-coding-standards/wpcs": "*",
+    "wpackagist-plugin/document-generator-for-openapi": "^1.1",
     "wpackagist-plugin/mailpoet": "*",
     "wpackagist-plugin/newsletter": "*",
     "wpackagist-plugin/woocommerce": "*",
+    "wpackagist-plugin/wp-mail-debugger": "^1.0",
     "wpackagist-plugin/wp-mail-logging": "*",
     "wpackagist-plugin/wp-mail-smtp": "*",
     "wpackagist-plugin/wp-super-cache": "*",
@@ -211,6 +213,10 @@
     ],
     "restore-acceptance-database": [
       "export $(grep -v '^#' .env.testing | xargs); mysql $TEST_SITE_DB_NAME < tests/_data/dump.sql"
+    ],
+    "test": [
+      "codecept run unit",
+      "codecept run wpunit"
     ],
     "test-coverage": [
       "mkdir -p tests/_output/html/phpunit",
