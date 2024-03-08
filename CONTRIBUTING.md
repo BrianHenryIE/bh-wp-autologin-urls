@@ -23,8 +23,9 @@ Requires Docker
 
 ```php
 npm install
-npx wp-env start
-npx playwright test --config ./tests/e2e-pw/playwright.config.js
+npx playwright install
+npx wp-env start --xdebug
+npx playwright test --config ./playwright.config.ts
 npx wp-env destroy
 ```
 
