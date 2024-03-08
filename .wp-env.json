@@ -12,10 +12,11 @@
   "mappings": {
     "setup": "./tests/e2e-pw/setup",
     "wp-cli.yml": "./wp-cli.wp-env.yml",
-    "wp-content/plugins/dashly": "./wp-content/plugins/dashly",
+    "wp-content/plugins/document-generator-for-openapi": "./wp-content/plugins/document-generator-for-openapi",
     "wp-content/plugins/mailpoet": "./wp-content/plugins/mailpoet",
     "wp-content/plugins/newsletter": "./wp-content/plugins/newsletter",
     "wp-content/plugins/woocommerce": "./wp-content/plugins/woocommerce",
+    "wp-content/plugins/wp-mail-debugger": "./wp-content/plugins/wp-mail-debugger",
     "wp-content/plugins/wp-mail-logging": "./wp-content/plugins/wp-mail-logging",
     "wp-content/plugins/wp-mail-smtp": "./wp-content/plugins/wp-mail-smtp",
     "wp-content/plugins/wp-super-cache": "./wp-content/plugins/wp-super-cache"
