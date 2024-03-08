@@ -40,7 +40,7 @@ class Enable_Magic_Links extends Settings_Section_Element_Abstract {
 		$this->add_settings_field_args['helper'] = __( 'Add a button beside login buttons allowing users to send themselves an email with an instant login link.', 'bh-wp-autologin-urls' );
 
 		$login_screens_links = '<a href="' . wp_login_url() . '">' . str_replace( trailingslashit( site_url() ), '', wp_login_url() ) . '</a>';
-		if ( is_plugin_active( 'woocommerce/woocommerce.php' ) ) {
+		if ( function_exists( 'wc_get_page_permalink' ) ) {
 			$login_screens_links .= ', <a href="' . wc_get_page_permalink( 'myaccount' ) . '">' . str_replace( trailingslashit( site_url() ), '', wc_get_page_permalink( 'myaccount' ) ) . '</a>';
 
 			// If "Allow customers to log into an existing account during checkout" is checked.
