@@ -88,7 +88,9 @@ class Login {
 		}
 
 		// Check for bots.
-		$user_agent = filter_input( INPUT_SERVER, 'HTTP_USER_AGENT' );
+		// Use the null coalescing operator to ensure $user_agent is always a string.
+		// This prevents passing null to strpos, which is deprecated in newer PHP versions.
+		$user_agent = filter_input( INPUT_SERVER, 'HTTP_USER_AGENT' ) ?? '';
 		$bot        = false !== strpos( $user_agent, 'bot' );
 		if ( $bot ) {
 			return $user_id;
