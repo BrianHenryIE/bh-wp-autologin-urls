@@ -50,7 +50,6 @@ class Klaviyo implements User_Finder_Interface, LoggerAwareInterface {
 		$private_key = $settings->get_klaviyo_private_api_key();
 
 		if ( empty( $private_key ) ) {
-			$this->logger->debug( 'Klaviyo private key not set' );
 			throw new Exception( 'Klaviyo private key not set' );
 		}
 
