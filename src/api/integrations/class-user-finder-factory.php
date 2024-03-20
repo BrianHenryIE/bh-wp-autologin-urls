@@ -5,9 +5,9 @@ namespace BrianHenryIE\WP_Autologin_URLs\API\Integrations;
 use BrianHenryIE\WP_Autologin_URLs\API_Interface;
 use BrianHenryIE\WP_Autologin_URLs\Settings_Interface;
 use BrianHenryIE\WP_Autologin_URLs\API\User_Finder_Interface;
-use Exception;
 use Psr\Log\LoggerInterface;
 use ReflectionClass;
+use Throwable;
 
 class User_Finder_Factory {
 
@@ -80,7 +80,7 @@ class User_Finder_Factory {
 				try {
 					/** @var User_Finder_Interface $integration */
 					$integration_instance = new $integration( ...$construct_params );
-				} catch ( Exception $exception ) {
+				} catch ( Throwable $exception ) {
 					continue;
 				}
 
