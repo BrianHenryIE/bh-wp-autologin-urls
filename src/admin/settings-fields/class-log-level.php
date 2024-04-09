@@ -56,12 +56,7 @@ class Log_Level extends Settings_Section_Element_Abstract {
 	 */
 	public function print_field_callback( $arguments ): void {
 
-		$value = $this->value;
-
-		// This is what is POSTed when the checkbox is ticked.
-		$checkbox_value = 'use_wp_login_is_enabled';
-		$is_checked     = 'use_wp_login_is_enabled' === $value ? 'checked ' : '';
-		$label          = $arguments['helper'];
+		$label = $arguments['helper'];
 
 		printf( '<fieldset><label for="%1$s"><select id="%1$s" name="%1$s" />', esc_attr( $this->id ) );
 
