@@ -107,6 +107,7 @@ class Login {
 		$user_array = $user_finder->get_wp_user_array();
 
 		if ( isset( $user_array['wp_user'] ) && $user_array['wp_user'] instanceof WP_User ) {
+			$this->logger->debug("Found `wp_user:{$user_array['wp_user']->ID}`.");
 			$wp_user = $user_array['wp_user'];
 			$user_id = $wp_user->ID;
 		} elseif ( ! empty( $user_array['user_data'] ) ) {
@@ -115,6 +116,7 @@ class Login {
 			$woocommerce_checkout->prefill_checkout_fields( $user_array['user_data'] );
 			return $user_id;
 		} else {
+			$this->logger->debug( 'Could not find wp_user or user data using request URL.' );
 			return $user_id;
 		}
 

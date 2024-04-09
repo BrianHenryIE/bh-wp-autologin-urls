@@ -51,6 +51,7 @@ class The_Newsletter_Plugin implements User_Finder_Interface, LoggerAwareInterfa
 		}
 
 		if ( ! class_exists( NewsletterStatistics::class ) ) {
+			$this->logger->debug( '`nltr` querystring parameter set but `NewsletterStatistics` class not found.' );
 			return $result;
 		}
 
@@ -79,9 +80,21 @@ class The_Newsletter_Plugin implements User_Finder_Interface, LoggerAwareInterfa
 		$verified = ( md5( $email_id . ';' . $user_id . ';' . $url . ';' . $anchor . $key ) === $signature );
 
 		if ( ! $verified ) {
-			// TODO: ban IP for repeated abuse.
+			$this->logger->debug(
+				'Could not verify Newsletter URL: ' . $nltr_param,
+				array(
+					'nltr_param' => $nltr_param,
+					'email_id'   => $email_id,
+					'user_id'    => $user_id,
+					'signature'  => $signature,
+					'anchor'     => $anchor,
+					'url'        => $url,
+					'key'        => $key,
+				)
+			);
 			return $result;
 		}
+		// TODO: ban IP for repeated abuse.
 
 		$tnp_user = Newsletter::instance()->get_user( $user_id );
 
@@ -102,15 +115,22 @@ class The_Newsletter_Plugin implements User_Finder_Interface, LoggerAwareInterfa
 
 		} else {
 
-			// We have their email address but they have no account,
-			// if WooCommerce is installed, record the email address for
-			// UX and abandoned cart.
+			// We have their email address but they have no account, record the
+			// email address for WooCommerce UX and abandoned cart.
 			$user_info = array(
+				'email'      => $user_email_address,
 				'first_name' => $tnp_user->name,
 				'last_name'  => $tnp_user->surname,
 			);
 
 			$result['user_data'] = $user_info;
+
+			$this->logger->debug(
+				'No wp_user found for Newsletter user',
+				array(
+					'result' => $result,
+				)
+			);
 		}
 
 		return $result;
