@@ -118,6 +118,14 @@ class API implements API_Interface {
 			return $url;
 		}
 
+		/**
+		 * If The Newsletter Plugin tracking is already added to the link, use the integration to handle logging in,
+		 * rather than adding an autologin code.
+		 */
+		if ( stristr( $url, 'nltr=' ) ) {
+			return $url;
+		}
+
 		if ( is_null( $user ) ) {
 			return $url;
 		}
