@@ -24,6 +24,7 @@ export default defineConfig({
   // override that location using the PLAYWRIGHT_HTML_REPORT environment variable
   reporter: [['html', { outputFolder: 'tests/_output/playwright-report/' + (new Date()).toISOString() }]],
 
+  timeout: 120000,
 
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {

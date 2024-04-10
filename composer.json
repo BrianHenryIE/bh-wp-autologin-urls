@@ -10,16 +10,20 @@
     }
   ],
   "autoload": {
-    "classmap": ["src"]
+    "classmap": [
+      "src"
+    ]
   },
   "autoload-dev": {
-    "classmap": ["tests/integration","tests/unit","tests/wpunit"]
+    "classmap": [
+      "tests/integration",
+      "tests/unit",
+      "tests/wpunit"
+    ]
   },
   "minimum-stability": "dev",
   "prefer-stable": true,
   "config": {
-    "process-timeout": 0,
-    "sort-packages": true,
     "allow-plugins": {
       "alleyinteractive/composer-wordpress-autoloader": true,
       "composer/installers": true,
@@ -27,7 +31,12 @@
       "dealerdirect/phpcodesniffer-composer-installer": true,
       "johnpbloch/wordpress-core-installer": true,
       "phpstan/extension-installer": true
-    }
+    },
+    "platform": {
+      "php": "7.4"
+    },
+    "process-timeout": 0,
+    "sort-packages": true
   },
   "repositories": {
     "brianhenryie/php-diff-test": {
@@ -95,7 +104,7 @@
     "jaschilz/php-coverage-badger": "^2.0",
     "johnpbloch/wordpress": "*",
     "kporras07/composer-symlinks": "dev-master",
-    "lucatume/wp-browser": "*",
+    "lucatume/wp-browser": "^3.0",
     "mheap/phpunit-github-actions-printer": "dev-master",
     "php-stubs/woocommerce-stubs": "*",
     "phpcompatibility/phpcompatibility-wp": "*",
@@ -105,14 +114,15 @@
     "psr/container": "1.0.0",
     "squizlabs/php_codesniffer": "*",
     "szepeviktor/phpstan-wordpress": "*",
+    "vlucas/phpdotenv": "^2.0",
     "voku/portable-ascii": "dev-master",
     "woocommerce/woocommerce-sniffs": "*",
     "wordpress/wordpress": "*",
-    "wp-cli/dist-archive-command": "dev-main",
+    "wp-cli/dist-archive-command": "*",
     "wp-cli/i18n-command": "^2.4",
     "wp-cli/wp-cli-bundle": "*",
     "wp-coding-standards/wpcs": "*",
-    "wpackagist-plugin/mailpoet": "*",
+    "wpackagist-plugin/mailpoet": "^3.0",
     "wpackagist-plugin/newsletter": "*",
     "wpackagist-plugin/woocommerce": "*",
     "wpackagist-plugin/wp-mail-logging": "*",
@@ -135,7 +145,7 @@
       "target_directory": "/vendor-prefixed/",
       "classmap_prefix": "BH_WP_Autologin_URLs_",
       "namespace_replacement_patterns": {
-        "~BrianHenryIE\\\\(.*)~" : "BrianHenryIE\\WP_Autologin_URLs\\\\$1"
+        "~BrianHenryIE\\\\(.*)~": "BrianHenryIE\\WP_Autologin_URLs\\\\$1"
       },
       "exclude_from_prefix": {
         "packages": [
@@ -231,12 +241,12 @@
       "wp i18n make-pot src languages/$(basename \"$PWD\").pot --domain=$(basename \"$PWD\")",
       "wp dist-archive . ./dist-archive --plugin-dirname=$(basename \"$PWD\") --create-target-dir"
     ],
-    "github-actions":  [
+    "github-actions": [
       "act -P ubuntu-latest=shivammathur/node:latest"
     ],
     "sync-composer-wpenv": [
-      "cat .wp-env.json | jq '.mappings | values[]' | xargs -I % sh -c 'if [ ! -d \"%\" ] && [ ! -f \"%\" ]; then jq \"del(.. | select(. == \\\"%\\\"))\" .wp-env.json | sponge .wp-env.json; fi'",
-      "find wp-content/plugins -type d -depth 1 ! -type l | sort -h | jq -Rn '[inputs]' | jq 'reduce .[] as $item ({}; . + {$item:$item})' | jq '.[] |= \"./\\(.)\"' | jq '. | {mappings: .}' | jq --sort-keys -s '.[] * $existing[]' --slurpfile existing .wp-env.json | sponge .wp-env.json"
+      "for name in $(cat .wp-env.json | jq '.mappings | values[]' | sed -r 's/^\\\"|\\\"$//g'); do [ ! -d $name ] && [ ! -f $name ] && echo $name && jq 'del(.. | select(. ==\"'$name'\"))' .wp-env.json | sponge .wp-env.json; done; exit 0;",
+      "find wp-content/plugins -type d -depth 1 ! -type l | sort -h | jq -Rn '[inputs]' | jq 'reduce .[] as $item ({}; . + {$item:$item})' | jq '.[] |= \"./\\(.)\"' | jq '. | {mappings: .}' | jq --sort-keys -s '.[] * $existing[]' --slurpfile existing .wp-env.json | sponge .wp-env.json "
     ]
   }
 }

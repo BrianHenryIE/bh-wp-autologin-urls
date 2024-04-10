@@ -33,6 +33,8 @@ class Plugin_Develop_Test extends \Codeception\TestCase\WPTestCase {
 	 */
 	public function test_action_plugins_loaded_add_public_functions() {
 
+		self::markTestSkipped('This is now added with an inline function which includes functions.php');
+
 		$action_name       = 'plugins_loaded';
 		$expected_priority = 2;
 

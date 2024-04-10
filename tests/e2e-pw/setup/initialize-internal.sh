@@ -16,6 +16,7 @@ wp rewrite structure /%year%/%monthnum%/%postname%/ --hard;
 echo "Adding pages"
 if [[ '[]' == $(wp post list --name="Blocks Checkout" --post_type="page" --format=json) ]]; then
   echo "Adding the WooCommerce Block Checkout page";
+    # TODO: Check the file exists.
   wp post create --post_type=page --post_title="Blocks Checkout" --post_status=publish ./setup/blocks-checkout-post-content.txt;
 fi
 
@@ -31,6 +32,11 @@ echo "Configuring WooCommerce shipping"
 if [[ '[]' == $(wp wc shipping_zone_method list 0 --format=json) ]]; then
   echo "Adding free shipping";
   wp wc shipping_zone_method create 0 --method_id="free_shipping";
+fi
+
+if [[ '[]' == $(wp wc product list --format=json) ]]; then
+  echo "Adding WooCommerce \"Test Product\""
+  wp wc product create --name="Test Product" --type=simple --regular_price=100
 fi
 
 echo "Maybe updating WooCommerce database"
