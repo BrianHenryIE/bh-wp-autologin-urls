@@ -4,9 +4,9 @@
   <meta charset="UTF-8">
   <title>Code Coverage for /home/runner/work/bh-wp-autologin-urls/bh-wp-autologin-urls/src/api/integrations/class-user-finder-factory.php</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href="../../../css/bootstrap.min.css?v=9.2.29" rel="stylesheet" type="text/css">
-  <link href="../../../css/octicons.css?v=9.2.29" rel="stylesheet" type="text/css">
-  <link href="../../../css/style.css?v=9.2.29" rel="stylesheet" type="text/css">
+  <link href="../../../css/bootstrap.min.css?v=9.2.31" rel="stylesheet" type="text/css">
+  <link href="../../../css/octicons.css?v=9.2.31" rel="stylesheet" type="text/css">
+  <link href="../../../css/style.css?v=9.2.31" rel="stylesheet" type="text/css">
   <link href="../../../css/custom.css" rel="stylesheet" type="text/css">
  </head>
  <body>
@@ -159,9 +159,9 @@
     <tr class=" d-flex"><td  class="col-1 text-right"><a id="5" href="#5">5</a></td><td class="col-11 codeLine"><span class="keyword">use</span><span class="default">&nbsp;</span><span class="default">BrianHenryIE</span><span class="default">\</span><span class="default">WP_Autologin_URLs</span><span class="default">\</span><span class="default">API_Interface</span><span class="keyword">;</span></td></tr>
     <tr class=" d-flex"><td  class="col-1 text-right"><a id="6" href="#6">6</a></td><td class="col-11 codeLine"><span class="keyword">use</span><span class="default">&nbsp;</span><span class="default">BrianHenryIE</span><span class="default">\</span><span class="default">WP_Autologin_URLs</span><span class="default">\</span><span class="default">Settings_Interface</span><span class="keyword">;</span></td></tr>
     <tr class=" d-flex"><td  class="col-1 text-right"><a id="7" href="#7">7</a></td><td class="col-11 codeLine"><span class="keyword">use</span><span class="default">&nbsp;</span><span class="default">BrianHenryIE</span><span class="default">\</span><span class="default">WP_Autologin_URLs</span><span class="default">\</span><span class="default">API</span><span class="default">\</span><span class="default">User_Finder_Interface</span><span class="keyword">;</span></td></tr>
-    <tr class=" d-flex"><td  class="col-1 text-right"><a id="8" href="#8">8</a></td><td class="col-11 codeLine"><span class="keyword">use</span><span class="default">&nbsp;</span><span class="default">Exception</span><span class="keyword">;</span></td></tr>
-    <tr class=" d-flex"><td  class="col-1 text-right"><a id="9" href="#9">9</a></td><td class="col-11 codeLine"><span class="keyword">use</span><span class="default">&nbsp;</span><span class="default">Psr</span><span class="default">\</span><span class="default">Log</span><span class="default">\</span><span class="default">LoggerInterface</span><span class="keyword">;</span></td></tr>
-    <tr class=" d-flex"><td  class="col-1 text-right"><a id="10" href="#10">10</a></td><td class="col-11 codeLine"><span class="keyword">use</span><span class="default">&nbsp;</span><span class="default">ReflectionClass</span><span class="keyword">;</span></td></tr>
+    <tr class=" d-flex"><td  class="col-1 text-right"><a id="8" href="#8">8</a></td><td class="col-11 codeLine"><span class="keyword">use</span><span class="default">&nbsp;</span><span class="default">Psr</span><span class="default">\</span><span class="default">Log</span><span class="default">\</span><span class="default">LoggerInterface</span><span class="keyword">;</span></td></tr>
+    <tr class=" d-flex"><td  class="col-1 text-right"><a id="9" href="#9">9</a></td><td class="col-11 codeLine"><span class="keyword">use</span><span class="default">&nbsp;</span><span class="default">ReflectionClass</span><span class="keyword">;</span></td></tr>
+    <tr class=" d-flex"><td  class="col-1 text-right"><a id="10" href="#10">10</a></td><td class="col-11 codeLine"><span class="keyword">use</span><span class="default">&nbsp;</span><span class="default">Throwable</span><span class="keyword">;</span></td></tr>
     <tr class=" d-flex"><td  class="col-1 text-right"><a id="11" href="#11">11</a></td><td class="col-11 codeLine"></td></tr>
     <tr class=" d-flex"><td  class="col-1 text-right"><a id="12" href="#12">12</a></td><td class="col-11 codeLine"><span class="keyword">class</span><span class="default">&nbsp;</span><span class="default">User_Finder_Factory</span><span class="default">&nbsp;</span><span class="keyword">{</span></td></tr>
     <tr class=" d-flex"><td  class="col-1 text-right"><a id="13" href="#13">13</a></td><td class="col-11 codeLine"></td></tr>
@@ -234,7 +234,7 @@
     <tr class=" d-flex"><td  class="col-1 text-right"><a id="80" href="#80">80</a></td><td class="col-11 codeLine"><span class="default">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="keyword">try</span><span class="default">&nbsp;</span><span class="keyword">{</span></td></tr>
     <tr class=" d-flex"><td  class="col-1 text-right"><a id="81" href="#81">81</a></td><td class="col-11 codeLine"><span class="default">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="comment">/**&nbsp;@var&nbsp;User_Finder_Interface&nbsp;$integration&nbsp;*/</span></td></tr>
     <tr class="covered-by-large-tests popin d-flex"><td  data-title="2 tests cover line 82" data-content="&lt;ul&gt;&lt;li class=&quot;covered-by-large-tests&quot;&gt;BrianHenryIE\WP_Autologin_URLs\API\Integrations\User_Finder_Factory_Unit_Test::test_get_user_finder&lt;/li&gt;&lt;li class=&quot;covered-by-large-tests&quot;&gt;BrianHenryIE\WP_Autologin_URLs\API\Integrations\User_Finder_Factory_Unit_Test::test_nullable_default_null&lt;/li&gt;&lt;/ul&gt;" data-placement="top" data-html="true" class="col-1 text-right"><a id="82" href="#82">82</a></td><td class="col-11 codeLine"><span class="default">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="default">$integration_instance</span><span class="default">&nbsp;</span><span class="keyword">=</span><span class="default">&nbsp;</span><span class="keyword">new</span><span class="default">&nbsp;</span><span class="default">$integration</span><span class="keyword">(</span><span class="default">&nbsp;</span><span class="default">...</span><span class="default">$construct_params</span><span class="default">&nbsp;</span><span class="keyword">)</span><span class="keyword">;</span></td></tr>
-    <tr class="danger d-flex"><td  class="col-1 text-right"><a id="83" href="#83">83</a></td><td class="col-11 codeLine"><span class="default">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="keyword">}</span><span class="default">&nbsp;</span><span class="keyword">catch</span><span class="default">&nbsp;</span><span class="keyword">(</span><span class="default">&nbsp;</span><span class="default">Exception</span><span class="default">&nbsp;</span><span class="default">$exception</span><span class="default">&nbsp;</span><span class="keyword">)</span><span class="default">&nbsp;</span><span class="keyword">{</span></td></tr>
+    <tr class="danger d-flex"><td  class="col-1 text-right"><a id="83" href="#83">83</a></td><td class="col-11 codeLine"><span class="default">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="keyword">}</span><span class="default">&nbsp;</span><span class="keyword">catch</span><span class="default">&nbsp;</span><span class="keyword">(</span><span class="default">&nbsp;</span><span class="default">Throwable</span><span class="default">&nbsp;</span><span class="default">$exception</span><span class="default">&nbsp;</span><span class="keyword">)</span><span class="default">&nbsp;</span><span class="keyword">{</span></td></tr>
     <tr class="danger d-flex"><td  class="col-1 text-right"><a id="84" href="#84">84</a></td><td class="col-11 codeLine"><span class="default">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="keyword">continue</span><span class="keyword">;</span></td></tr>
     <tr class=" d-flex"><td  class="col-1 text-right"><a id="85" href="#85">85</a></td><td class="col-11 codeLine"><span class="default">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="keyword">}</span></td></tr>
     <tr class=" d-flex"><td  class="col-1 text-right"><a id="86" href="#86">86</a></td><td class="col-11 codeLine"></td></tr>
@@ -264,16 +264,16 @@
     <h4>Legend</h4>
     <p><span class="legend covered-by-small-tests">Covered by small (and larger) tests</span><span class="legend covered-by-medium-tests">Covered by medium (and large) tests</span><span class="legend covered-by-large-tests">Covered by large tests (and tests of unknown size)</span><span class="legend not-covered">Not covered</span><span class="legend not-coverable">Not coverable</span></p>
     <p>
-     <small>Generated by <a href="https://github.com/sebastianbergmann/php-code-coverage" target="_top">php-code-coverage 9.2.29</a> using <a href="https://secure.php.net/" target="_top">PHP 7.4.33</a> at Wed Mar 20 4:09:17 UTC 2024.</small>
+     <small>Generated by <a href="https://github.com/sebastianbergmann/php-code-coverage" target="_top">php-code-coverage 9.2.31</a> using <a href="https://secure.php.net/" target="_top">PHP 7.4.33</a> at Sat Apr 13 2:15:44 UTC 2024.</small>
     </p>
     <a title="Back to the top" id="toplink" href="#">
         <svg xmlns="http://www.w3.org/2000/svg" width="12" height="16" viewBox="0 0 12 16"><path fill-rule="evenodd" d="M12 11L6 5l-6 6h12z"/></svg>
     </a>
    </footer>
   </div>
-  <script src="../../../js/jquery.min.js?v=9.2.29" type="text/javascript"></script>
-  <script src="../../../js/popper.min.js?v=9.2.29" type="text/javascript"></script>
-  <script src="../../../js/bootstrap.min.js?v=9.2.29" type="text/javascript"></script>
-  <script src="../../../js/file.js?v=9.2.29" type="text/javascript"></script>
+  <script src="../../../js/jquery.min.js?v=9.2.31" type="text/javascript"></script>
+  <script src="../../../js/popper.min.js?v=9.2.31" type="text/javascript"></script>
+  <script src="../../../js/bootstrap.min.js?v=9.2.31" type="text/javascript"></script>
+  <script src="../../../js/file.js?v=9.2.31" type="text/javascript"></script>
  </body>
 </html>
