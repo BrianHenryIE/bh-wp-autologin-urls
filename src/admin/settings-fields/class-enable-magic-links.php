@@ -16,7 +16,17 @@ use BrianHenryIE\WP_Autologin_URLs\API\Settings;
 /**
  * Class
  */
-class Enable_Magic_Links extends Settings_Section_Element_Abstract {
+class Enable_Magic_Links extends Checkbox_Setting_Element_Abstract {
+
+	/**
+	 * This is what is POSTed when the checkbox is ticked.
+	 */
+	protected function get_is_checked_value(): string {
+		return 'magic_links_is_enabled';
+	}
+	protected function get_is_not_checked_value(): string {
+		return 'magic_links_is_not_enabled';
+	}
 
 	/**
 	 * Admin_Enable constructor.
@@ -32,7 +42,6 @@ class Enable_Magic_Links extends Settings_Section_Element_Abstract {
 
 		$this->id    = Settings::MAGIC_LINK_ENABLED;
 		$this->title = __( 'Enable magic links?', 'bh-wp-autologin-urls' );
-		$this->page  = $settings_page;
 
 		$this->register_setting_args['type']    = 'string';
 		$this->register_setting_args['default'] = 'magic_links_is_not_enabled';
@@ -53,47 +62,4 @@ class Enable_Magic_Links extends Settings_Section_Element_Abstract {
 		$this->add_settings_field_args['supplemental'] = __( 'default: false', 'bh-wp-autologin-urls' ) . '<br/>' . sprintf( __( 'When enabling magic links, be sure to check the appearance of the button on your login screens (%s) and make appropriate CSS changes if necessary.', 'bh-wp-autologin-urls' ), $login_screens_links );
 	}
 
-	/**
-	 * Prints the checkbox as displayed in the right-hand column of the settings table.
-	 *
-	 * @param array{helper:string, supplemental:string} $arguments The data registered with add_settings_field().
-	 */
-	public function print_field_callback( $arguments ): void {
-
-		$value = $this->value;
-
-		// This is what is POSTed when the checkbox is ticked.
-		$checkbox_value = 'magic_links_is_enabled';
-		$is_checked     = 'magic_links_is_enabled' === $value ? 'checked ' : '';
-		$label          = $arguments['helper'];
-
-		printf( '<fieldset><label for="%1$s"><input id="%1$s" name="%1$s" type="checkbox" value="%2$s" %3$s />%4$s</label></fieldset>', esc_attr( $this->id ), esc_attr( $checkbox_value ), esc_attr( $is_checked ), wp_kses( $label, array( 'i' => array() ) ) );
-
-		$allowed_html = array(
-			'br' => array(),
-			'a'  => array(
-				'href'   => array(),
-				'target' => array(),
-			),
-		);
-		printf( '<p class="description">%s</p>', wp_kses( $arguments['supplemental'], $allowed_html ) );
-	}
-
-	/**
-	 * If an unexpected value is POSTed, don't make any change to what's in the database.
-	 *
-	 * @param ?string $value The data posted from the HTML form.
-	 *
-	 * @return string The value to save in the database.
-	 */
-	public function sanitize_callback( $value ) {
-
-		if ( 'magic_links_is_enabled' === $value ) {
-			return 'magic_links_is_enabled';
-		} elseif ( null === $value ) {
-			return 'magic_links_is_not_enabled';
-		} else {
-			return $this->value;
-		}
-	}
 }
