@@ -51,6 +51,14 @@ WooCommerce's "Customer Payment Page" link has been changed to include an autolo
 
 ![WooCommerce Order Page](./.wordpress-org/screenshot-5.gif "BH WP Autologin URLs WooCommerce Order Page screenshot")
 
+### Integrations
+
+* MailPoet 3.x
+* The Newsletter Plugin
+* Klaviyo
+
+When newsletters are sent with any of the above integrations, their own tracking URLs are used to determine the current user to log them in. If there is no local WordPress account, the user's email and name are set on the WooCommerce checkout.
+
 ### Secure
 
 The plugin conforms to all the suggestions in the StackExchange discussion, [Implementing an autologin link in an email](https://security.stackexchange.com/questions/129846/implementing-an-autologin-link-in-an-email):
@@ -169,6 +177,7 @@ EXAMPLES
   # Send a magic login link to user brianhenryie, if they exist.
   $ wp autologin-urls send-magic-link brianhenryie
 ```
+
 ## TODO
 
 * Remove the autologin URL parameter in the browser location bar on success
@@ -184,6 +193,11 @@ EXAMPLES
       `$hashed = $wp_hasher->HashPassword( $password );`
 * Add "send magic link" to wp-admin/user.php for admin use.
 * Add UI to expunge rate limit / add allow-list for IPs
+
+## Alternatives
+
+* https://github.com/danielbachhuber/one-time-login
+* https://github.com/aaemnnosttv/wp-cli-login-command
 
 ## Licence
 
