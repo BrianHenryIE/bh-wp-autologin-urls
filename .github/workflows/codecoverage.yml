@@ -51,7 +51,7 @@ jobs:
         env:
           PLUGIN_SLUG: ${{ github.event.repository.name }}
         run: |
-          find . -depth \( -name '.env.testing' \) -exec sed -i "s/TEST_SITE_DB_HOST=\"127.0.0.1\"/TEST_SITE_DB_HOST=\"127.0.0.1:${{ job.services.mysql.ports['3306'] }}\"/g" {} +
+          find . -depth \( -name '.env.testing' \) -exec sed -i "s/TEST_SITE_DB_HOST=\"127.0.0.1.*\"/TEST_SITE_DB_HOST=\"127.0.0.1:${{ job.services.mysql.ports['3306'] }}\"/g" {} +
           find . -depth \( -name '.env.testing' -o -name '*.cest' \) -exec sed -i "s/localhost:8080\/${{ env.PLUGIN_SLUG }}/localhost:8080/g" {} +
           find . -depth \( -name 'dump.sql' \) -exec sed -i "s/localhost:8080\/${{ env.PLUGIN_SLUG }}/localhost:8080/g" {} +
           find tests -depth \( -name '*.yml' \) -exec sed -i "s/%TEST_DB_HOST%/127.0.0.1:${{ job.services.mysql.ports['3306'] }}/g" {} +
