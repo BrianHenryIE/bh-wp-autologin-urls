@@ -59,8 +59,10 @@ class Login_Integration_Test extends \Codeception\TestCase\WPTestCase {
 
 		$this->go_to( $url );
 
-		// This is needed for the test to pass... I guess because the
-		// plugin is loaded in bootstrap.php and not by WordPress.
+		/**
+		 * This is needed for the test to pass... I guess because the plugin is loaded in
+		 * {@see vendor/lucatume/wp-browser/src/includes/bootstrap.php} and not by WordPress.
+		 */
 		do_action( 'plugins_loaded' );
 
 		// Check is user logged in.

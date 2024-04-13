@@ -76,7 +76,7 @@ class Klaviyo implements User_Finder_Interface, LoggerAwareInterface {
 	public function get_wp_user_array(): array {
 
 		$result              = array();
-		$result['source']    = 'Klaviyo';
+		$result['source']    = 'BrianHenryIE\WP_Autologin_URLs\Klaviyo';
 		$result['wp_user']   = null;
 		$result['user_data'] = array();
 

@@ -11,7 +11,7 @@ modules:
         - WPDb
         - WPBrowser
         - \Helper\Acceptance
-        - Mailtrap
+#        - Mailtrap
     config:
         WPDb:
             dsn: 'mysql:host=%TEST_SITE_DB_HOST%;dbname=%TEST_SITE_DB_NAME%'
@@ -35,6 +35,6 @@ modules:
             headers:
                 X_TEST_REQUEST: 1
                 X_WPBROWSER_REQUEST: 1
-        Mailtrap:
-            api_token: '%MAILTRAP_API_TOKEN%'
-            inbox_id: '%MAILTRAP_INBOX%'
+#        Mailtrap:
+#            api_token: '%MAILTRAP_API_TOKEN%'
+#            inbox_id: '%MAILTRAP_INBOX%'

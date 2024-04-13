@@ -131,11 +131,11 @@ class Settings implements Settings_Interface, Logger_Settings_Interface {
 
 	/**
 	 * The plugin version, used for asset caching.
-	 *
-	 * @return string
 	 */
 	public function get_plugin_version(): string {
-		return defined( 'BH_WP_AUTOLOGIN_URLS_VERSION' ) ? BH_WP_AUTOLOGIN_URLS_VERSION : '2.3.0';
+		return defined( 'BH_WP_AUTOLOGIN_URLS_VERSION' )
+            ? constant( 'BH_WP_AUTOLOGIN_URLS_VERSION' )
+            : '2.5.0';
 	}
 
 	/**

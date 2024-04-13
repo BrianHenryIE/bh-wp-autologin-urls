@@ -122,9 +122,11 @@
     "wp-cli/i18n-command": "^2.4",
     "wp-cli/wp-cli-bundle": "*",
     "wp-coding-standards/wpcs": "*",
+    "wpackagist-plugin/document-generator-for-openapi": "^1.1",
     "wpackagist-plugin/mailpoet": "^3.0",
     "wpackagist-plugin/newsletter": "*",
     "wpackagist-plugin/woocommerce": "*",
+    "wpackagist-plugin/wp-mail-debugger": "^1.0",
     "wpackagist-plugin/wp-mail-logging": "*",
     "wpackagist-plugin/wp-mail-smtp": "*",
     "wpackagist-plugin/wp-super-cache": "*",
@@ -145,7 +147,7 @@
       "target_directory": "/vendor-prefixed/",
       "classmap_prefix": "BH_WP_Autologin_URLs_",
       "namespace_replacement_patterns": {
-        "~BrianHenryIE\\\\(.*)~": "BrianHenryIE\\WP_Autologin_URLs\\\\$1"
+        "~BrianHenryIE\\\\(.*)~" : "BrianHenryIE\\WP_Autologin_URLs\\\\$1"
       },
       "exclude_from_prefix": {
         "packages": [
@@ -221,6 +223,10 @@
     ],
     "restore-acceptance-database": [
       "export $(grep -v '^#' .env.testing | xargs); mysql $TEST_SITE_DB_NAME < tests/_data/dump.sql"
+    ],
+    "test": [
+      "codecept run unit",
+      "codecept run wpunit"
     ],
     "test-coverage": [
       "mkdir -p tests/_output/html/phpunit",

@@ -67,6 +67,11 @@ class Users_List_Table {
 	 */
 	public function send_magic_email_link(): void {
 
+		global $pagenow;
+		if ( 'users.php' !== $pagenow ) {
+			return;
+		}
+
 		if ( ! check_ajax_referer( self::class, false, false ) ) {
 			return;
 		}
