@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "109b2ecf8b19d2f5dc55835afda1a7d7",
+    "content-hash": "af31e3df5f1ac30e027b606196830c22",
     "packages": [
         {
             "name": "alleyinteractive/wordpress-autoloader",
@@ -4202,20 +4202,20 @@
         },
         {
             "name": "johnpbloch/wordpress",
-            "version": "6.5.0",
+            "version": "6.5.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/johnpbloch/wordpress.git",
-                "reference": "82689a4520621352f5f036628830eb5d300cf582"
+                "reference": "52bffda9c0fc4dfd3c5f6e17f71ddce4fbad6038"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/johnpbloch/wordpress/zipball/82689a4520621352f5f036628830eb5d300cf582",
-                "reference": "82689a4520621352f5f036628830eb5d300cf582",
+                "url": "https://api.github.com/repos/johnpbloch/wordpress/zipball/52bffda9c0fc4dfd3c5f6e17f71ddce4fbad6038",
+                "reference": "52bffda9c0fc4dfd3c5f6e17f71ddce4fbad6038",
                 "shasum": ""
             },
             "require": {
-                "johnpbloch/wordpress-core": "6.5.0",
+                "johnpbloch/wordpress-core": "6.5.2",
                 "johnpbloch/wordpress-core-installer": "^1.0 || ^2.0",
                 "php": ">=7.0.0"
             },
@@ -4244,20 +4244,20 @@
                 "issues": "https://core.trac.wordpress.org/",
                 "source": "https://core.trac.wordpress.org/browser"
             },
-            "time": "2024-04-02T18:26:54+00:00"
+            "time": "2024-04-09T21:21:01+00:00"
         },
         {
             "name": "johnpbloch/wordpress-core",
-            "version": "6.5.0",
+            "version": "6.5.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/johnpbloch/wordpress-core.git",
-                "reference": "e36de3196c8ff7247bb2e654b8827c884a1c2bc0"
+                "reference": "bf083fe2944a4683461d496086ec22319cd8bdf1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/johnpbloch/wordpress-core/zipball/e36de3196c8ff7247bb2e654b8827c884a1c2bc0",
-                "reference": "e36de3196c8ff7247bb2e654b8827c884a1c2bc0",
+                "url": "https://api.github.com/repos/johnpbloch/wordpress-core/zipball/bf083fe2944a4683461d496086ec22319cd8bdf1",
+                "reference": "bf083fe2944a4683461d496086ec22319cd8bdf1",
                 "shasum": ""
             },
             "require": {
@@ -4265,7 +4265,7 @@
                 "php": ">=7.0.0"
             },
             "provide": {
-                "wordpress/core-implementation": "6.5.0"
+                "wordpress/core-implementation": "6.5.2"
             },
             "type": "wordpress-core",
             "notification-url": "https://packagist.org/downloads/",
@@ -4292,7 +4292,7 @@
                 "source": "https://core.trac.wordpress.org/browser",
                 "wiki": "https://codex.wordpress.org/"
             },
-            "time": "2024-04-02T18:26:47+00:00"
+            "time": "2024-04-09T21:20:55+00:00"
         },
         {
             "name": "johnpbloch/wordpress-core-installer",
@@ -10259,11 +10259,11 @@
         },
         {
             "name": "wordpress/wordpress",
-            "version": "6.5.0",
+            "version": "6.5.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/WordPress/wordpress-develop",
-                "reference": "720804c22f867fe56332ab513428e945c24b889d"
+                "reference": "79924635d915b4fe4ee53a9277febb82ad5fbb5c"
             },
             "require": {
                 "ext-json": "*",
@@ -10311,7 +10311,7 @@
             "support": {
                 "issues": "https://core.trac.wordpress.org/"
             },
-            "time": "2024-04-02T18:09:52+00:00"
+            "time": "2024-04-09T21:09:56+00:00"
         },
         {
             "name": "wp-cli/cache-command",
@@ -12557,6 +12557,24 @@
             "time": "2024-03-25T16:39:00+00:00"
         },
         {
+            "name": "wpackagist-plugin/document-generator-for-openapi",
+            "version": "1.1.0",
+            "source": {
+                "type": "svn",
+                "url": "https://plugins.svn.wordpress.org/document-generator-for-openapi/",
+                "reference": "tags/1.1.0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://downloads.wordpress.org/plugin/document-generator-for-openapi.1.1.0.zip"
+            },
+            "require": {
+                "composer/installers": "^1.0 || ^2.0"
+            },
+            "type": "wordpress-plugin",
+            "homepage": "https://wordpress.org/plugins/document-generator-for-openapi/"
+        },
+        {
             "name": "wpackagist-plugin/mailpoet",
             "version": "3.103.1",
             "source": {
@@ -12594,21 +12612,39 @@
         },
         {
             "name": "wpackagist-plugin/woocommerce",
-            "version": "8.7.0",
+            "version": "8.8.0",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/woocommerce/",
-                "reference": "tags/8.7.0"
+                "reference": "tags/8.8.0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/woocommerce.8.7.0.zip"
+                "url": "https://downloads.wordpress.org/plugin/woocommerce.8.8.0.zip"
             },
             "require": {
                 "composer/installers": "^1.0 || ^2.0"
             },
             "type": "wordpress-plugin",
             "homepage": "https://wordpress.org/plugins/woocommerce/"
+        },
+        {
+            "name": "wpackagist-plugin/wp-mail-debugger",
+            "version": "1.0",
+            "source": {
+                "type": "svn",
+                "url": "https://plugins.svn.wordpress.org/wp-mail-debugger/",
+                "reference": "tags/1.0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://downloads.wordpress.org/plugin/wp-mail-debugger.1.0.zip"
+            },
+            "require": {
+                "composer/installers": "^1.0 || ^2.0"
+            },
+            "type": "wordpress-plugin",
+            "homepage": "https://wordpress.org/plugins/wp-mail-debugger/"
         },
         {
             "name": "wpackagist-plugin/wp-mail-logging",
@@ -12666,15 +12702,15 @@
         },
         {
             "name": "wpackagist-theme/storefront",
-            "version": "4.5.4",
+            "version": "4.5.5",
             "source": {
                 "type": "svn",
                 "url": "https://themes.svn.wordpress.org/storefront/",
-                "reference": "4.5.4"
+                "reference": "4.5.5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/theme/storefront.4.5.4.zip"
+                "url": "https://downloads.wordpress.org/theme/storefront.4.5.5.zip"
             },
             "require": {
                 "composer/installers": "^1.0 || ^2.0"
