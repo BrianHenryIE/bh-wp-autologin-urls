@@ -8,6 +8,7 @@ use Codeception\Stub\Expected;
 
 /**
  * @coversDefaultClass \BrianHenryIE\WP_Autologin_URLs\WooCommerce\Admin_Order_UI
+ *
  * phpcs:disable Squiz.Commenting.VariableComment.Missing
  */
 class Admin_Order_UI_Unit_Test extends \Codeception\Test\Unit {
