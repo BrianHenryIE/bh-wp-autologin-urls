@@ -21,12 +21,12 @@ class Use_WP_Login extends Settings_Section_Element_Abstract {
 	/**
 	 * Admin_Enable constructor.
 	 *
-	 * @param string             $settings_page The slug of the page this setting is being displayed on.
+	 * @param string             $settings_page_slug_name The slug of the page this setting is being displayed on.
 	 * @param Settings_Interface $settings The existing settings saved in the database.
 	 */
-	public function __construct( string $settings_page, Settings_Interface $settings ) {
+	public function __construct( string $settings_page_slug_name, Settings_Interface $settings ) {
 
-		parent::__construct( $settings_page );
+		parent::__construct( $settings_page_slug_name );
 
 		$this->value = $settings->get_should_use_wp_login() ? 'use_wp_login_is_enabled' : 'use_wp_login_is_not_enabled';
 

@@ -22,18 +22,18 @@ class Expiry_Age extends Settings_Section_Element_Abstract {
 	/**
 	 * Expiry_Age constructor.
 	 *
-	 * @param string             $settings_page The slug of the page this setting is being displayed on.
+	 * @param string             $settings_page_slug_name The slug of the page this setting is being displayed on.
 	 * @param Settings_Interface $settings The existing settings saved in the database.
 	 */
-	public function __construct( $settings_page, $settings ) {
+	public function __construct( $settings_page_slug_name, $settings ) {
 
-		parent::__construct( $settings_page );
+		parent::__construct( $settings_page_slug_name );
 
 		$this->value = $settings->get_expiry_age();
 
 		$this->id    = 'bh_wp_autologin_urls_seconds_until_expiry';
 		$this->title = 'Expiry age:';
-		$this->page  = $settings_page;
+		$this->page  = $settings_page_slug_name;
 
 		$this->add_settings_field_args['helper']       = 'Number of seconds until each code expires.';
 		$this->add_settings_field_args['supplemental'] = 'default: 604800 (one week)';

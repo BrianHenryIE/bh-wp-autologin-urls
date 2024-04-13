@@ -29,18 +29,18 @@ class Log_Level extends Settings_Section_Element_Abstract {
 	/**
 	 * Log_Level constructor.
 	 *
-	 * @param string             $settings_page The slug of the page this setting is being displayed on.
+	 * @param string             $settings_page_slug_name The slug of the page this setting is being displayed on.
 	 * @param Settings_Interface $settings The existing settings saved in the database.
 	 */
-	public function __construct( $settings_page, $settings ) {
+	public function __construct( $settings_page_slug_name, $settings ) {
 
-		parent::__construct( $settings_page );
+		parent::__construct( $settings_page_slug_name );
 
 		$this->value = $settings->get_log_level();
 
 		$this->id    = Settings::LOG_LEVEL;
 		$this->title = __( 'Log level', 'bh-wp-autologin-urls' );
-		$this->page  = $settings_page;
+		$this->page  = $settings_page_slug_name;
 
 		$this->add_settings_field_args['helper']       = __( 'Set to Debug to diagnose problems, Info to see times this plugin is logging users in. Warning: debug logs will contain autologin codes.', 'bh-wp-autologin-urls' );
 		$this->add_settings_field_args['supplemental'] = __( 'default: Notice', 'bh-wp-autologin-urls' );

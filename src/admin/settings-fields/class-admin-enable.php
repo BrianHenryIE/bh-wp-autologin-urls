@@ -21,18 +21,18 @@ class Admin_Enable extends Settings_Section_Element_Abstract {
 	/**
 	 * Admin_Enable constructor.
 	 *
-	 * @param string             $settings_page The slug of the page this setting is being displayed on.
+	 * @param string             $settings_page_slug_name The slug of the page this setting is being displayed on.
 	 * @param Settings_Interface $settings The existing settings saved in the database.
 	 */
-	public function __construct( $settings_page, $settings ) {
+	public function __construct( $settings_page_slug_name, $settings ) {
 
-		parent::__construct( $settings_page );
+		parent::__construct( $settings_page_slug_name );
 
 		$this->value = $settings->get_add_autologin_for_admins_is_enabled() ? 'admin_is_enabled' : 'admin_is_not_enabled';
 
 		$this->id    = Settings::ADMIN_ENABLED;
 		$this->title = __( 'Add to admin emails?', 'bh-wp-autologin-urls' );
-		$this->page  = $settings_page;
+		$this->page  = $settings_page_slug_name;
 
 		$this->add_settings_field_args['helper']       = __( 'When enabled, emails to administrators <i>will</i> contain autologin URLs.', 'bh-wp-autologin-urls' );
 		$this->add_settings_field_args['supplemental'] = __( 'default: false', 'bh-wp-autologin-urls' );
