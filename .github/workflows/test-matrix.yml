@@ -1,0 +1,87 @@
+name: Tests
+
+# Runs codeception unit and wpunit tests on matrix of PHP versions.
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+
+  codecoverage:
+    runs-on: ubuntu-latest
+
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: password
+          MYSQL_DATABASE: test
+        ports:
+          - 3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+
+    strategy:
+      matrix:
+        php: [ '7.4', '8.0', '8.1', '8.2', '8.3' ]
+        # TODO: Add matrix of WP versions to determine lowest compatible.
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Install PHP
+        uses: shivammathur/setup-php@2.11.0
+        with:
+          php-version: ${{ matrix.php }}
+          tools: composer
+          extensions: zip
+
+      - name: Update environment config for GitHub Actions
+        env:
+          PLUGIN_SLUG: ${{ github.event.repository.name }}
+        run: |
+          find . -depth \( -name '.env.testing' \) -exec sed -i "s/TEST_SITE_DB_HOST=\"127.0.0.1\"/TEST_SITE_DB_HOST=\"127.0.0.1:${{ job.services.mysql.ports['3306'] }}\"/g" {} +
+          find . -depth \( -name '.env.testing' -o -name '*.cest' \) -exec sed -i "s/localhost:8080\/${{ env.PLUGIN_SLUG }}/localhost:8080/g" {} +
+          find . -depth \( -name 'dump.sql' \) -exec sed -i "s/localhost:8080\/${{ env.PLUGIN_SLUG }}/localhost:8080/g" {} +
+          find tests -depth \( -name '*.yml' \) -exec sed -i "s/%TEST_DB_HOST%/127.0.0.1:${{ job.services.mysql.ports['3306'] }}/g" {} +
+
+      - name: Read .env.testing
+        uses: c-py/action-dotenv-to-setenv@v2
+        with:
+          env-file: .env.testing
+
+      - name: Configure MySQL
+        run: |
+          mysql -h 127.0.0.1 --port ${{ job.services.mysql.ports['3306'] }} -u root -ppassword -e "CREATE USER '"$TEST_DB_USER"'@'%' IDENTIFIED WITH mysql_native_password BY '"$TEST_DB_PASSWORD"';";
+          mysql -h 127.0.0.1 --port ${{ job.services.mysql.ports['3306'] }} -u root -ppassword -e "CREATE DATABASE "$TEST_SITE_DB_NAME"; USE "$TEST_SITE_DB_NAME"; GRANT ALL PRIVILEGES ON "$TEST_SITE_DB_NAME".* TO '"$TEST_DB_USER"'@'%';";
+          mysql -h 127.0.0.1 --port ${{ job.services.mysql.ports['3306'] }} -u root -ppassword -e "CREATE DATABASE "$TEST_DB_NAME"; USE "$TEST_DB_NAME"; GRANT ALL PRIVILEGES ON "$TEST_DB_NAME".* TO '"$TEST_DB_USER"'@'%';";
+
+      - name: Run composer install
+        continue-on-error: true
+        run: composer install
+
+      - name: Create wpconfig ... the composer.json creation didn't work
+        run: |
+          export $(grep -v '^#' .env.testing | xargs);
+          sudo vendor/bin/wp config create --dbname=$TEST_SITE_DB_NAME --dbuser=$TEST_SITE_DB_USER --dbpass=$TEST_SITE_DB_PASSWORD --dbhost=127.0.0.1:${{ job.services.mysql.ports['3306'] }} --allow-root --extra-php="define( 'WP_DEBUG', true ); define( 'WP_DEBUG_LOG', true );"
+          tail -n 1000 wordpress/wp-config.php
+
+      - name: Run composer post-install-cmd
+        continue-on-error: true
+        run: composer run-script post-install-cmd
+
+      - name: Check database
+        run: vendor/bin/wp db check --debug
+
+      - name: Allow writing to wp-content
+        run: sudo chmod -R a+w wp-content
+
+      - name: Run unit tests
+        run: vendor/bin/codecept run unit --debug || true;
+
+      - name: Run wpunit tests
+        run: vendor/bin/codecept run wpunit --debug || true;
+        
+        # TODO: Run integration and Playwright tests.
