@@ -19,8 +19,8 @@ abstract class Checkbox_Setting_Element_Abstract extends Settings_Section_Elemen
 	 */
 	public function print_field_callback( $arguments ): void {
 
-		$is_checked     = $this->get_is_checked_value() === $this->value ? 'checked ' : '';
-		$label          = $arguments['helper'];
+		$is_checked = $this->get_is_checked_value() === $this->value ? 'checked ' : '';
+		$label      = $arguments['helper'];
 
 		printf(
 			'<fieldset><label for="%1$s"><input id="%1$s" name="%1$s" type="checkbox" value="%2$s" %3$s />%4$s</label></fieldset>',

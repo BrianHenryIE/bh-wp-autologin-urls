@@ -155,10 +155,10 @@ class REST_API extends WP_REST_Controller {
 			'required'    => true,
 			'context'     => array( 'edit' ),
 			'oneOf'       => array( // TODO: Is this doing anything?!
-//				array(
-//					'description' => esc_html__( 'User id.', 'bh-wp-autologin-urls' ),
-//					'type'        => 'integer',
-//				),
+			// array(
+			// 'description' => esc_html__( 'User id.', 'bh-wp-autologin-urls' ),
+			// 'type'        => 'integer',
+			// ),
 				array(
 					'description' => esc_html__( 'Username.', 'bh-wp-autologin-urls' ),
 					'type'        => 'string',

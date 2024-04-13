@@ -61,5 +61,4 @@ class Enable_Magic_Links extends Checkbox_Setting_Element_Abstract {
 		/* translators: hyperlinks to login screens */
 		$this->add_settings_field_args['supplemental'] = __( 'default: false', 'bh-wp-autologin-urls' ) . '<br/>' . sprintf( __( 'When enabling magic links, be sure to check the appearance of the button on your login screens (%s) and make appropriate CSS changes if necessary.', 'bh-wp-autologin-urls' ), $login_screens_links );
 	}
-
 }

@@ -173,7 +173,6 @@ class REST_API_Integration_Test extends \Codeception\TestCase\WPTestCase {
 			'/bh-wp-autologin-urls/v1/autologin-codes',
 		);
 
-
 		$request->set_body_params(
 			array(
 				'user'       => $email,
