@@ -20,8 +20,6 @@ class Checkout_WPUnit_Test extends \Codeception\TestCase\WPTestCase {
 	 */
 	public function test_woocommerce_order(): void {
 
-		$this->markTestSkipped( 'This functionality disabled because it was inadvertently creating WP_User objects and sending emails!' );
-
 		$existing_order = new \WC_Order();
 		$existing_order->set_billing_email( 'test@example.org' );
 		$existing_order->set_billing_city( 'Sacramento' );
@@ -52,8 +50,6 @@ class Checkout_WPUnit_Test extends \Codeception\TestCase\WPTestCase {
 	 * @covers ::prefill_checkout_fields
 	 */
 	public function test_woocommerce_name(): void {
-
-		$this->markTestSkipped( 'This functionality disabled because it was inadvertently creating WP_User objects and sending emails!' );
 
 		$logger = new ColorLogger();
 

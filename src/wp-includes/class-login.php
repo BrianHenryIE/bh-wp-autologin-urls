@@ -81,6 +81,8 @@ class Login {
 	 */
 	public function process( $user_id ) {
 
+		remove_action( 'determine_current_user', array( $this, 'process' ), 30 );
+
 		// If we're logged in already, or there's no querystring to parse, just return.
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		if ( $user_id || empty( $_GET ) ) {
@@ -107,13 +109,21 @@ class Login {
 		$user_array = $user_finder->get_wp_user_array();
 
 		if ( isset( $user_array['wp_user'] ) && $user_array['wp_user'] instanceof WP_User ) {
-			$this->logger->debug("Found `wp_user:{$user_array['wp_user']->ID}`.");
+			$this->logger->debug( "Found `wp_user:{$user_array['wp_user']->ID}`." );
 			$wp_user = $user_array['wp_user'];
 			$user_id = $wp_user->ID;
 		} elseif ( ! empty( $user_array['user_data'] ) ) {
 			// If no WP_User account was found, but other user data was found that could be used for WooCommerce, prepopulate the checkout fields.
-			$woocommerce_checkout = new Checkout( $this->logger );
-			$woocommerce_checkout->prefill_checkout_fields( $user_array['user_data'] );
+			$this->logger->debug( 'No wp_user found, preloading WooCommerce fields.', $user_array );
+			$prefill_checkout_fields = function () use ( $user_array ) {
+				$woocommerce_checkout = new Checkout( $this->logger );
+				$woocommerce_checkout->prefill_checkout_fields( $user_array['user_data'] );
+			};
+			if ( did_action( 'woocommerce_init' ) ) {
+				$prefill_checkout_fields();
+			} else {
+				add_action( 'woocommerce_init', $prefill_checkout_fields );
+			}
 			return $user_id;
 		} else {
 			$this->logger->debug( 'Could not find wp_user or user data using request URL.' );

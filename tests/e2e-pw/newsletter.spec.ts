@@ -271,16 +271,16 @@ test.describe( 'The Newsletter Plugin tests', () => {
     // Visit checkout.
     // await page.goto('/cart', {waitUntil:'domcontentloaded'});
     // await page.waitForLoadState( 'networkidle' );
-    await page.goto('/shortcode-checkout', {waitUntil:'domcontentloaded'});
+    await page.goto('/blocks-checkout', {waitUntil:'domcontentloaded'});
     await page.waitForLoadState( 'networkidle' );
 
-    await page.waitForTimeout(100);
+    await page.waitForTimeout(250);
 
     // Name and email should be filled out
     // if (await woocommerceMyAccount.isVisible()) {
     //   await expect(woocommerceMyAccount).toContainText('Hello ' + firstName);
     // } else {
-      await expect(page.locator('#billing_email')).toContainText(email);
+      await expect(page.locator('#email')).toHaveValue(email);
     // }
   });
 
