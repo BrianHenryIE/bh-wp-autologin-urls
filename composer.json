@@ -30,7 +30,8 @@
       "cweagans/composer-patches": true,
       "dealerdirect/phpcodesniffer-composer-installer": true,
       "johnpbloch/wordpress-core-installer": true,
-      "phpstan/extension-installer": true
+      "phpstan/extension-installer": true,
+      "brianhenryie/composer-fallback-to-git": true
     },
     "platform": {
       "php": "7.4"
@@ -39,27 +40,7 @@
     "sort-packages": true
   },
   "repositories": {
-    "brianhenryie/php-diff-test": {
-      "type": "git",
-      "url": "https://github.com/brianhenryie/php-diff-test"
-    },
-    "brianhenryie/bh-wp-logger": {
-      "url": "https://github.com/BrianHenryIE/bh-wp-logger",
-      "type": "git"
-    },
-    "brianhenryie/bh-wp-private-uploads": {
-      "type": "git",
-      "url": "https://github.com/brianhenryie/bh-wp-private-uploads"
-    },
-    "brianhenryie/bh-wp-rate-limiter": {
-      "url": "https://github.com/BrianHenryIE/bh-wp-rate-limiter",
-      "type": "git"
-    },
-    "brianhenryie/composer-phpstorm": {
-      "url": "https://github.com/BrianHenryIE/composer-phpstorm",
-      "type": "git"
-    },
-    "composer/composer": {
+    "outlandishideas/wpackagist": {
       "type": "composer",
       "url": "https://wpackagist.org"
     },
@@ -70,17 +51,13 @@
     "wordpress/wordpress": {
       "url": "https://github.com/WordPress/wordpress-develop",
       "type": "git"
-    },
-    "wp-oop/transient-cache": {
-      "url": "https://github.com/BrianHenryIE/transient-cache",
-      "type": "git"
     }
   },
   "require": {
     "php": ">=7.4",
     "ext-json": "*",
     "alleyinteractive/wordpress-autoloader": "^1.1",
-    "brianhenryie/bh-wp-logger": "dev-master",
+    "brianhenryie/bh-wp-logger": "^0.1.0",
     "brianhenryie/bh-wp-rate-limiter": "dev-master",
     "klaviyo/sdk": "^1.0"
   },
@@ -89,6 +66,7 @@
     "10up/wp_mock": "dev-trunk",
     "antecedent/patchwork": "^2.1",
     "brianhenryie/color-logger": "^1.0",
+    "brianhenryie/composer-fallback-to-git": "^0.5",
     "brianhenryie/composer-phpstorm": "dev-master",
     "brianhenryie/php-diff-test": "dev-master",
     "brianhenryie/strauss": "dev-master",
@@ -120,6 +98,7 @@
     "wordpress/wordpress": "*",
     "wp-cli/dist-archive-command": "*",
     "wp-cli/i18n-command": "^2.4",
+    "wp-cli/profile-command": "^2.1",
     "wp-cli/wp-cli-bundle": "*",
     "wp-coding-standards/wpcs": "*",
     "wpackagist-plugin/document-generator-for-openapi": "^1.1",
@@ -200,12 +179,11 @@
       "@sync-composer-wpenv"
     ],
     "setup-wordpress": [
-      "export $(grep -v '^#' .env.testing | xargs); wp config create --dbname=$TEST_SITE_DB_NAME --dbuser=$TEST_SITE_DB_USER --dbpass=$TEST_SITE_DB_PASSWORD --allow-root --extra-php=\"\ndefine( 'WP_DEBUG_LOG', true );\ndefine( 'SCRIPT_DEBUG', true );\" || true",
+      "export $(grep -v '^#' .env.testing | xargs); wp config create --dbname=$TEST_SITE_DB_NAME --dbuser=$TEST_SITE_DB_USER --dbpass=$TEST_SITE_DB_PASSWORD --allow-root || true",
       "export $(grep -v '^#' .env.testing | xargs); wp core install --url=\"localhost:8080/$PLUGIN_SLUG\" --title=\"$PLUGIN_NAME\" --admin_user=admin --admin_password=password --admin_email=admin@example.org || true; wp plugin activate $PLUGIN_SLUG || true;",
+      "wp config set WP_DEBUG true --raw; wp config set WP_DEBUG_LOG true --raw; wp config set SCRIPT_DEBUG true --raw",
       "wp user create bob bob@example.org --user_pass=password || true;",
       "wp core update --allow-root || true",
-      "patch ./wordpress/wp-config.php ./patches/wp-debug.diff -s -N -f --no-backup-if-mismatch --reject-file= || true;",
-      "patch ./wordpress/wp-includes/plugin.php ./patches/42670.diff -s -N -f --no-backup-if-mismatch --reject-file= || true;",
       "mkdir -p wordpress/wp-content/uploads"
     ],
     "create-databases": [

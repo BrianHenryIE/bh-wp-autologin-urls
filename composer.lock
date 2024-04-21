@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "af31e3df5f1ac30e027b606196830c22",
+    "content-hash": "c9e92cb3fa5afd025db4ed292015f4ad",
     "packages": [
         {
             "name": "alleyinteractive/wordpress-autoloader",
@@ -118,25 +118,76 @@
             "time": "2021-12-16T21:41:27+00:00"
         },
         {
-            "name": "brianhenryie/bh-wp-logger",
-            "version": "dev-master",
+            "name": "brianhenryie/bh-wc-logger",
+            "version": "0.1.1",
             "source": {
                 "type": "git",
-                "url": "https://github.com/BrianHenryIE/bh-wp-logger",
-                "reference": "ba309cc8d1e167354c3835e53471201b7cc7cf38"
+                "url": "https://github.com/BrianHenryIE/bh-wc-logger.git",
+                "reference": "ebc95ecb6ee79dd26be2fd2c6026740027a1be0d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/BrianHenryIE/bh-wc-logger/zipball/ebc95ecb6ee79dd26be2fd2c6026740027a1be0d",
+                "reference": "ebc95ecb6ee79dd26be2fd2c6026740027a1be0d",
+                "shasum": ""
             },
             "require": {
-                "brianhenryie/bh-wp-private-uploads": "dev-master",
-                "ext-json": "*",
-                "katzgrau/klogger": "dev-master",
                 "php": ">=7.4",
-                "psr/log": "^1.0.0",
-                "spatie/backtrace": "^1.0.0",
-                "wptrt/admin-notices": "dev-master#42101e8cf841b17342fcef984a06caf63990c6f2 "
+                "psr/log": "^1.0"
+            },
+            "require-dev": {
+                "php-stubs/woocommerce-stubs": "*",
+                "phpcompatibility/phpcompatibility-wp": "*",
+                "phpstan/extension-installer": "*",
+                "squizlabs/php_codesniffer": "*",
+                "szepeviktor/phpstan-wordpress": "*",
+                "wordpress/wordpress": "*",
+                "wp-cli/wp-cli-bundle": "*",
+                "wp-coding-standards/wpcs": "*",
+                "wpackagist-plugin/woocommerce": "*"
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "src/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "Brian Henry",
+                    "email": "BrianHenryIE@gmail.com"
+                }
+            ],
+            "description": "A PSR-3 wrapper for WooCommerce WC_Logger.",
+            "support": {
+                "issues": "https://github.com/BrianHenryIE/bh-wc-logger/issues",
+                "source": "https://github.com/BrianHenryIE/bh-wc-logger/tree/0.1.1"
+            },
+            "time": "2024-04-20T00:44:55+00:00"
+        },
+        {
+            "name": "brianhenryie/bh-wp-cli-logger",
+            "version": "v1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/BrianHenryIE/bh-wp-cli-logger.git",
+                "reference": "c06cb528a85505394066ced5194f4f465b4610b8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/BrianHenryIE/bh-wp-cli-logger/zipball/c06cb528a85505394066ced5194f4f465b4610b8",
+                "reference": "c06cb528a85505394066ced5194f4f465b4610b8",
+                "shasum": ""
+            },
+            "require": {
+                "psr/log": "^1.0"
             },
             "require-dev": {
                 "10up/wp_mock": "*",
-                "alleyinteractive/wordpress-autoloader": "^1.1",
                 "antecedent/patchwork": "^2.1",
                 "brianhenryie/color-logger": "^1.0",
                 "brianhenryie/composer-phpstorm": "dev-master",
@@ -150,22 +201,123 @@
                 "cweagans/composer-patches": "*",
                 "dealerdirect/phpcodesniffer-composer-installer": "*",
                 "jaschilz/php-coverage-badger": "^2.0",
+                "johnpbloch/wordpress": "*",
                 "kporras07/composer-symlinks": "dev-master",
                 "lucatume/wp-browser": "*",
-                "php-stubs/woocommerce-stubs": "^5.2",
                 "phpcompatibility/phpcompatibility-wp": "*",
                 "phpstan/extension-installer": "*",
                 "phpunit/phpcov": "*",
                 "squizlabs/php_codesniffer": "*",
                 "szepeviktor/phpstan-wordpress": "*",
+                "wordpress/wordpress": "*",
+                "wp-cli/dist-archive-command": "dev-main",
+                "wp-cli/i18n-command": "^2.4",
+                "wp-cli/wp-cli-bundle": "*",
+                "wp-coding-standards/wpcs": "*",
+                "wpackagist-theme/twentytwenty": "*"
+            },
+            "type": "library",
+            "extra": {
+                "patches": {
+                    "jaschilz/php-coverage-badger": {
+                        "Allow customising the text": "https://github.com/JASchilz/PHPCoverageBadge/pull/1.patch"
+                    }
+                },
+                "symlinks": {
+                    "wp-content": "wordpress/wp-content",
+                    "test-plugin": "wp-content/plugins/bh-wp-cli-logger-test-plugin"
+                },
+                "phpstorm": {
+                    "exclude_folders": {
+                        "folders": [
+                            "vendor/php-stubs/woocommerce-stubs",
+                            "vendor/wordpress/wordpress/src",
+                            "vendor/wordpress/wordpress/build",
+                            "wp-content/plugins/bh-wp-cli-logger-test-plugin",
+                            "wordpress/wp-content"
+                        ],
+                        "include_folders": [
+                            "vendor/wordpress/wordpress/"
+                        ],
+                        "composer-symlinks": false
+                    }
+                }
+            },
+            "autoload": {
+                "classmap": [
+                    "src/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "BrianHenryIE",
+                    "email": "BrianHenryIE@gmail.com"
+                }
+            ],
+            "description": "A PSR logger for WP CLI commands.",
+            "support": {
+                "issues": "https://github.com/BrianHenryIE/bh-wp-cli-logger/issues",
+                "source": "https://github.com/BrianHenryIE/bh-wp-cli-logger/tree/v1.0.0"
+            },
+            "time": "2023-09-27T16:41:31+00:00"
+        },
+        {
+            "name": "brianhenryie/bh-wp-logger",
+            "version": "0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/BrianHenryIE/bh-wp-logger.git",
+                "reference": "e82ce301880d7e85308719cbe392199d23425fdf"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/BrianHenryIE/bh-wp-logger/zipball/e82ce301880d7e85308719cbe392199d23425fdf",
+                "reference": "e82ce301880d7e85308719cbe392199d23425fdf",
+                "shasum": ""
+            },
+            "require": {
+                "brianhenryie/bh-wc-logger": "^0.1.0",
+                "brianhenryie/bh-wp-cli-logger": "^1.0",
+                "brianhenryie/bh-wp-private-uploads": "^0.1.0",
+                "ext-json": "*",
+                "katzgrau/klogger": "dev-master",
+                "php": ">=7.4",
+                "psr/log": "^1.0",
+                "wptrt/admin-notices": "^1.0"
+            },
+            "require-dev": {
+                "10up/wp_mock": "^1.0",
+                "alleyinteractive/wordpress-autoloader": "^1.1",
+                "antecedent/patchwork": "^2.1",
+                "brianhenryie/color-logger": "^1.0",
+                "codeception/module-asserts": "*",
+                "codeception/module-cli": "*",
+                "codeception/module-db": "*",
+                "codeception/module-filesystem": "*",
+                "codeception/module-phpbrowser": "*",
+                "codeception/module-webdriver": "*",
+                "codeception/util-universalframework": "*",
+                "cweagans/composer-patches": "*",
+                "jaschilz/php-coverage-badger": "^2.0",
+                "kporras07/composer-symlinks": "dev-master",
+                "lucatume/wp-browser": "^3.0",
+                "php-stubs/woocommerce-stubs": "*",
+                "phpcompatibility/phpcompatibility-wp": "*",
+                "phpstan/extension-installer": "*",
+                "phpunit/phpcov": "*",
+                "squizlabs/php_codesniffer": "^3.7",
+                "szepeviktor/phpstan-wordpress": "^1.3",
                 "woocommerce/woocommerce-sniffs": "*",
                 "wordpress/wordpress": "*",
                 "wp-cli/wp-cli-bundle": "*",
-                "wp-coding-standards/wpcs": "*",
+                "wp-coding-standards/wpcs": "^3.0",
                 "wpackagist-plugin/woocommerce": "*",
                 "wpackagist-theme/twentytwenty": "*"
             },
-            "default-branch": true,
             "type": "library",
             "extra": {
                 "patches": {
@@ -179,7 +331,10 @@
                     "src": "test-plugin/vendor/brianhenryie/bh-wp-logger/src",
                     "assets": "test-plugin/vendor/brianhenryie/bh-wp-logger/assets",
                     "vendor/brianhenryie/bh-wp-private-uploads/src": "test-plugin/vendor/brianhenryie/bh-wp-private-uploads/src",
-                    "vendor/brianhenryie/bh-wp-private-uploads/assets": "test-plugin/vendor/brianhenryie/bh-wp-private-uploads/assets"
+                    "vendor/brianhenryie/bh-wc-logger/src": "test-plugin/vendor/brianhenryie/bh-wc-logger/src",
+                    "vendor/brianhenryie/bh-wp-cli-logger/src": "test-plugin/vendor/brianhenryie/bh-wp-cli-logger/src",
+                    "vendor/brianhenryie/bh-wp-private-uploads/assets": "test-plugin/vendor/brianhenryie/bh-wp-private-uploads/assets",
+                    "vendor/wptrt/admin-notices/src": "test-plugin/vendor/wptrt/admin-notices/src"
                 },
                 "phpstorm": {
                     "exclude_folders": {
@@ -203,69 +358,9 @@
                     "assets"
                 ]
             },
-            "autoload-dev": {
-                "classmap": [
-                    "test-plugin/"
-                ]
-            },
-            "scripts": {
-                "post-install-cmd": [
-                    "vendor/bin/wp core download --path=wordpress --allow-root || true;",
-                    "Kporras07\\ComposerSymlinks\\ScriptHandler::createSymlinks",
-                    "@setup-wordpress",
-                    "BrianHenryIE\\ComposerPhpStorm\\ExcludeFolders::update",
-                    "BrianHenryIE\\ComposerPhpStorm\\PHPUnitRunConfigurations::update"
-                ],
-                "post-update-cmd": [
-                    "@setup-wordpress",
-                    "Kporras07\\ComposerSymlinks\\ScriptHandler::createSymlinks",
-                    "BrianHenryIE\\ComposerPhpStorm\\ExcludeFolders::update",
-                    "BrianHenryIE\\ComposerPhpStorm\\PHPUnitRunConfigurations::update"
-                ],
-                "setup-wordpress": [
-                    "wp core download --path=wordpress --allow-root || true",
-                    "export $(grep -v '^#' .env.testing | xargs); wp config create --dbname=$TEST_SITE_DB_NAME --dbuser=$TEST_SITE_DB_USER --dbpass=$TEST_SITE_DB_PASSWORD --allow-root --extra-php=\"\ndefine( 'WP_DEBUG_LOG', true );\ndefine( 'SCRIPT_DEBUG', true );\" || true",
-                    "export $(grep -v '^#' .env.testing | xargs); vendor/bin/wp core install --url=\"localhost:8080/$PLUGIN_SLUG\" --title=\"$PLUGIN_NAME\" --admin_user=admin --admin_password=password --admin_email=admin@example.org || true; wp plugin activate $PLUGIN_SLUG || true;",
-                    "wp user create bob bob@example.org --user_pass=password || true;",
-                    "wp core update --allow-root || true",
-                    "patch ./wordpress/wp-config.php ./patches/wp-debug.diff -s -N -f --no-backup-if-mismatch --reject-file= || true;",
-                    "patch ./wordpress/wp-includes/plugin.php ./patches/42670.diff -s -N -f --no-backup-if-mismatch --reject-file= || true;",
-                    "mkdir -p wordpress/wp-content/uploads"
-                ],
-                "create-databases": [
-                    "export $(grep -v '^#' .env.testing | xargs); [[ $(mysqld --version) =~ .*MariaDB.* ]] && mysql -e \"CREATE USER IF NOT EXISTS '\"$TEST_DB_USER\"'@'%' IDENTIFIED BY '\"$TEST_DB_PASSWORD\"';\" || mysql -e \"CREATE USER IF NOT EXISTS '\"$TEST_DB_USER\"'@'%' IDENTIFIED WITH mysql_native_password BY '\"$TEST_DB_PASSWORD\"';\";",
-                    "export $(grep -v '^#' .env.testing | xargs); mysql -e \"CREATE DATABASE IF NOT EXISTS \"$TEST_SITE_DB_NAME\"; USE \"$TEST_SITE_DB_NAME\"; GRANT ALL PRIVILEGES ON \"$TEST_SITE_DB_NAME\".* TO '\"$TEST_DB_USER\"'@'%';\";",
-                    "export $(grep -v '^#' .env.testing | xargs); mysql -e \"CREATE DATABASE IF NOT EXISTS \"$TEST_DB_NAME\"; USE \"$TEST_DB_NAME\"; GRANT ALL PRIVILEGES ON \"$TEST_DB_NAME\".* TO '\"$TEST_DB_USER\"'@'%';\";",
-                    "@restore-acceptance-database"
-                ],
-                "delete-databases": [
-                    "export $(grep -v '^#' .env.testing | xargs); mysql -e \"DROP TABLE IF EXISTS $TEST_SITE_DB_NAME;\" mysql -e \"DROP TABLE IF EXISTS $TEST_DB_NAME;\"",
-                    "export $(grep -v '^#' .env.testing | xargs); DB_DIR=$(mysql -e \"select @@datadir\" -N -B); rm -rf $DB_DIR$TEST_SITE_DB_NAME; rm -rf  $DB_DIR$TEST_DB_NAME;",
-                    "mysql -e \"FLUSH TABLES;\""
-                ],
-                "save-acceptance-database": [
-                    "export $(grep -v '^#' .env.testing | xargs); mysqldump -u $TEST_SITE_DB_USER -p$TEST_SITE_DB_PASSWORD  $TEST_SITE_DB_NAME > tests/_data/dump.sql;"
-                ],
-                "restore-acceptance-database": [
-                    "export $(grep -v '^#' .env.testing | xargs); mysql $TEST_SITE_DB_NAME < tests/_data/dump.sql"
-                ],
-                "coverage-tests": [
-                    "vendor/bin/codecept run unit --coverage unit.cov",
-                    "vendor/bin/codecept run wpunit --coverage wpunit.cov",
-                    "vendor/bin/phpcov merge --clover tests/_output/clover.xml --html tests/_output/html tests/_output;",
-                    "open tests/_output/html/index.html"
-                ],
-                "lint": [
-                    "vendor/bin/phpcbf || true",
-                    "vendor/bin/phpcs || true",
-                    "vendor/bin/phpstan analyse --memory-limit 2G"
-                ],
-                "lint-changes": [
-                    "updated_files=$( git status | grep 'modified:\\s.*.php$' | cut -c14- | awk '{ printf(\"%s \", $0) }' ); vendor/bin/phpcbf $(echo $updated_files); vendor/bin/phpcs $(echo $updated_files); vendor/bin/phpstan analyse $(echo $updated_files) --memory-limit 2G"
-                ]
-            },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
-                "GPL-2.0+-or-later"
+                "GPL-2.0-or-later"
             ],
             "authors": [
                 {
@@ -273,25 +368,35 @@
                     "email": "BrianHenryIE@gmail.com"
                 }
             ],
-            "description": "This is a short description of what plugin_title does.",
-            "time": "2023-09-23T04:13:34+00:00"
+            "description": "A PSR logger for WordPress plugins, with a nice WP_List_Table UI.",
+            "support": {
+                "issues": "https://github.com/BrianHenryIE/bh-wp-logger/issues",
+                "source": "https://github.com/BrianHenryIE/bh-wp-logger/tree/0.1"
+            },
+            "time": "2024-04-20T23:41:32+00:00"
         },
         {
             "name": "brianhenryie/bh-wp-private-uploads",
-            "version": "dev-master",
+            "version": "0.1",
             "source": {
                 "type": "git",
-                "url": "https://github.com/brianhenryie/bh-wp-private-uploads",
-                "reference": "537bfbc4a34cd92d92a0ab376bf59e838d574818"
+                "url": "https://github.com/BrianHenryIE/bh-wp-private-uploads.git",
+                "reference": "980e31fb33e7761852a41a6b9e833f9fa0dd9b7f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/BrianHenryIE/bh-wp-private-uploads/zipball/980e31fb33e7761852a41a6b9e833f9fa0dd9b7f",
+                "reference": "980e31fb33e7761852a41a6b9e833f9fa0dd9b7f",
+                "shasum": ""
             },
             "require": {
                 "ext-fileinfo": "*",
                 "php": ">=7.4",
                 "psr/log": "^1.0.0",
-                "wptrt/admin-notices": "dev-master#42101e8cf841b17342fcef984a06caf63990c6f2"
+                "wptrt/admin-notices": "^1.0"
             },
             "require-dev": {
-                "10up/wp_mock": "dev-trunk",
+                "10up/wp_mock": "^1.0",
                 "alleyinteractive/wordpress-autoloader": "^1.1",
                 "antecedent/patchwork": "^2.1",
                 "brianhenryie/bh-wp-logger": "dev-master",
@@ -309,21 +414,19 @@
                 "ext-json": "*",
                 "jaschilz/php-coverage-badger": "^2.0",
                 "kporras07/composer-symlinks": "dev-master",
-                "lucatume/wp-browser": "*",
-                "phpcompatibility/phpcompatibility-wp": "*",
-                "phpstan/extension-installer": "*",
+                "lucatume/wp-browser": "^3.2",
+                "phpcompatibility/phpcompatibility-wp": "^2.1",
+                "phpstan/extension-installer": "^1.3",
                 "phpunit/phpcov": "*",
                 "squizlabs/php_codesniffer": "*",
-                "szepeviktor/phpstan-wordpress": "*",
-                "voku/portable-ascii": "dev-master",
+                "szepeviktor/phpstan-wordpress": "^1.3",
                 "wordpress/wordpress": "*",
                 "wp-cli/dist-archive-command": "dev-main",
                 "wp-cli/wp-cli-bundle": "*",
-                "wp-coding-standards/wpcs": "*",
+                "wp-coding-standards/wpcs": "^3.0",
                 "wpackagist-plugin/woocommerce": "*",
                 "wpackagist-theme/twentytwenty": "*"
             },
-            "default-branch": true,
             "type": "library",
             "extra": {
                 "patches": {
@@ -356,76 +459,9 @@
                     "assets/"
                 ]
             },
-            "autoload-dev": {
-                "classmap": [
-                    "test-plugin/"
-                ]
-            },
-            "scripts": {
-                "post-install-cmd": [
-                    "vendor/bin/wp core download --path=wordpress --allow-root || true;",
-                    "Kporras07\\ComposerSymlinks\\ScriptHandler::createSymlinks",
-                    "@setup-wordpress",
-                    "BrianHenryIE\\ComposerPhpStorm\\ExcludeFolders::update",
-                    "BrianHenryIE\\ComposerPhpStorm\\PHPUnitRunConfigurations::update"
-                ],
-                "post-update-cmd": [
-                    "@setup-wordpress",
-                    "Kporras07\\ComposerSymlinks\\ScriptHandler::createSymlinks",
-                    "BrianHenryIE\\ComposerPhpStorm\\ExcludeFolders::update",
-                    "BrianHenryIE\\ComposerPhpStorm\\PHPUnitRunConfigurations::update"
-                ],
-                "setup-wordpress": [
-                    "wp core download --path=wordpress --allow-root || true",
-                    "export $(grep -v '^#' .env.testing | xargs); wp config create --dbname=$TEST_SITE_DB_NAME --dbuser=$TEST_SITE_DB_USER --dbpass=$TEST_SITE_DB_PASSWORD --allow-root --extra-php=\"\ndefine( 'WP_DEBUG_LOG', true );\ndefine( 'SCRIPT_DEBUG', true );\" || true",
-                    "export $(grep -v '^#' .env.testing | xargs); vendor/bin/wp core install --url=\"localhost:8080/$PLUGIN_SLUG\" --title=\"$PLUGIN_NAME\" --admin_user=admin --admin_password=password --admin_email=admin@example.org || true; wp plugin activate $PLUGIN_SLUG || true;",
-                    "wp user create bob bob@example.org --user_pass=password || true;",
-                    "wp core update --allow-root || true",
-                    "patch ./wordpress/wp-config.php ./patches/wp-debug.diff -s -N -f --no-backup-if-mismatch --reject-file= || true;",
-                    "patch ./wordpress/wp-includes/plugin.php ./patches/42670.diff -s -N -f --no-backup-if-mismatch --reject-file= || true;",
-                    "mkdir -p wordpress/wp-content/uploads"
-                ],
-                "create-databases": [
-                    "export $(grep -v '^#' .env.testing | xargs); [[ $(mysqld --version) =~ .*MariaDB.* ]] && mysql -e \"CREATE USER IF NOT EXISTS '\"$TEST_DB_USER\"'@'%' IDENTIFIED BY '\"$TEST_DB_PASSWORD\"';\" || mysql -e \"CREATE USER IF NOT EXISTS '\"$TEST_DB_USER\"'@'%' IDENTIFIED WITH mysql_native_password BY '\"$TEST_DB_PASSWORD\"';\";",
-                    "export $(grep -v '^#' .env.testing | xargs); mysql -e \"CREATE DATABASE IF NOT EXISTS \"$TEST_SITE_DB_NAME\"; USE \"$TEST_SITE_DB_NAME\"; GRANT ALL PRIVILEGES ON \"$TEST_SITE_DB_NAME\".* TO '\"$TEST_DB_USER\"'@'%';\";",
-                    "export $(grep -v '^#' .env.testing | xargs); mysql -e \"CREATE DATABASE IF NOT EXISTS \"$TEST_DB_NAME\"; USE \"$TEST_DB_NAME\"; GRANT ALL PRIVILEGES ON \"$TEST_DB_NAME\".* TO '\"$TEST_DB_USER\"'@'%';\";",
-                    "@restore-acceptance-database"
-                ],
-                "delete-databases": [
-                    "export $(grep -v '^#' .env.testing | xargs); mysql -e \"DROP TABLE IF EXISTS $TEST_SITE_DB_NAME;\" mysql -e \"DROP TABLE IF EXISTS $TEST_DB_NAME;\"",
-                    "export $(grep -v '^#' .env.testing | xargs); DB_DIR=$(mysql -e \"select @@datadir\" -N -B); rm -rf $DB_DIR$TEST_SITE_DB_NAME; rm -rf  $DB_DIR$TEST_DB_NAME;",
-                    "mysql -e \"FLUSH TABLES;\""
-                ],
-                "save-acceptance-database": [
-                    "export $(grep -v '^#' .env.testing | xargs); mysqldump -u $TEST_SITE_DB_USER -p$TEST_SITE_DB_PASSWORD  $TEST_SITE_DB_NAME > tests/_data/dump.sql;"
-                ],
-                "restore-acceptance-database": [
-                    "export $(grep -v '^#' .env.testing | xargs); mysql $TEST_SITE_DB_NAME < tests/_data/dump.sql"
-                ],
-                "coverage-tests": [
-                    "vendor/bin/codecept run unit --coverage unit.cov",
-                    "vendor/bin/codecept run wpunit --coverage wpunit.cov",
-                    "vendor/bin/phpcov merge --clover tests/_output/clover.xml --html tests/_output/html tests/_output;",
-                    "open tests/_output/html/index.html"
-                ],
-                "lint": [
-                    "vendor/bin/phpcbf || true",
-                    "vendor/bin/phpcs || true",
-                    "vendor/bin/phpstan analyse --memory-limit 2G"
-                ],
-                "lint-changes": [
-                    "updated_files=$( git status | grep 'modified:\\s.*.php$' | cut -c14- | awk '{ printf(\"%s \", $0) }' ); vendor/bin/phpcbf $(echo $updated_files); vendor/bin/phpcs $(echo $updated_files); vendor/bin/phpstan analyse $(echo $updated_files) --memory-limit 2G"
-                ],
-                "create-plugin-archive": [
-                    "vendor/bin/wp i18n make-pot src languages/$(basename \"$PWD\").pot --domain=$(basename \"$PWD\")",
-                    "vendor/bin/wp dist-archive . ./dist-archive --plugin-dirname=$(basename \"$PWD\") --create-target-dir"
-                ],
-                "github-actions": [
-                    "act -P ubuntu-latest=shivammathur/node:latest"
-                ]
-            },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
-                "GPL-2.0+-or-later"
+                "GPL-2.0-or-later"
             ],
             "authors": [
                 {
@@ -438,20 +474,24 @@
                 }
             ],
             "description": "This is a short description of what plugin_title does.",
-            "time": "2023-09-26T02:31:40+00:00"
+            "support": {
+                "issues": "https://github.com/BrianHenryIE/bh-wp-private-uploads/issues",
+                "source": "https://github.com/BrianHenryIE/bh-wp-private-uploads/tree/0.1"
+            },
+            "time": "2024-04-20T23:19:10+00:00"
         },
         {
             "name": "brianhenryie/bh-wp-rate-limiter",
             "version": "dev-master",
             "source": {
                 "type": "git",
-                "url": "https://github.com/BrianHenryIE/bh-wp-rate-limiter",
-                "reference": "a880d648bb4ad104cfcb91eae25a37f9d82c64f6"
+                "url": "https://github.com/brianhenryie/bh-wp-rate-limiter",
+                "reference": "461be5cc4086ff0e1db16de7101a7a3832a42fc2"
             },
             "require": {
                 "nikolaposa/rate-limit": "dev-psr-16",
                 "php": "^7.4 || ^8.0",
-                "wp-oop/transient-cache": "dev-php-version-requirement"
+                "wp-oop/transient-cache": "*"
             },
             "require-dev": {
                 "10up/wp_mock": "0.4.2",
@@ -497,7 +537,7 @@
                 }
             ],
             "description": "Rate limiter using WordPress cache for storage.",
-            "time": "2022-10-07T19:40:44+00:00"
+            "time": "2024-04-21T00:44:35+00:00"
         },
         {
             "name": "guzzlehttp/guzzle",
@@ -1317,68 +1357,6 @@
             "time": "2019-03-08T08:55:37+00:00"
         },
         {
-            "name": "spatie/backtrace",
-            "version": "1.5.3",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/spatie/backtrace.git",
-                "reference": "483f76a82964a0431aa836b6ed0edde0c248e3ab"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/spatie/backtrace/zipball/483f76a82964a0431aa836b6ed0edde0c248e3ab",
-                "reference": "483f76a82964a0431aa836b6ed0edde0c248e3ab",
-                "shasum": ""
-            },
-            "require": {
-                "php": "^7.3|^8.0"
-            },
-            "require-dev": {
-                "ext-json": "*",
-                "phpunit/phpunit": "^9.3",
-                "spatie/phpunit-snapshot-assertions": "^4.2",
-                "symfony/var-dumper": "^5.1"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Spatie\\Backtrace\\": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Freek Van de Herten",
-                    "email": "freek@spatie.be",
-                    "homepage": "https://spatie.be",
-                    "role": "Developer"
-                }
-            ],
-            "description": "A better backtrace",
-            "homepage": "https://github.com/spatie/backtrace",
-            "keywords": [
-                "Backtrace",
-                "spatie"
-            ],
-            "support": {
-                "source": "https://github.com/spatie/backtrace/tree/1.5.3"
-            },
-            "funding": [
-                {
-                    "url": "https://github.com/sponsors/spatie",
-                    "type": "github"
-                },
-                {
-                    "url": "https://spatie.be/open-source/support-us",
-                    "type": "other"
-                }
-            ],
-            "time": "2023-06-28T12:59:17+00:00"
-        },
-        {
             "name": "symfony/deprecation-contracts",
             "version": "v2.5.3",
             "source": {
@@ -1447,20 +1425,29 @@
         },
         {
             "name": "wp-oop/transient-cache",
-            "version": "dev-php-version-requirement",
+            "version": "v0.2.0-alpha1",
             "source": {
                 "type": "git",
-                "url": "https://github.com/BrianHenryIE/transient-cache",
-                "reference": "8c059003c07e2057ee3f112dffe593f793bd378e"
+                "url": "https://github.com/wp-oop/transient-cache.git",
+                "reference": "774783e36637ddf1682f85649d9ccef8e455df25"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/wp-oop/transient-cache/zipball/774783e36637ddf1682f85649d9ccef8e455df25",
+                "reference": "774783e36637ddf1682f85649d9ccef8e455df25",
+                "shasum": ""
             },
             "require": {
-                "php": ">7.1",
+                "php": "^7.4 | ^8.0",
                 "psr/simple-cache": "^1.0"
             },
             "require-dev": {
                 "brain/monkey": "^2.3",
                 "johnpbloch/wordpress-core": "^5.0",
-                "phpunit/phpunit": "^9"
+                "php-stubs/wordpress-stubs": "6.3",
+                "phpunit/phpunit": "^9.0",
+                "slevomat/coding-standard": "^6.0",
+                "vimeo/psalm": "^5.0"
             },
             "type": "library",
             "extra": {
@@ -1473,13 +1460,9 @@
                     "WpOop\\TransientCache\\": "src"
                 }
             },
-            "autoload-dev": {
-                "psr-4": {
-                    "WpOop\\TransientCache\\Tests\\Func\\": "tests/functional"
-                }
-            },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
-                "MIT"
+                "GPL-2.0-or-later"
             ],
             "authors": [
                 {
@@ -1489,11 +1472,15 @@
                 }
             ],
             "description": "A PSR-16 wrapper for WP transients.",
-            "time": "2021-09-13T22:52:37+00:00"
+            "support": {
+                "issues": "https://github.com/wp-oop/transient-cache/issues",
+                "source": "https://github.com/wp-oop/transient-cache/tree/v0.2.0-alpha1"
+            },
+            "time": "2023-08-30T16:06:33+00:00"
         },
         {
             "name": "wptrt/admin-notices",
-            "version": "dev-master",
+            "version": "v1.0.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/WPTT/admin-notices.git",
@@ -1514,7 +1501,6 @@
                 "szepeviktor/phpstan-wordpress": "^0.6.0",
                 "wp-coding-standards/wpcs": "^2.3"
             },
-            "default-branch": true,
             "type": "library",
             "autoload": {
                 "psr-4": {
@@ -1813,11 +1799,48 @@
             "time": "2023-02-27T18:55:05+00:00"
         },
         {
+            "name": "brianhenryie/composer-fallback-to-git",
+            "version": "0.5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/BrianHenryIE/composer-fallback-to-git.git",
+                "reference": "e74dba5b9434fcd7ef70a61b0dcdcd218dde39d0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/BrianHenryIE/composer-fallback-to-git/zipball/e74dba5b9434fcd7ef70a61b0dcdcd218dde39d0",
+                "reference": "e74dba5b9434fcd7ef70a61b0dcdcd218dde39d0",
+                "shasum": ""
+            },
+            "require": {
+                "composer-plugin-api": "^2.0"
+            },
+            "require-dev": {
+                "composer/composer": "^2.6",
+                "phpunit/phpunit": "^9.0"
+            },
+            "type": "composer-plugin",
+            "extra": {
+                "class": "BrianHenryIE\\ComposerFallbackToGit\\FallbackPlugin"
+            },
+            "autoload": {
+                "psr-4": {
+                    "BrianHenryIE\\ComposerFallbackToGit\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "support": {
+                "issues": "https://github.com/BrianHenryIE/composer-fallback-to-git/issues",
+                "source": "https://github.com/BrianHenryIE/composer-fallback-to-git/tree/0.5"
+            },
+            "time": "2024-04-21T01:20:47+00:00"
+        },
+        {
             "name": "brianhenryie/composer-phpstorm",
             "version": "dev-master",
             "source": {
                 "type": "git",
-                "url": "https://github.com/BrianHenryIE/composer-phpstorm",
+                "url": "https://github.com/brianhenryie/composer-phpstorm",
                 "reference": "5bfecc9ba0a04db0f763995e73854f01f20700c3"
             },
             "require": {
@@ -1874,8 +1897,14 @@
             "version": "dev-master",
             "source": {
                 "type": "git",
-                "url": "https://github.com/brianhenryie/php-diff-test",
+                "url": "https://github.com/BrianHenryIE/php-diff-test.git",
                 "reference": "8d2d9ef093197e21e864b67ea5fda688d94a906c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/BrianHenryIE/php-diff-test/zipball/8d2d9ef093197e21e864b67ea5fda688d94a906c",
+                "reference": "8d2d9ef093197e21e864b67ea5fda688d94a906c",
+                "shasum": ""
             },
             "require": {
                 "composer-runtime-api": "^2.2",
@@ -1896,18 +1925,7 @@
                     "BrianHenryIE\\PhpDiffTest\\": "src"
                 }
             },
-            "autoload-dev": {
-                "classmap": [
-                    "tests"
-                ]
-            },
-            "scripts": {
-                "lint": [
-                    "vendor/bin/phpcbf || true",
-                    "vendor/bin/phpcs || true",
-                    "vendor/bin/phpstan analyse --memory-limit 1G"
-                ]
-            },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -1918,6 +1936,10 @@
                 }
             ],
             "description": "Run only the tests that apply to changed lines.",
+            "support": {
+                "issues": "https://github.com/BrianHenryIE/php-diff-test/issues",
+                "source": "https://github.com/BrianHenryIE/php-diff-test/tree/master"
+            },
             "time": "2023-11-03T16:51:49+00:00"
         },
         {
@@ -5588,16 +5610,16 @@
         },
         {
             "name": "php-stubs/woocommerce-stubs",
-            "version": "v8.7.0",
+            "version": "v8.8.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-stubs/woocommerce-stubs.git",
-                "reference": "1bab3a764a91ed037f420dc38124e2516b29e6b8"
+                "reference": "320ad596d47d4a8687bbeac0924d8167a6689da6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-stubs/woocommerce-stubs/zipball/1bab3a764a91ed037f420dc38124e2516b29e6b8",
-                "reference": "1bab3a764a91ed037f420dc38124e2516b29e6b8",
+                "url": "https://api.github.com/repos/php-stubs/woocommerce-stubs/zipball/320ad596d47d4a8687bbeac0924d8167a6689da6",
+                "reference": "320ad596d47d4a8687bbeac0924d8167a6689da6",
                 "shasum": ""
             },
             "require": {
@@ -5626,22 +5648,22 @@
             ],
             "support": {
                 "issues": "https://github.com/php-stubs/woocommerce-stubs/issues",
-                "source": "https://github.com/php-stubs/woocommerce-stubs/tree/v8.7.0"
+                "source": "https://github.com/php-stubs/woocommerce-stubs/tree/v8.8.2"
             },
-            "time": "2024-03-19T16:55:16+00:00"
+            "time": "2024-04-17T12:41:04+00:00"
         },
         {
             "name": "php-stubs/wordpress-stubs",
-            "version": "v6.4.3",
+            "version": "v6.5.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-stubs/wordpress-stubs.git",
-                "reference": "6105bdab2f26c0204fe90ecc53d5684754550e8f"
+                "reference": "379f17a90c01498d4c99a0d15aab6e7aa6a2c840"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-stubs/wordpress-stubs/zipball/6105bdab2f26c0204fe90ecc53d5684754550e8f",
-                "reference": "6105bdab2f26c0204fe90ecc53d5684754550e8f",
+                "url": "https://api.github.com/repos/php-stubs/wordpress-stubs/zipball/379f17a90c01498d4c99a0d15aab6e7aa6a2c840",
+                "reference": "379f17a90c01498d4c99a0d15aab6e7aa6a2c840",
                 "shasum": ""
             },
             "require-dev": {
@@ -5649,7 +5671,7 @@
                 "nikic/php-parser": "^4.13",
                 "php": "^7.4 || ~8.0.0",
                 "php-stubs/generator": "^0.8.3",
-                "phpdocumentor/reflection-docblock": "^5.3",
+                "phpdocumentor/reflection-docblock": "5.3",
                 "phpstan/phpstan": "^1.10.49",
                 "phpunit/phpunit": "^9.5",
                 "szepeviktor/phpcs-psr-12-neutron-hybrid-ruleset": "^0.11"
@@ -5673,9 +5695,9 @@
             ],
             "support": {
                 "issues": "https://github.com/php-stubs/wordpress-stubs/issues",
-                "source": "https://github.com/php-stubs/wordpress-stubs/tree/v6.4.3"
+                "source": "https://github.com/php-stubs/wordpress-stubs/tree/v6.5.2"
             },
-            "time": "2024-02-11T18:56:19+00:00"
+            "time": "2024-04-14T17:30:14+00:00"
         },
         {
             "name": "php-webdriver/webdriver",
@@ -6129,16 +6151,16 @@
         },
         {
             "name": "phpstan/phpstan",
-            "version": "1.10.66",
+            "version": "1.10.67",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "94779c987e4ebd620025d9e5fdd23323903950bd"
+                "reference": "16ddbe776f10da6a95ebd25de7c1dbed397dc493"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/94779c987e4ebd620025d9e5fdd23323903950bd",
-                "reference": "94779c987e4ebd620025d9e5fdd23323903950bd",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/16ddbe776f10da6a95ebd25de7c1dbed397dc493",
+                "reference": "16ddbe776f10da6a95ebd25de7c1dbed397dc493",
                 "shasum": ""
             },
             "require": {
@@ -6181,13 +6203,9 @@
                 {
                     "url": "https://github.com/phpstan",
                     "type": "github"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/phpstan/phpstan",
-                    "type": "tidelift"
                 }
             ],
-            "time": "2024-03-28T16:17:31+00:00"
+            "time": "2024-04-16T07:22:02+00:00"
         },
         {
             "name": "phpunit/php-code-coverage",
@@ -11808,6 +11826,70 @@
             "time": "2023-12-03T19:25:05+00:00"
         },
         {
+            "name": "wp-cli/profile-command",
+            "version": "v2.1.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/wp-cli/profile-command.git",
+                "reference": "6a84f43d74dbb75c72a0b1a9f90284b72bffc120"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/wp-cli/profile-command/zipball/6a84f43d74dbb75c72a0b1a9f90284b72bffc120",
+                "reference": "6a84f43d74dbb75c72a0b1a9f90284b72bffc120",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.6",
+                "wp-cli/wp-cli": "^2.5"
+            },
+            "require-dev": {
+                "wp-cli/wp-cli-tests": "^4"
+            },
+            "type": "wp-cli-package",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.x-dev"
+                },
+                "commands": [
+                    "profile stage",
+                    "profile hook",
+                    "profile eval",
+                    "profile eval-file"
+                ],
+                "readme": {
+                    "sections": [
+                        "Overview",
+                        "Using",
+                        "Installing",
+                        "Contributing"
+                    ],
+                    "overview": {
+                        "post": "bin/readme/overview-body.md"
+                    }
+                }
+            },
+            "autoload": {
+                "files": [
+                    "profile-command.php"
+                ],
+                "psr-4": {
+                    "WP_CLI\\Profile\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Quickly identify what's slow with WordPress.",
+            "homepage": "https://github.com/wp-cli/profile-command/",
+            "support": {
+                "issues": "https://github.com/wp-cli/profile-command/issues",
+                "source": "https://github.com/wp-cli/profile-command/tree/v2.1.3"
+            },
+            "time": "2023-09-28T23:51:40+00:00"
+        },
+        {
             "name": "wp-cli/rewrite-command",
             "version": "v2.0.13",
             "source": {
@@ -12594,15 +12676,15 @@
         },
         {
             "name": "wpackagist-plugin/newsletter",
-            "version": "8.2.8",
+            "version": "8.3.0",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/newsletter/",
-                "reference": "tags/8.2.8"
+                "reference": "tags/8.3.0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/newsletter.8.2.8.zip"
+                "url": "https://downloads.wordpress.org/plugin/newsletter.8.3.0.zip"
             },
             "require": {
                 "composer/installers": "^1.0 || ^2.0"
@@ -12612,15 +12694,15 @@
         },
         {
             "name": "wpackagist-plugin/woocommerce",
-            "version": "8.8.0",
+            "version": "8.8.2",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/woocommerce/",
-                "reference": "tags/8.8.0"
+                "reference": "tags/8.8.2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/woocommerce.8.8.0.zip"
+                "url": "https://downloads.wordpress.org/plugin/woocommerce.8.8.2.zip"
             },
             "require": {
                 "composer/installers": "^1.0 || ^2.0"
@@ -12796,7 +12878,6 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
-        "brianhenryie/bh-wp-logger": 20,
         "brianhenryie/bh-wp-rate-limiter": 20,
         "10up/wp_mock": 20,
         "brianhenryie/composer-phpstorm": 20,
