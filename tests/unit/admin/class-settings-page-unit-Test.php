@@ -163,7 +163,7 @@ class Settings_Page_Unit_Test extends \Codeception\Test\Unit {
 
 	/**
 	 * Successful execution would mean WordPress's add_settings_field and register_settings
-	 * functions being called three times each.
+	 * functions being called {$number_of_settings_elements} times each.
 	 */
 	public function test_setup_fields(): void {
 
@@ -192,13 +192,6 @@ class Settings_Page_Unit_Test extends \Codeception\Test\Unit {
 		);
 		\WP_Mock::userFunction(
 			'trailingslashit',
-		);
-		\WP_Mock::userFunction(
-			'is_plugin_active',
-			array(
-				'times'  => 1,
-				'return' => false,
-			)
 		);
 		\WP_Mock::userFunction(
 			'site_url',
