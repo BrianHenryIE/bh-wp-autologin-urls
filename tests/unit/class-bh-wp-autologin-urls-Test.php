@@ -5,7 +5,6 @@ namespace BrianHenryIE\WP_Autologin_URLs;
 use BrianHenryIE\ColorLogger\ColorLogger;
 use BrianHenryIE\WP_Autologin_URLs\Admin\Plugins_Page;
 use BrianHenryIE\WP_Autologin_URLs\Admin\Users_List_Table;
-use BrianHenryIE\WP_Autologin_URLs\Includes\REST_API;
 use BrianHenryIE\WP_Autologin_URLs\Login\Login_Ajax;
 use BrianHenryIE\WP_Autologin_URLs\Login\Login_Assets;
 use BrianHenryIE\WP_Autologin_URLs\WooCommerce\Admin_Order_UI;
@@ -13,6 +12,7 @@ use BrianHenryIE\WP_Autologin_URLs\WooCommerce\Login_Form;
 use BrianHenryIE\WP_Autologin_URLs\WP_Includes\Cron;
 use BrianHenryIE\WP_Autologin_URLs\WP_Includes\I18n;
 use BrianHenryIE\WP_Autologin_URLs\WP_Includes\Login;
+use BrianHenryIE\WP_Autologin_URLs\WP_Includes\REST_API;
 use Codeception\Stub\Expected;
 use WP_Mock\Matcher\AnyInstance;
 

@@ -7,7 +7,7 @@
 
 namespace BrianHenryIE\WP_Autologin_URLs\WP_Includes;
 
-use BrianHenryIE\WP_Autologin_URLs\API\API;
+use BrianHenryIE\WP_Autologin_URLs\API_Interface;
 use WP_Http;
 use WP_REST_Controller;
 use WP_REST_Response;
@@ -16,9 +16,9 @@ use WP_User;
 
 class REST_API extends WP_REST_Controller {
 
-	protected API $api;
+	protected API_Interface $api;
 
-	public function __construct( API $api ) {
+	public function __construct( API_Interface $api ) {
 		$this->api       = $api;
 		$this->namespace = 'bh-wp-autologin-urls/v1';
 		$this->rest_base = 'autologin-codes';
