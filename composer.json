@@ -92,7 +92,6 @@
     "psr/container": "1.0.0",
     "squizlabs/php_codesniffer": "*",
     "szepeviktor/phpstan-wordpress": "*",
-    "vlucas/phpdotenv": "^2.0",
     "voku/portable-ascii": "dev-master",
     "woocommerce/woocommerce-sniffs": "*",
     "wordpress/wordpress": "*",

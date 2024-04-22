@@ -19,8 +19,7 @@ if ( file_exists( $env_secret ) ) {
 	$env_secret_fullpath      = realpath( $env_secret );
 	$env_secret_relative_path = str_replace( codecept_root_dir(), '', $env_secret_fullpath );
 
-	$secret_params = new \Dotenv\Dotenv( codecept_root_dir(), $env_secret_relative_path );
-	$secret_params->load();
+	$secret_params = \Dotenv\Dotenv::createMutable( codecept_root_dir(), $env_secret_relative_path )->load();
 
 	\Codeception\Configuration::config( $env_secret_fullpath );
 }
