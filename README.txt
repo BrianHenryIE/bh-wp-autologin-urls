@@ -38,6 +38,25 @@ An API is available for developers to use autologin codes elsewhere in WordPress
 
 == Changelog ==
 
+= 2.4.0 =
+
+* Add: REST API
+* Add/fix: prefill WooCommerce checkout with user details from The Newsletter Plugin, Klaviyo, Mailpoet
+* Fix: fatal error on first request after WooCommerce is deleted from filesystem
+* Fix: broken WooCommerce orders page
+* Fix: strpos() null error when HTTP_USER_AGENT missing. Thanks @sisaacrussell
+* Improve: logging
+* Improve: don't add autologin codes to The Newsletter Plugin emails' URLs
+
+= 2.3.0 =
+
+* Add: "Send magic link email" button on users list table
+* Fix: bug with bh-wp-logger – thanks @Amit-Biswas
+* Add: screenshots to .org plugin page
+* Add: CLI documentation
+* Fix: minor wording
+* Dev: add Playwright tests
+
 = 2.2.0 =
 
 * Add: configurable template for `user-edit.php` autologin URL

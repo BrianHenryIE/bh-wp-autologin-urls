@@ -1,3 +1,13 @@
+### 2.4.0
+
+* Add: REST API
+* Add/fix: prefill WooCommerce checkout with user details from The Newsletter Plugin, Klaviyo, Mailpoet
+* Fix: fatal error on first request after WooCommerce is deleted from filesystem
+* Fix: broken WooCommerce orders page
+* Fix: strpos() null error when HTTP_USER_AGENT missing. Thanks @sisaacrussell
+* Improve: logging
+* Improve: don't add autologin codes to The Newsletter Plugin emails' URLs
+
 ### 2.3.0
 
 * Add: "Send magic link email" button on users list table

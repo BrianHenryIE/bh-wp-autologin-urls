@@ -10,7 +10,7 @@
  * Plugin Name:       Magic Emails & Autologin URLs
  * Plugin URI:        https://wordpress.org/BrianHenryIE/bh-wp-autologin-urls
  * Description:       Log in users via emails sent from WordPress.
- * Version:           2.5.0
+ * Version:           2.4.0
  * Tested up to:      6.4
  * Requires PHP:      7.4
  * Author:            BrianHenryIE
