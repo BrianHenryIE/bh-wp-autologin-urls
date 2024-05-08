@@ -57,7 +57,7 @@
     "php": ">=7.4",
     "ext-json": "*",
     "alleyinteractive/wordpress-autoloader": "^1.1",
-    "brianhenryie/bh-wp-logger": "^0.1.0",
+    "brianhenryie/bh-wp-logger": "^0.1.1",
     "brianhenryie/bh-wp-rate-limiter": "dev-master",
     "klaviyo/sdk": "^1.0"
   },
