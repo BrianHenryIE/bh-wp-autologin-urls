@@ -1,3 +1,7 @@
+### 2.4.1
+
+* Fix fatal error with WooCommerce HPOS meta boxes hook – strict typing issue
+
 ### 2.4.0
 
 * Add: REST API
