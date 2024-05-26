@@ -38,6 +38,10 @@ An API is available for developers to use autologin codes elsewhere in WordPress
 
 == Changelog ==
 
+= 2.4.2 =
+
+* Fix: fatal error with User Switching plugin – firing `wp_login` too early
+
 = 2.4.1 =
 
 * Fix fatal error with WooCommerce HPOS meta boxes hook – strict typing issue
