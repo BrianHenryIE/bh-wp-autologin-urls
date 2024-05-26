@@ -15,13 +15,13 @@ use Codeception\Stub\Expected;
 /**
  * @coversDefaultClass \BrianHenryIE\WP_Autologin_URLs\API\API
  */
-class API_WPUnit_Test extends \Codeception\TestCase\WPTestCase {
+class API_WPUnit_Test extends \lucatume\WPBrowser\TestCase\WPTestCase {
 
 	/** @var Settings_Interface */
 	protected $settings;
 
 	public function setUp(): void {
-		parent::_setUp();
+		parent::setUp();
 
 		$this->settings = $this->makeEmpty(
 			Settings_Interface::class,
@@ -46,6 +46,10 @@ class API_WPUnit_Test extends \Codeception\TestCase\WPTestCase {
 	protected function set_return_password_for_test_user(): void {
 
 		$user_id = wp_create_user( 'brian', 'abc123', 'brianhenryie@gmail.com' );
+
+		if ( is_wp_error( $user_id ) ) {
+			$this->fail( 'Failed to create user: ' . $user_id->get_error_message() );
+		}
 
 		// Specify the user id for later comparing.
 

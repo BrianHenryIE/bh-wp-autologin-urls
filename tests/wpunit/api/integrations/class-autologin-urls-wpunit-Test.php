@@ -9,7 +9,7 @@ use Codeception\Stub\Expected;
 /**
  * @coversDefaultClass \BrianHenryIE\WP_Autologin_URLs\API\Integrations\Autologin_URLs
  */
-class Autologin_URLs_WPUnit_Test extends \Codeception\TestCase\WPTestCase {
+class Autologin_URLs_WPUnit_Test extends \lucatume\WPBrowser\TestCase\WPTestCase {
 
 	/**
 	 * @covers ::is_querystring_valid

@@ -10,7 +10,7 @@ use BrianHenryIE\WP_Autologin_URLs\WP_Includes\Login;
 /**
  * @coversDefaultClass \BrianHenryIE\WP_Autologin_URLs\WooCommerce\Checkout
  */
-class Checkout_WPUnit_Test extends \Codeception\TestCase\WPTestCase {
+class Checkout_WPUnit_Test extends \lucatume\WPBrowser\TestCase\WPTestCase {
 
 	/**
 	 * When there is a past order associated with that email address,

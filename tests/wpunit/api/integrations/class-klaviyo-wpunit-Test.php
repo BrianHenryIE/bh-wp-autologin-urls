@@ -12,7 +12,7 @@ use Codeception\Stub\Expected;
 /**
  * @coversDefaultClass \BrianHenryIE\WP_Autologin_URLs\API\Integrations\Klaviyo
  */
-class Klaviyo_WPUnit_Test extends \Codeception\TestCase\WPTestCase {
+class Klaviyo_WPUnit_Test extends \lucatume\WPBrowser\TestCase\WPTestCase {
 
 	/**
 	 * @covers ::is_querystring_valid

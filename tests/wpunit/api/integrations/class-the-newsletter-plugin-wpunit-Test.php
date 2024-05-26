@@ -9,7 +9,7 @@ use BrianHenryIE\WP_Autologin_URLs\API\Integrations\The_Newsletter_Plugin;
 /**
  * @coversDefaultClass \BrianHenryIE\WP_Autologin_URLs\API\Integrations\The_Newsletter_Plugin
  */
-class The_Newsletter_Plugin_WPUnit_Test extends \Codeception\TestCase\WPTestCase {
+class The_Newsletter_Plugin_WPUnit_Test extends \lucatume\WPBrowser\TestCase\WPTestCase {
 
 	/**
 	 * @covers ::is_querystring_valid

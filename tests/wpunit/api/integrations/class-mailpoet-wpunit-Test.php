@@ -9,7 +9,7 @@ use MailPoet\Models\Subscriber;
 /**
  * @coversDefaultClass \BrianHenryIE\WP_Autologin_URLs\API\Integrations\MailPoet
  */
-class MailPoet_WPUnit_Test extends \Codeception\TestCase\WPTestCase {
+class MailPoet_WPUnit_Test extends \lucatume\WPBrowser\TestCase\WPTestCase {
 
 	/**
 	 * @covers ::is_querystring_valid

@@ -12,7 +12,21 @@ use wpdb;
 /**
  * @coversDefaultClass \BrianHenryIE\WP_Autologin_URLs\API\Data_Stores\DB_Data_Store
  */
-class DB_Data_Store_WPUnit_Test extends \Codeception\TestCase\WPTestCase {
+class DB_Data_Store_WPUnit_Test extends \lucatume\WPBrowser\TestCase\WPTestCase {
+
+	protected function setUp(): void {
+		parent::setUp();
+
+		global $wpdb;
+		$this->originalWpdb = $wpdb;
+	}
+
+	protected function tearDown(): void {
+		parent::tearDown();
+
+		global $wpdb;
+		$wpdb = $this->originalWpdb;
+	}
 
 	/**
 	 * @covers ::create_db
@@ -28,14 +42,14 @@ class DB_Data_Store_WPUnit_Test extends \Codeception\TestCase\WPTestCase {
 		remove_action( 'query', array( $this, '_drop_temporary_tables' ) );
 		remove_action( 'query', array( $this, '_create_temporary_tables' ) );
 
-		$wpdb->query( 'DROP TABLE IF EXISTS wp_autologin_urls' );
+		$wpdb->query( "DROP TABLE IF EXISTS {$wpdb->prefix}autologin_urls" );
 
 		$tables_before = $wpdb->get_results( 'SHOW TABLES', ARRAY_N );
 
 		$table_exists_before = array_reduce(
 			$tables_before,
-			function ( bool $carry, $element ) {
-				return $carry || 'wp_autologin_urls' === $element[0];
+			function ( bool $carry, $element ) use ( $wpdb ) {
+				return $carry || "{$wpdb->prefix}autologin_urls" === $element[0];
 			},
 			false
 		);
@@ -52,8 +66,8 @@ class DB_Data_Store_WPUnit_Test extends \Codeception\TestCase\WPTestCase {
 
 		$table_exists_after = array_reduce(
 			$tables_after,
-			function ( bool $carry, $element ) {
-				return $carry || 'wp_autologin_urls' === $element[0];
+			function ( bool $carry, $element ) use ( $wpdb ) {
+				return $carry || "{$wpdb->prefix}autologin_urls" === $element[0];
 			},
 			false
 		);
@@ -142,20 +156,17 @@ class DB_Data_Store_WPUnit_Test extends \Codeception\TestCase\WPTestCase {
 		$db_query_result->userhash   = 'not_relevant_to_this_test';
 
 		global $wpdb;
-		$wpdb_before = $wpdb;
-
 		$wpdb             = $this->make(
 			wpdb::class,
 			array(
 				'get_row' => Expected::once( $db_query_result ),
 				'delete'  => Expected::once(),
+				'prepare' => Expected::once(),
 			)
 		);
 		$wpdb->last_error = null; // Must be empty for this test.
 
 		$sut->get_value_for_code( 'dummy_code', true );
-
-		$wpdb = $wpdb_before;
 	}
 
 	/**
@@ -171,20 +182,17 @@ class DB_Data_Store_WPUnit_Test extends \Codeception\TestCase\WPTestCase {
 		$db_query_result->userhash   = 'not_relevant_to_this_test';
 
 		global $wpdb;
-		$wpdb_before = $wpdb;
-
 		$wpdb             = $this->make(
 			wpdb::class,
 			array(
 				'get_row' => Expected::once( $db_query_result ),
 				'delete'  => Expected::never(),
+				'prepare' => Expected::once(),
 			)
 		);
 		$wpdb->last_error = null; // Must be empty for this test.
 
 		$sut->get_value_for_code( 'dummy_code', false );
-
-		$wpdb = $wpdb_before;
 	}
 
 	/**

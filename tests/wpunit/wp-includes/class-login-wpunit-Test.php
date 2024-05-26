@@ -19,7 +19,7 @@ use WP_User;
 /**
  * @coversDefaultClass \BrianHenryIE\WP_Autologin_URLs\WP_Includes\Login
  */
-class Login_WPUnit_Test extends \Codeception\TestCase\WPTestCase {
+class Login_WPUnit_Test extends \lucatume\WPBrowser\TestCase\WPTestCase {
 
 	/**
 	 * The happy path.

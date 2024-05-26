@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ce1dde510acd8bb5bea32ffbe5134d41",
+    "content-hash": "77dc5be36508f7bc7e6e5caf798d0628",
     "packages": [
         {
             "name": "alleyinteractive/wordpress-autoloader",
@@ -4400,16 +4400,16 @@
         },
         {
             "name": "lucatume/wp-browser",
-            "version": "3.5.7",
+            "version": "3.6.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/lucatume/wp-browser.git",
-                "reference": "ab60b3f5bb80108498401b1ea8cc22cfabbc9d52"
+                "reference": "1934125a739c820d1ac86ce2e43bc6220f8ee920"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/lucatume/wp-browser/zipball/ab60b3f5bb80108498401b1ea8cc22cfabbc9d52",
-                "reference": "ab60b3f5bb80108498401b1ea8cc22cfabbc9d52",
+                "url": "https://api.github.com/repos/lucatume/wp-browser/zipball/1934125a739c820d1ac86ce2e43bc6220f8ee920",
+                "reference": "1934125a739c820d1ac86ce2e43bc6220f8ee920",
                 "shasum": ""
             },
             "require": {
@@ -4485,7 +4485,7 @@
             ],
             "support": {
                 "issues": "https://github.com/lucatume/wp-browser/issues",
-                "source": "https://github.com/lucatume/wp-browser/tree/3.5.7"
+                "source": "https://github.com/lucatume/wp-browser/tree/3.6.2"
             },
             "funding": [
                 {
@@ -4493,7 +4493,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-04-12T11:48:16+00:00"
+            "time": "2024-05-25T12:45:11+00:00"
         },
         {
             "name": "mck89/peast",
@@ -11962,6 +11962,24 @@
             },
             "type": "wordpress-plugin",
             "homepage": "https://wordpress.org/plugins/document-generator-for-openapi/"
+        },
+        {
+            "name": "wpackagist-plugin/give",
+            "version": "3.12.0",
+            "source": {
+                "type": "svn",
+                "url": "https://plugins.svn.wordpress.org/give/",
+                "reference": "tags/3.12.0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://downloads.wordpress.org/plugin/give.3.12.0.zip"
+            },
+            "require": {
+                "composer/installers": "^1.0 || ^2.0"
+            },
+            "type": "wordpress-plugin",
+            "homepage": "https://wordpress.org/plugins/give/"
         },
         {
             "name": "wpackagist-plugin/mailpoet",

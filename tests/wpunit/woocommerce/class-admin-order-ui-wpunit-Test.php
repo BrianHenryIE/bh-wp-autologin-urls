@@ -9,7 +9,7 @@ use Codeception\Stub\Expected;
 /**
  * @coversDefaultClass \BrianHenryIE\WP_Autologin_URLs\WooCommerce\Admin_Order_UI
  */
-class Admin_Order_UI_WPUnit_Test extends \Codeception\TestCase\WPTestCase {
+class Admin_Order_UI_WPUnit_Test extends \lucatume\WPBrowser\TestCase\WPTestCase {
 
 	/**
 	 * @covers ::add_to_payment_url
