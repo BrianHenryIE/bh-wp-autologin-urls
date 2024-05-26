@@ -177,7 +177,12 @@ class Login {
 		// @see https://developer.wordpress.org/reference/functions/wp_set_current_user/
 		wp_set_current_user( $wp_user->ID, $wp_user->user_login );
 		wp_set_auth_cookie( $wp_user->ID );
-		do_action( 'wp_login', $wp_user->user_login, $wp_user );
+		add_action(
+			'init',
+			function () use ( $wp_user ) {
+				do_action( 'wp_login', $wp_user->user_login, $wp_user );
+			}
+		);
 
 		$this->logger->info( "User wp_user:{$wp_user->ID} logged in via {$user_array['source']}." );
 
