@@ -43,3 +43,7 @@ echo "Maybe updating WooCommerce database"
 wp wc update
 
 wp plugin deactivate wp-super-cache
+
+
+# Create customer for WooCommerce e2e tests
+wp user create customer.username customer.username@example.org --user_pass=customer.password

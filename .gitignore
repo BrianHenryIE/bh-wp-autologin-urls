@@ -69,3 +69,5 @@ languages/*.pot
 /test-results/
 /playwright-report/
 /playwright/.cache/
+
+/tests/e2e-pw/woocommerce-plugin
