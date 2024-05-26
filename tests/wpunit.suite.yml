@@ -18,7 +18,7 @@ modules:
 #            dbHost: "%TEST_DB_HOST%"/
 #            dbUser: "%TEST_DB_USER%"
 #            dbPassword: "%TEST_DB_PASSWORD%"
-#            tablePrefix: "%TEST_TABLE_PREFIX%"
+            tablePrefix: "%TEST_TABLE_PREFIX%"
             domain: "%TEST_SITE_WP_DOMAIN%"
             adminEmail: "%TEST_SITE_ADMIN_EMAIL%"
             title: "bh-wp-autologin-urls"
