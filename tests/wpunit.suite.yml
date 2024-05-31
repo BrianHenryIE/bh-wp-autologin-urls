@@ -25,11 +25,4 @@ modules:
 #            silentlyActivatePlugins: ['woocommerce/woocommerce.php', 'mailpoet/mailpoet.php']
             plugins: ['woocommerce/woocommerce.php', 'mailpoet/mailpoet.php']
             activatePlugins: ['woocommerce/woocommerce.php', 'mailpoet/mailpoet.php']
-        lucatume\WPBrowser\Module\WPDb:
-            dsn: 'mysql:host=%TEST_DB_HOST%;dbname=%TEST_DB_NAME%'
-            url: '%TEST_SITE_WP_DOMAIN%'
-            user: "%TEST_DB_USER%"
-            password: "%TEST_DB_PASSWORD%"
-            cleanup: true
-            urlReplacement: false
 bootstrap: _bootstrap.php
