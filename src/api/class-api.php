@@ -124,6 +124,10 @@ class API implements API_Interface {
 			$user = absint( $user );
 			$user = get_user_by( 'ID', $user );
 
+			// But it is possible that the number is actually the username.
+			if ( false === $user ) {
+				$user = get_user_by( 'login', $user );
+			}
 		} elseif ( is_string( $user ) && is_email( $user ) ) {
 
 			// When a string which is an email is passed.
@@ -428,21 +432,16 @@ class API implements API_Interface {
 			'expires_in_friendly'       => $expires_in_friendly,
 		);
 
-		$wp_user = get_user_by( 'login', $username_or_email_address );
+		$wp_user = $this->get_wp_user( $username_or_email_address );
 
 		if ( ! ( $wp_user instanceof WP_User ) ) {
 
-			$wp_user = get_user_by( 'email', $username_or_email_address );
+			// NB: Do not tell the user if the username exists.
+			$result['success'] = false;
 
-			if ( ! ( $wp_user instanceof WP_User ) ) {
+			$this->logger->debug( "No WP_User found for {$username_or_email_address}", array( 'result' => $result ) );
 
-				// NB: Do not tell the user if the username exists.
-				$result['success'] = false;
-
-				$this->logger->debug( "No WP_User found for {$username_or_email_address}", array( 'result' => $result ) );
-
-				return $result;
-			}
+			return $result;
 		}
 
 		$result['wp_user'] = $wp_user;
