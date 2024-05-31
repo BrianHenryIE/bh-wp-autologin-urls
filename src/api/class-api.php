@@ -110,6 +110,13 @@ class API implements API_Interface {
 	 */
 	public function get_wp_user( $user ): ?WP_User {
 
+		/**
+		 * Allow other plugins to provide the user object.
+		 *
+		 * @param null|int|string|WP_User $user A user id, email, login or user object.
+		 */
+		$user = apply_filters( 'bh_wp_autologin_urls_get_wp_user', $user );
+
 		if ( $user instanceof WP_User ) {
 			return $user;
 		}
