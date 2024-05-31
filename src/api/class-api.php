@@ -474,6 +474,21 @@ class API implements API_Interface {
 		$autologin_url = add_query_arg( array( 'magic' => 'true' ), $autologin_url );
 
 		/**
+		 * Short-circuit email sending.
+		 *
+		 * @param bool    $send_email Whether to send the email.
+		 * @param string  $autologin_url The URL which will log the user in.
+		 * @param WP_User $wp_user The user to send the email to.
+		 * @param int     $expires_in The number of seconds the link will be valid for.
+		 */
+		$send_email = apply_filters( 'bh_wp_autologin_urls_send_magic_link_email', true, $autologin_url, $wp_user, $expires_in );
+
+		if ( ! $send_email ) {
+			$result['success'] = true;
+			return $result;
+		}
+
+		/**
 		 * Allow overriding the email template.
 		 *
 		 * @var string $autologin_url The URL which will log the user in.
