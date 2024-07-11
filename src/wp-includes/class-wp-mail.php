@@ -57,17 +57,18 @@ class WP_Mail {
 	 */
 	public function add_autologin_links_to_email( array $wp_mail_args ): array {
 
-		$to = $wp_mail_args['to'];
-
-		if ( is_array( $to ) && count( $to ) !== 1 ) {
-			return $wp_mail_args;
+		switch ( true ) {
+			case is_string( $wp_mail_args['to'] ):
+				$to = $wp_mail_args['to'];
+				break;
+			case is_array( $wp_mail_args['to'] ) && count( $wp_mail_args['to'] ) === 1:
+				$to = $wp_mail_args['to'][ array_key_first( $wp_mail_args['to'] ) ];
+				break;
+			default:
+				return $wp_mail_args;
 		}
 
-		if ( is_array( $to ) ) {
-			$to = array_pop( $to );
-		}
-
-		$user = get_user_by( 'email', $wp_mail_args['to'] );
+		$user = get_user_by( 'email', $to );
 
 		// If the email recipient does not have a user account on this site, return the message unchanged.
 		if ( ! $user ) {

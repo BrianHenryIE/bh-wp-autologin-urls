@@ -177,4 +177,39 @@ class WP_Mail_Unit_Test extends \Codeception\Test\Unit {
 
 		$this->assertEquals( $email_args, $filtered_email_args );
 	}
+
+	/**
+	 * @covers ::add_autologin_links_to_email
+	 */
+	public function test_handles_array_of_wp_mail_args_to(): void {
+
+		$settings_mock = $this->createMock( Settings_Interface::class );
+
+		$api_mock = $this->makeEmpty(
+			API_Interface::class,
+			array(
+				'add_autologin_to_message' => Expected::never(),
+			)
+		);
+
+		$wp_mail = new WP_Mail( $api_mock, $settings_mock );
+
+		$email_args = array(
+			'to'      => array( 'brianhenryie@gmail.com' ),
+			'subject' => 'to array test',
+			'message' => 'non-matching',
+		);
+
+		$user = $this->createMock( '\WP_User' );
+		$user->method( 'has_cap' )->with( 'administrator' )->willReturn( false );
+
+		\WP_Mock::userFunction( 'get_user_by' )
+			->with( 'email', 'brianhenryie@gmail.com' )
+			->once()
+			->andReturn( false );
+
+		$result = $wp_mail->add_autologin_links_to_email( $email_args );
+
+		$this->assertEquals( $email_args, $result );
+	}
 }
