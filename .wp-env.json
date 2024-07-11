@@ -4,6 +4,9 @@
       "plugins": [
         "."
       ]
+    },
+    "tests": {
+      "mysqlPort": 33066
     }
   },
   "lifecycleScripts": {
