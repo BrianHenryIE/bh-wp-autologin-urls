@@ -1,3 +1,9 @@
+### 2.5.0
+
+* Add filter `bh_wp_autologin_urls_get_wp_user`
+* Add filter `bh_wp_autologin_urls_send_magic_link_email`
+* Better handle `wp_mail` using an array of recipients
+
 ### 2.4.2
 
 * Fix: fatal error with User Switching plugin – firing `wp_login` too early

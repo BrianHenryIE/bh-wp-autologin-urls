@@ -135,7 +135,7 @@ class Settings implements Settings_Interface, Logger_Settings_Interface {
 	public function get_plugin_version(): string {
 		return defined( 'BH_WP_AUTOLOGIN_URLS_VERSION' )
 			? constant( 'BH_WP_AUTOLOGIN_URLS_VERSION' )
-			: '2.4.2';
+			: '2.5.0';
 	}
 
 	/**
