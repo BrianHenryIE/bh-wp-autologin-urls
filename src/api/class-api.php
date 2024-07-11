@@ -110,6 +110,13 @@ class API implements API_Interface {
 	 */
 	public function get_wp_user( $user ): ?WP_User {
 
+		/**
+		 * Allow other plugins to provide the user object.
+		 *
+		 * @param null|int|string|WP_User $user A user id, email, login or user object.
+		 */
+		$user = apply_filters( 'bh_wp_autologin_urls_get_wp_user', $user );
+
 		if ( $user instanceof WP_User ) {
 			return $user;
 		}
@@ -124,6 +131,10 @@ class API implements API_Interface {
 			$user = absint( $user );
 			$user = get_user_by( 'ID', $user );
 
+			// But it is possible that the number is actually the username.
+			if ( false === $user ) {
+				$user = get_user_by( 'login', $user );
+			}
 		} elseif ( is_string( $user ) && is_email( $user ) ) {
 
 			// When a string which is an email is passed.
@@ -428,21 +439,16 @@ class API implements API_Interface {
 			'expires_in_friendly'       => $expires_in_friendly,
 		);
 
-		$wp_user = get_user_by( 'login', $username_or_email_address );
+		$wp_user = $this->get_wp_user( $username_or_email_address );
 
 		if ( ! ( $wp_user instanceof WP_User ) ) {
 
-			$wp_user = get_user_by( 'email', $username_or_email_address );
+			// NB: Do not tell the user if the username exists.
+			$result['success'] = false;
 
-			if ( ! ( $wp_user instanceof WP_User ) ) {
+			$this->logger->debug( "No WP_User found for {$username_or_email_address}", array( 'result' => $result ) );
 
-				// NB: Do not tell the user if the username exists.
-				$result['success'] = false;
-
-				$this->logger->debug( "No WP_User found for {$username_or_email_address}", array( 'result' => $result ) );
-
-				return $result;
-			}
+			return $result;
 		}
 
 		$result['wp_user'] = $wp_user;
@@ -466,6 +472,21 @@ class API implements API_Interface {
 
 		// Add a marker for later logging use of the email.
 		$autologin_url = add_query_arg( array( 'magic' => 'true' ), $autologin_url );
+
+		/**
+		 * Short-circuit email sending.
+		 *
+		 * @param bool    $send_email Whether to send the email.
+		 * @param string  $autologin_url The URL which will log the user in.
+		 * @param WP_User $wp_user The user to send the email to.
+		 * @param int     $expires_in The number of seconds the link will be valid for.
+		 */
+		$send_email = apply_filters( 'bh_wp_autologin_urls_send_magic_link_email', true, $autologin_url, $wp_user, $expires_in );
+
+		if ( ! $send_email ) {
+			$result['success'] = true;
+			return $result;
+		}
 
 		/**
 		 * Allow overriding the email template.

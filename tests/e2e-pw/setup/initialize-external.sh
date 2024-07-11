@@ -25,6 +25,3 @@ npx wp-env run tests-cli ./setup/initialize-internal-tests.sh;
 
 
 # npx wp-env run tests-cli "wp plugin activate woocommerce";
-
-TEST_DB_PORT=$(docker ps -f ancestor=mariadb -f name=tests-mysql --format='{{.Ports}}' | sed -E 's/.*:(.*)->.*/\1/')
-find . -depth \( -name '.env.testing' \) -exec sed -i '' "s/TEST_DB_PORT=\".*\"/TEST_DB_PORT=\"$TEST_DB_PORT\"/g" {} +
