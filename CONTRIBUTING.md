@@ -1,37 +1,35 @@
+# Contributing
 
-#### Rough notes.
+Requires Composer, Docker, Node.
+
+## Rough notes.
 
 List scripts:
 
 `composer run -l`
 
-
-
+```bash
+# nvm use
+npm install
+npx wp-env start --xdebug
+```
+```bash
+npx wp-env destroy
+```
 
 ### PHPUnit Tests with Codeception/WP-Browser
 
-Requires local Apache and MySQL.
-
 ```bash
-composer install
-composer create-databases
-composer setup-wordpress
-XDEBUG_MODE=coverage composer coverage-tests; 
-$ composer delete-databases
+composer test
 ```
 
 ### E2E testing with wp-env and Playwright
 
-Requires Docker
-
 ```bash
-# nvm use
-npm install
 npx playwright install
-npx wp-env start --xdebug
 npx playwright test --config ./playwright.config.ts
-npx wp-env destroy
 ```
+
 ```
 npx playwright test --config ./wordpresscore.playwright.config.js
 
@@ -123,6 +121,8 @@ open http://localhost:8889
 
 # Start the playwright test runner UI and return to the Terminal (otherwise Terminal is unavailable until the application is exited).
 npx playwright test --ui &;
+
+BASEURL=http://localhost:8890 npx playwright test --ui &;
 
 # Start browser and record Playwright steps
 npx playwright codegen -o tests/e2e-pw/example.spec.js
