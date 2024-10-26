@@ -1,17 +1,14 @@
 import {test, expect, Page} from '@playwright/test';
+import {loginAsAdmin, createUser, logout} from './utilities/wordpress';
+import {getMostRecentEmailContent} from './utilities/mail';
 
 test.describe( 'The Newsletter Plugin tests', () => {
 
   let page: Page;
 
-  async function loginAsAdmin( page: Page ) {
-    await page.goto('/wp-login.php?redirect_to=%2Fwp-admin%2F&reauth=1');
-    await page.getByLabel('Username or Email Address').fill('admin');
-    await page.locator('#user_pass').focus();
-    await page.locator('#user_pass').fill('password');
-    await page.getByLabel('Password', {exact: true}).press('Enter');
-    await page.waitForLoadState( 'networkidle' );
-  }
+  // async function beforeEach() {
+  //   // TODO: Delete all transients.
+  // }
 
   async function addNewsletterSubscriber(page: Page, email: string, firstName: string, lastName: string) {
     await page.goto('/wp-admin/admin.php?page=newsletter_users_new', {waitUntil: 'domcontentloaded'});
@@ -25,34 +22,6 @@ test.describe( 'The Newsletter Plugin tests', () => {
 
     await page.waitForTimeout(100);
     await page.getByRole('button', {name: ' Save'}).click();
-  }
-
-  async function createUser(page: Page, username: string, email: string ) {
-
-    await page.goto('/wp-admin/user-new.php', {waitUntil: 'domcontentloaded'});
-
-    await page.getByLabel('Username (required)').fill(username);
-    await page.getByLabel('Email (required)').fill(email);
-
-    await page.locator('#send_user_notification').uncheck();
-
-    await page.getByRole('button', { name: 'Add New User' }).click();
-    await page.waitForLoadState( 'domcontentloaded' ); // "New user created."
-
-    return username;
-  }
-
-  async function logout(page: Page) {
-
-    await page.goto('/wp-admin/', {waitUntil:'domcontentloaded'});
-
-    let logoutLink = await page.evaluate(async() => {
-      return document.getElementById('wp-admin-bar-logout').firstChild.getAttribute("href");
-    });
-
-    await page.goto(logoutLink, {waitUntil:'domcontentloaded'});
-
-    await expect(page.locator('#login')).toContainText("logged out");
   }
 
   /**
@@ -78,34 +47,6 @@ test.describe( 'The Newsletter Plugin tests', () => {
     });
   }
 
-  async function getMostRecentEmailContent( page: Page, email: string, subject: string ) {
-
-    // Check for sent email
-    let mailLogUrl = "/wp-admin/admin.php?page=wpml_plugin_log";
-    await page.goto(mailLogUrl, {waitUntil: 'domcontentloaded'});
-
-    const row = page.locator('tr:has-text("' + email + '")').first();
-    // await page.locator('#the-list').locator('.wp-mail-logging-action-column').first()
-    await row.locator('.wp-mail-logging-action-column').first()
-        .getByRole('button', { name: 'View log' }).click();
-
-    await page.getByRole('link', { name: 'raw' }).click();
-    await page.waitForTimeout(100);
-
-    // TODO: Try another mail logging plugin to avoid flaky tests.
-    await page.waitForLoadState( 'networkidle' );
-    await page.waitForTimeout(100);
-
-    const emailContent = await page.locator('.wp-mail-logging-modal-row-html-container').first();
-    await emailContent.focus();
-    var text = '';
-    do {
-      await page.waitForTimeout(100);
-      text = await emailContent.textContent();
-    } while (text === null || text.length == 0);
-    return text
-  }
-
   // This should be in a do-until loop checking that the newsletter has been sent.
   async function waitForNewsletterSendComplete(page: Page) {
 
@@ -119,7 +60,6 @@ test.describe( 'The Newsletter Plugin tests', () => {
       times--;
     } while (times >= 0);
   }
-
 
   test.beforeAll(async ({ browser }) => {
     // Create page once and sign in.

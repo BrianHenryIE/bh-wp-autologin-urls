@@ -1,4 +1,5 @@
 import {test, expect, Page} from '@playwright/test';
+import {loginAsAdmin, createUser, logout} from './utilities/wordpress';
 
 test.describe( 'Autologin link tests', () => {
 
@@ -15,29 +16,6 @@ test.describe( 'Autologin link tests', () => {
     await page.goto(loginRedirectUrl, {waitUntil:'domcontentloaded'});
   });
 
-  async function loginAsAdmin( page: Page ) {
-    await page.goto('/wp-login.php?redirect_to=%2Fwp-admin%2F&reauth=1');
-    await page.getByLabel('Username or Email Address').fill('admin');
-    // It was filling "password" into the username field.
-    await page.locator('#user_pass').focus();
-    await page.locator('#user_pass').fill('password');
-    await page.getByLabel('Password', {exact: true}).press('Enter');
-    await page.waitForLoadState( 'networkidle' );
-  }
-
-  async function createUser() {
-    let username = 'bob' + Math.random();
-
-    await page.getByLabel('Username (required)').fill(username);
-    await page.getByLabel('Email (required)').fill(username + '@example.org');
-
-    await page.locator('#send_user_notification').uncheck();
-
-    await page.getByRole('button', { name: 'Add New User' }).click();
-    await page.waitForLoadState( 'domcontentloaded' );
-
-    return username;
-  }
 
   async function getAutoLoginUrlFromUserEditPage( username ) {
     await page.goto('/wp-admin/users.php?s=' + username, {waitUntil:'domcontentloaded'});
@@ -54,20 +32,13 @@ test.describe( 'Autologin link tests', () => {
     return autologinUrl;
   }
 
-  async function logout() {
-    let logoutLink = await page.evaluate(async() => {
-      return document.getElementById('wp-admin-bar-logout').firstChild.getAttribute("href");
-    });
-
-    await page.goto(logoutLink, {waitUntil:'domcontentloaded'});
-  }
 
   test('Get link from users.php and verify it works to login', async () => {
-    let username = await createUser();
+    let username = await createUser(page);
 
     let autologinUrl = await getAutoLoginUrlFromUserEditPage( username );
 
-    await logout();
+    await logout(page);
 
     await page.goto(autologinUrl, {waitUntil:'domcontentloaded'});
 

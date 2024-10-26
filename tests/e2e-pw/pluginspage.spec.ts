@@ -1,5 +1,6 @@
 import { test, Page, expect } from '@playwright/test';
 import {Locator} from "playwright-core";
+import {loginAsAdmin} from "./utilities/wordpress";
 
 test.describe( 'Plugins page tests', () => {
 
@@ -13,11 +14,7 @@ test.describe( 'Plugins page tests', () => {
     // Create page once and sign in.
     page = await browser.newPage();
 
-    await page.goto('/wp-login.php?redirect_to=%2Fwp-admin%2F&reauth=1');
-    await page.getByLabel('Username or Email Address').fill('admin');
-    await page.locator('#user_pass').fill('password');
-    await page.getByLabel('Password', {exact: true}).press('Enter');
-    await page.waitForLoadState( 'networkidle' );
+    await loginAsAdmin(page);
 
     await page.goto('/wp-admin/plugins.php', {waitUntil:'domcontentloaded'});
 
