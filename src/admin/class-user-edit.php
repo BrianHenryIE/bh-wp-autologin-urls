@@ -57,6 +57,13 @@ class User_Edit {
 	 */
 	public function make_password_available_on_user_page( WP_User $profileuser ): void {
 
+		if (
+			in_array( 'administrator', $profileuser->roles, true )
+			&& ! $this->settings->get_add_autologin_for_admins_is_enabled()
+		) {
+			return;
+		}
+
 		// TODO: If WooCommerce is installed, this should go to my-account.
 		$append        = '/';
 		$autologin_url = $this->api->add_autologin_to_url( get_site_url() . $append, $profileuser, WEEK_IN_SECONDS );

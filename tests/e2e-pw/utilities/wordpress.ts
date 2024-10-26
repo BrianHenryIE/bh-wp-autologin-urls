@@ -10,10 +10,10 @@ async function loginAsAdmin( page: Page ) {
     await page.waitForLoadState( 'networkidle' );
 }
 
-async function createUser(page: Page, username: string = null, email: string = null) {
+async function createUser(page: Page, username: string = null, email: string = null, role: string = null) {
 
-    username = username ?? 'bob' + Math.random();
-    email = email ?? username + '@example.org';
+    username = (username ?? ('bob' + Math.random())).replace(/^[@\W]*/g, '').replace(/[:]/g, '');
+    email = email.replace(/^[@\W]*/g, '').replace(/[:]/g, '') ?? (username + '@example.org').replace(/^[@\W]*/g, '').replace(/[:]/g, '');
 
     await page.goto('/wp-admin/user-new.php', {waitUntil: 'domcontentloaded'});
 
@@ -21,6 +21,12 @@ async function createUser(page: Page, username: string = null, email: string = n
     await page.getByLabel('Email (required)').fill(email);
 
     await page.locator('#send_user_notification').uncheck();
+
+    // default role is "Subscriber"
+    // <select id="role" name="role">
+    if(role) {
+        await page.selectOption('select#role', {value: role});
+    }
 
     await page.getByRole('button', { name: 'Add New User' }).click();
     await page.waitForLoadState( 'domcontentloaded' ); // "New user created."
