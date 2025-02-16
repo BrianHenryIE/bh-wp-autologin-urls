@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "77dc5be36508f7bc7e6e5caf798d0628",
+    "content-hash": "9bac2f6f9428de2192f184cc4002ed9c",
     "packages": [
         {
             "name": "alleyinteractive/wordpress-autoloader",
@@ -1835,6 +1835,44 @@
                 "phpstorm"
             ],
             "time": "2023-10-06T19:45:27+00:00"
+        },
+        {
+            "name": "brianhenryie/composer-prefer-local",
+            "version": "0.1.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/BrianHenryIE/composer-prefer-local.git",
+                "reference": "4c424abdc078430f6037208b530e0e23ea7b43d2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/BrianHenryIE/composer-prefer-local/zipball/4c424abdc078430f6037208b530e0e23ea7b43d2",
+                "reference": "4c424abdc078430f6037208b530e0e23ea7b43d2",
+                "shasum": ""
+            },
+            "require": {
+                "composer-plugin-api": "^2.0",
+                "ext-json": "*"
+            },
+            "require-dev": {
+                "composer/composer": "^2.6",
+                "phpunit/phpunit": "^9.0"
+            },
+            "type": "composer-plugin",
+            "extra": {
+                "class": "\\BrianHenryIE\\ComposerPreferLocal\\PreferLocalPackagesPlugin"
+            },
+            "autoload": {
+                "psr-4": {
+                    "BrianHenryIE\\ComposerPreferLocal\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "support": {
+                "issues": "https://github.com/BrianHenryIE/composer-prefer-local/issues",
+                "source": "https://github.com/BrianHenryIE/composer-prefer-local/tree/0.1.4"
+            },
+            "time": "2024-06-14T23:20:53+00:00"
         },
         {
             "name": "brianhenryie/php-diff-test",
@@ -10625,6 +10663,57 @@
             "time": "2024-05-02T13:35:09+00:00"
         },
         {
+            "name": "wp-cli/handbook",
+            "version": "dev-main",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/wp-cli/handbook",
+                "reference": "5fd52cd29d1478fc7c296c8a9af725419de2f7cf"
+            },
+            "require-dev": {
+                "wp-cli/wp-cli": "^2.11",
+                "wp-cli/wp-cli-tests": "^4.2"
+            },
+            "default-branch": true,
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "bin/command.php"
+                ]
+            },
+            "scripts": {
+                "behat": [
+                    "run-behat-tests"
+                ],
+                "behat-rerun": [
+                    "rerun-behat-tests"
+                ],
+                "lint": [
+                    "run-linter-tests"
+                ],
+                "phpcs": [
+                    "run-phpcs-tests"
+                ],
+                "phpcbf": [
+                    "run-phpcbf-cleanup"
+                ],
+                "phpunit": [
+                    "run-php-unit-tests"
+                ],
+                "prepare-tests": [
+                    "install-package-tests"
+                ],
+                "test": [
+                    "@lint",
+                    "@phpcs",
+                    "@phpunit",
+                    "@behat"
+                ]
+            },
+            "description": "Source files for the handbook that is generated for make.wordpress.org.",
+            "time": "2024-07-08T16:37:39+00:00"
+        },
+        {
             "name": "wp-cli/i18n-command",
             "version": "2.6.1",
             "source": {
@@ -12156,7 +12245,8 @@
         "brianhenryie/strauss": 20,
         "kporras07/composer-symlinks": 20,
         "mheap/phpunit-github-actions-printer": 20,
-        "voku/portable-ascii": 20
+        "voku/portable-ascii": 20,
+        "wp-cli/handbook": 20
     },
     "prefer-stable": true,
     "prefer-lowest": false,

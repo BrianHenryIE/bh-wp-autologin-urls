@@ -31,7 +31,8 @@
       "dealerdirect/phpcodesniffer-composer-installer": true,
       "johnpbloch/wordpress-core-installer": true,
       "phpstan/extension-installer": true,
-      "brianhenryie/composer-fallback-to-git": true
+      "brianhenryie/composer-fallback-to-git": true,
+      "brianhenryie/composer-prefer-local": true
     },
     "platform": {
       "php": "7.4"
@@ -68,6 +69,7 @@
     "brianhenryie/color-logger": "^1.0",
     "brianhenryie/composer-fallback-to-git": "^0.5",
     "brianhenryie/composer-phpstorm": "dev-master",
+    "brianhenryie/composer-prefer-local": "*",
     "brianhenryie/php-diff-test": "dev-master",
     "brianhenryie/strauss": "dev-master",
     "codeception/module-asserts": "^1.0",
@@ -113,14 +115,6 @@
     "wpackagist-theme/twentytwenty": "*"
   },
   "extra": {
-    "patches": {
-      "jaschilz/php-coverage-badger": {
-        "Allow customising the text": "https://github.com/JASchilz/PHPCoverageBadge/pull/1.patch"
-      },
-      "wp-cli/dist-archive-command": {
-        "Add Increment Version": "https://github.com/BrianHenryIE/dist-archive-command/commit/f37c375ba8069c9160d642dd0c00435e0f1c4804.patch"
-      }
-    },
     "strauss": {
       "namespace_prefix": "BrianHenryIE\\WP_Autologin_URLs\\",
       "target_directory": "/vendor-prefixed/",
@@ -140,8 +134,6 @@
       }
     },
     "symlinks": {
-      ".": "wp-content/plugins/bh-wp-autologin-urls",
-      "wp-content": "wordpress/wp-content"
     },
     "phpstorm": {
       "exclude_folders": {
@@ -163,44 +155,17 @@
   "scripts": {
     "post-install-cmd": [
       "strauss",
-      "wp core download --path=wordpress --allow-root || true;",
       "Kporras07\\ComposerSymlinks\\ScriptHandler::createSymlinks",
-      "@setup-wordpress",
-      "BrianHenryIE\\ComposerPhpStorm\\ExcludeFolders::update",
-      "BrianHenryIE\\ComposerPhpStorm\\PHPUnitRunConfigurations::update",
       "@sync-composer-wpenv"
     ],
     "post-update-cmd": [
       "strauss",
-      "@setup-wordpress",
       "Kporras07\\ComposerSymlinks\\ScriptHandler::createSymlinks",
-      "BrianHenryIE\\ComposerPhpStorm\\ExcludeFolders::update",
-      "BrianHenryIE\\ComposerPhpStorm\\PHPUnitRunConfigurations::update",
       "@sync-composer-wpenv"
     ],
     "setup-wordpress": [
-      "export $(grep -v '^#' .env.testing | xargs); wp config create --dbname=$TEST_SITE_DB_NAME --dbuser=$TEST_SITE_DB_USER --dbpass=$TEST_SITE_DB_PASSWORD --allow-root || true",
-      "export $(grep -v '^#' .env.testing | xargs); wp core install --url=\"localhost:8080/$PLUGIN_SLUG\" --title=\"$PLUGIN_NAME\" --admin_user=admin --admin_password=password --admin_email=admin@example.org || true; wp plugin activate $PLUGIN_SLUG || true;",
-      "wp config set WP_DEBUG true --raw; wp config set WP_DEBUG_LOG true --raw; wp config set SCRIPT_DEBUG true --raw",
-      "wp user create bob bob@example.org --user_pass=password || true;",
-      "wp core update --allow-root || true",
-      "mkdir -p wordpress/wp-content/uploads"
-    ],
-    "create-databases": [
-      "export $(grep -v '^#' .env.testing | xargs); [[ $(mysqld --version) =~ .*MariaDB.* ]] && mysql -e \"CREATE USER IF NOT EXISTS '\"$TEST_DB_USER\"'@'%' IDENTIFIED BY '\"$TEST_DB_PASSWORD\"';\" || mysql -e \"CREATE USER IF NOT EXISTS '\"$TEST_DB_USER\"'@'%' IDENTIFIED WITH mysql_native_password BY '\"$TEST_DB_PASSWORD\"';\";",
-      "export $(grep -v '^#' .env.testing | xargs); mysql -e \"CREATE DATABASE IF NOT EXISTS \"$TEST_SITE_DB_NAME\"; USE \"$TEST_SITE_DB_NAME\"; GRANT ALL PRIVILEGES ON \"$TEST_SITE_DB_NAME\".* TO '\"$TEST_DB_USER\"'@'%';\";",
-      "export $(grep -v '^#' .env.testing | xargs); mysql -e \"CREATE DATABASE IF NOT EXISTS \"$TEST_DB_NAME\"; USE \"$TEST_DB_NAME\"; GRANT ALL PRIVILEGES ON \"$TEST_DB_NAME\".* TO '\"$TEST_DB_USER\"'@'%';\";"
-    ],
-    "delete-databases": [
-      "export $(grep -v '^#' .env.testing | xargs); mysql -e \"DROP TABLE IF EXISTS $TEST_SITE_DB_NAME;\" mysql -e \"DROP TABLE IF EXISTS $TEST_DB_NAME;\"",
-      "export $(grep -v '^#' .env.testing | xargs); DB_DIR=$(mysql -e \"select @@datadir\" -N -B); rm -rf $DB_DIR$TEST_SITE_DB_NAME; rm -rf  $DB_DIR$TEST_DB_NAME;",
-      "mysql -e \"FLUSH TABLES;\""
-    ],
-    "save-acceptance-database": [
-      "export $(grep -v '^#' .env.testing | xargs); mysqldump -u $TEST_SITE_DB_USER -p$TEST_SITE_DB_PASSWORD  $TEST_SITE_DB_NAME > tests/_data/dump.sql;"
-    ],
-    "restore-acceptance-database": [
-      "export $(grep -v '^#' .env.testing | xargs); mysql $TEST_SITE_DB_NAME < tests/_data/dump.sql"
+      "export $(grep -v '^#' .env.testing | xargs); wp config create --dbname=$TEST_SITE_DB_NAME --dbuser=root --dbpass=password --dbhost=127.0.0.1:$TEST_SITE_DB_PORT --config-file=./wp-config.php --allow-root || true",
+      "wp config set WP_CONTENT_DIR $(pwd)/wp-content"
     ],
     "test": [
       "codecept run unit",
