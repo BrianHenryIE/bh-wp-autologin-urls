@@ -7,6 +7,10 @@ echo $(basename "$0")
 echo "$ printenv"
 printenv
 
+# Make wp-content/uploads writable
+mkdir /var/www/html/wp-content/uploads || true;
+chmod a+w /var/www/html/wp-content/uploads;
+
 echo "Maybe update WordPress core database"
 wp core update-db
 
