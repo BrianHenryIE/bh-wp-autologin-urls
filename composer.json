@@ -98,6 +98,7 @@
     "woocommerce/woocommerce-sniffs": "*",
     "wordpress/wordpress": "*",
     "wp-cli/dist-archive-command": "*",
+    "wp-cli/handbook": "dev-main",
     "wp-cli/i18n-command": "^2.4",
     "wp-cli/profile-command": "^2.1",
     "wp-cli/wp-cli-bundle": "*",
