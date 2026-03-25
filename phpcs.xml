@@ -30,6 +30,10 @@
     <rule ref="WordPress.Files.FileName.InvalidClassFileName">
         <exclude-pattern>*</exclude-pattern>
     </rule>
+    <!-- I like to keep all the parameters so I know what's available -->
+    <rule ref="Generic.CodeAnalysis.UnusedFunctionParameter.FoundAfterLastUsed">
+        <exclude-pattern>*</exclude-pattern>
+    </rule>
 
     <!-- Enforce fewer rules on tests -->
     <rule ref="Generic.Commenting.DocComment.MissingShort">

@@ -26,3 +26,5 @@ package-lock.json
 /playwright.config.ts
 /test-results
 /wp-cli.wp-env.yml
+
+/vendor-prefixed/psr/log/Psr/Log/Test

@@ -25,4 +25,5 @@ modules:
 #            silentlyActivatePlugins: ['woocommerce/woocommerce.php', 'mailpoet/mailpoet.php']
             plugins: ['woocommerce/woocommerce.php', 'mailpoet/mailpoet.php']
             activatePlugins: ['woocommerce/woocommerce.php', 'mailpoet/mailpoet.php']
+            WP_CONTENT_DIR: "wp-content"
 bootstrap: _bootstrap.php

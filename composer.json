@@ -26,13 +26,13 @@
   "config": {
     "allow-plugins": {
       "alleyinteractive/composer-wordpress-autoloader": true,
+      "brianhenryie/composer-fallback-to-git": true,
+      "brianhenryie/composer-prefer-local": true,
       "composer/installers": true,
       "cweagans/composer-patches": true,
       "dealerdirect/phpcodesniffer-composer-installer": true,
       "johnpbloch/wordpress-core-installer": true,
-      "phpstan/extension-installer": true,
-      "brianhenryie/composer-fallback-to-git": true,
-      "brianhenryie/composer-prefer-local": true
+      "phpstan/extension-installer": true
     },
     "platform": {
       "php": "7.4"
@@ -60,18 +60,18 @@
     "alleyinteractive/wordpress-autoloader": "^1.1",
     "brianhenryie/bh-wp-logger": "^0.1.1",
     "brianhenryie/bh-wp-rate-limiter": "dev-master",
-    "klaviyo/sdk": "^1.0"
+    "klaviyo/sdk": "^1.0",
+    "symfony/polyfill-ctype": "*",
+    "symfony/polyfill-mbstring": "*"
   },
   "require-dev": {
     "ext-dom": "*",
     "10up/wp_mock": "dev-trunk",
     "antecedent/patchwork": "^2.1",
-    "brianhenryie/color-logger": "^1.0",
-    "brianhenryie/composer-fallback-to-git": "^0.5",
-    "brianhenryie/composer-phpstorm": "dev-master",
+    "brianhenryie/color-logger": "*",
+    "brianhenryie/composer-fallback-to-git": "*",
     "brianhenryie/composer-prefer-local": "*",
-    "brianhenryie/php-diff-test": "dev-master",
-    "brianhenryie/strauss": "dev-master",
+    "brianhenryie/strauss": "^0.22.4",
     "codeception/module-asserts": "^1.0",
     "codeception/module-cli": "^1.0",
     "codeception/module-db": "^1.0.0",
@@ -79,11 +79,11 @@
     "codeception/module-phpbrowser": "^1.0.0",
     "codeception/module-webdriver": "^1.0",
     "codeception/util-universalframework": "^1.0",
+    "composer/composer": "^2.6.0",
     "cweagans/composer-patches": "*",
     "dealerdirect/phpcodesniffer-composer-installer": "*",
     "jaschilz/php-coverage-badger": "^2.0",
     "johnpbloch/wordpress": "*",
-    "kporras07/composer-symlinks": "dev-master",
     "lucatume/wp-browser": "^3.5",
     "mheap/phpunit-github-actions-printer": "dev-master",
     "php-stubs/woocommerce-stubs": "*",
@@ -91,10 +91,8 @@
     "phpstan/extension-installer": "*",
     "phpstan/phpstan": "*",
     "phpunit/phpcov": "*",
-    "psr/container": "1.0.0",
     "squizlabs/php_codesniffer": "*",
     "szepeviktor/phpstan-wordpress": "*",
-    "voku/portable-ascii": "dev-master",
     "woocommerce/woocommerce-sniffs": "*",
     "wordpress/wordpress": "*",
     "wp-cli/dist-archive-command": "*",
@@ -118,7 +116,7 @@
   "extra": {
     "strauss": {
       "namespace_prefix": "BrianHenryIE\\WP_Autologin_URLs\\",
-      "target_directory": "/vendor-prefixed/",
+      "target_directory": "vendor/",
       "classmap_prefix": "BH_WP_Autologin_URLs_",
       "namespace_replacement_patterns": {
         "~BrianHenryIE\\\\(.*)~" : "BrianHenryIE\\WP_Autologin_URLs\\\\$1"
@@ -126,11 +124,6 @@
       "exclude_from_prefix": {
         "packages": [
           "psr/log"
-        ]
-      },
-      "exclude_from_copy": {
-        "file_patterns": [
-          "~psr/log/Psr/Log/Test.*~"
         ]
       }
     },
@@ -155,14 +148,14 @@
   },
   "scripts": {
     "post-install-cmd": [
-      "strauss",
-      "Kporras07\\ComposerSymlinks\\ScriptHandler::createSymlinks",
       "@sync-composer-wpenv"
     ],
     "post-update-cmd": [
-      "strauss",
       "Kporras07\\ComposerSymlinks\\ScriptHandler::createSymlinks",
       "@sync-composer-wpenv"
+    ],
+    "create-symlinks": [
+      "Kporras07\\ComposerSymlinks\\ScriptHandler::createSymlinks"
     ],
     "setup-wordpress": [
       "export $(grep -v '^#' .env.testing | xargs); wp config create --dbname=$TEST_SITE_DB_NAME --dbuser=root --dbpass=password --dbhost=127.0.0.1:$TEST_SITE_DB_PORT --config-file=./wp-config.php --allow-root || true",
@@ -197,6 +190,10 @@
     "sync-composer-wpenv": [
       "for name in $(cat .wp-env.json | jq '.mappings | values[]' | sed -r 's/^\\\"|\\\"$//g'); do [ ! -d $name ] && [ ! -f $name ] && echo $name && jq 'del(.. | select(. ==\"'$name'\"))' .wp-env.json | sponge .wp-env.json; done; exit 0;",
       "find wp-content/plugins -type d -depth 1 ! -type l | sort -h | jq -Rn '[inputs]' | jq 'reduce .[] as $item ({}; . + {$item:$item})' | jq '.[] |= \"./\\(.)\"' | jq '. | {mappings: .}' | jq --sort-keys -s '.[] * $existing[]' --slurpfile existing .wp-env.json | sponge .wp-env.json "
+    ],
+    "prefix-namespaces": [
+      "strauss --info",
+      "@php composer dump-autoload"
     ]
   }
 }

@@ -459,7 +459,8 @@ class API implements API_Interface {
 
 		$template = 'email/magic-link.php';
 
-		$template_email_magic_link = WP_PLUGIN_DIR . '/' . plugin_dir_path( $this->settings->get_plugin_basename() ) . 'templates/' . $template;
+		// $template_email_magic_link = WP_PLUGIN_DIR . '/' . plugin_dir_path( $this->settings->get_plugin_basename() ) . 'templates/' . $template;
+		$template_email_magic_link = __DIR__ . '/../../templates/' . $template;
 
 		// Check the child theme for template overrides.
 		if ( file_exists( get_stylesheet_directory() . $template ) ) {
