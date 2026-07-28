@@ -80,7 +80,7 @@ class Uninstall_Unit_Test extends \Codeception\Test\Unit {
 
 		$delete_transients_sql = str_replace( array( "\n", "\r", "\t" ), '', $delete_transients_sql );
 
-		$delete_transients_sql = trim( preg_replace( '!\s+!', ' ', $delete_transients_sql ) );
+		$delete_transients_sql = trim( (string) preg_replace( '!\s+!', ' ', $delete_transients_sql ) );
 
 		$wpdb->shouldReceive( 'query' )
 			->once()

@@ -105,7 +105,7 @@ class User_Finder_Factory {
 
 				try {
 					$integration_instance = new $integration( ...$construct_params );
-				} catch ( Throwable $exception ) {
+				} catch ( Throwable ) {
 					continue;
 				}
 

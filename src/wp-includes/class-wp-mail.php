@@ -76,7 +76,7 @@ class WP_Mail {
 		}
 
 		// If there are no links in the message to this site, return.
-		if ( ! stristr( $wp_mail_args['message'], get_site_url() ) ) {
+		if ( ! stristr( $wp_mail_args['message'], (string) get_site_url() ) ) {
 			return $wp_mail_args;
 		}
 

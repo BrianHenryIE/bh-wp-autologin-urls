@@ -68,7 +68,7 @@ class REST_API extends WP_REST_Controller {
 		}
 
 		$url = $request->get_param( 'url' );
-		if ( ! stristr( $url, get_site_url() ) ) {
+		if ( ! stristr( (string) $url, (string) get_site_url() ) ) {
 			$url = get_site_url( $url );
 		}
 

@@ -99,7 +99,7 @@ class DB_Data_Store_WPUnit_Test extends \lucatume\WPBrowser\TestCase\WPTestCase 
 			'query',
 			function ( $query ) {
 
-				if ( false === strpos( $query, 'expires_at' ) ) {
+				if ( ! str_contains( $query, 'expires_at' ) ) {
 					return $query;
 				}
 

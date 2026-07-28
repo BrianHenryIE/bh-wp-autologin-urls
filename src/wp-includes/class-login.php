@@ -96,7 +96,7 @@ class Login {
 		// Use the null coalescing operator to ensure $user_agent is always a string.
 		// This prevents passing null to strpos, which is deprecated in newer PHP versions.
 		$user_agent = (string) ( filter_input( INPUT_SERVER, 'HTTP_USER_AGENT' ) ?? '' );
-		$bot        = false !== strpos( $user_agent, 'bot' );
+		$bot        = str_contains( $user_agent, 'bot' );
 		if ( $bot ) {
 			return $user_id;
 		}
@@ -215,7 +215,7 @@ class Login {
 
 		// Check is the requested URL wp-login.php. Otherwise we don't want to redirect.
 		$wp_login_endpoint = str_replace( get_site_url(), '', wp_login_url() );
-		if ( ! stristr( $request_uri, $wp_login_endpoint ) ) {
+		if ( ! stristr( $request_uri, (string) $wp_login_endpoint ) ) {
 			return;
 		}
 

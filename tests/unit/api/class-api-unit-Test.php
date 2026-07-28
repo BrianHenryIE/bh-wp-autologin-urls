@@ -98,7 +98,7 @@ class API_Unit_Test extends \Codeception\Test\Unit {
 			array(
 				'args'   => array( 12, false ),
 				'times'  => 1,
-				'return' => rand( 100000000000, 999999999999 ),
+				'return' => random_int( 100000000000, 999999999999 ),
 			)
 		);
 

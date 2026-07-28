@@ -64,7 +64,7 @@ class Login_Ajax {
 
 			// WooCommerce `_wp_http_referer` is relative to the server root (rather than the site url).
 			// whereas redirect_to on wp-login.php is absolute.
-			if ( 0 !== strpos( $url, get_site_url() ) ) {
+			if ( ! str_starts_with( $url, get_site_url() ) ) {
 				$url = get_http_origin() . $url;
 			}
 		}

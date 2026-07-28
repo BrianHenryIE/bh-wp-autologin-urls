@@ -160,7 +160,7 @@ class API implements API_Interface {
 	 */
 	public function add_autologin_to_url( string $url, $user, ?int $expires_in = null ): string {
 
-		if ( ! stristr( $url, get_site_url() ) ) {
+		if ( ! stristr( $url, (string) get_site_url() ) ) {
 			return $url;
 		}
 
@@ -315,7 +315,7 @@ class API implements API_Interface {
 	 * @throws \Exception A DateTime exception when 'now' is used. I.e. never.
 	 */
 	public function delete_expired_codes( ?DateTimeInterface $before = null ): array {
-		$before = $before ?? new DateTimeImmutable( 'now', new DateTimeZone( 'UTC' ) );
+		$before ??= new DateTimeImmutable( 'now', new DateTimeZone( 'UTC' ) );
 		return $this->data_store->delete_expired_codes( $before );
 	}
 
@@ -465,7 +465,7 @@ class API implements API_Interface {
 	 */
 	public function send_magic_link( string $username_or_email_address, ?string $url = null, int $expires_in = 900 ): array {
 
-		$url = $url ?? get_site_url();
+		$url ??= get_site_url();
 
 		$expires_in_friendly = human_time_diff( time() - $expires_in );
 

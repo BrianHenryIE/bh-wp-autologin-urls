@@ -73,7 +73,7 @@ class Autologin_URLs implements User_Finder_Interface, LoggerAwareInterface {
 
 		$autologin_querystring = sanitize_text_field( wp_unslash( $_GET[ self::QUERYSTRING_PARAMETER_NAME ] ) );
 
-		list( $user_id, $password ) = explode( '~', $autologin_querystring, 2 );
+		[$user_id, $password] = explode( '~', $autologin_querystring, 2 );
 
 		if ( empty( $user_id ) || empty( $password ) || ! is_numeric( $user_id ) || ! ctype_alnum( $password ) ) {
 
