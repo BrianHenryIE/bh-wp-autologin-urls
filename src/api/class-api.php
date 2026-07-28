@@ -62,7 +62,7 @@ class API implements API_Interface {
 	 * @param LoggerInterface           $logger     The logger instance.
 	 * @param Data_Store_Interface|null $data_store Class for saving, retrieving and expiring passwords.
 	 */
-	public function __construct( Settings_Interface $settings, LoggerInterface $logger, Data_Store_Interface $data_store = null ) {
+	public function __construct( Settings_Interface $settings, LoggerInterface $logger, ?Data_Store_Interface $data_store = null ) {
 
 		$this->setLogger( $logger );
 		$this->data_store = $data_store ?? new Transient_Data_Store( $logger );

@@ -180,10 +180,10 @@ class REST_API extends WP_REST_Controller {
 		);
 
 		$args['expires_in'] = array(
-			'type'     => 'int',
-			'format'   => 'url',
-			'context'  => array( 'edit' ),
-			'required' => false,
+			'description' => esc_html__( 'Number of seconds the code should be valid for.', 'bh-wp-autologin-urls' ),
+			'type'        => 'integer',
+			'context'     => array( 'edit' ),
+			'required'    => false,
 		);
 
 		return $args;
