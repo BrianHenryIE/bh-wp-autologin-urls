@@ -80,7 +80,7 @@ class MailPoet implements User_Finder_Interface, LoggerAwareInterface {
 		}
 
 		// phpcs:disable WordPress.PHP.DiscouragedPHPFunctions.obfuscation_base64_decode
-		$data = Router::decodeRequestData( filter_var( wp_unslash( $_GET['data'] ), FILTER_SANITIZE_STRIPPED ) );
+		$data = Router::decodeRequestData( sanitize_text_field( wp_unslash( $_GET['data'] ) ) );
 
 		/**
 		 * The required data from the MailPoet querystring.

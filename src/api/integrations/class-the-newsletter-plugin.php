@@ -65,8 +65,9 @@ class The_Newsletter_Plugin implements User_Finder_Interface, LoggerAwareInterfa
 
 		// This code mostly lifted from Newsletter plugin.
 
-		$input = filter_var( wp_unslash( $_GET['nltr'] ), FILTER_SANITIZE_STRIPPED );
-		if ( false === $input ) {
+		// `FILTER_SANITIZE_STRING`/`FILTER_SANITIZE_STRIPPED` is deprecated since PHP 8.1.
+		$input = sanitize_text_field( wp_unslash( $_GET['nltr'] ) );
+		if ( '' === $input ) {
 			return $result;
 		}
 

@@ -224,12 +224,14 @@ class Login {
 		// phpcs:disable WordPress.Security.NonceVerification.Recommended
 		if ( isset( $_GET['redirect_to'] ) ) {
 
-			$url = filter_var( wp_unslash( $_GET['redirect_to'] ), FILTER_SANITIZE_STRING );
-			if ( false === $url ) {
+			// `FILTER_SANITIZE_STRING` is deprecated since PHP 8.1. `sanitize_text_field()` cannot
+			// be used here because it strips percent-encoded characters, and the value arrives
+			// percent-encoded.
+			// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- esc_url_raw() sanitizes.
+			$redirect_to = esc_url_raw( urldecode( wp_unslash( $_GET['redirect_to'] ) ) );
+			if ( '' === $redirect_to ) {
 				return;
 			}
-			$redirect_to = urldecode( $url );
-
 		} else {
 			// TODO: There's a filter determining what the destination URL should be when logging in a user.
 			$redirect_to = get_site_url();
