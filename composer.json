@@ -69,7 +69,10 @@
     },
     "brianhenryie/bh-wp-rate-limiter": {
       "url": "../bh-wp-rate-limiter",
-      "type": "path"
+      "type": "path",
+      "options": {
+        "symlink": false
+      }
     },
     "wordpress/wordpress": {
       "url": "https://github.com/WordPress/wordpress-develop",

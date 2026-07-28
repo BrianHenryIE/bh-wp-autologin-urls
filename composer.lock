@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "123b39a1ccafaa270ee199071ecb84fb",
+    "content-hash": "11021a26cf9c4c0f7170d0e2ec622df0",
     "packages": [
         {
             "name": "alleyinteractive/wordpress-autoloader",
@@ -379,7 +379,7 @@
             "dist": {
                 "type": "path",
                 "url": "../bh-wp-rate-limiter",
-                "reference": "461be5cc4086ff0e1db16de7101a7a3832a42fc2"
+                "reference": "201c073bff978f74b1583bb7165bf5e2fdc11d24"
             },
             "require": {
                 "nikolaposa/rate-limit": "^3.3.0",
@@ -430,6 +430,7 @@
             ],
             "description": "Rate limiter using WordPress cache for storage.",
             "transport-options": {
+                "symlink": false,
                 "relative": true
             }
         },
@@ -11913,5 +11914,5 @@
     "platform-overrides": {
         "php": "8.1"
     },
-    "plugin-api-version": "2.6.0"
+    "plugin-api-version": "2.9.0"
 }
