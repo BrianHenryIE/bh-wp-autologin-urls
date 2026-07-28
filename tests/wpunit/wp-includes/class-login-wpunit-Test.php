@@ -189,6 +189,10 @@ class Login_WPUnit_Test extends \lucatume\WPBrowser\TestCase\WPTestCase {
 
 		add_filter(
 			'wp_redirect',
+			/**
+			 * @return never
+			 * @throws \Exception Always, to capture the redirect target.
+			 */
 			function ( $location ) {
 				throw new \Exception( $location );
 			}

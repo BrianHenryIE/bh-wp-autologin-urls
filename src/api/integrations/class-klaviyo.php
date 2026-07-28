@@ -100,16 +100,16 @@ class Klaviyo implements User_Finder_Interface, LoggerAwareInterface {
 
 		$result['user_data'] = $user_data;
 
-		if ( ! isset( $user_data['email'] ) ) {
+		if ( empty( $user_data['email'] ) ) {
 			return $result;
 		}
 
-		$user_email = $user_data['email'];
+		$user_email = (string) $user_data['email'];
 
 		$user = get_user_by( 'email', $user_email );
 
 		if ( ! ( $user instanceof WP_User ) ) {
-			$this->logger->debug( "No WP_User account found for Klaviyo user {$user_data['klaviyo_user_id']}" );
+			$this->logger->debug( "No WP_User account found for Klaviyo user {$user_data['klaviyo_user_id']}." );
 			return $result;
 		}
 
@@ -129,7 +129,7 @@ class Klaviyo implements User_Finder_Interface, LoggerAwareInterface {
 	 *
 	 * @param string $kx_parameter The Klaviyo tracking URL parameter.
 	 *
-	 * @return array<void>|array{klaviyo_user_id:string,address:string,address_2:string,city:string,country:string,state:string,postcode:string,company:string,first_name:string,email:string,billing_phone:string,last_name:string}
+	 * @return array{}|array{klaviyo_user_id:string,address:string,address_2:string,city:string,country:string,state:string,postcode:string,company:string,first_name:string,email:string,billing_phone:string,last_name:string}
 	 * @throws \BrianHenryIE\WP_Autologin_URLs\Klaviyo\ApiException When the Klaviyo API request fails.
 	 */
 	protected function get_user_data( string $kx_parameter ): array {
@@ -145,6 +145,8 @@ class Klaviyo implements User_Finder_Interface, LoggerAwareInterface {
 			 *
 			 * @var array{id?:string} $response
 			 */
+			// The generated SDK's type is `?ExchangeRequest` but the client only json-encodes it.
+			/** @phpstan-ignore argument.type */
 			$response = $profiles->exchange( array( 'exchange_id' => $kx_parameter ) );
 		} catch ( ApiException $exception ) { // ApiException seemingly not catching 429 errors.
 			$this->logger->error( $exception->getMessage(), array( 'exception' => $exception ) );
@@ -191,7 +193,7 @@ class Klaviyo implements User_Finder_Interface, LoggerAwareInterface {
 			}
 		}
 
-		if ( isset( $user_data['email'] ) ) {
+		if ( ! empty( $user_data['email'] ) ) {
 			$user_data['billing_email'] = $user_data['email'];
 		}
 

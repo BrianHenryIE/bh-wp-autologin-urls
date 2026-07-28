@@ -19,6 +19,9 @@ use WP_User;
  */
 class REST_API extends WP_REST_Controller {
 
+	const REST_NAMESPACE = 'bh-wp-autologin-urls/v1';
+	const REST_BASE      = 'autologin-codes';
+
 	/**
 	 * Used to generate the autologin URL.
 	 */
@@ -29,17 +32,17 @@ class REST_API extends WP_REST_Controller {
 	 */
 	public function __construct( API_Interface $api ) {
 		$this->api       = $api;
-		$this->namespace = 'bh-wp-autologin-urls/v1';
-		$this->rest_base = 'autologin-codes';
+		$this->namespace = self::REST_NAMESPACE;
+		$this->rest_base = self::REST_BASE;
 	}
 
 	/**
 	 * @see WP_REST_Controller::register_routes()
 	 */
-	public function register_routes() {
+	public function register_routes(): void {
 		register_rest_route(
-			$this->namespace,
-			$this->rest_base,
+			self::REST_NAMESPACE,
+			self::REST_BASE,
 			array(
 				array(
 					'methods'             => WP_REST_Server::CREATABLE,
@@ -108,7 +111,6 @@ class REST_API extends WP_REST_Controller {
 
 		// If the current user is creating a link for themselves.
 		if ( $user instanceof WP_User
-			&& wp_get_current_user() instanceof WP_User
 			&& wp_get_current_user()->ID === $user->ID ) {
 			return true;
 		}
@@ -143,6 +145,8 @@ class REST_API extends WP_REST_Controller {
 
 	/**
 	 * @see WP_REST_Controller::get_item_schema()
+	 *
+	 * @return array<string, mixed>
 	 */
 	public function get_item_schema() {
 		return array(

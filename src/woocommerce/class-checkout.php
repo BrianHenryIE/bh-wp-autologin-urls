@@ -42,7 +42,10 @@ class Checkout {
 	public function prefill_checkout_fields( array $user_info ): void {
 		$this->logger->debug( 'Prefilling WooCommerce checkout.', $user_info );
 
-		WC()->session->set_customer_session_cookie( true );
+		$session = WC()->session;
+		if ( method_exists( $session, 'set_customer_session_cookie' ) ) {
+			$session->set_customer_session_cookie( true );
+		}
 
 		if ( ! empty( $user_info['email'] ) && is_email( $user_info['email'] ) ) {
 			WC()->session->set( 'billing_email', $user_info['email'] );
@@ -61,7 +64,7 @@ class Checkout {
 			WC()->customer->set_shipping_last_name( $user_info['last_name'] );
 		}
 
-		if ( ! isset( $user_info['email'] ) ) {
+		if ( empty( $user_info['email'] ) ) {
 			return;
 		}
 

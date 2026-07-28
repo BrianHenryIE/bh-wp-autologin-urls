@@ -40,6 +40,15 @@ interface API_Interface {
 	public function add_autologin_to_url( string $url, $user, ?int $expires_in = null ): string;
 
 	/**
+	 * Get the WP_User object from a user id, email, login or user object. Null when not found.
+	 *
+	 * @param null|int|string|WP_User $user A valid user id, email, login or user object.
+	 *
+	 * @return ?WP_User
+	 */
+	public function get_wp_user( $user ): ?WP_User;
+
+	/**
 	 * Establishes if the autologin password used by the user is valid to log them in.
 	 *
 	 * @param int    $user_id User id the password purports to be for.

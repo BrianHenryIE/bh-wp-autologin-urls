@@ -127,12 +127,12 @@ class API implements API_Interface {
 		} elseif ( is_numeric( $user ) && 0 !== intval( $user ) ) {
 
 			// When string '123' is passed as the user id, convert it to an int.
-			$user = absint( $user );
-			$user = get_user_by( 'ID', $user );
+			$user_id = absint( $user );
+			$user    = get_user_by( 'ID', $user_id );
 
 			// But it is possible that the number is actually the username.
 			if ( false === $user ) {
-				$user = get_user_by( 'login', $user );
+				$user = get_user_by( 'login', (string) $user_id );
 			}
 		} elseif ( is_string( $user ) && is_email( $user ) ) {
 
@@ -196,7 +196,7 @@ class API implements API_Interface {
 			if ( isset( $parsed_url['query'] ) ) {
 				parse_str( $parsed_url['query'], $query_get );
 
-				if ( isset( $query_get['redirect_to'] ) ) {
+				if ( isset( $query_get['redirect_to'] ) && is_string( $query_get['redirect_to'] ) ) {
 					$url = $query_get['redirect_to'];
 				} else {
 					$url = get_site_url();
@@ -232,7 +232,7 @@ class API implements API_Interface {
 	 */
 	public function generate_code( $user, ?int $seconds_valid ): ?string {
 
-		if ( is_null( $user ) || ! ( $user instanceof WP_User ) ) {
+		if ( ! ( $user instanceof WP_User ) ) {
 			return null;
 		}
 
@@ -442,7 +442,8 @@ class API implements API_Interface {
 		} elseif ( isset( $_SERVER['HTTP_X_REAL_IP'] ) ) {
 				$ip_address = sanitize_text_field( wp_unslash( $_SERVER['HTTP_X_REAL_IP'] ) );
 		} elseif ( isset( $_SERVER['HTTP_X_FORWARDED_FOR'] ) ) {
-			$ip_address = (string) rest_is_ip_address( trim( current( preg_split( '/,/', sanitize_text_field( wp_unslash( $_SERVER['HTTP_X_FORWARDED_FOR'] ) ) ) ) ) );
+			$forwarded_for = preg_split( '/,/', sanitize_text_field( wp_unslash( $_SERVER['HTTP_X_FORWARDED_FOR'] ) ) );
+			$ip_address    = false === $forwarded_for ? null : (string) rest_is_ip_address( trim( (string) current( $forwarded_for ) ) );
 		} elseif ( isset( $_SERVER['REMOTE_ADDR'] ) ) {
 			$ip_address = filter_var( wp_unslash( $_SERVER['REMOTE_ADDR'] ), FILTER_VALIDATE_IP );
 		}
@@ -542,7 +543,7 @@ class API implements API_Interface {
 
 		$headers = array( 'Content-Type: text/html; charset=UTF-8' );
 
-		$mail_success = wp_mail( $to, $subject, $message, $headers );
+		$mail_success = wp_mail( $to, $subject, (string) $message, $headers );
 
 		$result['success'] = $mail_success;
 

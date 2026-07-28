@@ -62,7 +62,7 @@ class User_Finder_Factory {
 
 				$integration_instance = $integration;
 
-			} elseif ( is_string( $integration ) && class_exists( $integration ) ) {
+			} elseif ( class_exists( $integration ) ) {
 
 				$class = new ReflectionClass( $integration );
 
@@ -77,7 +77,13 @@ class User_Finder_Factory {
 
 					foreach ( $parameters as $reflection_parameter ) {
 
-						$parameter_type = $reflection_parameter->getType()->getName();
+						$reflection_type = $reflection_parameter->getType();
+
+						if ( ! $reflection_type instanceof \ReflectionNamedType ) {
+							continue 2;
+						}
+
+						$parameter_type = $reflection_type->getName();
 
 						if ( isset( $this->dependencies[ $parameter_type ] ) ) {
 							$construct_params[] = $this->dependencies[ $parameter_type ];
@@ -98,7 +104,6 @@ class User_Finder_Factory {
 				}
 
 				try {
-					/** @var User_Finder_Interface $integration */
 					$integration_instance = new $integration( ...$construct_params );
 				} catch ( Throwable $exception ) {
 					continue;

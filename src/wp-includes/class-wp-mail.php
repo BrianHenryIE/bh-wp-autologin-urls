@@ -61,7 +61,7 @@ class WP_Mail {
 			case is_string( $wp_mail_args['to'] ):
 				$to = $wp_mail_args['to'];
 				break;
-			case is_array( $wp_mail_args['to'] ) && count( $wp_mail_args['to'] ) === 1:
+			case 1 === count( $wp_mail_args['to'] ):
 				$to = $wp_mail_args['to'][ array_key_first( $wp_mail_args['to'] ) ];
 				break;
 			default:

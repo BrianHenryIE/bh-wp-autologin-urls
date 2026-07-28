@@ -95,7 +95,7 @@ class Login {
 		// Check for bots.
 		// Use the null coalescing operator to ensure $user_agent is always a string.
 		// This prevents passing null to strpos, which is deprecated in newer PHP versions.
-		$user_agent = filter_input( INPUT_SERVER, 'HTTP_USER_AGENT' ) ?? '';
+		$user_agent = (string) ( filter_input( INPUT_SERVER, 'HTTP_USER_AGENT' ) ?? '' );
 		$bot        = false !== strpos( $user_agent, 'bot' );
 		if ( $bot ) {
 			return $user_id;
@@ -121,15 +121,17 @@ class Login {
 
 		$user_array = $user_finder->get_wp_user_array();
 
-		if ( isset( $user_array['wp_user'] ) && $user_array['wp_user'] instanceof WP_User ) {
+		if ( $user_array['wp_user'] instanceof WP_User ) {
 			$this->logger->debug( "Found `wp_user:{$user_array['wp_user']->ID}`." );
 			$wp_user = $user_array['wp_user'];
 		} elseif ( ! empty( $user_array['user_data'] ) ) {
 			// If no WP_User account was found, but other user data was found that could be used for WooCommerce, prepopulate the checkout fields.
 			$this->logger->debug( 'No wp_user found, preloading WooCommerce fields.', $user_array );
-			$prefill_checkout_fields = function () use ( $user_array ) {
+			/** @var array{email:string, first_name:string, last_name:string} $user_data */
+			$user_data               = $user_array['user_data'];
+			$prefill_checkout_fields = function () use ( $user_data ) {
 				$woocommerce_checkout = new Checkout( $this->logger );
-				$woocommerce_checkout->prefill_checkout_fields( $user_array['user_data'] );
+				$woocommerce_checkout->prefill_checkout_fields( $user_data );
 			};
 			if ( did_action( 'woocommerce_init' ) ) {
 				$prefill_checkout_fields();
