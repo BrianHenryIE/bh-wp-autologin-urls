@@ -75,9 +75,6 @@
     <rule ref="PEAR.NamingConventions.ValidClassName.Invalid">
         <exclude-pattern>*/tests/*</exclude-pattern>
     </rule>
-    <rule ref="PSR2.Methods.MethodDeclaration.Underscore">
-        <exclude-pattern>*/tests/acceptance/*</exclude-pattern>
-    </rule>
     <rule ref="Squiz.Commenting.ClassComment.Missing">
         <exclude-pattern>*/tests/*</exclude-pattern>
     </rule>
@@ -108,12 +105,6 @@
     </rule>
     <rule ref="WordPress.Files.FileName.NotHyphenatedLowercase">
         <exclude-pattern>*/tests/*</exclude-pattern>
-    </rule>
-    <rule ref="WordPress.NamingConventions.ValidFunctionName.MethodNameInvalid">
-        <exclude-pattern>*/tests/acceptance/*</exclude-pattern>
-    </rule>
-    <rule ref="WordPress.NamingConventions.ValidVariableName.VariableNotSnakeCase">
-        <exclude-pattern>*/tests/acceptance/*</exclude-pattern>
     </rule>
     <rule ref="WordPress.NamingConventions.ValidVariableName.PropertyNotSnakeCase">
         <exclude-pattern>*/tests/*</exclude-pattern>

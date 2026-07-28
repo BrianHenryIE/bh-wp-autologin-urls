@@ -1,15 +1,17 @@
 {
   "config": {
     "WP_DEBUG_LOG": "/var/www/html/wp-content/debug.log",
-    "WP_DEBUG_DISPLAY": false
+    "WP_DEBUG_DISPLAY": false,
+    "WP_MEMORY_LIMIT": "512M",
+    "WP_MAX_MEMORY_LIMIT": "512M"
   },
   "core": "WordPress/WordPress#7.0.2",
   "lifecycleScripts": {
-    "afterStart": "bash 'tests/e2e-pw/setup/initialize-external.sh'"
+    "afterStart": "bash 'tests/_wp-env/initialize-external.sh'"
   },
   "mappings": {
+    "../setup": "./tests/_wp-env",
     "openapi": "./openapi",
-    "setup": "./tests/e2e-pw/setup",
     "wp-cli.yml": "./wp-cli.wp-env.yml",
     "wp-content/plugins/document-generator-for-openapi": "./wp-content/plugins/document-generator-for-openapi",
     "wp-content/plugins/give": "./wp-content/plugins/give",

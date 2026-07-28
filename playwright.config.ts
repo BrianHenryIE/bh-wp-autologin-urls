@@ -17,14 +17,15 @@ export default defineConfig({
   // testDir: './vendor/wordpress/wordpress/tests/e2e',
   /* Pattern to match test files. `.spec.[j|t]s` is Playwright default; WordPress uses `.test.[j|t]s` */
   // grep: /(spec|test)/,
-  /* Run tests in files in parallel */
-  fullyParallel: true,
+  /* The specs share one WordPress install and mutate its users, newsletters and mail log, so
+   * they cannot safely run in parallel: concurrent workers also overload the single wp-env
+   * container enough for admin pages to time out. The whole suite takes ~2 minutes serially. */
+  fullyParallel: false,
   /* Fail the build on CI if you accidentally left test.only in the source code. */
   forbidOnly: !!process.env.CI,
   /* Retry on CI only */
   retries: process.env.CI ? 2 : 0,
-  /* Opt out of parallel tests on CI. */
-  workers: process.env.CI ? 1 : undefined,
+  workers: 1,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   // override that location using the PLAYWRIGHT_HTML_REPORT environment variable
   // A fixed folder so CI can upload it as an artifact.
@@ -35,7 +36,9 @@ export default defineConfig({
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Base URL to use in actions like `await page.goto('/')`. */
-    baseURL: BASE_URL ?? 'http://localhost:8889',
+    // Port 8888 is wp-env's development environment. `.wp-env.json` sets
+    // `testsEnvironment: false`, so there is nothing on 8889.
+    baseURL: BASE_URL ?? 'http://localhost:8888',
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',

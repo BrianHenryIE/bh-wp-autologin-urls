@@ -12,13 +12,15 @@ async function loginAsAdmin( page: Page ) {
 
 async function createUser(page: Page, username: string = null, email: string = null, role: string = null) {
 
-    username = (username ?? ('bob' + Math.random())).replace(/^[@\W]*/g, '').replace(/[:]/g, '');
-    email = email.replace(/^[@\W]*/g, '').replace(/[:]/g, '') ?? (username + '@example.org').replace(/^[@\W]*/g, '').replace(/[:]/g, '');
+    const clean = (value: string) => value.replace(/^[@\W]*/g, '').replace(/[:]/g, '');
+
+    username = clean(username ?? ('bob' + Math.random()));
+    email = clean(email ?? (username + '@example.org'));
 
     await page.goto('/wp-admin/user-new.php', {waitUntil: 'domcontentloaded'});
 
-    await page.getByLabel('Username (required)').fill(username);
-    await page.getByLabel('Email (required)').fill(email);
+    await page.locator('#user_login').fill(username);
+    await page.locator('#email').fill(email);
 
     await page.locator('#send_user_notification').uncheck();
 
@@ -28,7 +30,8 @@ async function createUser(page: Page, username: string = null, email: string = n
         await page.selectOption('select#role', {value: role});
     }
 
-    await page.getByRole('button', { name: 'Add New User' }).click();
+    // WordPress 7.0 renamed the button from "Add New User" to "Add User"; the id is stable.
+    await page.locator('#createusersub').click();
     await page.waitForLoadState( 'domcontentloaded' ); // "New user created."
 
     return username;
