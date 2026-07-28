@@ -3,7 +3,10 @@
 namespace BrianHenryIE\WP_Autologin_URLs\API\Integrations;
 
 use BrianHenryIE\ColorLogger\ColorLogger;
-use MailPoet\Models\Subscriber;
+use MailPoet\DI\ContainerWrapper;
+use MailPoet\Entities\SubscriberEntity;
+use MailPoet\Subscribers\LinkTokens;
+use MailPoet\Subscribers\SubscribersRepository;
 
 
 /**
@@ -54,10 +57,26 @@ class MailPoet_WPUnit_Test extends \lucatume\WPBrowser\TestCase\WPTestCase {
 	 */
 	public function test_get_wp_user_array(): void {
 
-		// MailPoet automatically registers the new WP User as a subscriber.
-		$user_id                = wp_create_user( 'MailPoet Test User', 'mptest', 'user@example.org' );
-		$subscriber             = Subscriber::where( 'email', 'user@example.org' )->findOne();
-		$mailpoet_subscriber_id = $subscriber->id;
+		// MailPoet's automatic WP User → subscriber synchronization is unhooked in tests/wpunit/_bootstrap.php
+		// (its Doctrine transactions break test isolation), so create the subscriber explicitly.
+		$user_id = wp_create_user( 'MailPoet Test User', 'mptest', 'user@example.org' );
+
+		$subscribers_repository = ContainerWrapper::getInstance()->get( SubscribersRepository::class );
+
+		// MailPoet's Doctrine writes are committed outside the test's wrapping transaction,
+		// so a subscriber may already exist from a previous run.
+		$subscriber = $subscribers_repository->findOneBy( array( 'email' => 'user@example.org' ) );
+		if ( is_null( $subscriber ) ) {
+			$subscriber = new SubscriberEntity();
+			$subscriber->setEmail( 'user@example.org' );
+		}
+		$subscriber->setWpUserId( $user_id );
+		$subscribers_repository->persist( $subscriber );
+		$subscribers_repository->flush();
+
+		$mailpoet_subscriber_id = $subscriber->getId();
+
+		$subscriber_link_token = ContainerWrapper::getInstance()->get( LinkTokens::class )->getToken( $subscriber );
 
 		$params                    = array();
 		$params['mailpoet_router'] = '';
@@ -72,7 +91,7 @@ class MailPoet_WPUnit_Test extends \lucatume\WPBrowser\TestCase\WPTestCase {
 		 */
 		$data_array = array(
 			0 => $mailpoet_subscriber_id,
-			1 => $subscriber->linkToken,
+			1 => $subscriber_link_token,
 			2 => '7', // queue_id.
 			3 => 'f11e2150f233', // link_hash.
 			4 => false, // preview.
