@@ -1,0 +1,243 @@
+name: Code Coverage Report Comment
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+  push:
+    branches:
+      - master
+
+env:
+  COVERAGE_PHP_VERSION: '8.4'
+
+jobs:
+  php-tests:
+    runs-on: ubuntu-latest
+
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: password
+          MYSQL_DATABASE: bh_wp_autologin_urls_tests
+        ports:
+          - 3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+
+    permissions:
+      pull-requests: write # To add coverage comment
+      contents: write # To commit coverage badge & report
+
+    strategy:
+      matrix:
+        php: [ '8.1', '8.2', '8.3', '8.4' ]
+
+    env:
+      COMPOSER_ALLOW_UNSAFE_PHAR_METADATA: 1 # "Refusing to parse a tar/phar archive on PHP < 8.0 because it is not safe to process untrusted archives on that PHP version."
+
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          # Value already defaults to true, but `persist-credentials` is required to push new commits to the repository.
+          persist-credentials: true
+          fetch-depth: 0 # attempt to fix phpcov empty BRANCHED_COMMIT.
+
+      - name: Checkout GitHub Pages branch for code coverage report
+        if: ${{ matrix.php == env.COVERAGE_PHP_VERSION }}
+        uses: actions/checkout@v6
+        with:
+          ref: gh-pages
+          path: gh-pages
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          coverage: ${{ matrix.php == env.COVERAGE_PHP_VERSION && 'xdebug' || 'none' }}
+          ini-values: register_argc_argv=on # 8.5: PHP Fatal error: Uncaught Codeception\Exception\ConfigurationException: register_argc_argv must be set to On for running Codeception
+
+      - name: Update .env.testing config for GitHub Actions
+        env:
+          PLUGIN_SLUG: ${{ github.event.repository.name }}
+        run: |
+          find . -depth \( -name '.env.testing' \) -exec sed -i "s/_DB_PORT=\"33066\"/_DB_PORT=\"${{ job.services.mysql.ports['3306'] }}\"/g" {} +
+
+      - name: Read .env.testing
+        uses: c-py/action-dotenv-to-setenv@v5
+        with:
+          env-file: .env.testing
+
+      # TODO: merge master into this branch and run tests against what master will become, not just the isolated branch.
+      # NB: how would that affect tj-actions/changed-files?
+
+      # Local repository references will always fail in CI. Remove them and let's hope the requirements are already up to date on Packagist.
+      - name: Remove local repository references
+        run: |
+          jq '
+            [ .repositories | to_entries[] | select(.value.type=="path") | (.value.only[]? // .key) ] as $paths
+            | .repositories |= with_entries(select(.value.type != "path"))
+            | .require |= with_entries(.key as $k | .value = (if ($paths | index($k)) then "*" else .value end))
+            | (.["require-dev"] |= with_entries(.key as $k | .value = (if ($paths | index($k)) then "*" else .value end)))
+          ' composer.json > composer.json.tmp
+          mv composer.json.tmp composer.json
+
+      # TODO: on merge to main, the workflow should commit the updated composer.json.
+
+      # `composer install` cannot be used: the step above rewrote composer.json, so it no longer
+      # matches composer.lock.
+      - name: Install PHP dependencies
+        run: composer update --verbose
+
+      - name: Install php-codecoverage-markdown for markdown report generation
+        if: ${{ matrix.php == env.COVERAGE_PHP_VERSION }}
+        run: composer require brianhenryie/php-codecoverage-markdown --dev --with-all-dependencies --no-scripts
+
+      # wp-env 8.4 w/xdebug, 8.5 : 6:41 | 14:35
+      # MySQL: 8/4 w/xdebug, 8.5 : 8:15 | 4:40
+      # presumably because of the setup script.
+      # @see https://github.com/wp-cli/dist-archive-command/pull/116
+      # This takes 10 minutes+ so let's try to use services.mysql instead.
+      #      - name: Start wp-env
+      #        run: npx wp-env start --debug
+
+      - name: Setup test environment
+        run: cp .env.testing .env
+
+      - name: Run tests without coverage
+        if: ${{ matrix.php != env.COVERAGE_PHP_VERSION }}
+        run: |
+          vendor/bin/codecept run unit --debug
+          vendor/bin/codecept run wpunit --debug
+          vendor/bin/codecept run integration --debug
+
+      - name: Run tests with coverage
+        if: ${{ matrix.php == env.COVERAGE_PHP_VERSION }} # We only need the coverage once
+        run: |
+          XDEBUG_MODE=coverage vendor/bin/codecept run unit --coverage unit.cov --debug
+          XDEBUG_MODE=coverage vendor/bin/codecept run wpunit --coverage wpunit.cov --debug
+          XDEBUG_MODE=coverage vendor/bin/codecept run integration --coverage integration.cov --debug
+
+      - name: Merge code coverage
+        if: ${{ matrix.php == env.COVERAGE_PHP_VERSION }}
+        run: |
+          vendor/bin/phpcov merge \
+            --clover tests/_output/clover.xml \
+            --php gh-pages/${{ github.sha }}/phpunit/coveragephp.cov \
+            --html gh-pages/${{ github.sha }}/phpunit/html/ \
+            tests/_output
+
+      # This makes the coverage percentage available in `{{ steps.coverage-percentage.outputs.coverage }}`.
+      - name: Check test coverage
+        if: ${{ matrix.php == env.COVERAGE_PHP_VERSION }}
+        uses: johanvanhelden/gha-clover-test-coverage-check@2543c79a701f179bd63aa14c16c6938c509b2cec # v1
+        id: coverage-percentage
+        with:
+          percentage: 25
+          exit: false
+          filename: tests/_output/clover.xml
+          rounded-precision: "0"
+
+      - name: Generate the badge SVG image
+        if: ${{ matrix.php == env.COVERAGE_PHP_VERSION }}
+        uses: emibcn/badge-action@v2
+        id: badge
+        with:
+          label: 'PHPUnit'
+          status: ${{ format('{0}%', steps.coverage-percentage.outputs.coverage-rounded) }}
+          path: .github/coverage.svg
+          color: ${{ steps.coverage-percentage.outputs.coverage >= 90 && 'green'
+            || steps.coverage-percentage.outputs.coverage >= 80 && 'orange'
+            || 'red' }}
+
+      - name: Copy badge for PR comment display
+        if: ${{ matrix.php == env.COVERAGE_PHP_VERSION }}
+        run: cp .github/coverage.svg gh-pages/${{ github.sha }}/phpunit/coverage.svg
+
+      - name: Update root gh pages to redirect to commit for master
+        if: ${{ matrix.php == env.COVERAGE_PHP_VERSION && github.ref == 'refs/heads/master' }}
+        run: |
+          echo '<script>window.location.href="https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/${{ github.sha }}/phpunit/html/index.html";</script><a href="https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/${{ github.sha }}/phpunit/html/index.html">Coverage at ${{ github.sha }}</a>' > gh-pages/index.html
+
+      # https://github.blog/news-insights/bypassing-jekyll-on-github-pages/
+      # https://docs.github.com/en/pages/setting-up-a-github-pages-site-with-jekyll/about-github-pages-and-jekyll
+      - name: Disable Jekyll for GitHub Pages
+        if: ${{ matrix.php == env.COVERAGE_PHP_VERSION }}
+        run: |
+          if [ ! -f "gh-pages/.nojekyll" ]; then
+            touch gh-pages/.nojekyll
+          fi
+
+      - name: Pre-commit `git pull gh-pages`
+        if: ${{ matrix.php == env.COVERAGE_PHP_VERSION }}
+        run: |
+          cd gh-pages
+          (git ls-remote --heads --exit-code origin gh-pages &>/dev/null) && (git checkout --progress --force -B gh-pages refs/remotes/origin/gh-pages)
+
+      - name: Commit HTML code coverage + badge to gh-pages
+        if: ${{ matrix.php == env.COVERAGE_PHP_VERSION }}
+        uses: stefanzweifel/git-auto-commit-action@v7
+        with:
+          repository: gh-pages
+          branch: gh-pages
+          commit_message: "🤖 Commit code coverage to gh-pages"
+
+      - name: Commit code coverage badge to master/main
+        if: ${{ matrix.php == env.COVERAGE_PHP_VERSION && github.ref == 'refs/heads/master' }}
+        uses: stefanzweifel/git-auto-commit-action@v7
+        with:
+          file_pattern: .github/coverage.svg
+          commit_message: "🤖 Commit code coverage badge"
+
+      - name: Get changed files
+        if: ${{ matrix.php == env.COVERAGE_PHP_VERSION && github.event_name == 'pull_request' }}
+        id: changed-files
+        uses: tj-actions/changed-files@v47
+        with:
+          separator: ','
+          files: '**/**.php'
+
+      - name: Generate markdown report
+        if: ${{ matrix.php == env.COVERAGE_PHP_VERSION && github.event_name == 'pull_request' }} # We only need it added once
+        run: |
+          vendor/bin/php-codecoverage-markdown \
+            --input-file gh-pages/${{ github.sha }}/phpunit/coveragephp.cov \
+            --covered-files=${{ steps.changed-files.outputs.all_changed_files }} \
+            --base-url ${{ format('https://{0}.github.io/{1}/{2}/phpunit/html/', github.repository_owner, github.event.repository.name, github.sha) }} \
+            --output-file coverage-report.md
+          # TODO: need to remove /src from the beginning of every link
+
+      - name: Add to the PR message
+        if: ${{ matrix.php == env.COVERAGE_PHP_VERSION && github.event_name == 'pull_request' }}
+        run: |
+          echo "[![Project Code Coverage](https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/${{ github.sha }}/phpunit/coverage.svg)](https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/${{ github.sha }}/phpunit/html/index.html)" > coverage-comment-header.md
+          echo "${{ format('[project coverage report {0}%](https://{1}.github.io/{2}/{3}/phpunit/html/) @ {4}', steps.coverage-percentage.outputs.coverage-rounded, github.repository_owner, github.event.repository.name, github.sha, github.sha) }}" >> coverage-comment-header.md
+          echo "$(cat coverage-comment-header.md)" > coverage-comment.md
+          echo "" >> coverage-comment.md
+          echo "" >> coverage-comment.md
+          echo "$(cat coverage-report.md)" >> coverage-comment.md
+
+      - name: Add phpcov uncovered lines report to PR comment
+        if: ${{ matrix.php == env.COVERAGE_PHP_VERSION && github.event_name == 'pull_request' }}
+        continue-on-error: true # phpcov can fail if there are no uncovered lines
+        run: |
+          BRANCHED_COMMIT=$(git rev-list master..HEAD | tail -n 1);
+          echo "BRANCHED_COMMIT=$BRANCHED_COMMIT"
+          git diff $BRANCHED_COMMIT...${{ github.event.pull_request.head.sha }} > branch.diff
+          cat branch.diff
+          OUTPUT=$(vendor/bin/phpcov patch-coverage --path-prefix $(pwd) ./gh-pages/${{ github.sha }}/phpunit/coveragephp.cov branch.diff || true)
+          echo $OUTPUT
+          echo "" >> coverage-comment.md
+          echo "$OUTPUT" >> coverage-comment.md
+
+      - name: Comment on PR
+        uses: mshick/add-pr-comment@v3
+        if: ${{ matrix.php == env.COVERAGE_PHP_VERSION && github.event_name == 'pull_request' }} # We only need it added once
+        with:
+          message-id: coverage-report
+          message-path: coverage-comment.md
+        continue-on-error: true # When a PR is opened by a non-member, there are no write permissions (and no access to secrets), so this step will always fail.
+
+#      - name: Cleanup wp-env
+#        if: always()
+#        run: npx wp-env stop
+#        continue-on-error: true
