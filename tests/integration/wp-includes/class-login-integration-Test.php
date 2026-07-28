@@ -83,89 +83,45 @@ class Login_Integration_Test extends \Codeception\TestCase\WPTestCase {
 	}
 
 	/**
-	 * The previous implementation recorded malformed/failed attempts in
-	 * `bh-wp-autologin-urls-failure-{ip}`/`-{user_id}` transients; that bookkeeping was replaced
-	 * by brianhenryie/bh-wp-rate-limiter, which only records login attempts once a user has been
-	 * identified from the querystring. Verify repeated logins for one user are rate limited.
+	 * Failed autologin attempts are rate limited per IP and per user.
+	 *
+	 * The previous implementation recorded failures in `bh-wp-autologin-urls-failure-{ip}` /
+	 * `-{user_id}` transients; that bookkeeping was replaced by brianhenryie/bh-wp-rate-limiter.
 	 */
-	public function test_repeated_logins_rate_limited() {
+	public function test_repeated_bad_codes_rate_limited() {
 
 		$user_id = $this->factory->user->create();
 
-		// The rate limiter allows MAX_BAD_LOGIN_ATTEMPTS per day for the wp_user and for the IP,
-		// so log in up to the limit, then confirm the next attempt is refused.
 		for ( $attempt = 1; $attempt <= Login::MAX_BAD_LOGIN_ATTEMPTS; $attempt++ ) {
-			// Vary `expires_in` — the API instance caches the generated code per user+expiry,
-			// and each code is deleted after use.
-			$url = add_autologin_to_url( get_site_url(), $user_id, 3600 + $attempt );
-			$this->go_to( $url );
+
+			$this->go_to( get_site_url() . '/?autologin=' . $user_id . '~badautocode' . $attempt );
 			wp_set_current_user( 0 );
-			$current_user_id = $this->process_login_request();
-			$this->assertEquals( $user_id, $current_user_id, "Attempt {$attempt} should have logged the user in." );
+
+			$this->assertEquals( 0, $this->process_login_request(), "Bad attempt {$attempt} should not have logged the user in." );
 		}
 
-		$url = add_autologin_to_url( get_site_url(), $user_id, 60 );
-		$this->go_to( $url );
+		// A valid code, but the limit for both `ip:` and `wp_user:` has been reached.
+		$this->go_to( add_autologin_to_url( get_site_url(), $user_id, 3600 ) );
 		wp_set_current_user( 0 );
-		$current_user_id = $this->process_login_request();
 
-		$this->assertEquals( 0, $current_user_id, 'Attempts above the rate limit should not log the user in.' );
+		$this->assertEquals( 0, $this->process_login_request(), 'Attempts above the rate limit should not log the user in.' );
 	}
 
 	/**
-	 * Confirm that when there are too many bad attempts from an IP, it is blocked
+	 * Only failures are counted, so a valid autologin URL can be used any number of times.
 	 */
-	public function test_ip_block() {
+	public function test_repeated_successful_logins_not_rate_limited() {
 
 		$user_id = $this->factory->user->create();
 
-		$url = get_home_url();
+		for ( $attempt = 1; $attempt <= Login::MAX_BAD_LOGIN_ATTEMPTS + 1; $attempt++ ) {
 
-		$url = add_autologin_to_url( $url, $user_id, 3600 );
+			// `API::generate_code()` caches codes per `"$user_id~$seconds_valid"` per request, and
+			// each code is single-use, so vary `expires_in` to get a fresh code each time.
+			$this->go_to( add_autologin_to_url( get_site_url(), $user_id, 3600 + $attempt ) );
+			wp_set_current_user( 0 );
 
-		$ip_failure = array(
-			'count'     => 5,
-			'users'     => array(),
-			'malformed' => array(),
-		);
-
-		$ip_address = str_replace( '.', '-', $_SERVER['REMOTE_ADDR'] );
-
-		$failure_transient_name_ip = 'bh-wp-autologin-urls-failure-' . $ip_address;
-
-		set_transient( $failure_transient_name_ip, $ip_failure, DAY_IN_SECONDS );
-
-		$this->go_to( $url );
-
-		$current_user_id = $this->process_login_request();
-
-		$this->assertEquals( 0, $current_user_id );
-	}
-
-	/**
-	 * Test that after too many bad login attempts for a user, it won't try log them in anymore.
-	 */
-	public function test_user_attempts_block() {
-
-		$user_id = $this->factory->user->create();
-
-		$url = get_home_url();
-
-		$url = add_autologin_to_url( $url, $user_id, 3600 );
-
-		$user_failure = array(
-			'count' => 6,
-			'ip'    => array(),
-		);
-
-		$failure_transient_name = 'bh-wp-autologin-urls-failure-' . $user_id;
-
-		set_transient( $failure_transient_name, $user_failure, DAY_IN_SECONDS );
-
-		$this->go_to( $url );
-
-		$current_user_id = $this->process_login_request();
-
-		$this->assertEquals( 0, $current_user_id );
+			$this->assertEquals( $user_id, $this->process_login_request(), "Attempt {$attempt} should have logged the user in." );
+		}
 	}
 }

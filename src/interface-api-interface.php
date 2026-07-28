@@ -59,13 +59,24 @@ interface API_Interface {
 	public function delete_expired_codes( ?DateTimeInterface $before = null ): array;
 
 	/**
-	 * Records each login attempt and checks if the same user/ip/querystring has been used too many times today.
+	 * Checks if the same user/ip has failed to log in too many times today.
+	 *
+	 * Read-only. Failures are counted by {@see self::record_failed_login_attempt()}.
 	 *
 	 * @param string $identifier An IP address or user login name to rate limit by.
 	 *
 	 * @return bool
 	 */
 	public function should_allow_login_attempt( string $identifier ): bool;
+
+	/**
+	 * Records one failed login attempt against an IP address or user.
+	 *
+	 * @param string $identifier An IP address or user login name to rate limit by.
+	 *
+	 * @return void
+	 */
+	public function record_failed_login_attempt( string $identifier ): void;
 
 	/**
 	 * Get the IP address for the current request.

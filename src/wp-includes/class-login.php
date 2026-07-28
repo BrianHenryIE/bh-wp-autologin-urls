@@ -111,12 +111,19 @@ class Login {
 			return $user_id;
 		}
 
+		// This would be empty during cron jobs and WP CLI.
+		$ip_address = $this->api->get_ip_address();
+
+		// Prevent too many failed attempts by any one IP.
+		if ( ! empty( $ip_address ) && ! $this->api->should_allow_login_attempt( "ip:{$ip_address}" ) ) {
+			return $user_id;
+		}
+
 		$user_array = $user_finder->get_wp_user_array();
 
 		if ( isset( $user_array['wp_user'] ) && $user_array['wp_user'] instanceof WP_User ) {
 			$this->logger->debug( "Found `wp_user:{$user_array['wp_user']->ID}`." );
 			$wp_user = $user_array['wp_user'];
-			$user_id = $wp_user->ID;
 		} elseif ( ! empty( $user_array['user_data'] ) ) {
 			// If no WP_User account was found, but other user data was found that could be used for WooCommerce, prepopulate the checkout fields.
 			$this->logger->debug( 'No wp_user found, preloading WooCommerce fields.', $user_array );
@@ -132,22 +139,20 @@ class Login {
 			return $user_id;
 		} else {
 			$this->logger->debug( 'Could not find wp_user or user data using request URL.' );
+
+			// A bad or malformed autologin code. Record it so brute-forcing is rate limited.
+			if ( ! empty( $ip_address ) ) {
+				$this->api->record_failed_login_attempt( "ip:{$ip_address}" );
+
+				if ( isset( $user_array['user_id'] ) ) {
+					$this->api->record_failed_login_attempt( "wp_user:{$user_array['user_id']}" );
+				}
+			}
+
 			return $user_id;
 		}
 
-		$ip_address = $this->api->get_ip_address();
-
-		if ( empty( $ip_address ) ) {
-			// This would be empty during cron jobs and WP CLI.
-			return $user_id;
-		}
-
-		// Log each attempt to log in, prevent too many attempts by any one IP.
-		if ( ! $this->api->should_allow_login_attempt( "ip:{$ip_address}" ) ) {
-			return $user_id;
-		}
-
-		// Rate limit too many failed attempts at logging in the one user.
+		// Prevent too many failed attempts at logging in the one user.
 		if ( ! $this->api->should_allow_login_attempt( "wp_user:{$wp_user->ID}" ) ) {
 			return $user_id;
 		}
@@ -191,7 +196,7 @@ class Login {
 
 		$this->maybe_redirect();
 
-		return $user_id;
+		return $wp_user->ID;
 	}
 
 	/**

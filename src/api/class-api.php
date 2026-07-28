@@ -18,7 +18,6 @@ use BrianHenryIE\WP_Autologin_URLs\API_Interface;
 use BrianHenryIE\WP_Autologin_URLs\RateLimit\Rate;
 use BrianHenryIE\WP_Autologin_URLs\Settings_Interface;
 use BrianHenryIE\WP_Autologin_URLs\WP_Includes\Login;
-use BrianHenryIE\WP_Autologin_URLs\WP_Rate_Limiter\WordPress_Rate_Limiter;
 use DateTimeImmutable;
 use DateTimeInterface;
 use DateTimeZone;
@@ -321,7 +320,28 @@ class API implements API_Interface {
 	}
 
 	/**
-	 * Records each login attempt and checks if the same user/ip/querystring has been used too many times today.
+	 * The rate limiter used to count failed login attempts.
+	 *
+	 * Memoized so the transient-backed storage is only wired up once per request.
+	 */
+	protected function get_rate_limiter(): Rate_Limiter {
+
+		static $rate_limiter;
+
+		if ( empty( $rate_limiter ) ) {
+			$rate = Rate::custom( Login::MAX_BAD_LOGIN_ATTEMPTS, Login::MAX_BAD_LOGIN_PERIOD_SECONDS );
+
+			$rate_limiter = new Rate_Limiter( $rate, 'bh-wp-autologin-urls' );
+		}
+
+		return $rate_limiter;
+	}
+
+	/**
+	 * Checks if the same user/ip has failed to log in too many times today.
+	 *
+	 * Read-only — attempts are counted by {@see self::record_failed_login_attempt()}, so a
+	 * legitimate autologin URL can be used any number of times.
 	 *
 	 * Transient e.g. `_transient_bh-wp-autologin-urls/bh-wp-autologin-urlsip-127.0.0.1-86400`.
 	 * Transient e.g. `_transient_bh-wp-autologin-urls/bh-wp-autologin-urlswp_user-1-86400`.
@@ -333,19 +353,11 @@ class API implements API_Interface {
 		$allowed_access_count = Login::MAX_BAD_LOGIN_ATTEMPTS;
 		$interval             = Login::MAX_BAD_LOGIN_PERIOD_SECONDS;
 
-		$rate = Rate::custom( $allowed_access_count, $interval );
-
-		static $rate_limiter;
-
-		if ( empty( $rate_limiter ) ) {
-			$rate_limiter = new WordPress_Rate_Limiter( $rate, 'bh-wp-autologin-urls' );
-		}
-
 		try {
-			$status = $rate_limiter->limitSilently( $identifier );
-		} catch ( \RuntimeException $e ) {
+			$is_limit_exceeded = $this->get_rate_limiter()->is_limit_exceeded( $identifier );
+		} catch ( \Throwable $e ) {
 			$this->logger->error(
-				'Rate Limiter encountered an error when storing the access count.',
+				'Rate Limiter encountered an error when reading the access count.',
 				array(
 					'exception'            => $e,
 					'identifier'           => $identifier,
@@ -358,38 +370,61 @@ class API implements API_Interface {
 			return false;
 		}
 
-		/**
-		 * TODO: Log the $_REQUEST data.
-		 */
-		if ( $status->limitExceeded() ) {
+		if ( $is_limit_exceeded ) {
 
 			$this->logger->notice(
-				"{$identifier} blocked with {$status->getRemainingAttempts()} remaining attempts for rate limit {$allowed_access_count} per {$interval} seconds.",
+				"{$identifier} blocked after {$allowed_access_count} failed attempts per {$interval} seconds.",
 				array(
 					'identifier'           => $identifier,
 					'interval'             => $interval,
 					'allowed_access_count' => $allowed_access_count,
-					'status'               => $status,
 					'_SERVER'              => $_SERVER,
 				)
 			);
 
 			return false;
-
-		} else {
-
-			$this->logger->debug(
-				"{$identifier} allowed with {$status->getRemainingAttempts()} remaining attempts for rate limit {$allowed_access_count} per {$interval} seconds.",
-				array(
-					'identifier'           => $identifier,
-					'interval'             => $interval,
-					'allowed_access_count' => $allowed_access_count,
-					'status'               => $status,
-				)
-			);
 		}
 
 		return true;
+	}
+
+	/**
+	 * Record one failed login attempt against an IP address or user.
+	 *
+	 * Only failures are counted, so that repeated legitimate use of autologin URLs is never
+	 * rate limited.
+	 *
+	 * @param string $identifier An IP address or user login name to rate limit by.
+	 */
+	public function record_failed_login_attempt( string $identifier ): void {
+
+		$allowed_access_count = Login::MAX_BAD_LOGIN_ATTEMPTS;
+		$interval             = Login::MAX_BAD_LOGIN_PERIOD_SECONDS;
+
+		try {
+			$this->get_rate_limiter()->record( $identifier );
+		} catch ( \Throwable $e ) {
+			$this->logger->error(
+				'Rate Limiter encountered an error when storing the access count.',
+				array(
+					'exception'            => $e,
+					'identifier'           => $identifier,
+					'interval'             => $interval,
+					'allowed_access_count' => $allowed_access_count,
+				)
+			);
+
+			return;
+		}
+
+		$this->logger->debug(
+			"Failed login attempt recorded for {$identifier}.",
+			array(
+				'identifier'           => $identifier,
+				'interval'             => $interval,
+				'allowed_access_count' => $allowed_access_count,
+			)
+		);
 	}
 
 	/**

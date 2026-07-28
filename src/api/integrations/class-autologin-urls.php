@@ -43,7 +43,7 @@ class Autologin_URLs implements User_Finder_Interface, LoggerAwareInterface {
 	 * @see https://codex.wordpress.org/Plugin_API/Action_Reference
 	 * @see _wp_get_current_user()
 	 *
-	 * @return array{source:string, wp_user:WP_User|null, user_data?:array<string,string>}
+	 * @return array{source:string, wp_user:WP_User|null, user_data?:array<string,string>, user_id?:int}
 	 */
 	public function get_wp_user_array(): array {
 
@@ -69,6 +69,9 @@ class Autologin_URLs implements User_Finder_Interface, LoggerAwareInterface {
 		}
 
 		$user_id = intval( $user_id );
+
+		// So a failed attempt can be rate limited against the user it was aimed at.
+		$result['user_id'] = $user_id;
 
 		if ( $this->api->verify_autologin_password( $user_id, $password ) ) {
 
