@@ -3,8 +3,8 @@ Contributors: BrianHenryIE
 Donate link: https://BrianHenry.ie
 Tags: login, email, links, users, newsletter, notification, simple, wp_mail
 Requires at least: 4.5.0
-Tested up to: 6.5
-Requires PHP: 7.4
+Tested up to: 7.0
+Requires PHP: 8.1
 Stable tag: trunk
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html

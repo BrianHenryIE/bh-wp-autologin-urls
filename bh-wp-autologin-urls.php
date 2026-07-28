@@ -11,7 +11,7 @@
  * Plugin URI:        https://wordpress.org/BrianHenryIE/bh-wp-autologin-urls
  * Description:       Log in users via emails sent from WordPress.
  * Version:           2.5.0
- * Tested up to:      6.6
+ * Tested up to:      7.0
  * Requires PHP:      8.1
  * Author:            BrianHenryIE
  * Author URI:        https://BrianHenry.ie
