@@ -29,14 +29,17 @@ jobs:
           node-version-file: '.nvmrc'
           cache: 'npm'
 
-      # Local path repositories will always fail in CI. Remove them and rely on Packagist.
-      - name: Remove local repository references
+      # Local path repositories point at sibling checkouts CI does not have. Rewrite them to the
+      # equivalent GitHub repository, keeping the constraint — `brianhenryie/bh-wp-rate-limiter`
+      # is not published on Packagist, so dropping the repository entirely cannot resolve.
+      - name: Replace local repository references
         run: |
           jq '
-            [ .repositories | to_entries[] | select(.value.type=="path") | (.value.only[]? // .key) ] as $paths
-            | .repositories |= with_entries(select(.value.type != "path"))
-            | .require |= with_entries(.key as $k | .value = (if ($paths | index($k)) then "*" else .value end))
-            | (.["require-dev"] |= with_entries(.key as $k | .value = (if ($paths | index($k)) then "*" else .value end)))
+            .repositories |= with_entries(
+              if .value.type == "path"
+              then .value = { "type": "vcs", "url": ("https://github.com/" + .key) }
+              else . end
+            )
           ' composer.json > composer.json.tmp
           mv composer.json.tmp composer.json
 
