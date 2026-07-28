@@ -69,10 +69,7 @@
     },
     "brianhenryie/bh-wp-rate-limiter": {
       "type": "git",
-      "url": "https://github.com/brianhenryie/bh-wp-rate-limiter.git",
-      "options": {
-        "symlink": false
-      }
+      "url": "https://github.com/brianhenryie/bh-wp-rate-limiter.git"
     },
     "wordpress/wordpress": {
       "url": "https://github.com/WordPress/wordpress-develop",
