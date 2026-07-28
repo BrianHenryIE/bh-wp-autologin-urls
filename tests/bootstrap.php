@@ -20,6 +20,25 @@ if ( file_exists( $env_secret ) ) {
 	$env_secret_relative_path = str_replace( codecept_root_dir(), '', $env_secret_fullpath );
 
 	$secret_params = \Dotenv\Dotenv::createMutable( codecept_root_dir(), $env_secret_relative_path )->load();
+}
 
-	\Codeception\Configuration::config( $env_secret_fullpath );
+/**
+ * The plugin needs to be present in WP_CONTENT_DIR/plugins for templates to resolve
+ * (previously handled by brianhenryie/composer-phpstorm symlinks config in composer.json).
+ */
+$plugin_symlink = $project_root_dir . '/wp-content/plugins/' . $plugin_name;
+if ( ! file_exists( $plugin_symlink ) && is_dir( dirname( $plugin_symlink ) ) ) {
+	symlink( $project_root_dir, $plugin_symlink );
+}
+
+$is_integration_test = array_reduce(
+	(array) $_SERVER['argv'],
+	fn( $carry, $arg ) => $carry || 'integration' === $arg,
+	false
+);
+if ( $is_integration_test ) {
+	global $arbitrary_plugins;
+	$arbitrary_plugins = array(
+		dirname( __DIR__, 1 ) . '/bh-wp-autologin-urls.php',
+	);
 }

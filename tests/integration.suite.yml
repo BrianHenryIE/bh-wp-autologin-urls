@@ -5,19 +5,18 @@
 actor: WpunitTester
 modules:
     enabled:
-        - WPLoader
+        - lucatume\WPBrowser\Module\WPLoader
         - \Helper\Wpunit
     config:
-        WPLoader:
+        lucatume\WPBrowser\Module\WPLoader:
+            loadOnly: false
             wpRootFolder: "%WP_ROOT_FOLDER%"
-            dbName: "%TEST_DB_NAME%"
-            dbHost: "%TEST_DB_HOST%"
-            dbUser: "%TEST_DB_USER%"
-            dbPassword: "%TEST_DB_PASSWORD%"
+            dbUrl: 'mysql://%TEST_DB_USER%:%TEST_DB_PASSWORD%@%TEST_DB_HOST%:%TEST_DB_PORT%/%TEST_DB_NAME%'
             tablePrefix: "%TEST_TABLE_PREFIX%"
             domain: "%TEST_SITE_WP_DOMAIN%"
             adminEmail: "%TEST_SITE_ADMIN_EMAIL%"
             title: "bh-wp-autologin-urls"
-            plugins: ['bh-wp-autologin-urls/bh-wp-autologin-urls.php','woocommerce/woocommerce.php']
-            activatePlugins: ['bh-wp-autologin-urls/bh-wp-autologin-urls.php','woocommerce/woocommerce.php']
+            plugins: ['bh-wp-autologin-urls.php','woocommerce/woocommerce.php']
+            activatePlugins: ['bh-wp-autologin-urls.php','woocommerce/woocommerce.php']
+            WP_CONTENT_DIR: wp-content
 bootstrap: _bootstrap.php
