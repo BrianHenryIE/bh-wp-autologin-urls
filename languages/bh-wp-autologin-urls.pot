@@ -1,0 +1,93 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2025-07-02T04:24:02+00:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: WP-CLI 2.12.0\n"
+"X-Domain: bh-wp-autologin-urls\n"
+
+#: admin/settings-fields/class-admin-enable.php:34
+msgid "Add to admin emails?"
+msgstr ""
+
+#: admin/settings-fields/class-admin-enable.php:37
+msgid "When enabled, emails to administrators <i>will</i> contain autologin URLs."
+msgstr ""
+
+#. translators: hyperlinks to login screens
+#: admin/settings-fields/class-admin-enable.php:38
+#: admin/settings-fields/class-enable-magic-links.php:62
+#: admin/settings-fields/class-use-wp-login.php:48
+msgid "default: false"
+msgstr ""
+
+#: admin/settings-fields/class-enable-magic-links.php:44
+msgid "Enable magic links?"
+msgstr ""
+
+#: admin/settings-fields/class-enable-magic-links.php:49
+msgid "Add a button beside login buttons allowing users to send themselves an email with an instant login link."
+msgstr ""
+
+#. translators: hyperlinks to login screens
+#: admin/settings-fields/class-enable-magic-links.php:62
+#, php-format
+msgid "When enabling magic links, be sure to check the appearance of the button on your login screens (%s) and make appropriate CSS changes if necessary."
+msgstr ""
+
+#: admin/settings-fields/class-klaviyo-private-key.php:33
+#, php-format
+msgid "Find your API keys at  <a href=\"%s\" target=\"_blank\">klaviyo.com/account#api-keys-tab</a>."
+msgstr ""
+
+#: admin/settings-fields/class-log-level.php:42
+msgid "Log level"
+msgstr ""
+
+#: admin/settings-fields/class-log-level.php:45
+msgid "Set to Debug to diagnose problems, Info to see times this plugin is logging users in. Warning: debug logs will contain autologin codes."
+msgstr ""
+
+#: admin/settings-fields/class-log-level.php:46
+msgid "default: Notice"
+msgstr ""
+
+#: admin/settings-fields/class-use-wp-login.php:41
+msgid "Use wp-login.php?"
+msgstr ""
+
+#: admin/settings-fields/class-use-wp-login.php:47
+msgid "If users are not being logged in or if they need to refresh the page after landing, this will perform the login on wp-login.php before redirecting to the correct URL."
+msgstr ""
+
+#: api/class-api.php:458
+msgid "Sign-in Link"
+msgstr ""
+
+#: login/class-login-ajax.php:78
+msgid "An error occurred when sending the magic login email."
+msgstr ""
+
+#. translators: %1$s is the length of time e.g. "15 mins".
+#: login/class-login-ajax.php:85
+#, php-format
+msgid "Check your email for the login link. The link will expire in %1$s."
+msgstr ""
+
+#: wp-includes/class-rest-api.php:154
+msgid "The user to create the code for."
+msgstr ""
+
+#: wp-includes/class-rest-api.php:163
+msgid "Username."
+msgstr ""
+
+#: wp-includes/class-rest-api.php:167
+msgid "Email."
+msgstr ""

@@ -1,0 +1,95 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "bh-wp-autologin-urls/v1",
+    "summary": "Generated OpenAPI document of the namespace bh-wp-autologin-urls/v1 on bh-wp-autologin-urls.",
+    "version": "1"
+  },
+  "jsonSchemaDialect": "https://spec.openapis.org/oas/3.1/dialect/base",
+  "paths": {
+    "/autologin-codes": {
+      "post": {
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WPError"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "tags": [
+          "root"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "title": "autologin-codes",
+                "properties": {
+                  "user": {
+                    "type": "string",
+                    "description": "The user to create the code for."
+                  },
+                  "url": {
+                    "type": "string",
+                    "format": "url",
+                    "description": "The URL to add the login code to."
+                  },
+                  "expires_in": {
+                    "type": "int",
+                    "format": "url"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "security": [],
+  "components": {
+    "schemas": {
+      "WPError": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "description": "The error code",
+            "type": "string"
+          },
+          "message": {
+            "description": "The description of the error",
+            "type": "string"
+          },
+          "data": {
+            "description": "Data of the error",
+            "type": "any"
+          },
+          "additional_data": {
+            "description": "Additional data of the error",
+            "type": "any"
+          },
+          "additional_errors": {
+            "description": "More errors",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/WPError"
+            }
+          }
+        }
+      }
+    }
+  }
+}

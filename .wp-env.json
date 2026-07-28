@@ -3,7 +3,8 @@
     "development": {
       "plugins": [
         "."
-      ]
+      ],
+      "port": 8888
     },
     "tests": {
       "mysqlPort": 33066
@@ -13,12 +14,17 @@
     "afterStart": "./tests/e2e-pw/setup/initialize-external.sh"
   },
   "mappings": {
+    "openapi": "./openapi",
     "setup": "./tests/e2e-pw/setup",
     "wp-cli.yml": "./wp-cli.wp-env.yml",
     "wp-content/plugins/document-generator-for-openapi": "./wp-content/plugins/document-generator-for-openapi",
+    "wp-content/plugins/give": "./wp-content/plugins/give",
+    "wp-content/plugins/google-site-kit": "./wp-content/plugins/google-site-kit",
     "wp-content/plugins/mailpoet": "./wp-content/plugins/mailpoet",
     "wp-content/plugins/newsletter": "./wp-content/plugins/newsletter",
+    "wp-content/plugins/user-switching": "./wp-content/plugins/user-switching",
     "wp-content/plugins/woocommerce": "./wp-content/plugins/woocommerce",
+    "wp-content/plugins/woocommerce-subscriptions": "./wp-content/plugins/woocommerce-subscriptions",
     "wp-content/plugins/wp-mail-debugger": "./wp-content/plugins/wp-mail-debugger",
     "wp-content/plugins/wp-mail-logging": "./wp-content/plugins/wp-mail-logging",
     "wp-content/plugins/wp-mail-smtp": "./wp-content/plugins/wp-mail-smtp",

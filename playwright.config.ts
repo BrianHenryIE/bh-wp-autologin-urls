@@ -14,6 +14,9 @@ const BASE_URL = process.env.BASEURL;
  */
 export default defineConfig({
   testDir: './tests/e2e-pw',
+  // testDir: './vendor/wordpress/wordpress/tests/e2e',
+  /* Pattern to match test files. `.spec.[j|t]s` is Playwright default; WordPress uses `.test.[j|t]s` */
+  // grep: /(spec|test)/,
   /* Run tests in files in parallel */
   fullyParallel: true,
   /* Fail the build on CI if you accidentally left test.only in the source code. */

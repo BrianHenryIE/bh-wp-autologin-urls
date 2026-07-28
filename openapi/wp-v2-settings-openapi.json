@@ -1,0 +1,4423 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "wp/v2",
+    "summary": "Generated OpenAPI document of the namespace wp/v2 on bh-wp-autologin-urls.",
+    "version": "1"
+  },
+  "jsonSchemaDialect": "http://json-schema.org/draft-04/schema#",
+  "servers": [
+    {
+      "url": "http://localhost:8890/wp-json/wp/v2"
+    }
+  ],
+  "paths": {
+    "/settings": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/settings"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WPError"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "tags": [
+          "root"
+        ],
+        "parameters": []
+      },
+      "post": {
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/settings"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WPError"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "tags": [
+          "root"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "title": "settings",
+                "properties": {
+                  "bh_wp_autologin_urls_register_test": {
+                    "type": "string",
+                    "description": "Test setting for the Magic Emails & Autologin URLs plugin."
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/settings"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WPError"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "tags": [
+          "root"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "title": "settings",
+                "properties": {
+                  "bh_wp_autologin_urls_register_test": {
+                    "type": "string",
+                    "description": "Test setting for the Magic Emails & Autologin URLs plugin."
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/settings"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WPError"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "tags": [
+          "root"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "title": "settings",
+                "properties": {
+                  "bh_wp_autologin_urls_register_test": {
+                    "type": "string",
+                    "description": "Test setting for the Magic Emails & Autologin URLs plugin."
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "security": [],
+  "components": {
+    "schemas": {
+      "WPError": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "description": "The error code",
+            "type": "string"
+          },
+          "message": {
+            "description": "The description of the error",
+            "type": "string"
+          },
+          "data": {
+            "description": "Data of the error",
+            "type": "any"
+          },
+          "additional_data": {
+            "description": "Additional data of the error",
+            "type": "any"
+          },
+          "additional_errors": {
+            "description": "More errors",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/WPError"
+            }
+          }
+        }
+      },
+      "context": {
+        "type": "string",
+        "description": "Scope under which the request is made; determines fields present in response.",
+        "enum": [
+          "view",
+          "embed",
+          "edit"
+        ]
+      },
+      "order": {
+        "type": "string",
+        "description": "Order sort attribute ascending or descending.",
+        "enum": [
+          "asc",
+          "desc"
+        ]
+      },
+      "orderby": {
+        "type": "string",
+        "description": "Sort collection by post attribute.",
+        "enum": [
+          "author",
+          "date",
+          "id",
+          "include",
+          "modified",
+          "parent",
+          "relevance",
+          "slug",
+          "include_slugs",
+          "title"
+        ]
+      },
+      "search_columns": {
+        "type": "string",
+        "enum": [
+          "post_title",
+          "post_content",
+          "post_excerpt"
+        ]
+      },
+      "status": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "The title for the status."
+          },
+          "private": {
+            "type": "boolean",
+            "description": "Whether posts with this status should be private."
+          },
+          "protected": {
+            "type": "boolean",
+            "description": "Whether posts with this status should be protected."
+          },
+          "public": {
+            "type": "boolean",
+            "description": "Whether posts of this status should be shown in the front end of the site."
+          },
+          "queryable": {
+            "type": "boolean",
+            "description": "Whether posts with this status should be publicly-queryable."
+          },
+          "show_in_list": {
+            "type": "boolean",
+            "description": "Whether to include posts in the edit listing for their post type."
+          },
+          "slug": {
+            "type": "string",
+            "description": "An alphanumeric identifier for the status."
+          },
+          "date_floating": {
+            "type": "boolean",
+            "description": "Whether posts of this status may have floating published dates."
+          }
+        }
+      },
+      "tax_relation": {
+        "type": "string",
+        "description": "Limit result set based on relationship between multiple taxonomies.",
+        "enum": [
+          "AND",
+          "OR"
+        ]
+      },
+      "operator": {
+        "type": "string",
+        "description": "Whether items must be assigned all or any of the specified terms.",
+        "enum": [
+          "AND",
+          "OR"
+        ]
+      },
+      "guid": {
+        "type": "object",
+        "properties": {
+          "raw": {
+            "type": "string",
+            "description": "GUID for the post, as it exists in the database."
+          },
+          "rendered": {
+            "type": "string",
+            "description": "GUID for the post, transformed for display."
+          }
+        },
+        "description": "The globally unique identifier for the post."
+      },
+      "status_1": {
+        "type": "string",
+        "description": "A named status for the post.",
+        "enum": [
+          "publish",
+          "future",
+          "draft",
+          "pending",
+          "private",
+          "in-progress",
+          "failed",
+          "wc-active",
+          "wc-switched",
+          "wc-expired",
+          "wc-pending-cancel",
+          "wc-pending",
+          "wc-processing",
+          "wc-on-hold",
+          "wc-completed",
+          "wc-cancelled",
+          "wc-refunded",
+          "wc-failed",
+          "wc-checkout-draft",
+          "refunded",
+          "revoked",
+          "cancelled",
+          "abandoned",
+          "processing",
+          "preapproval"
+        ]
+      },
+      "title": {
+        "type": "object",
+        "properties": {
+          "raw": {
+            "type": "string",
+            "description": "Title for the post, as it exists in the database."
+          },
+          "rendered": {
+            "type": "string",
+            "description": "HTML title for the post, transformed for display."
+          }
+        },
+        "description": "The title for the post."
+      },
+      "content": {
+        "type": "object",
+        "properties": {
+          "raw": {
+            "type": "string",
+            "description": "Content for the post, as it exists in the database."
+          },
+          "rendered": {
+            "type": "string",
+            "description": "HTML content for the post, transformed for display."
+          },
+          "block_version": {
+            "type": "integer",
+            "description": "Version of the content block format used by the post."
+          },
+          "protected": {
+            "type": "boolean",
+            "description": "Whether the content is protected with a password."
+          }
+        },
+        "description": "The content for the post."
+      },
+      "excerpt": {
+        "type": "object",
+        "properties": {
+          "raw": {
+            "type": "string",
+            "description": "Excerpt for the post, as it exists in the database."
+          },
+          "rendered": {
+            "type": "string",
+            "description": "HTML excerpt for the post, transformed for display."
+          },
+          "protected": {
+            "type": "boolean",
+            "description": "Whether the excerpt is protected with a password."
+          }
+        },
+        "description": "The excerpt for the post."
+      },
+      "comment_status": {
+        "type": "string",
+        "description": "Whether or not comments are open on the post.",
+        "enum": [
+          "open",
+          "closed"
+        ]
+      },
+      "ping_status": {
+        "type": "string",
+        "description": "Whether or not the post can be pinged.",
+        "enum": [
+          "open",
+          "closed"
+        ]
+      },
+      "format": {
+        "type": "string",
+        "description": "The format for the post.",
+        "enum": [
+          "standard",
+          "aside",
+          "chat",
+          "gallery",
+          "link",
+          "image",
+          "quote",
+          "status",
+          "video",
+          "audio"
+        ]
+      },
+      "meta": {
+        "type": "object",
+        "properties": {
+          "footnotes": {
+            "type": "string",
+            "description": ""
+          }
+        },
+        "description": "Meta fields."
+      },
+      "post": {
+        "type": "object",
+        "properties": {
+          "date": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "date-time",
+            "description": "The date the post was published, in the site's timezone."
+          },
+          "date_gmt": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "date-time",
+            "description": "The date the post was published, as GMT."
+          },
+          "guid": {
+            "$ref": "#/components/schemas/guid"
+          },
+          "id": {
+            "type": "integer",
+            "description": "Unique identifier for the post."
+          },
+          "link": {
+            "type": "string",
+            "format": "uri",
+            "description": "URL to the post."
+          },
+          "modified": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The date the post was last modified, in the site's timezone."
+          },
+          "modified_gmt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The date the post was last modified, as GMT."
+          },
+          "slug": {
+            "type": "string",
+            "description": "An alphanumeric identifier for the post unique to its type."
+          },
+          "status": {
+            "$ref": "#/components/schemas/status_1"
+          },
+          "type": {
+            "type": "string",
+            "description": "Type of post."
+          },
+          "password": {
+            "type": "string",
+            "description": "A password to protect access to the content and excerpt."
+          },
+          "permalink_template": {
+            "type": "string",
+            "description": "Permalink template for the post."
+          },
+          "generated_slug": {
+            "type": "string",
+            "description": "Slug automatically generated from the post title."
+          },
+          "class_list": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "An array of the class names for the post container element."
+          },
+          "title": {
+            "$ref": "#/components/schemas/title"
+          },
+          "content": {
+            "$ref": "#/components/schemas/content"
+          },
+          "author": {
+            "type": "integer",
+            "description": "The ID for the author of the post."
+          },
+          "excerpt": {
+            "$ref": "#/components/schemas/excerpt"
+          },
+          "featured_media": {
+            "type": "integer",
+            "description": "The ID of the featured media for the post."
+          },
+          "comment_status": {
+            "$ref": "#/components/schemas/comment_status"
+          },
+          "ping_status": {
+            "$ref": "#/components/schemas/ping_status"
+          },
+          "format": {
+            "$ref": "#/components/schemas/format"
+          },
+          "meta": {
+            "$ref": "#/components/schemas/meta"
+          },
+          "sticky": {
+            "type": "boolean",
+            "description": "Whether or not the post should be treated as sticky."
+          },
+          "template": {
+            "type": "string",
+            "description": "The theme file to use to display the post."
+          },
+          "categories": {
+            "type": "array",
+            "items": {
+              "type": "integer"
+            },
+            "description": "The terms assigned to the post in the category taxonomy."
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "integer"
+            },
+            "description": "The terms assigned to the post in the post_tag taxonomy."
+          }
+        }
+      },
+      "orderby_1": {
+        "type": "string",
+        "description": "Sort collection by object attribute.",
+        "enum": [
+          "date",
+          "id",
+          "include",
+          "relevance",
+          "slug",
+          "include_slugs",
+          "title"
+        ]
+      },
+      "post-revision": {
+        "type": "object",
+        "properties": {
+          "author": {
+            "type": "integer",
+            "description": "The ID for the author of the revision."
+          },
+          "date": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The date the revision was published, in the site's timezone."
+          },
+          "date_gmt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The date the revision was published, as GMT."
+          },
+          "guid": {
+            "$ref": "#/components/schemas/guid"
+          },
+          "id": {
+            "type": "integer",
+            "description": "Unique identifier for the revision."
+          },
+          "modified": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The date the revision was last modified, in the site's timezone."
+          },
+          "modified_gmt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The date the revision was last modified, as GMT."
+          },
+          "parent": {
+            "type": "integer",
+            "description": "The ID for the parent of the revision."
+          },
+          "slug": {
+            "type": "string",
+            "description": "An alphanumeric identifier for the revision unique to its type."
+          },
+          "title": {
+            "$ref": "#/components/schemas/title"
+          },
+          "content": {
+            "$ref": "#/components/schemas/content"
+          },
+          "excerpt": {
+            "$ref": "#/components/schemas/excerpt"
+          },
+          "meta": {
+            "$ref": "#/components/schemas/meta"
+          },
+          "preview_link": {
+            "type": "string",
+            "format": "uri",
+            "description": "Preview link for the post."
+          }
+        }
+      },
+      "orderby_2": {
+        "type": "string",
+        "description": "Sort collection by post attribute.",
+        "enum": [
+          "author",
+          "date",
+          "id",
+          "include",
+          "modified",
+          "parent",
+          "relevance",
+          "slug",
+          "include_slugs",
+          "title",
+          "menu_order"
+        ]
+      },
+      "page": {
+        "type": "object",
+        "properties": {
+          "date": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "date-time",
+            "description": "The date the post was published, in the site's timezone."
+          },
+          "date_gmt": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "date-time",
+            "description": "The date the post was published, as GMT."
+          },
+          "guid": {
+            "$ref": "#/components/schemas/guid"
+          },
+          "id": {
+            "type": "integer",
+            "description": "Unique identifier for the post."
+          },
+          "link": {
+            "type": "string",
+            "format": "uri",
+            "description": "URL to the post."
+          },
+          "modified": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The date the post was last modified, in the site's timezone."
+          },
+          "modified_gmt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The date the post was last modified, as GMT."
+          },
+          "slug": {
+            "type": "string",
+            "description": "An alphanumeric identifier for the post unique to its type."
+          },
+          "status": {
+            "$ref": "#/components/schemas/status_1"
+          },
+          "type": {
+            "type": "string",
+            "description": "Type of post."
+          },
+          "password": {
+            "type": "string",
+            "description": "A password to protect access to the content and excerpt."
+          },
+          "permalink_template": {
+            "type": "string",
+            "description": "Permalink template for the post."
+          },
+          "generated_slug": {
+            "type": "string",
+            "description": "Slug automatically generated from the post title."
+          },
+          "class_list": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "An array of the class names for the post container element."
+          },
+          "parent": {
+            "type": "integer",
+            "description": "The ID for the parent of the post."
+          },
+          "title": {
+            "$ref": "#/components/schemas/title"
+          },
+          "content": {
+            "$ref": "#/components/schemas/content"
+          },
+          "author": {
+            "type": "integer",
+            "description": "The ID for the author of the post."
+          },
+          "excerpt": {
+            "$ref": "#/components/schemas/excerpt"
+          },
+          "featured_media": {
+            "type": "integer",
+            "description": "The ID of the featured media for the post."
+          },
+          "comment_status": {
+            "$ref": "#/components/schemas/comment_status"
+          },
+          "ping_status": {
+            "$ref": "#/components/schemas/ping_status"
+          },
+          "menu_order": {
+            "type": "integer",
+            "description": "The order of the post in relation to other posts."
+          },
+          "meta": {
+            "$ref": "#/components/schemas/meta"
+          },
+          "template": {
+            "type": "string",
+            "description": "The theme file to use to display the post."
+          }
+        }
+      },
+      "page-revision": {
+        "type": "object",
+        "properties": {
+          "author": {
+            "type": "integer",
+            "description": "The ID for the author of the revision."
+          },
+          "date": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The date the revision was published, in the site's timezone."
+          },
+          "date_gmt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The date the revision was published, as GMT."
+          },
+          "guid": {
+            "$ref": "#/components/schemas/guid"
+          },
+          "id": {
+            "type": "integer",
+            "description": "Unique identifier for the revision."
+          },
+          "modified": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The date the revision was last modified, in the site's timezone."
+          },
+          "modified_gmt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The date the revision was last modified, as GMT."
+          },
+          "parent": {
+            "type": "integer",
+            "description": "The ID for the parent of the revision."
+          },
+          "slug": {
+            "type": "string",
+            "description": "An alphanumeric identifier for the revision unique to its type."
+          },
+          "title": {
+            "$ref": "#/components/schemas/title"
+          },
+          "content": {
+            "$ref": "#/components/schemas/content"
+          },
+          "excerpt": {
+            "$ref": "#/components/schemas/excerpt"
+          },
+          "meta": {
+            "$ref": "#/components/schemas/meta"
+          },
+          "preview_link": {
+            "type": "string",
+            "format": "uri",
+            "description": "Preview link for the post."
+          }
+        }
+      },
+      "status_2": {
+        "type": "string",
+        "enum": [
+          "inherit",
+          "private",
+          "trash"
+        ]
+      },
+      "media_type": {
+        "type": "string",
+        "description": "Limit result set to attachments of a particular media type.",
+        "enum": [
+          "image",
+          "video",
+          "text",
+          "application",
+          "audio"
+        ]
+      },
+      "meta_1": {
+        "type": "object",
+        "description": "Meta fields."
+      },
+      "caption": {
+        "type": "object",
+        "properties": {
+          "raw": {
+            "type": "string",
+            "description": "Caption for the attachment, as it exists in the database."
+          },
+          "rendered": {
+            "type": "string",
+            "description": "HTML caption for the attachment, transformed for display."
+          }
+        },
+        "description": "The attachment caption."
+      },
+      "description": {
+        "type": "object",
+        "properties": {
+          "raw": {
+            "type": "string",
+            "description": "Description for the attachment, as it exists in the database."
+          },
+          "rendered": {
+            "type": "string",
+            "description": "HTML description for the attachment, transformed for display."
+          }
+        },
+        "description": "The attachment description."
+      },
+      "media_type_1": {
+        "type": "string",
+        "description": "Attachment type.",
+        "enum": [
+          "image",
+          "file"
+        ]
+      },
+      "media_details": {
+        "type": "object",
+        "description": "Details about the media file, specific to its type."
+      },
+      "attachment": {
+        "type": "object",
+        "properties": {
+          "date": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "date-time",
+            "description": "The date the post was published, in the site's timezone."
+          },
+          "date_gmt": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "date-time",
+            "description": "The date the post was published, as GMT."
+          },
+          "guid": {
+            "$ref": "#/components/schemas/guid"
+          },
+          "id": {
+            "type": "integer",
+            "description": "Unique identifier for the post."
+          },
+          "link": {
+            "type": "string",
+            "format": "uri",
+            "description": "URL to the post."
+          },
+          "modified": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The date the post was last modified, in the site's timezone."
+          },
+          "modified_gmt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The date the post was last modified, as GMT."
+          },
+          "slug": {
+            "type": "string",
+            "description": "An alphanumeric identifier for the post unique to its type."
+          },
+          "status": {
+            "$ref": "#/components/schemas/status_1"
+          },
+          "type": {
+            "type": "string",
+            "description": "Type of post."
+          },
+          "permalink_template": {
+            "type": "string",
+            "description": "Permalink template for the post."
+          },
+          "generated_slug": {
+            "type": "string",
+            "description": "Slug automatically generated from the post title."
+          },
+          "class_list": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "An array of the class names for the post container element."
+          },
+          "title": {
+            "$ref": "#/components/schemas/title"
+          },
+          "author": {
+            "type": "integer",
+            "description": "The ID for the author of the post."
+          },
+          "featured_media": {
+            "type": "integer",
+            "description": "The ID of the featured media for the post."
+          },
+          "comment_status": {
+            "$ref": "#/components/schemas/comment_status"
+          },
+          "ping_status": {
+            "$ref": "#/components/schemas/ping_status"
+          },
+          "meta": {
+            "$ref": "#/components/schemas/meta_1"
+          },
+          "template": {
+            "type": "string",
+            "description": "The theme file to use to display the post."
+          },
+          "alt_text": {
+            "type": "string",
+            "description": "Alternative text to display when attachment is not displayed."
+          },
+          "caption": {
+            "$ref": "#/components/schemas/caption"
+          },
+          "description": {
+            "$ref": "#/components/schemas/description"
+          },
+          "media_type": {
+            "$ref": "#/components/schemas/media_type_1"
+          },
+          "mime_type": {
+            "type": "string",
+            "description": "The attachment MIME type."
+          },
+          "media_details": {
+            "$ref": "#/components/schemas/media_details"
+          },
+          "post": {
+            "type": "integer",
+            "description": "The ID for the associated post of the attachment."
+          },
+          "source_url": {
+            "type": "string",
+            "format": "uri",
+            "description": "URL to the original attachment file."
+          },
+          "missing_image_sizes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "List of the missing image sizes of the attachment."
+          }
+        }
+      },
+      "action": {
+        "type": "string",
+        "enum": [
+          "create-image-subsizes"
+        ]
+      },
+      "modifiers": {
+        "type": "object",
+        "description": "Image edit."
+      },
+      "orderby_3": {
+        "type": "string",
+        "description": "Sort collection by object attribute.",
+        "enum": [
+          "author",
+          "date",
+          "id",
+          "include",
+          "modified",
+          "parent",
+          "relevance",
+          "slug",
+          "include_slugs",
+          "title",
+          "menu_order"
+        ]
+      },
+      "type": {
+        "type": "object",
+        "properties": {
+          "capabilities": {
+            "$ref": "#/components/schemas/capabilities"
+          },
+          "description": {
+            "type": "string",
+            "description": "A human-readable description of the post type."
+          },
+          "hierarchical": {
+            "type": "boolean",
+            "description": "Whether or not the post type should have children."
+          },
+          "viewable": {
+            "type": "boolean",
+            "description": "Whether or not the post type can be viewed."
+          },
+          "labels": {
+            "$ref": "#/components/schemas/labels"
+          },
+          "name": {
+            "type": "string",
+            "description": "The title for the post type."
+          },
+          "slug": {
+            "type": "string",
+            "description": "An alphanumeric identifier for the post type."
+          },
+          "supports": {
+            "$ref": "#/components/schemas/supports"
+          },
+          "has_archive": {
+            "type": [
+              "string",
+              "boolean"
+            ],
+            "description": "If the value is a string, the value will be used as the archive slug. If the value is false the post type has no archive."
+          },
+          "taxonomies": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Taxonomies associated with post type."
+          },
+          "rest_base": {
+            "type": "string",
+            "description": "REST base route for the post type."
+          },
+          "rest_namespace": {
+            "type": "string",
+            "description": "REST route's namespace for the post type."
+          },
+          "visibility": {
+            "$ref": "#/components/schemas/visibility"
+          },
+          "icon": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "The icon for the post type."
+          },
+          "template": {
+            "type": [
+              "array"
+            ],
+            "description": "The block template associated with the post type."
+          },
+          "template_lock": {
+            "$ref": "#/components/schemas/template_lock"
+          }
+        }
+      },
+      "status_3": {
+        "type": "string",
+        "description": "A named status for the object.",
+        "enum": [
+          "publish",
+          "future",
+          "draft",
+          "pending",
+          "private",
+          "in-progress",
+          "failed",
+          "wc-active",
+          "wc-switched",
+          "wc-expired",
+          "wc-pending-cancel",
+          "wc-pending",
+          "wc-processing",
+          "wc-on-hold",
+          "wc-completed",
+          "wc-cancelled",
+          "wc-refunded",
+          "wc-failed",
+          "wc-checkout-draft",
+          "refunded",
+          "revoked",
+          "cancelled",
+          "abandoned",
+          "processing",
+          "preapproval"
+        ]
+      },
+      "target": {
+        "type": "string",
+        "description": "The target attribute of the link element for this menu item.",
+        "enum": [
+          "_blank",
+          ""
+        ]
+      },
+      "nav_menu_item": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": [
+              "string",
+              "object"
+            ],
+            "description": "The title for the object."
+          },
+          "id": {
+            "type": "integer",
+            "description": "Unique identifier for the object."
+          },
+          "type_label": {
+            "type": "string",
+            "description": "The singular label used to describe this type of menu item."
+          },
+          "type": {
+            "$ref": "#/components/schemas/type"
+          },
+          "status": {
+            "$ref": "#/components/schemas/status_3"
+          },
+          "parent": {
+            "type": "integer",
+            "description": "The ID for the parent of the object."
+          },
+          "attr_title": {
+            "type": "string",
+            "description": "Text for the title attribute of the link element for this menu item."
+          },
+          "classes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Class names for the link element of this menu item."
+          },
+          "description": {
+            "type": "string",
+            "description": "The description of this menu item."
+          },
+          "menu_order": {
+            "type": "integer",
+            "description": "The DB ID of the nav_menu_item that is this item's menu parent, if any, otherwise 0."
+          },
+          "object": {
+            "type": "string",
+            "description": "The type of object originally represented, such as \"category\", \"post\", or \"attachment\"."
+          },
+          "object_id": {
+            "type": "integer",
+            "description": "The database ID of the original object this menu item represents, for example the ID for posts or the term_id for categories."
+          },
+          "target": {
+            "$ref": "#/components/schemas/target"
+          },
+          "url": {
+            "type": "string",
+            "format": "uri",
+            "description": "The URL to which this menu item points."
+          },
+          "xfn": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "The XFN relationship expressed in the link of this menu item."
+          },
+          "invalid": {
+            "type": "boolean",
+            "description": "Whether the menu item represents an object that no longer exists."
+          },
+          "menus": {
+            "type": "integer",
+            "description": "The terms assigned to the object in the nav_menu taxonomy."
+          },
+          "meta": {
+            "$ref": "#/components/schemas/meta_1"
+          }
+        }
+      },
+      "nav_menu_item-revision": {
+        "type": "object",
+        "properties": {
+          "author": {
+            "type": "integer",
+            "description": "The ID for the author of the revision."
+          },
+          "date": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The date the revision was published, in the site's timezone."
+          },
+          "date_gmt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The date the revision was published, as GMT."
+          },
+          "guid": {
+            "type": "string",
+            "description": "GUID for the revision, as it exists in the database."
+          },
+          "id": {
+            "type": "integer",
+            "description": "Unique identifier for the revision."
+          },
+          "modified": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The date the revision was last modified, in the site's timezone."
+          },
+          "modified_gmt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The date the revision was last modified, as GMT."
+          },
+          "parent": {
+            "type": "integer",
+            "description": "The ID for the parent of the revision."
+          },
+          "slug": {
+            "type": "string",
+            "description": "An alphanumeric identifier for the revision unique to its type."
+          },
+          "title": {
+            "type": [
+              "string",
+              "object"
+            ],
+            "description": "The title for the object."
+          },
+          "meta": {
+            "$ref": "#/components/schemas/meta_1"
+          },
+          "preview_link": {
+            "type": "string",
+            "format": "uri",
+            "description": "Preview link for the post."
+          }
+        }
+      },
+      "title_1": {
+        "type": "object",
+        "properties": {
+          "raw": {
+            "type": "string",
+            "description": "Title for the post, as it exists in the database."
+          }
+        },
+        "description": "The title for the post."
+      },
+      "content_1": {
+        "type": "object",
+        "properties": {
+          "raw": {
+            "type": "string",
+            "description": "Content for the post, as it exists in the database."
+          },
+          "block_version": {
+            "type": "integer",
+            "description": "Version of the content block format used by the post."
+          },
+          "protected": {
+            "type": "boolean",
+            "description": "Whether the content is protected with a password."
+          }
+        },
+        "description": "The content for the post."
+      },
+      "wp_pattern_sync_status": {
+        "type": "string",
+        "description": "",
+        "enum": [
+          "partial",
+          "unsynced"
+        ]
+      },
+      "meta_2": {
+        "type": "object",
+        "properties": {
+          "wp_pattern_sync_status": {
+            "$ref": "#/components/schemas/wp_pattern_sync_status"
+          },
+          "footnotes": {
+            "type": "string",
+            "description": ""
+          }
+        },
+        "description": "Meta fields."
+      },
+      "wp_block": {
+        "type": "object",
+        "properties": {
+          "date": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "date-time",
+            "description": "The date the post was published, in the site's timezone."
+          },
+          "date_gmt": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "date-time",
+            "description": "The date the post was published, as GMT."
+          },
+          "guid": {
+            "$ref": "#/components/schemas/guid"
+          },
+          "id": {
+            "type": "integer",
+            "description": "Unique identifier for the post."
+          },
+          "link": {
+            "type": "string",
+            "format": "uri",
+            "description": "URL to the post."
+          },
+          "modified": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The date the post was last modified, in the site's timezone."
+          },
+          "modified_gmt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The date the post was last modified, as GMT."
+          },
+          "slug": {
+            "type": "string",
+            "description": "An alphanumeric identifier for the post unique to its type."
+          },
+          "status": {
+            "$ref": "#/components/schemas/status_1"
+          },
+          "type": {
+            "type": "string",
+            "description": "Type of post."
+          },
+          "password": {
+            "type": "string",
+            "description": "A password to protect access to the content and excerpt."
+          },
+          "title": {
+            "$ref": "#/components/schemas/title_1"
+          },
+          "content": {
+            "$ref": "#/components/schemas/content_1"
+          },
+          "excerpt": {
+            "$ref": "#/components/schemas/excerpt"
+          },
+          "meta": {
+            "$ref": "#/components/schemas/meta_2"
+          },
+          "template": {
+            "type": "string",
+            "description": "The theme file to use to display the post."
+          },
+          "wp_pattern_category": {
+            "type": "array",
+            "items": {
+              "type": "integer"
+            },
+            "description": "The terms assigned to the post in the wp_pattern_category taxonomy."
+          }
+        }
+      },
+      "wp_block-revision": {
+        "type": "object",
+        "properties": {
+          "author": {
+            "type": "integer",
+            "description": "The ID for the author of the revision."
+          },
+          "date": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The date the revision was published, in the site's timezone."
+          },
+          "date_gmt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The date the revision was published, as GMT."
+          },
+          "guid": {
+            "$ref": "#/components/schemas/guid"
+          },
+          "id": {
+            "type": "integer",
+            "description": "Unique identifier for the revision."
+          },
+          "modified": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The date the revision was last modified, in the site's timezone."
+          },
+          "modified_gmt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The date the revision was last modified, as GMT."
+          },
+          "parent": {
+            "type": "integer",
+            "description": "The ID for the parent of the revision."
+          },
+          "slug": {
+            "type": "string",
+            "description": "An alphanumeric identifier for the revision unique to its type."
+          },
+          "title": {
+            "$ref": "#/components/schemas/title_1"
+          },
+          "content": {
+            "$ref": "#/components/schemas/content_1"
+          },
+          "excerpt": {
+            "$ref": "#/components/schemas/excerpt"
+          },
+          "meta": {
+            "$ref": "#/components/schemas/meta_2"
+          },
+          "preview_link": {
+            "type": "string",
+            "format": "uri",
+            "description": "Preview link for the post."
+          }
+        }
+      },
+      "status_4": {
+        "type": "string",
+        "description": "Status of template.",
+        "enum": [
+          "publish",
+          "future",
+          "draft",
+          "pending",
+          "private",
+          "in-progress",
+          "failed",
+          "wc-active",
+          "wc-switched",
+          "wc-expired",
+          "wc-pending-cancel",
+          "wc-pending",
+          "wc-processing",
+          "wc-on-hold",
+          "wc-completed",
+          "wc-cancelled",
+          "wc-refunded",
+          "wc-failed",
+          "wc-checkout-draft",
+          "refunded",
+          "revoked",
+          "cancelled",
+          "abandoned",
+          "processing",
+          "preapproval"
+        ]
+      },
+      "original_source": {
+        "type": "string",
+        "description": "Where the template originally comes from e.g. 'theme'",
+        "enum": [
+          "theme",
+          "plugin",
+          "site",
+          "user"
+        ]
+      },
+      "wp_template": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "ID of template."
+          },
+          "slug": {
+            "type": "string",
+            "description": "Unique slug identifying the template."
+          },
+          "theme": {
+            "type": "string",
+            "description": "Theme identifier for the template."
+          },
+          "type": {
+            "type": "string",
+            "description": "Type of template."
+          },
+          "source": {
+            "type": "string",
+            "description": "Source of template"
+          },
+          "origin": {
+            "type": "string",
+            "description": "Source of a customized template"
+          },
+          "content": {
+            "type": [
+              "object",
+              "string"
+            ],
+            "description": "Content of template."
+          },
+          "title": {
+            "type": [
+              "object",
+              "string"
+            ],
+            "description": "Title of template."
+          },
+          "description": {
+            "type": "string",
+            "description": "Description of template."
+          },
+          "status": {
+            "$ref": "#/components/schemas/status_4"
+          },
+          "wp_id": {
+            "type": "integer",
+            "description": "Post ID."
+          },
+          "has_theme_file": {
+            "type": "bool",
+            "description": "Theme file exists."
+          },
+          "author": {
+            "type": "integer",
+            "description": "The ID for the author of the template."
+          },
+          "modified": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The date the template was last modified, in the site's timezone."
+          },
+          "author_text": {
+            "type": "string",
+            "description": "Human readable text for the author."
+          },
+          "original_source": {
+            "$ref": "#/components/schemas/original_source"
+          },
+          "is_custom": {
+            "type": "bool",
+            "description": "Whether a template is a custom template."
+          }
+        },
+        "required": [
+          "slug"
+        ]
+      },
+      "wp_template_part": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "ID of template."
+          },
+          "slug": {
+            "type": "string",
+            "description": "Unique slug identifying the template."
+          },
+          "theme": {
+            "type": "string",
+            "description": "Theme identifier for the template."
+          },
+          "type": {
+            "type": "string",
+            "description": "Type of template."
+          },
+          "source": {
+            "type": "string",
+            "description": "Source of template"
+          },
+          "origin": {
+            "type": "string",
+            "description": "Source of a customized template"
+          },
+          "content": {
+            "type": [
+              "object",
+              "string"
+            ],
+            "description": "Content of template."
+          },
+          "title": {
+            "type": [
+              "object",
+              "string"
+            ],
+            "description": "Title of template."
+          },
+          "description": {
+            "type": "string",
+            "description": "Description of template."
+          },
+          "status": {
+            "$ref": "#/components/schemas/status_4"
+          },
+          "wp_id": {
+            "type": "integer",
+            "description": "Post ID."
+          },
+          "has_theme_file": {
+            "type": "bool",
+            "description": "Theme file exists."
+          },
+          "author": {
+            "type": "integer",
+            "description": "The ID for the author of the template."
+          },
+          "modified": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The date the template was last modified, in the site's timezone."
+          },
+          "author_text": {
+            "type": "string",
+            "description": "Human readable text for the author."
+          },
+          "original_source": {
+            "$ref": "#/components/schemas/original_source"
+          },
+          "area": {
+            "type": "string",
+            "description": "Where the template part is intended for use (header, footer, etc.)"
+          }
+        },
+        "required": [
+          "slug"
+        ]
+      },
+      "wp_global_styles-revision": {
+        "type": "object",
+        "properties": {
+          "author": {
+            "type": "integer",
+            "description": "The ID for the author of the revision."
+          },
+          "date": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The date the revision was published, in the site's timezone."
+          },
+          "date_gmt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The date the revision was published, as GMT."
+          },
+          "id": {
+            "type": "string",
+            "description": "ID of global styles config."
+          },
+          "modified": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The date the revision was last modified, in the site's timezone."
+          },
+          "modified_gmt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The date the revision was last modified, as GMT."
+          },
+          "parent": {
+            "type": "integer",
+            "description": "The ID for the parent of the revision."
+          },
+          "styles": {
+            "type": [
+              "object"
+            ],
+            "description": "Global styles."
+          },
+          "settings": {
+            "type": [
+              "object"
+            ],
+            "description": "Global settings."
+          }
+        }
+      },
+      "wp_global_styles": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "ID of global styles config."
+          },
+          "styles": {
+            "type": [
+              "object"
+            ],
+            "description": "Global styles."
+          },
+          "settings": {
+            "type": [
+              "object"
+            ],
+            "description": "Global settings."
+          },
+          "title": {
+            "type": [
+              "object",
+              "string"
+            ],
+            "description": "Title of the global styles variation."
+          }
+        }
+      },
+      "wp_navigation": {
+        "type": "object",
+        "properties": {
+          "date": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "date-time",
+            "description": "The date the post was published, in the site's timezone."
+          },
+          "date_gmt": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "date-time",
+            "description": "The date the post was published, as GMT."
+          },
+          "guid": {
+            "$ref": "#/components/schemas/guid"
+          },
+          "id": {
+            "type": "integer",
+            "description": "Unique identifier for the post."
+          },
+          "link": {
+            "type": "string",
+            "format": "uri",
+            "description": "URL to the post."
+          },
+          "modified": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The date the post was last modified, in the site's timezone."
+          },
+          "modified_gmt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The date the post was last modified, as GMT."
+          },
+          "slug": {
+            "type": "string",
+            "description": "An alphanumeric identifier for the post unique to its type."
+          },
+          "status": {
+            "$ref": "#/components/schemas/status_1"
+          },
+          "type": {
+            "type": "string",
+            "description": "Type of post."
+          },
+          "password": {
+            "type": "string",
+            "description": "A password to protect access to the content and excerpt."
+          },
+          "title": {
+            "$ref": "#/components/schemas/title"
+          },
+          "content": {
+            "$ref": "#/components/schemas/content"
+          },
+          "template": {
+            "type": "string",
+            "description": "The theme file to use to display the post."
+          }
+        }
+      },
+      "wp_navigation-revision": {
+        "type": "object",
+        "properties": {
+          "author": {
+            "type": "integer",
+            "description": "The ID for the author of the revision."
+          },
+          "date": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The date the revision was published, in the site's timezone."
+          },
+          "date_gmt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The date the revision was published, as GMT."
+          },
+          "guid": {
+            "$ref": "#/components/schemas/guid"
+          },
+          "id": {
+            "type": "integer",
+            "description": "Unique identifier for the revision."
+          },
+          "modified": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The date the revision was last modified, in the site's timezone."
+          },
+          "modified_gmt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The date the revision was last modified, as GMT."
+          },
+          "parent": {
+            "type": "integer",
+            "description": "The ID for the parent of the revision."
+          },
+          "slug": {
+            "type": "string",
+            "description": "An alphanumeric identifier for the revision unique to its type."
+          },
+          "title": {
+            "$ref": "#/components/schemas/title"
+          },
+          "content": {
+            "$ref": "#/components/schemas/content"
+          },
+          "meta": {
+            "$ref": "#/components/schemas/meta_1"
+          },
+          "preview_link": {
+            "type": "string",
+            "format": "uri",
+            "description": "Preview link for the post."
+          }
+        }
+      },
+      "orderby_4": {
+        "type": "string",
+        "description": "Sort collection by post attribute.",
+        "enum": [
+          "id",
+          "include"
+        ]
+      },
+      "font_family_settings": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Name of the font family preset, translatable."
+          },
+          "slug": {
+            "type": "string",
+            "description": "Kebab-case unique identifier for the font family preset."
+          },
+          "fontFamily": {
+            "type": "string",
+            "description": "CSS font-family value."
+          },
+          "preview": {
+            "type": "string",
+            "format": "uri",
+            "description": "URL to a preview image of the font family."
+          }
+        },
+        "description": "font-face definition in theme.json format."
+      },
+      "wp_font_family": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "Unique identifier for the post."
+          },
+          "theme_json_version": {
+            "type": "integer",
+            "description": "Version of the theme.json schema used for the typography settings."
+          },
+          "font_faces": {
+            "type": "array",
+            "items": {
+              "type": "integer"
+            },
+            "description": "The IDs of the child font faces in the font family."
+          },
+          "font_family_settings": {
+            "$ref": "#/components/schemas/font_family_settings"
+          }
+        }
+      },
+      "fontDisplay": {
+        "type": "string",
+        "description": "CSS font-display value.",
+        "enum": [
+          "auto",
+          "block",
+          "fallback",
+          "swap",
+          "optional"
+        ]
+      },
+      "font_face_settings": {
+        "type": "object",
+        "properties": {
+          "fontFamily": {
+            "type": "string",
+            "description": "CSS font-family value."
+          },
+          "fontStyle": {
+            "type": "string",
+            "description": "CSS font-style value."
+          },
+          "fontWeight": {
+            "type": [
+              "string",
+              "integer"
+            ],
+            "description": "List of available font weights, separated by a space."
+          },
+          "fontDisplay": {
+            "$ref": "#/components/schemas/fontDisplay"
+          },
+          "src": {
+            "type": "string",
+            "description": "Paths or URLs to the font files."
+          },
+          "fontStretch": {
+            "type": "string",
+            "description": "CSS font-stretch value."
+          },
+          "ascentOverride": {
+            "type": "string",
+            "description": "CSS ascent-override value."
+          },
+          "descentOverride": {
+            "type": "string",
+            "description": "CSS descent-override value."
+          },
+          "fontVariant": {
+            "type": "string",
+            "description": "CSS font-variant value."
+          },
+          "fontFeatureSettings": {
+            "type": "string",
+            "description": "CSS font-feature-settings value."
+          },
+          "fontVariationSettings": {
+            "type": "string",
+            "description": "CSS font-variation-settings value."
+          },
+          "lineGapOverride": {
+            "type": "string",
+            "description": "CSS line-gap-override value."
+          },
+          "sizeAdjust": {
+            "type": "string",
+            "description": "CSS size-adjust value."
+          },
+          "unicodeRange": {
+            "type": "string",
+            "description": "CSS unicode-range value."
+          },
+          "preview": {
+            "type": "string",
+            "format": "uri",
+            "description": "URL to a preview image of the font face."
+          }
+        },
+        "description": "font-face declaration in theme.json format."
+      },
+      "wp_font_face": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "Unique identifier for the post."
+          },
+          "theme_json_version": {
+            "type": "integer",
+            "description": "Version of the theme.json schema used for the typography settings."
+          },
+          "parent": {
+            "type": "integer",
+            "description": "The ID for the parent font family of the font face."
+          },
+          "font_face_settings": {
+            "$ref": "#/components/schemas/font_face_settings"
+          }
+        }
+      },
+      "give_forms": {
+        "type": "object",
+        "properties": {
+          "date": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "date-time",
+            "description": "The date the post was published, in the site's timezone."
+          },
+          "date_gmt": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "date-time",
+            "description": "The date the post was published, as GMT."
+          },
+          "guid": {
+            "$ref": "#/components/schemas/guid"
+          },
+          "id": {
+            "type": "integer",
+            "description": "Unique identifier for the post."
+          },
+          "link": {
+            "type": "string",
+            "format": "uri",
+            "description": "URL to the post."
+          },
+          "modified": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The date the post was last modified, in the site's timezone."
+          },
+          "modified_gmt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The date the post was last modified, as GMT."
+          },
+          "slug": {
+            "type": "string",
+            "description": "An alphanumeric identifier for the post unique to its type."
+          },
+          "status": {
+            "$ref": "#/components/schemas/status_1"
+          },
+          "type": {
+            "type": "string",
+            "description": "Type of post."
+          },
+          "password": {
+            "type": "string",
+            "description": "A password to protect access to the content and excerpt."
+          },
+          "permalink_template": {
+            "type": "string",
+            "description": "Permalink template for the post."
+          },
+          "generated_slug": {
+            "type": "string",
+            "description": "Slug automatically generated from the post title."
+          },
+          "class_list": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "An array of the class names for the post container element."
+          },
+          "title": {
+            "$ref": "#/components/schemas/title"
+          },
+          "author": {
+            "type": "integer",
+            "description": "The ID for the author of the post."
+          },
+          "excerpt": {
+            "$ref": "#/components/schemas/excerpt"
+          },
+          "featured_media": {
+            "type": "integer",
+            "description": "The ID of the featured media for the post."
+          },
+          "template": {
+            "type": "string",
+            "description": "The theme file to use to display the post."
+          }
+        }
+      },
+      "give_forms-revision": {
+        "type": "object",
+        "properties": {
+          "author": {
+            "type": "integer",
+            "description": "The ID for the author of the revision."
+          },
+          "date": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The date the revision was published, in the site's timezone."
+          },
+          "date_gmt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The date the revision was published, as GMT."
+          },
+          "guid": {
+            "$ref": "#/components/schemas/guid"
+          },
+          "id": {
+            "type": "integer",
+            "description": "Unique identifier for the revision."
+          },
+          "modified": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The date the revision was last modified, in the site's timezone."
+          },
+          "modified_gmt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The date the revision was last modified, as GMT."
+          },
+          "parent": {
+            "type": "integer",
+            "description": "The ID for the parent of the revision."
+          },
+          "slug": {
+            "type": "string",
+            "description": "An alphanumeric identifier for the revision unique to its type."
+          },
+          "title": {
+            "$ref": "#/components/schemas/title"
+          },
+          "excerpt": {
+            "$ref": "#/components/schemas/excerpt"
+          },
+          "meta": {
+            "$ref": "#/components/schemas/meta_1"
+          }
+        }
+      },
+      "orderby_5": {
+        "type": "string",
+        "description": "Sort collection by post attribute.",
+        "enum": [
+          "author",
+          "date",
+          "id",
+          "include",
+          "modified",
+          "parent",
+          "relevance",
+          "slug",
+          "include_slugs",
+          "title",
+          "popularity",
+          "rating",
+          "popularity",
+          "rating"
+        ]
+      },
+      "product": {
+        "type": "object",
+        "properties": {
+          "date": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "date-time",
+            "description": "The date the post was published, in the site's timezone."
+          },
+          "date_gmt": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "date-time",
+            "description": "The date the post was published, as GMT."
+          },
+          "guid": {
+            "$ref": "#/components/schemas/guid"
+          },
+          "id": {
+            "type": "integer",
+            "description": "Unique identifier for the post."
+          },
+          "link": {
+            "type": "string",
+            "format": "uri",
+            "description": "URL to the post."
+          },
+          "modified": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The date the post was last modified, in the site's timezone."
+          },
+          "modified_gmt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The date the post was last modified, as GMT."
+          },
+          "slug": {
+            "type": "string",
+            "description": "An alphanumeric identifier for the post unique to its type."
+          },
+          "status": {
+            "$ref": "#/components/schemas/status_1"
+          },
+          "type": {
+            "type": "string",
+            "description": "Type of post."
+          },
+          "password": {
+            "type": "string",
+            "description": "A password to protect access to the content and excerpt."
+          },
+          "permalink_template": {
+            "type": "string",
+            "description": "Permalink template for the post."
+          },
+          "generated_slug": {
+            "type": "string",
+            "description": "Slug automatically generated from the post title."
+          },
+          "class_list": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "An array of the class names for the post container element."
+          },
+          "title": {
+            "$ref": "#/components/schemas/title"
+          },
+          "content": {
+            "$ref": "#/components/schemas/content"
+          },
+          "excerpt": {
+            "$ref": "#/components/schemas/excerpt"
+          },
+          "featured_media": {
+            "type": "integer",
+            "description": "The ID of the featured media for the post."
+          },
+          "comment_status": {
+            "$ref": "#/components/schemas/comment_status"
+          },
+          "ping_status": {
+            "$ref": "#/components/schemas/ping_status"
+          },
+          "meta": {
+            "$ref": "#/components/schemas/meta_1"
+          },
+          "template": {
+            "type": "string",
+            "description": "The theme file to use to display the post."
+          },
+          "product_cat": {
+            "type": "array",
+            "items": {
+              "type": "integer"
+            },
+            "description": "The terms assigned to the post in the product_cat taxonomy."
+          },
+          "product_tag": {
+            "type": "array",
+            "items": {
+              "type": "integer"
+            },
+            "description": "The terms assigned to the post in the product_tag taxonomy."
+          }
+        }
+      },
+      "product-revision": {
+        "type": "object",
+        "properties": {
+          "author": {
+            "type": "integer",
+            "description": "The ID for the author of the revision."
+          },
+          "date": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The date the revision was published, in the site's timezone."
+          },
+          "date_gmt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The date the revision was published, as GMT."
+          },
+          "guid": {
+            "$ref": "#/components/schemas/guid"
+          },
+          "id": {
+            "type": "integer",
+            "description": "Unique identifier for the revision."
+          },
+          "modified": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The date the revision was last modified, in the site's timezone."
+          },
+          "modified_gmt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The date the revision was last modified, as GMT."
+          },
+          "parent": {
+            "type": "integer",
+            "description": "The ID for the parent of the revision."
+          },
+          "slug": {
+            "type": "string",
+            "description": "An alphanumeric identifier for the revision unique to its type."
+          },
+          "title": {
+            "$ref": "#/components/schemas/title"
+          },
+          "content": {
+            "$ref": "#/components/schemas/content"
+          },
+          "excerpt": {
+            "$ref": "#/components/schemas/excerpt"
+          },
+          "meta": {
+            "$ref": "#/components/schemas/meta_1"
+          },
+          "preview_link": {
+            "type": "string",
+            "format": "uri",
+            "description": "Preview link for the post."
+          }
+        }
+      },
+      "capabilities": {
+        "type": "object",
+        "description": "All capabilities used by the post type."
+      },
+      "labels": {
+        "type": "object",
+        "description": "Human-readable labels for the post type for various contexts."
+      },
+      "supports": {
+        "type": "object",
+        "description": "All features, supported by the post type."
+      },
+      "visibility": {
+        "type": "object",
+        "properties": {
+          "show_ui": {
+            "type": "boolean",
+            "description": "Whether to generate a default UI for managing this post type."
+          },
+          "show_in_nav_menus": {
+            "type": "boolean",
+            "description": "Whether to make the post type available for selection in navigation menus."
+          }
+        },
+        "description": "The visibility settings for the post type."
+      },
+      "template_lock": {
+        "type": [
+          "string",
+          "boolean"
+        ],
+        "description": "The template_lock associated with the post type, or false if none.",
+        "enum": [
+          "all",
+          "insert",
+          "contentOnly",
+          false
+        ]
+      },
+      "capabilities_1": {
+        "type": "object",
+        "description": "All capabilities used by the taxonomy."
+      },
+      "labels_1": {
+        "type": "object",
+        "description": "Human-readable labels for the taxonomy for various contexts."
+      },
+      "visibility_1": {
+        "type": "object",
+        "properties": {
+          "public": {
+            "type": "boolean",
+            "description": "Whether a taxonomy is intended for use publicly either via the admin interface or by front-end users."
+          },
+          "publicly_queryable": {
+            "type": "boolean",
+            "description": "Whether the taxonomy is publicly queryable."
+          },
+          "show_ui": {
+            "type": "boolean",
+            "description": "Whether to generate a default UI for managing this taxonomy."
+          },
+          "show_admin_column": {
+            "type": "boolean",
+            "description": "Whether to allow automatic creation of taxonomy columns on associated post-types table."
+          },
+          "show_in_nav_menus": {
+            "type": "boolean",
+            "description": "Whether to make the taxonomy available for selection in navigation menus."
+          },
+          "show_in_quick_edit": {
+            "type": "boolean",
+            "description": "Whether to show the taxonomy in the quick/bulk edit panel."
+          }
+        },
+        "description": "The visibility settings for the taxonomy."
+      },
+      "taxonomy": {
+        "type": "object",
+        "properties": {
+          "capabilities": {
+            "$ref": "#/components/schemas/capabilities_1"
+          },
+          "description": {
+            "type": "string",
+            "description": "A human-readable description of the taxonomy."
+          },
+          "hierarchical": {
+            "type": "boolean",
+            "description": "Whether or not the taxonomy should have children."
+          },
+          "labels": {
+            "$ref": "#/components/schemas/labels_1"
+          },
+          "name": {
+            "type": "string",
+            "description": "The title for the taxonomy."
+          },
+          "slug": {
+            "type": "string",
+            "description": "An alphanumeric identifier for the taxonomy."
+          },
+          "show_cloud": {
+            "type": "boolean",
+            "description": "Whether or not the term cloud should be displayed."
+          },
+          "types": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Types associated with the taxonomy."
+          },
+          "rest_base": {
+            "type": "string",
+            "description": "REST base route for the taxonomy."
+          },
+          "rest_namespace": {
+            "type": "string",
+            "description": "REST namespace route for the taxonomy."
+          },
+          "visibility": {
+            "$ref": "#/components/schemas/visibility_1"
+          }
+        }
+      },
+      "orderby_6": {
+        "type": "string",
+        "description": "Sort collection by term attribute.",
+        "enum": [
+          "id",
+          "include",
+          "name",
+          "slug",
+          "include_slugs",
+          "term_group",
+          "description",
+          "count"
+        ]
+      },
+      "taxonomy_1": {
+        "type": "string",
+        "description": "Type attribution for the term.",
+        "enum": [
+          "category"
+        ]
+      },
+      "category": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "Unique identifier for the term."
+          },
+          "count": {
+            "type": "integer",
+            "description": "Number of published posts for the term."
+          },
+          "description": {
+            "type": "string",
+            "description": "HTML description of the term."
+          },
+          "link": {
+            "type": "string",
+            "format": "uri",
+            "description": "URL of the term."
+          },
+          "name": {
+            "type": "string",
+            "description": "HTML title for the term."
+          },
+          "slug": {
+            "type": "string",
+            "description": "An alphanumeric identifier for the term unique to its type."
+          },
+          "taxonomy": {
+            "$ref": "#/components/schemas/taxonomy_1"
+          },
+          "parent": {
+            "type": "integer",
+            "description": "The parent term ID."
+          },
+          "meta": {
+            "$ref": "#/components/schemas/meta_1"
+          }
+        },
+        "required": [
+          "name"
+        ]
+      },
+      "taxonomy_2": {
+        "type": "string",
+        "description": "Type attribution for the term.",
+        "enum": [
+          "post_tag"
+        ]
+      },
+      "tag": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "Unique identifier for the term."
+          },
+          "count": {
+            "type": "integer",
+            "description": "Number of published posts for the term."
+          },
+          "description": {
+            "type": "string",
+            "description": "HTML description of the term."
+          },
+          "link": {
+            "type": "string",
+            "format": "uri",
+            "description": "URL of the term."
+          },
+          "name": {
+            "type": "string",
+            "description": "HTML title for the term."
+          },
+          "slug": {
+            "type": "string",
+            "description": "An alphanumeric identifier for the term unique to its type."
+          },
+          "taxonomy": {
+            "$ref": "#/components/schemas/taxonomy_2"
+          },
+          "meta": {
+            "$ref": "#/components/schemas/meta_1"
+          }
+        },
+        "required": [
+          "name"
+        ]
+      },
+      "nav_menu": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "Unique identifier for the term."
+          },
+          "description": {
+            "type": "string",
+            "description": "HTML description of the term."
+          },
+          "name": {
+            "type": "string",
+            "description": "HTML title for the term."
+          },
+          "slug": {
+            "type": "string",
+            "description": "An alphanumeric identifier for the term unique to its type."
+          },
+          "meta": {
+            "$ref": "#/components/schemas/meta_1"
+          },
+          "locations": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "The locations assigned to the menu."
+          },
+          "auto_add": {
+            "type": "boolean",
+            "description": "Whether to automatically add top level pages to this menu."
+          }
+        },
+        "required": [
+          "name"
+        ]
+      },
+      "taxonomy_3": {
+        "type": "string",
+        "description": "Type attribution for the term.",
+        "enum": [
+          "wp_pattern_category"
+        ]
+      },
+      "wp_pattern_category": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "Unique identifier for the term."
+          },
+          "count": {
+            "type": "integer",
+            "description": "Number of published posts for the term."
+          },
+          "description": {
+            "type": "string",
+            "description": "HTML description of the term."
+          },
+          "link": {
+            "type": "string",
+            "format": "uri",
+            "description": "URL of the term."
+          },
+          "name": {
+            "type": "string",
+            "description": "HTML title for the term."
+          },
+          "slug": {
+            "type": "string",
+            "description": "An alphanumeric identifier for the term unique to its type."
+          },
+          "taxonomy": {
+            "$ref": "#/components/schemas/taxonomy_3"
+          },
+          "meta": {
+            "$ref": "#/components/schemas/meta_1"
+          }
+        },
+        "required": [
+          "name"
+        ]
+      },
+      "taxonomy_4": {
+        "type": "string",
+        "description": "Type attribution for the term.",
+        "enum": [
+          "product_cat"
+        ]
+      },
+      "product_cat": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "Unique identifier for the term."
+          },
+          "count": {
+            "type": "integer",
+            "description": "Number of published posts for the term."
+          },
+          "description": {
+            "type": "string",
+            "description": "HTML description of the term."
+          },
+          "link": {
+            "type": "string",
+            "format": "uri",
+            "description": "URL of the term."
+          },
+          "name": {
+            "type": "string",
+            "description": "HTML title for the term."
+          },
+          "slug": {
+            "type": "string",
+            "description": "An alphanumeric identifier for the term unique to its type."
+          },
+          "taxonomy": {
+            "$ref": "#/components/schemas/taxonomy_4"
+          },
+          "parent": {
+            "type": "integer",
+            "description": "The parent term ID."
+          },
+          "meta": {
+            "$ref": "#/components/schemas/meta_1"
+          }
+        },
+        "required": [
+          "name"
+        ]
+      },
+      "taxonomy_5": {
+        "type": "string",
+        "description": "Type attribution for the term.",
+        "enum": [
+          "product_tag"
+        ]
+      },
+      "product_tag": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "Unique identifier for the term."
+          },
+          "count": {
+            "type": "integer",
+            "description": "Number of published posts for the term."
+          },
+          "description": {
+            "type": "string",
+            "description": "HTML description of the term."
+          },
+          "link": {
+            "type": "string",
+            "format": "uri",
+            "description": "URL of the term."
+          },
+          "name": {
+            "type": "string",
+            "description": "HTML title for the term."
+          },
+          "slug": {
+            "type": "string",
+            "description": "An alphanumeric identifier for the term unique to its type."
+          },
+          "taxonomy": {
+            "$ref": "#/components/schemas/taxonomy_5"
+          },
+          "meta": {
+            "$ref": "#/components/schemas/meta_1"
+          }
+        },
+        "required": [
+          "name"
+        ]
+      },
+      "orderby_7": {
+        "type": "string",
+        "description": "Sort collection by user attribute.",
+        "enum": [
+          "id",
+          "include",
+          "name",
+          "registered_date",
+          "slug",
+          "include_slugs",
+          "email",
+          "url"
+        ]
+      },
+      "who": {
+        "type": "string",
+        "description": "Limit result set to users who are considered authors.",
+        "enum": [
+          "authors"
+        ]
+      },
+      "locale": {
+        "type": "string",
+        "description": "Locale for the user.",
+        "enum": [
+          "",
+          "en_US"
+        ]
+      },
+      "capabilities_2": {
+        "type": "object",
+        "description": "All capabilities assigned to the user."
+      },
+      "extra_capabilities": {
+        "type": "object",
+        "description": "Any extra capabilities assigned to the user."
+      },
+      "avatar_urls": {
+        "type": "object",
+        "properties": {
+          "24": {
+            "type": "string",
+            "format": "uri",
+            "description": "Avatar URL with image size of 24 pixels."
+          },
+          "48": {
+            "type": "string",
+            "format": "uri",
+            "description": "Avatar URL with image size of 48 pixels."
+          },
+          "96": {
+            "type": "string",
+            "format": "uri",
+            "description": "Avatar URL with image size of 96 pixels."
+          }
+        },
+        "description": "Avatar URLs for the user."
+      },
+      "persisted_preferences": {
+        "type": "object",
+        "properties": {
+          "_modified": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The date and time the preferences were updated."
+          }
+        },
+        "description": ""
+      },
+      "meta_3": {
+        "type": "object",
+        "properties": {
+          "marketing_optin": {
+            "type": "string",
+            "description": ""
+          },
+          "persisted_preferences": {
+            "$ref": "#/components/schemas/persisted_preferences"
+          }
+        },
+        "description": "Meta fields."
+      },
+      "user": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "Unique identifier for the user."
+          },
+          "username": {
+            "type": "string",
+            "description": "Login name for the user."
+          },
+          "name": {
+            "type": "string",
+            "description": "Display name for the user."
+          },
+          "first_name": {
+            "type": "string",
+            "description": "First name for the user."
+          },
+          "last_name": {
+            "type": "string",
+            "description": "Last name for the user."
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "description": "The email address for the user."
+          },
+          "url": {
+            "type": "string",
+            "format": "uri",
+            "description": "URL of the user."
+          },
+          "description": {
+            "type": "string",
+            "description": "Description of the user."
+          },
+          "link": {
+            "type": "string",
+            "format": "uri",
+            "description": "Author URL of the user."
+          },
+          "locale": {
+            "$ref": "#/components/schemas/locale"
+          },
+          "nickname": {
+            "type": "string",
+            "description": "The nickname for the user."
+          },
+          "slug": {
+            "type": "string",
+            "description": "An alphanumeric identifier for the user."
+          },
+          "registered_date": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Registration date for the user."
+          },
+          "roles": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Roles assigned to the user."
+          },
+          "password": {
+            "type": "string",
+            "description": "Password for the user (never included)."
+          },
+          "capabilities": {
+            "$ref": "#/components/schemas/capabilities_2"
+          },
+          "extra_capabilities": {
+            "$ref": "#/components/schemas/extra_capabilities"
+          },
+          "avatar_urls": {
+            "$ref": "#/components/schemas/avatar_urls"
+          },
+          "meta": {
+            "$ref": "#/components/schemas/meta_3"
+          }
+        },
+        "required": [
+          "username",
+          "email",
+          "password"
+        ]
+      },
+      "application-password": {
+        "type": "object",
+        "properties": {
+          "uuid": {
+            "type": "string",
+            "format": "uuid",
+            "description": "The unique identifier for the application password."
+          },
+          "app_id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "A UUID provided by the application to uniquely identify it. It is recommended to use an UUID v5 with the URL or DNS namespace."
+          },
+          "name": {
+            "type": "string",
+            "description": "The name of the application password."
+          },
+          "password": {
+            "type": "string",
+            "description": "The generated password. Only available after adding an application."
+          },
+          "created": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The GMT date the application password was created."
+          },
+          "last_used": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "date-time",
+            "description": "The GMT date the application password was last used."
+          },
+          "last_ip": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "ip",
+            "description": "The IP address the application password was last used by."
+          }
+        },
+        "required": [
+          "name"
+        ]
+      },
+      "orderby_8": {
+        "type": "string",
+        "description": "Sort collection by comment attribute.",
+        "enum": [
+          "date",
+          "date_gmt",
+          "id",
+          "include",
+          "post",
+          "parent",
+          "type"
+        ]
+      },
+      "content_2": {
+        "type": "object",
+        "properties": {
+          "raw": {
+            "type": "string",
+            "description": "Content for the comment, as it exists in the database."
+          },
+          "rendered": {
+            "type": "string",
+            "description": "HTML content for the comment, transformed for display."
+          }
+        },
+        "description": "The content for the comment."
+      },
+      "author_avatar_urls": {
+        "type": "object",
+        "properties": {
+          "24": {
+            "type": "string",
+            "format": "uri",
+            "description": "Avatar URL with image size of 24 pixels."
+          },
+          "48": {
+            "type": "string",
+            "format": "uri",
+            "description": "Avatar URL with image size of 48 pixels."
+          },
+          "96": {
+            "type": "string",
+            "format": "uri",
+            "description": "Avatar URL with image size of 96 pixels."
+          }
+        },
+        "description": "Avatar URLs for the comment author."
+      },
+      "comment": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "Unique identifier for the comment."
+          },
+          "author": {
+            "type": "integer",
+            "description": "The ID of the user object, if author was a user."
+          },
+          "author_email": {
+            "type": "string",
+            "format": "email",
+            "description": "Email address for the comment author."
+          },
+          "author_ip": {
+            "type": "string",
+            "format": "ip",
+            "description": "IP address for the comment author."
+          },
+          "author_name": {
+            "type": "string",
+            "description": "Display name for the comment author."
+          },
+          "author_url": {
+            "type": "string",
+            "format": "uri",
+            "description": "URL for the comment author."
+          },
+          "author_user_agent": {
+            "type": "string",
+            "description": "User agent for the comment author."
+          },
+          "content": {
+            "$ref": "#/components/schemas/content_2"
+          },
+          "date": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The date the comment was published, in the site's timezone."
+          },
+          "date_gmt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The date the comment was published, as GMT."
+          },
+          "link": {
+            "type": "string",
+            "format": "uri",
+            "description": "URL to the comment."
+          },
+          "parent": {
+            "type": "integer",
+            "description": "The ID for the parent of the comment."
+          },
+          "post": {
+            "type": "integer",
+            "description": "The ID of the associated post object."
+          },
+          "status": {
+            "type": "string",
+            "description": "State of the comment."
+          },
+          "type": {
+            "type": "string",
+            "description": "Type of the comment."
+          },
+          "author_avatar_urls": {
+            "$ref": "#/components/schemas/author_avatar_urls"
+          },
+          "meta": {
+            "$ref": "#/components/schemas/meta_1"
+          }
+        }
+      },
+      "context_1": {
+        "type": "string",
+        "description": "Scope under which the request is made; determines fields present in response.",
+        "enum": [
+          "view",
+          "embed"
+        ]
+      },
+      "type_1": {
+        "type": "string",
+        "description": "Limit results to items of an object type.",
+        "enum": [
+          "post",
+          "term",
+          "post-format"
+        ]
+      },
+      "subtype": {
+        "type": "string",
+        "enum": [
+          "post",
+          "page",
+          "give_forms",
+          "product",
+          "category",
+          "post_tag",
+          "product_cat",
+          "product_tag",
+          "any"
+        ]
+      },
+      "type_2": {
+        "type": "string",
+        "description": "Object type.",
+        "enum": [
+          "post",
+          "term",
+          "post-format"
+        ]
+      },
+      "subtype_1": {
+        "type": "string",
+        "description": "Object subtype.",
+        "enum": [
+          "post",
+          "page",
+          "give_forms",
+          "product",
+          "category",
+          "post_tag",
+          "product_cat",
+          "product_tag"
+        ]
+      },
+      "search-result": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": [
+              "integer",
+              "string"
+            ],
+            "description": "Unique identifier for the object."
+          },
+          "title": {
+            "type": "string",
+            "description": "The title for the object."
+          },
+          "url": {
+            "type": "string",
+            "format": "uri",
+            "description": "URL to the object."
+          },
+          "type": {
+            "$ref": "#/components/schemas/type_2"
+          },
+          "subtype": {
+            "$ref": "#/components/schemas/subtype_1"
+          }
+        }
+      },
+      "context_2": {
+        "type": "string",
+        "description": "Scope under which the request is made; determines fields present in response.",
+        "enum": [
+          "edit"
+        ]
+      },
+      "attributes": {
+        "type": "object",
+        "description": "Attributes for the block."
+      },
+      "rendered-block": {
+        "type": "object",
+        "properties": {
+          "rendered": {
+            "type": "string",
+            "description": "The rendered block."
+          }
+        },
+        "required": [
+          "rendered"
+        ]
+      },
+      "provides_context": {
+        "type": "object",
+        "description": "Context provided by blocks of this type."
+      },
+      "selectors": {
+        "type": "object",
+        "description": "Custom CSS selectors."
+      },
+      "supports_1": {
+        "type": "object",
+        "description": "Block supports."
+      },
+      "styles": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Unique name identifying the style."
+          },
+          "label": {
+            "type": "string",
+            "description": "The human-readable label for the style."
+          },
+          "inline_style": {
+            "type": "string",
+            "description": "Inline CSS code that registers the CSS class required for the style."
+          },
+          "style_handle": {
+            "type": "string",
+            "description": "Contains the handle that defines the block style."
+          }
+        },
+        "required": [
+          "name"
+        ]
+      },
+      "attributes_1": {
+        "type": "object",
+        "description": "The initial values for attributes."
+      },
+      "attributes_2": {
+        "type": "object",
+        "description": "The attributes of the inner block."
+      },
+      "innerBlocks": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "The name of the inner block."
+          },
+          "attributes": {
+            "$ref": "#/components/schemas/attributes_2"
+          },
+          "innerBlocks": {
+            "type": "array",
+            "description": "A list of the inner block's own inner blocks. This is a recursive definition following the parent innerBlocks schema."
+          }
+        },
+        "required": [
+          "name"
+        ]
+      },
+      "variations": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "The unique and machine-readable name."
+          },
+          "title": {
+            "type": "string",
+            "description": "A human-readable variation title."
+          },
+          "description": {
+            "type": "string",
+            "description": "A detailed variation description."
+          },
+          "category": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Block category."
+          },
+          "icon": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Icon of block type."
+          },
+          "isDefault": {
+            "type": "boolean",
+            "description": "Indicates whether the current variation is the default one."
+          },
+          "attributes": {
+            "$ref": "#/components/schemas/attributes_1"
+          },
+          "innerBlocks": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/innerBlocks"
+            },
+            "description": "The list of inner blocks used in the example."
+          },
+          "example": {
+            "type": [
+              "object",
+              "null"
+            ],
+            "description": "Block example."
+          },
+          "scope": {
+            "type": [
+              "array",
+              "null"
+            ],
+            "description": "The list of scopes where the variation is applicable. When not provided, it assumes all available scopes."
+          },
+          "keywords": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Block keywords."
+          }
+        },
+        "required": [
+          "name",
+          "title"
+        ]
+      },
+      "block_hooks": {
+        "type": "object",
+        "description": "This block is automatically inserted near any occurrence of the block types used as keys of this map, into a relative position given by the corresponding value."
+      },
+      "block-type": {
+        "type": "object",
+        "properties": {
+          "api_version": {
+            "type": "integer",
+            "description": "Version of block API."
+          },
+          "title": {
+            "type": "string",
+            "description": "Title of block type."
+          },
+          "name": {
+            "type": "string",
+            "description": "Unique name identifying the block type."
+          },
+          "description": {
+            "type": "string",
+            "description": "Description of block type."
+          },
+          "icon": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Icon of block type."
+          },
+          "attributes": {
+            "type": [
+              "object",
+              "null"
+            ],
+            "description": "Block attributes."
+          },
+          "provides_context": {
+            "$ref": "#/components/schemas/provides_context"
+          },
+          "uses_context": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Context values inherited by blocks of this type."
+          },
+          "selectors": {
+            "$ref": "#/components/schemas/selectors"
+          },
+          "supports": {
+            "$ref": "#/components/schemas/supports_1"
+          },
+          "category": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Block category."
+          },
+          "is_dynamic": {
+            "type": "boolean",
+            "description": "Is the block dynamically rendered."
+          },
+          "editor_script_handles": {
+            "type": [
+              "array"
+            ],
+            "description": "Editor script handles."
+          },
+          "script_handles": {
+            "type": [
+              "array"
+            ],
+            "description": "Public facing and editor script handles."
+          },
+          "view_script_handles": {
+            "type": [
+              "array"
+            ],
+            "description": "Public facing script handles."
+          },
+          "view_script_module_ids": {
+            "type": [
+              "array"
+            ],
+            "description": "Public facing script module IDs."
+          },
+          "editor_style_handles": {
+            "type": [
+              "array"
+            ],
+            "description": "Editor style handles."
+          },
+          "style_handles": {
+            "type": [
+              "array"
+            ],
+            "description": "Public facing and editor style handles."
+          },
+          "view_style_handles": {
+            "type": [
+              "array"
+            ],
+            "description": "Public facing style handles."
+          },
+          "styles": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/styles"
+            },
+            "description": "Block style variations."
+          },
+          "variations": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/variations"
+            },
+            "description": "Block variations."
+          },
+          "textdomain": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Public text domain."
+          },
+          "parent": {
+            "type": [
+              "array",
+              "null"
+            ],
+            "description": "Parent blocks."
+          },
+          "ancestor": {
+            "type": [
+              "array",
+              "null"
+            ],
+            "description": "Ancestor blocks."
+          },
+          "allowed_blocks": {
+            "type": [
+              "array",
+              "null"
+            ],
+            "description": "Allowed child block types."
+          },
+          "keywords": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Block keywords."
+          },
+          "example": {
+            "type": [
+              "object",
+              "null"
+            ],
+            "description": "Block example."
+          },
+          "block_hooks": {
+            "$ref": "#/components/schemas/block_hooks"
+          },
+          "editor_script": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Editor script handle. DEPRECATED: Use `editor_script_handles` instead."
+          },
+          "script": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Public facing and editor script handle. DEPRECATED: Use `script_handles` instead."
+          },
+          "view_script": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Public facing script handle. DEPRECATED: Use `view_script_handles` instead."
+          },
+          "editor_style": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Editor style handle. DEPRECATED: Use `editor_style_handles` instead."
+          },
+          "style": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Public facing and editor style handle. DEPRECATED: Use `style_handles` instead."
+          }
+        },
+        "required": [
+          "name"
+        ]
+      },
+      "settings": {
+        "type": "object",
+        "properties": {
+          "bh_wp_autologin_urls_register_test": {
+            "type": "string",
+            "description": "Test setting for the Magic Emails & Autologin URLs plugin."
+          }
+        }
+      },
+      "status_5": {
+        "type": "string",
+        "enum": [
+          "active",
+          "inactive"
+        ]
+      },
+      "author": {
+        "type": "object",
+        "properties": {
+          "raw": {
+            "type": "string",
+            "description": "The theme author's name, as found in the theme header."
+          },
+          "rendered": {
+            "type": "string",
+            "description": "HTML for the theme author, transformed for display."
+          }
+        },
+        "description": "The theme author."
+      },
+      "author_uri": {
+        "type": "object",
+        "properties": {
+          "raw": {
+            "type": "string",
+            "format": "uri",
+            "description": "The website of the theme author, as found in the theme header."
+          },
+          "rendered": {
+            "type": "string",
+            "format": "uri",
+            "description": "The website of the theme author, transformed for display."
+          }
+        },
+        "description": "The website of the theme author."
+      },
+      "description_1": {
+        "type": "object",
+        "properties": {
+          "raw": {
+            "type": "string",
+            "description": "The theme description, as found in the theme header."
+          },
+          "rendered": {
+            "type": "string",
+            "description": "The theme description, transformed for display."
+          }
+        },
+        "description": "A description of the theme."
+      },
+      "name": {
+        "type": "object",
+        "properties": {
+          "raw": {
+            "type": "string",
+            "description": "The theme name, as found in the theme header."
+          },
+          "rendered": {
+            "type": "string",
+            "description": "The theme name, transformed for display."
+          }
+        },
+        "description": "The name of the theme."
+      },
+      "tags": {
+        "type": "object",
+        "properties": {
+          "raw": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "The theme tags, as found in the theme header."
+          },
+          "rendered": {
+            "type": "string",
+            "description": "The theme tags, transformed for display."
+          }
+        },
+        "description": "Tags indicating styles and features of the theme."
+      },
+      "formats": {
+        "type": "string",
+        "enum": [
+          "standard",
+          "aside",
+          "chat",
+          "gallery",
+          "link",
+          "image",
+          "quote",
+          "status",
+          "video",
+          "audio"
+        ]
+      },
+      "theme_supports": {
+        "type": "object",
+        "properties": {
+          "align-wide": {
+            "type": "boolean",
+            "description": "Whether theme opts in to wide alignment CSS class."
+          },
+          "automatic-feed-links": {
+            "type": "boolean",
+            "description": "Whether posts and comments RSS feed links are added to head."
+          },
+          "block-templates": {
+            "type": "boolean",
+            "description": "Whether a theme uses block-based templates."
+          },
+          "block-template-parts": {
+            "type": "boolean",
+            "description": "Whether a theme uses block-based template parts."
+          },
+          "custom-background": {
+            "type": [
+              "boolean",
+              "object"
+            ],
+            "description": "Custom background if defined by the theme."
+          },
+          "custom-header": {
+            "type": [
+              "boolean",
+              "object"
+            ],
+            "description": "Custom header if defined by the theme."
+          },
+          "custom-logo": {
+            "type": [
+              "boolean",
+              "object"
+            ],
+            "description": "Custom logo if defined by the theme."
+          },
+          "customize-selective-refresh-widgets": {
+            "type": "boolean",
+            "description": "Whether the theme enables Selective Refresh for Widgets being managed with the Customizer."
+          },
+          "dark-editor-style": {
+            "type": "boolean",
+            "description": "Whether theme opts in to the dark editor style UI."
+          },
+          "disable-custom-colors": {
+            "type": "boolean",
+            "description": "Whether the theme disables custom colors."
+          },
+          "disable-custom-font-sizes": {
+            "type": "boolean",
+            "description": "Whether the theme disables custom font sizes."
+          },
+          "disable-custom-gradients": {
+            "type": "boolean",
+            "description": "Whether the theme disables custom gradients."
+          },
+          "disable-layout-styles": {
+            "type": "boolean",
+            "description": "Whether the theme disables generated layout styles."
+          },
+          "editor-color-palette": {
+            "type": [
+              "boolean",
+              "array"
+            ],
+            "description": "Custom color palette if defined by the theme."
+          },
+          "editor-font-sizes": {
+            "type": [
+              "boolean",
+              "array"
+            ],
+            "description": "Custom font sizes if defined by the theme."
+          },
+          "editor-gradient-presets": {
+            "type": [
+              "boolean",
+              "array"
+            ],
+            "description": "Custom gradient presets if defined by the theme."
+          },
+          "editor-spacing-sizes": {
+            "type": [
+              "boolean",
+              "array"
+            ],
+            "description": "Custom spacing sizes if defined by the theme."
+          },
+          "editor-styles": {
+            "type": "boolean",
+            "description": "Whether theme opts in to the editor styles CSS wrapper."
+          },
+          "html5": {
+            "type": [
+              "boolean",
+              "array"
+            ],
+            "description": "Allows use of HTML5 markup for search forms, comment forms, comment lists, gallery, and caption."
+          },
+          "formats": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/formats"
+            },
+            "description": "Post formats supported."
+          },
+          "post-thumbnails": {
+            "type": [
+              "boolean",
+              "array"
+            ],
+            "description": "The post types that support thumbnails or true if all post types are supported."
+          },
+          "responsive-embeds": {
+            "type": "boolean",
+            "description": "Whether the theme supports responsive embedded content."
+          },
+          "title-tag": {
+            "type": "boolean",
+            "description": "Whether the theme can manage the document title tag."
+          },
+          "wp-block-styles": {
+            "type": "boolean",
+            "description": "Whether theme opts in to default WordPress block styles for viewing."
+          }
+        },
+        "description": "Features supported by this theme."
+      },
+      "theme_uri": {
+        "type": "object",
+        "properties": {
+          "raw": {
+            "type": "string",
+            "format": "uri",
+            "description": "The URI of the theme's webpage, as found in the theme header."
+          },
+          "rendered": {
+            "type": "string",
+            "format": "uri",
+            "description": "The URI of the theme's webpage, transformed for display."
+          }
+        },
+        "description": "The URI of the theme's webpage."
+      },
+      "status_6": {
+        "type": "string",
+        "description": "A named status for the theme.",
+        "enum": [
+          "inactive",
+          "active"
+        ]
+      },
+      "theme": {
+        "type": "object",
+        "properties": {
+          "stylesheet": {
+            "type": "string",
+            "description": "The theme's stylesheet. This uniquely identifies the theme."
+          },
+          "stylesheet_uri": {
+            "type": "string",
+            "format": "uri",
+            "description": "The uri for the theme's stylesheet directory."
+          },
+          "template": {
+            "type": "string",
+            "description": "The theme's template. If this is a child theme, this refers to the parent theme, otherwise this is the same as the theme's stylesheet."
+          },
+          "template_uri": {
+            "type": "string",
+            "format": "uri",
+            "description": "The uri for the theme's template directory. If this is a child theme, this refers to the parent theme, otherwise this is the same as the theme's stylesheet directory."
+          },
+          "author": {
+            "$ref": "#/components/schemas/author"
+          },
+          "author_uri": {
+            "$ref": "#/components/schemas/author_uri"
+          },
+          "description": {
+            "$ref": "#/components/schemas/description_1"
+          },
+          "is_block_theme": {
+            "type": "boolean",
+            "description": "Whether the theme is a block-based theme."
+          },
+          "name": {
+            "$ref": "#/components/schemas/name"
+          },
+          "requires_php": {
+            "type": "string",
+            "description": "The minimum PHP version required for the theme to work."
+          },
+          "requires_wp": {
+            "type": "string",
+            "description": "The minimum WordPress version required for the theme to work."
+          },
+          "screenshot": {
+            "type": "string",
+            "format": "uri",
+            "description": "The theme's screenshot URL."
+          },
+          "tags": {
+            "$ref": "#/components/schemas/tags"
+          },
+          "textdomain": {
+            "type": "string",
+            "description": "The theme's text domain."
+          },
+          "theme_supports": {
+            "$ref": "#/components/schemas/theme_supports"
+          },
+          "theme_uri": {
+            "$ref": "#/components/schemas/theme_uri"
+          },
+          "version": {
+            "type": "string",
+            "description": "The theme's current version."
+          },
+          "status": {
+            "$ref": "#/components/schemas/status_6"
+          }
+        }
+      },
+      "status_7": {
+        "type": "string",
+        "enum": [
+          "inactive",
+          "active"
+        ]
+      },
+      "status_8": {
+        "type": "string",
+        "description": "The plugin activation status.",
+        "enum": [
+          "inactive",
+          "active"
+        ]
+      },
+      "author_1": {
+        "type": "object",
+        "description": "The plugin author."
+      },
+      "description_2": {
+        "type": "object",
+        "properties": {
+          "raw": {
+            "type": "string",
+            "description": "The raw plugin description."
+          },
+          "rendered": {
+            "type": "string",
+            "description": "The plugin description formatted for display."
+          }
+        },
+        "description": "The plugin description."
+      },
+      "plugin": {
+        "type": "object",
+        "properties": {
+          "plugin": {
+            "type": "string",
+            "description": "The plugin file."
+          },
+          "status": {
+            "$ref": "#/components/schemas/status_8"
+          },
+          "name": {
+            "type": "string",
+            "description": "The plugin name."
+          },
+          "plugin_uri": {
+            "type": "string",
+            "format": "uri",
+            "description": "The plugin's website address."
+          },
+          "author": {
+            "$ref": "#/components/schemas/author_1"
+          },
+          "author_uri": {
+            "type": "string",
+            "format": "uri",
+            "description": "Plugin author's website address."
+          },
+          "description": {
+            "$ref": "#/components/schemas/description_2"
+          },
+          "version": {
+            "type": "string",
+            "description": "The plugin version number."
+          },
+          "network_only": {
+            "type": "boolean",
+            "description": "Whether the plugin can only be activated network-wide."
+          },
+          "requires_wp": {
+            "type": "string",
+            "description": "Minimum required version of WordPress."
+          },
+          "requires_php": {
+            "type": "string",
+            "description": "Minimum required version of PHP."
+          },
+          "textdomain": {
+            "type": "string",
+            "description": "The plugin's text domain."
+          }
+        }
+      },
+      "status_9": {
+        "type": "string",
+        "description": "Status of sidebar.",
+        "enum": [
+          "active",
+          "inactive"
+        ]
+      },
+      "sidebar": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "ID of sidebar."
+          },
+          "name": {
+            "type": "string",
+            "description": "Unique name identifying the sidebar."
+          },
+          "description": {
+            "type": "string",
+            "description": "Description of sidebar."
+          },
+          "class": {
+            "type": "string",
+            "description": "Extra CSS class to assign to the sidebar in the Widgets interface."
+          },
+          "before_widget": {
+            "type": "string",
+            "description": "HTML content to prepend to each widget's HTML output when assigned to this sidebar. Default is an opening list item element."
+          },
+          "after_widget": {
+            "type": "string",
+            "description": "HTML content to append to each widget's HTML output when assigned to this sidebar. Default is a closing list item element."
+          },
+          "before_title": {
+            "type": "string",
+            "description": "HTML content to prepend to the sidebar title when displayed. Default is an opening h2 element."
+          },
+          "after_title": {
+            "type": "string",
+            "description": "HTML content to append to the sidebar title when displayed. Default is a closing h2 element."
+          },
+          "status": {
+            "$ref": "#/components/schemas/status_9"
+          },
+          "widgets": {
+            "type": "array",
+            "items": {
+              "type": [
+                "object",
+                "string"
+              ]
+            },
+            "description": "Nested widgets."
+          }
+        }
+      },
+      "widget-type": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique slug identifying the widget type."
+          },
+          "name": {
+            "type": "string",
+            "description": "Human-readable name identifying the widget type."
+          },
+          "description": {
+            "type": "string",
+            "description": "Description of the widget."
+          },
+          "is_multi": {
+            "type": "boolean",
+            "description": "Whether the widget supports multiple instances"
+          },
+          "classname": {
+            "type": "string",
+            "description": "Class name"
+          }
+        }
+      },
+      "instance": {
+        "type": "object",
+        "description": "Current instance settings of the widget."
+      },
+      "raw": {
+        "type": "object",
+        "description": "Unencoded instance settings, if supported."
+      },
+      "instance_1": {
+        "type": "object",
+        "properties": {
+          "encoded": {
+            "type": "string",
+            "description": "Base64 encoded representation of the instance settings."
+          },
+          "hash": {
+            "type": "string",
+            "description": "Cryptographic hash of the instance settings."
+          },
+          "raw": {
+            "$ref": "#/components/schemas/raw"
+          }
+        },
+        "description": "Instance settings of the widget, if supported."
+      },
+      "widget": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique identifier for the widget."
+          },
+          "id_base": {
+            "type": "string",
+            "description": "The type of the widget. Corresponds to ID in widget-types endpoint."
+          },
+          "sidebar": {
+            "type": "string",
+            "description": "The sidebar the widget belongs to."
+          },
+          "rendered": {
+            "type": "string",
+            "description": "HTML representation of the widget."
+          },
+          "rendered_form": {
+            "type": "string",
+            "description": "HTML representation of the widget admin form."
+          },
+          "instance": {
+            "$ref": "#/components/schemas/instance_1"
+          },
+          "form_data": {
+            "type": "string",
+            "description": "URL-encoded form data from the widget admin form. Used to update a widget that does not support instance. Write only."
+          }
+        },
+        "required": [
+          "sidebar"
+        ]
+      },
+      "context_3": {
+        "type": "string",
+        "description": "Scope under which the request is made; determines fields present in response.",
+        "enum": [
+          "view"
+        ]
+      },
+      "block-directory-item": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "The block name, in namespace/block-name format."
+          },
+          "title": {
+            "type": "string",
+            "description": "The block title, in human readable format."
+          },
+          "description": {
+            "type": "string",
+            "description": "A short description of the block, in human readable format."
+          },
+          "id": {
+            "type": "string",
+            "description": "The block slug."
+          },
+          "rating": {
+            "type": "number",
+            "description": "The star rating of the block."
+          },
+          "rating_count": {
+            "type": "integer",
+            "description": "The number of ratings."
+          },
+          "active_installs": {
+            "type": "integer",
+            "description": "The number sites that have activated this block."
+          },
+          "author_block_rating": {
+            "type": "number",
+            "description": "The average rating of blocks published by the same author."
+          },
+          "author_block_count": {
+            "type": "integer",
+            "description": "The number of blocks published by the same author."
+          },
+          "author": {
+            "type": "string",
+            "description": "The WordPress.org username of the block author."
+          },
+          "icon": {
+            "type": "string",
+            "format": "uri",
+            "description": "The block icon."
+          },
+          "last_updated": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The date when the block was last updated."
+          },
+          "humanized_updated": {
+            "type": "string",
+            "description": "The date when the block was last updated, in fuzzy human readable format."
+          }
+        }
+      },
+      "orderby_9": {
+        "type": "string",
+        "description": "Sort collection by post attribute.",
+        "enum": [
+          "author",
+          "date",
+          "id",
+          "include",
+          "modified",
+          "parent",
+          "relevance",
+          "slug",
+          "include_slugs",
+          "title",
+          "favorite_count"
+        ]
+      },
+      "pattern-directory-item": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "The pattern ID."
+          },
+          "title": {
+            "type": "string",
+            "description": "The pattern title, in human readable format."
+          },
+          "content": {
+            "type": "string",
+            "description": "The pattern content."
+          },
+          "categories": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "The pattern's category slugs."
+          },
+          "keywords": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "The pattern's keywords."
+          },
+          "description": {
+            "type": "string",
+            "description": "A description of the pattern."
+          },
+          "viewport_width": {
+            "type": "integer",
+            "description": "The preferred width of the viewport when previewing a pattern, in pixels."
+          },
+          "block_types": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "The block types which can use this pattern."
+          }
+        }
+      },
+      "source": {
+        "type": "string",
+        "description": "Where the pattern comes from e.g. core",
+        "enum": [
+          "core",
+          "plugin",
+          "theme",
+          "pattern-directory/core",
+          "pattern-directory/theme",
+          "pattern-directory/featured"
+        ]
+      },
+      "block-pattern": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "The pattern name."
+          },
+          "title": {
+            "type": "string",
+            "description": "The pattern title, in human readable format."
+          },
+          "content": {
+            "type": "string",
+            "description": "The pattern content."
+          },
+          "description": {
+            "type": "string",
+            "description": "The pattern detailed description."
+          },
+          "viewport_width": {
+            "type": "number",
+            "description": "The pattern viewport width for inserter preview."
+          },
+          "inserter": {
+            "type": "boolean",
+            "description": "Determines whether the pattern is visible in inserter."
+          },
+          "categories": {
+            "type": "array",
+            "description": "The pattern category slugs."
+          },
+          "keywords": {
+            "type": "array",
+            "description": "The pattern keywords."
+          },
+          "block_types": {
+            "type": "array",
+            "description": "Block types that the pattern is intended to be used with."
+          },
+          "post_types": {
+            "type": "array",
+            "description": "An array of post types that the pattern is restricted to be used with."
+          },
+          "template_types": {
+            "type": "array",
+            "description": "An array of template types where the pattern fits."
+          },
+          "source": {
+            "$ref": "#/components/schemas/source"
+          }
+        }
+      },
+      "block-pattern-category": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "The category name."
+          },
+          "label": {
+            "type": "string",
+            "description": "The category label, in human readable format."
+          },
+          "description": {
+            "type": "string",
+            "description": "The category description, in human readable format."
+          }
+        }
+      },
+      "menu-location": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "The name of the menu location."
+          },
+          "description": {
+            "type": "string",
+            "description": "The description of the menu location."
+          },
+          "menu": {
+            "type": "integer",
+            "description": "The ID of the assigned menu."
+          }
+        }
+      },
+      "font-collection": {
+        "type": "object",
+        "properties": {
+          "slug": {
+            "type": "string",
+            "description": "Unique identifier for the font collection."
+          },
+          "name": {
+            "type": "string",
+            "description": "The name for the font collection."
+          },
+          "description": {
+            "type": "string",
+            "description": "The description for the font collection."
+          },
+          "font_families": {
+            "type": "array",
+            "description": "The font families for the font collection."
+          },
+          "categories": {
+            "type": "array",
+            "description": "The categories for the font collection."
+          }
+        }
+      }
+    }
+  }
+}

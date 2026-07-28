@@ -115,6 +115,7 @@ echo Y | npx wp-env destroy; npx wp-env start
 
 # for development work
 open http://localhost:8888
+8890
 
 # is used for automated tests.
 open http://localhost:8889
@@ -122,7 +123,9 @@ open http://localhost:8889
 # Start the playwright test runner UI and return to the Terminal (otherwise Terminal is unavailable until the application is exited).
 npx playwright test --ui &;
 
-BASEURL=http://localhost:8890 npx playwright test --ui &;
+We do this because 8889 is the port used for the tests instance which has the plugin zip installed, and 8888 is the 
+port used for development work, so if the intent is to edit code as we re-run tests, we need to use the 8888 port.
+BASEURL=http://localhost:8889 npx playwright test --ui &;
 
 # Start browser and record Playwright steps
 npx playwright codegen -o tests/e2e-pw/example.spec.js

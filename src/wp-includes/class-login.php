@@ -27,7 +27,10 @@ class Login {
 
 	use LoggerAwareTrait;
 
-	const MAX_BAD_LOGIN_ATTEMPTS       = 5;
+	const MAX_BAD_LOGIN_ATTEMPTS = 5;
+
+	// TODO: This should be a setting (particularly so it can be controlled in tests!).
+	// `wp transient delete --all`
 	const MAX_BAD_LOGIN_PERIOD_SECONDS = 60 * 60 * 24; // Aka DAY_IN_SECONDS.
 
 	/**

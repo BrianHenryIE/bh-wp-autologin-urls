@@ -73,3 +73,36 @@ function instantiate_bh_wp_autologin_urls(): API {
  * @since    1.0.0
  */
 $GLOBALS['bh-wp-autologin-urls'] = instantiate_bh_wp_autologin_urls();
+
+register_setting(
+	'bh_wp_autologin_urls',
+	'bh_wp_autologin_urls_register_test',
+	array(
+		'type'              => 'string',
+		'description'       => 'Test setting for the Magic Emails & Autologin URLs plugin.',
+		'sanitize_callback' => 'sanitize_text_field',
+		'show_in_rest'      => array(
+			'name'   => 'bh_wp_autologin_urls_register_test',
+			'schema' => array(
+				'type'        => 'string',
+				'title'       => 'bh_wp_autologin_urls_register_test',
+				'description' => 'Test setting for the Magic Emails & Autologin URLs plugin.',
+				'default'     => '',
+			),
+		),
+	)
+);
+
+add_action(
+	'rest_api_init',
+	function () {
+
+		$rest_server = rest_get_server();
+		$wpv2_routes = $rest_server->get_routes( 'wp/v2' );
+		$wpv2_routes = array( '/wp/v2/settings' => $wpv2_routes['/wp/v2/settings'] );
+		// Filter to settings.
+
+		$a = 1;
+	},
+	100
+);

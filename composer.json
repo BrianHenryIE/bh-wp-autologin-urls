@@ -31,7 +31,8 @@
       "dealerdirect/phpcodesniffer-composer-installer": true,
       "johnpbloch/wordpress-core-installer": true,
       "phpstan/extension-installer": true,
-      "brianhenryie/composer-fallback-to-git": true
+      "brianhenryie/composer-fallback-to-git": true,
+      "brianhenryie/composer-phpstorm": true
     },
     "platform": {
       "php": "7.4"
@@ -68,7 +69,6 @@
     "brianhenryie/color-logger": "^1.0",
     "brianhenryie/composer-fallback-to-git": "^0.5",
     "brianhenryie/composer-phpstorm": "dev-master",
-    "brianhenryie/php-diff-test": "dev-master",
     "brianhenryie/strauss": "dev-master",
     "codeception/module-asserts": "^1.0",
     "codeception/module-cli": "^1.0",
@@ -80,8 +80,7 @@
     "cweagans/composer-patches": "*",
     "dealerdirect/phpcodesniffer-composer-installer": "*",
     "jaschilz/php-coverage-badger": "^2.0",
-    "johnpbloch/wordpress": "*",
-    "kporras07/composer-symlinks": "dev-master",
+    "johnpbloch/wordpress": "^6.6",
     "lucatume/wp-browser": "^3.5",
     "mheap/phpunit-github-actions-printer": "dev-master",
     "php-stubs/woocommerce-stubs": "*",
@@ -89,7 +88,6 @@
     "phpstan/extension-installer": "*",
     "phpstan/phpstan": "*",
     "phpunit/phpcov": "*",
-    "psr/container": "1.0.0",
     "squizlabs/php_codesniffer": "*",
     "szepeviktor/phpstan-wordpress": "*",
     "voku/portable-ascii": "dev-master",
@@ -116,14 +114,11 @@
     "patches": {
       "jaschilz/php-coverage-badger": {
         "Allow customising the text": "https://github.com/JASchilz/PHPCoverageBadge/pull/1.patch"
-      },
-      "wp-cli/dist-archive-command": {
-        "Add Increment Version": "https://github.com/BrianHenryIE/dist-archive-command/commit/f37c375ba8069c9160d642dd0c00435e0f1c4804.patch"
       }
     },
     "strauss": {
       "namespace_prefix": "BrianHenryIE\\WP_Autologin_URLs\\",
-      "target_directory": "/vendor-prefixed/",
+      "target_directory": "vendor/",
       "classmap_prefix": "BH_WP_Autologin_URLs_",
       "namespace_replacement_patterns": {
         "~BrianHenryIE\\\\(.*)~" : "BrianHenryIE\\WP_Autologin_URLs\\\\$1"
@@ -163,38 +158,19 @@
   "scripts": {
     "post-install-cmd": [
       "strauss",
-      "wp core download --path=wordpress --allow-root || true;",
       "Kporras07\\ComposerSymlinks\\ScriptHandler::createSymlinks",
-      "@setup-wordpress",
-      "BrianHenryIE\\ComposerPhpStorm\\ExcludeFolders::update",
-      "BrianHenryIE\\ComposerPhpStorm\\PHPUnitRunConfigurations::update",
+      "@configure-phpstorm",
       "@sync-composer-wpenv"
     ],
     "post-update-cmd": [
       "strauss",
-      "@setup-wordpress",
       "Kporras07\\ComposerSymlinks\\ScriptHandler::createSymlinks",
-      "BrianHenryIE\\ComposerPhpStorm\\ExcludeFolders::update",
-      "BrianHenryIE\\ComposerPhpStorm\\PHPUnitRunConfigurations::update",
+      "@configure-phpstorm",
       "@sync-composer-wpenv"
     ],
-    "setup-wordpress": [
-      "export $(grep -v '^#' .env.testing | xargs); wp config create --dbname=$TEST_SITE_DB_NAME --dbuser=$TEST_SITE_DB_USER --dbpass=$TEST_SITE_DB_PASSWORD --allow-root || true",
-      "export $(grep -v '^#' .env.testing | xargs); wp core install --url=\"localhost:8080/$PLUGIN_SLUG\" --title=\"$PLUGIN_NAME\" --admin_user=admin --admin_password=password --admin_email=admin@example.org || true; wp plugin activate $PLUGIN_SLUG || true;",
-      "wp config set WP_DEBUG true --raw; wp config set WP_DEBUG_LOG true --raw; wp config set SCRIPT_DEBUG true --raw",
-      "wp user create bob bob@example.org --user_pass=password || true;",
-      "wp core update --allow-root || true",
-      "mkdir -p wordpress/wp-content/uploads"
-    ],
-    "create-databases": [
-      "export $(grep -v '^#' .env.testing | xargs); [[ $(mysqld --version) =~ .*MariaDB.* ]] && mysql -e \"CREATE USER IF NOT EXISTS '\"$TEST_DB_USER\"'@'%' IDENTIFIED BY '\"$TEST_DB_PASSWORD\"';\" || mysql -e \"CREATE USER IF NOT EXISTS '\"$TEST_DB_USER\"'@'%' IDENTIFIED WITH mysql_native_password BY '\"$TEST_DB_PASSWORD\"';\";",
-      "export $(grep -v '^#' .env.testing | xargs); mysql -e \"CREATE DATABASE IF NOT EXISTS \"$TEST_SITE_DB_NAME\"; USE \"$TEST_SITE_DB_NAME\"; GRANT ALL PRIVILEGES ON \"$TEST_SITE_DB_NAME\".* TO '\"$TEST_DB_USER\"'@'%';\";",
-      "export $(grep -v '^#' .env.testing | xargs); mysql -e \"CREATE DATABASE IF NOT EXISTS \"$TEST_DB_NAME\"; USE \"$TEST_DB_NAME\"; GRANT ALL PRIVILEGES ON \"$TEST_DB_NAME\".* TO '\"$TEST_DB_USER\"'@'%';\";"
-    ],
-    "delete-databases": [
-      "export $(grep -v '^#' .env.testing | xargs); mysql -e \"DROP TABLE IF EXISTS $TEST_SITE_DB_NAME;\" mysql -e \"DROP TABLE IF EXISTS $TEST_DB_NAME;\"",
-      "export $(grep -v '^#' .env.testing | xargs); DB_DIR=$(mysql -e \"select @@datadir\" -N -B); rm -rf $DB_DIR$TEST_SITE_DB_NAME; rm -rf  $DB_DIR$TEST_DB_NAME;",
-      "mysql -e \"FLUSH TABLES;\""
+    "configure-phpstorm": [
+      "BrianHenryIE\\ComposerPhpStorm\\ExcludeFolders::update",
+      "BrianHenryIE\\ComposerPhpStorm\\PHPUnitRunConfigurations::update"
     ],
     "save-acceptance-database": [
       "export $(grep -v '^#' .env.testing | xargs); mysqldump -u $TEST_SITE_DB_USER -p$TEST_SITE_DB_PASSWORD  $TEST_SITE_DB_NAME > tests/_data/dump.sql;"
@@ -213,13 +189,16 @@
       "phpcov merge --clover tests/_output/clover.xml --html tests/_output/html/phpunit tests/_output;",
       "open tests/_output/html/phpunit/index.html"
     ],
-    "lint": [
+    "cs-fix": [
       "phpcbf || true",
       "phpcs || true",
       "phpstan analyse --memory-limit 2G"
     ],
-    "lint-changes": [
+    "cs-fix-changes": [
       "updated_files=$( git status | grep 'modified:\\s.*.php$' | cut -c14- | awk '{ printf(\"%s \", $0) }' ); phpcbf $(echo $updated_files); phpcs $(echo $updated_files); phpstan analyse $(echo $updated_files) --memory-limit 2G"
+    ],
+    "php-compatibility": [
+      "phpcs -p includes templates vendor-prefixed --standard=PHPCompatibilityWP --runtime-set testVersion 8.0-"
     ],
     "create-plugin-archive": [
       "wp i18n make-pot src languages/$(basename \"$PWD\").pot --domain=$(basename \"$PWD\")",
@@ -231,6 +210,15 @@
     "sync-composer-wpenv": [
       "for name in $(cat .wp-env.json | jq '.mappings | values[]' | sed -r 's/^\\\"|\\\"$//g'); do [ ! -d $name ] && [ ! -f $name ] && echo $name && jq 'del(.. | select(. ==\"'$name'\"))' .wp-env.json | sponge .wp-env.json; done; exit 0;",
       "find wp-content/plugins -type d -depth 1 ! -type l | sort -h | jq -Rn '[inputs]' | jq 'reduce .[] as $item ({}; . + {$item:$item})' | jq '.[] |= \"./\\(.)\"' | jq '. | {mappings: .}' | jq --sort-keys -s '.[] * $existing[]' --slurpfile existing .wp-env.json | sponge .wp-env.json "
+    ],
+    "generate-openapi": [
+      "npx wp-env run cli /var/www/html/wp-content/plugins/bh-wp-autologin-urls/vendor/bin/wp openapi-generator export-file bh-wp-autologin-urls/v1 --destination=./openapi/bh-wp-autologin-urls-openapi.json --extract-common-types;",
+      "npx wp-env run cli /var/www/html/wp-content/plugins/bh-wp-autologin-urls/vendor/bin/wp openapi-generator export-file wp/v2 --destination=./openapi/wp-v2-settings-openapi.json --extract-common-types;",
+      "cat ./openapi/bh-wp-autologin-urls-openapi.json | jq 'del(.servers) | del(.paths.\"/\") | .jsonSchemaDialect = \"https://spec.openapis.org/oas/3.1/dialect/base\"' | sponge ./openapi/bh-wp-autologin-urls-openapi.json"
+    ],
+    "generate-wp-cli-docs": [
+      "npx wp-env run cli /var/www/html/wp-content/plugins/example-plugin/vendor/bin/wp handbook gen-custom example-plugin --output_dir=docs/wp-cli;",
+      "rm -rf docs/wp-cli/example-plugin/logger; rm docs/wp-cli/example-plugin/logger.md;"
     ]
   }
 }
