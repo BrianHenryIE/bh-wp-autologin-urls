@@ -1,4 +1,9 @@
 <?php
+/**
+ * Identify a user from this plugin's own `autologin` querystring parameter.
+ *
+ * @package brianhenryie/bh-wp-autologin-urls
+ */
 
 namespace BrianHenryIE\WP_Autologin_URLs\API\Integrations;
 
@@ -19,8 +24,15 @@ class Autologin_URLs implements User_Finder_Interface, LoggerAwareInterface {
 
 	const QUERYSTRING_PARAMETER_NAME = 'autologin';
 
+	/**
+	 * Used to verify the password in the querystring.
+	 */
 	protected API_Interface $api;
 
+	/**
+	 * @param API_Interface   $api    The plugin's public API.
+	 * @param LoggerInterface $logger A PSR logger.
+	 */
 	public function __construct( API_Interface $api, LoggerInterface $logger ) {
 		$this->setLogger( $logger );
 		$this->api = $api;

@@ -14,10 +14,19 @@ use WP_REST_Response;
 use WP_REST_Server;
 use WP_User;
 
+/**
+ * Registers `bh-wp-autologin-urls/v1/autologin-codes`.
+ */
 class REST_API extends WP_REST_Controller {
 
+	/**
+	 * Used to generate the autologin URL.
+	 */
 	protected API_Interface $api;
 
+	/**
+	 * @param API_Interface $api The plugin's public API.
+	 */
 	public function __construct( API_Interface $api ) {
 		$this->api       = $api;
 		$this->namespace = 'bh-wp-autologin-urls/v1';
@@ -46,7 +55,7 @@ class REST_API extends WP_REST_Controller {
 	 *
 	 * @see WP_REST_Controller::create_item()
 	 *
-	 * @param \WP_REST_Request $request
+	 * @param \WP_REST_Request $request The REST request.
 	 * @return \WP_Error|\WP_HTTP_Response|WP_REST_Response
 	 */
 	public function create_item( $request ) {
@@ -82,6 +91,9 @@ class REST_API extends WP_REST_Controller {
 	 * Allow admins and the user themselves to create autologin codes.
 	 *
 	 * @see WP_REST_Controller::create_item_permissions_check()
+	 *
+	 * @param \WP_REST_Request $request The REST request.
+	 * @return bool
 	 */
 	public function create_item_permissions_check( $request ) {
 
@@ -97,7 +109,7 @@ class REST_API extends WP_REST_Controller {
 		// If the current user is creating a link for themselves.
 		if ( $user instanceof WP_User
 			&& wp_get_current_user() instanceof WP_User
-			&& $user->ID === wp_get_current_user()->ID ) {
+			&& wp_get_current_user()->ID === $user->ID ) {
 			return true;
 		}
 
@@ -108,8 +120,8 @@ class REST_API extends WP_REST_Controller {
 	/**
 	 * @see WP_REST_Controller::prepare_item_for_response()
 	 *
-	 * @param $item
-	 * @param $request
+	 * @param string           $item    The generated autologin URL.
+	 * @param \WP_REST_Request $request The REST request.
 	 * @return \WP_Error|\WP_HTTP_Response|WP_REST_Response
 	 */
 	public function prepare_item_for_response( $item, $request ) {
@@ -147,6 +159,11 @@ class REST_API extends WP_REST_Controller {
 		);
 	}
 
+	/**
+	 * The arguments accepted by the create-item endpoint.
+	 *
+	 * @return array<string, mixed>
+	 */
 	public function get_args_schema() {
 		$args = array();
 
@@ -154,11 +171,8 @@ class REST_API extends WP_REST_Controller {
 			'description' => esc_html__( 'The user to create the code for.', 'bh-wp-autologin-urls' ),
 			'required'    => true,
 			'context'     => array( 'edit' ),
-			'oneOf'       => array( // TODO: Is this doing anything?!
-			// array(
-			// 'description' => esc_html__( 'User id.', 'bh-wp-autologin-urls' ),
-			// 'type'        => 'integer',
-			// ),
+			// TODO: Is `oneOf` doing anything?!
+			'oneOf'       => array(
 				array(
 					'description' => esc_html__( 'Username.', 'bh-wp-autologin-urls' ),
 					'type'        => 'string',

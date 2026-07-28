@@ -32,6 +32,9 @@ class Klaviyo implements User_Finder_Interface, LoggerAwareInterface {
 
 	const QUERYSTRING_PARAMETER_NAME = '_kx';
 
+	/**
+	 * The Klaviyo API client, configured with the private key from the plugin settings.
+	 */
 	protected Client $client;
 
 	/**
@@ -127,7 +130,7 @@ class Klaviyo implements User_Finder_Interface, LoggerAwareInterface {
 	 * @param string $kx_parameter The Klaviyo tracking URL parameter.
 	 *
 	 * @return array<void>|array{klaviyo_user_id:string,address:string,address_2:string,city:string,country:string,state:string,postcode:string,company:string,first_name:string,email:string,billing_phone:string,last_name:string}
-	 * @throws \BrianHenryIE\WP_Autologin_URLs\Klaviyo\ApiException
+	 * @throws \BrianHenryIE\WP_Autologin_URLs\Klaviyo\ApiException When the Klaviyo API request fails.
 	 */
 	protected function get_user_data( string $kx_parameter ): array {
 

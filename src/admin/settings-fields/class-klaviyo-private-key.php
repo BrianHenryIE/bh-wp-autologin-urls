@@ -12,6 +12,9 @@ namespace BrianHenryIE\WP_Autologin_URLs\Admin\Settings_Fields;
 
 use BrianHenryIE\WP_Autologin_URLs\Settings_Interface;
 
+/**
+ * A text input for the Klaviyo private API key, used to look up subscribers by email address.
+ */
 class Klaviyo_Private_Key extends Settings_Section_Element_Abstract {
 
 	/**
@@ -30,6 +33,7 @@ class Klaviyo_Private_Key extends Settings_Section_Element_Abstract {
 		$this->title = 'Klaviyo Private Key:';
 		$this->page  = $settings_page_slug_name;
 
+		// translators: %s is the URL of the Klaviyo account API keys page.
 		$this->add_settings_field_args['helper']      = sprintf( __( 'Find your API keys at  <a href="%s" target="_blank">klaviyo.com/account#api-keys-tab</a>.', 'bh-wp-autologin-urls' ), 'https://www.klaviyo.com/account#api-keys-tab' );
 		$this->add_settings_field_args['placeholder'] = '';
 	}
@@ -47,9 +51,19 @@ class Klaviyo_Private_Key extends Settings_Section_Element_Abstract {
 
 		printf( '<input name="%1$s" id="%1$s" type="text" placeholder="%2$s" value="%3$s" />', esc_attr( $this->id ), esc_attr( $arguments['placeholder'] ), esc_attr( $value ) );
 
-		printf( '<span class="helper">%s</span>', $arguments['helper'] );
-
-		// printf( '<p class="description">%s</p>', esc_html( $arguments['supplemental'] ) );
+		// The helper text contains a link, so it is escaped when the argument is created, not here.
+		printf(
+			'<span class="helper">%s</span>',
+			wp_kses(
+				$arguments['helper'],
+				array(
+					'a' => array(
+						'href'   => array(),
+						'target' => array(),
+					),
+				)
+			)
+		);
 	}
 
 	/**

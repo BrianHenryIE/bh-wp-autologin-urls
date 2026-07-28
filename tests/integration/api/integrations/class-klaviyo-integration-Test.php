@@ -30,14 +30,15 @@ class Klaviyo_Integration_Test extends \Codeception\TestCase\WPTestCase {
 
 		$sut = new Klaviyo( $settings, $logger, $client );
 
-		// https://trk.klclick.com/ls/click?upn=TpNVgfWNpAHoEcylFkjYi5tCZ2j7xCLw8j9SqiGDS-2FUQTW60oUBb5vsJzFNGiLY6C9-2BqSuTQNIDkwJvyFHeLgnuvmB1ECb6kTd4yTBlLd9s7uwWgKqkvXGscWXNVN0WrLZncvcbxEFn7QOaz2vjB9g-3D-3DZJbd_29QiiZ2K4aGQ2vLdffUQvW5Frxt4zybwdx9ysVnkeZHduhpBUuWeRxU9XdsDy5xMo5PFzr2ZEfRhlUfLOzTqYKUmfO99pdV4BbvH17u6dKaAqwf3BeIVV3Tmmfs2nZTcTV-2BHLlKTvqxVilb-2FLZVnt59UqnlW8pYu2nVtomhdsI5pd88yUbTP24h1u3oh0w2Eqp00-2F6NgOaJKBGEStPeb-2Bq4aIF4Ykq3b2-2FPxDq4feC-2B8VVbFxT7XLDfNHXFryJBenl8rh4EXSbaea42QXfEp0e-2FKRSw1VXznSsR09GEjvb0T0hkQeCU8KtqUOlA8v0NrU-2BCYfISX-2BlXKC9vjSFCvnakQeyb-2FCZuXtQhrNNhzG1OoQDEbhhVoTNKCu1XZBxbig9wc8JxKdBCXWIR14WgIIQ-3D-3D
-		$_GET['_kx'] = '_h14GmLS1K9C377xMgncGUnbBzQJ-NY7PBSbXqnXuj-DB5k3vZNwko7QUU_yzHqz.KxHkN6'; // TODO:
+		// Example tracking URL: https://trk.klclick.com/ls/click?upn=TpNVgfWNpAHoEcylFkjYi5tCZ2j7xCLw8j9SqiGDS-2FUQTW60oUBb5vsJzFNGiLY6C9-2BqSuTQNIDkwJvyFHeLgnuvmB1ECb6kTd4yTBlLd9s7uwWgKqkvXGscWXNVN0WrLZncvcbxEFn7QOaz2vjB9g-3D-3DZJbd_29QiiZ2K4aGQ2vLdffUQvW5Frxt4zybwdx9ysVnkeZHduhpBUuWeRxU9XdsDy5xMo5PFzr2ZEfRhlUfLOzTqYKUmfO99pdV4BbvH17u6dKaAqwf3BeIVV3Tmmfs2nZTcTV-2BHLlKTvqxVilb-2FLZVnt59UqnlW8pYu2nVtomhdsI5pd88yUbTP24h1u3oh0w2Eqp00-2F6NgOaJKBGEStPeb-2Bq4aIF4Ykq3b2-2FPxDq4feC-2B8VVbFxT7XLDfNHXFryJBenl8rh4EXSbaea42QXfEp0e-2FKRSw1VXznSsR09GEjvb0T0hkQeCU8KtqUOlA8v0NrU-2BCYfISX-2BlXKC9vjSFCvnakQeyb-2FCZuXtQhrNNhzG1OoQDEbhhVoTNKCu1XZBxbig9wc8JxKdBCXWIR14WgIIQ-3D-3D.
+		$_GET['_kx'] = '_h14GmLS1K9C377xMgncGUnbBzQJ-NY7PBSbXqnXuj-DB5k3vZNwko7QUU_yzHqz.KxHkN6'; // TODO: Use a fixture rather than a real key.
 
 		assert( $sut->is_querystring_valid() );
 
 		$result = $sut->get_wp_user_array();
 
-		// $klaviyo_user = $profiles->getProfile( $klaviyo_user_id );
+		// phpcs:disable Squiz.PHP.CommentedOutCode.Found -- Sample Klaviyo API response.
+		// The Klaviyo API response `$profiles->getProfile( $klaviyo_user_id )` looks like:
 		// array (
 		// 'object' => 'person',
 		// 'id' => '01FYS6CDW111GV40DBTE66AFZZ',
@@ -68,6 +69,7 @@ class Klaviyo_Integration_Test extends \Codeception\TestCase\WPTestCase {
 		// 'last_name' => 'Henry',
 		// 'created' => '2022-03-22 16:11:58',
 		// 'updated' => '2022-07-07 04:01:26',
-		// )
+		// ).
+		// phpcs:enable Squiz.PHP.CommentedOutCode.Found
 	}
 }

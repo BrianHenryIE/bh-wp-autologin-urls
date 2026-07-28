@@ -16,8 +16,14 @@ use WP_User;
  */
 class Users_List_Table {
 
+	/**
+	 * The plugin settings.
+	 */
 	protected Settings_Interface $settings;
 
+	/**
+	 * The plugin's public API, used to generate the autologin URLs.
+	 */
 	protected API_Interface $api;
 
 	/**
@@ -110,8 +116,8 @@ class Users_List_Table {
 	/**
 	 * Print the success/failure admin notice.
 	 *
-	 * @param array{username_or_email_address:string, expires_in:int, expires_in_friendly:string, wp_user?:WP_User, template_path?:string, success:bool, error?:bool, message?:string} $result
-	 * @param WP_User                                                                                                                                                                  $user
+	 * @param array{username_or_email_address:string, expires_in:int, expires_in_friendly:string, wp_user?:WP_User, template_path?:string, success:bool, error?:bool, message?:string} $result The outcome of sending the magic link.
+	 * @param WP_User                                                                                                                                                                  $user   The user the link was sent to.
 	 */
 	public function print_admin_notice( array $result, WP_User $user ): void {
 

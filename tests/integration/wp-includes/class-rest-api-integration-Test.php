@@ -1,6 +1,8 @@
 <?php
 /**
  * @see \BrianHenryIE\WP_Autologin_URLs\Includes\REST_API
+ *
+ * @package bh-wp-autologin-urls
  */
 
 namespace BrianHenryIE\WP_Autologin_URLs\Includes;

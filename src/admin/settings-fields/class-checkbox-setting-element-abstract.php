@@ -1,15 +1,25 @@
 <?php
+/**
+ * Shared behaviour for settings which are displayed as a single checkbox.
+ *
+ * @package brianhenryie/bh-wp-autologin-urls
+ */
 
 namespace BrianHenryIE\WP_Autologin_URLs\Admin\Settings_Fields;
 
+/**
+ * Prints the checkbox and maps its checked/unchecked state to the values saved in the database.
+ */
 abstract class Checkbox_Setting_Element_Abstract extends Settings_Section_Element_Abstract {
 
-	public function __construct( $settings_page_slugname_slug_name, $section = 'default' ) {
-		parent::__construct( $settings_page_slugname_slug_name, $section );
-	}
-
+	/**
+	 * The value saved in the database when the checkbox is checked.
+	 */
 	abstract protected function get_is_checked_value(): string;
 
+	/**
+	 * The value saved in the database when the checkbox is not checked.
+	 */
 	abstract protected function get_is_not_checked_value(): string;
 
 	/**

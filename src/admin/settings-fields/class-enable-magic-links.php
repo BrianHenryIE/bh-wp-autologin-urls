@@ -24,6 +24,9 @@ class Enable_Magic_Links extends Checkbox_Setting_Element_Abstract {
 	protected function get_is_checked_value(): string {
 		return 'magic_links_is_enabled';
 	}
+	/**
+	 * This is saved when the checkbox is absent from the POSTed form.
+	 */
 	protected function get_is_not_checked_value(): string {
 		return 'magic_links_is_not_enabled';
 	}

@@ -1,4 +1,9 @@
 <?php
+/**
+ * Instantiates the integrations which can identify a user from the current request's querystring.
+ *
+ * @package brianhenryie/bh-wp-autologin-urls
+ */
 
 namespace BrianHenryIE\WP_Autologin_URLs\API\Integrations;
 
@@ -9,6 +14,10 @@ use Psr\Log\LoggerInterface;
 use ReflectionClass;
 use Throwable;
 
+/**
+ * Returns the first integration whose querystring is present in the request, with its constructor
+ * dependencies resolved by reflection.
+ */
 class User_Finder_Factory {
 
 	/**
@@ -16,12 +25,23 @@ class User_Finder_Factory {
 	 */
 	protected array $dependencies = array();
 
+	/**
+	 * The objects available to be injected into the integrations' constructors.
+	 *
+	 * @param API_Interface      $api      The plugin's public API.
+	 * @param Settings_Interface $settings The plugin settings.
+	 * @param LoggerInterface    $logger   A PSR logger.
+	 */
 	public function __construct( API_Interface $api, Settings_Interface $settings, LoggerInterface $logger ) {
 		$this->dependencies[ LoggerInterface::class ]    = $logger;
 		$this->dependencies[ Settings_Interface::class ] = $settings;
 		$this->dependencies[ API_Interface::class ]      = $api;
 	}
 
+	/**
+	 * The first integration whose querystring is present, or null when this request is not an
+	 * attempt to log in.
+	 */
 	public function get_user_finder(): ?User_Finder_Interface {
 
 		/**

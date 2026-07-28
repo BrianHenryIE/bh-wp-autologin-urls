@@ -31,6 +31,11 @@ class BH_WP_Autologin_URLs_Integration_Test extends \Codeception\TestCase\WPTest
 
 	/**
 	 * @dataProvider hooks
+	 *
+	 * @param string $class_type        The class the method should be on.
+	 * @param string $method_name       The method which should be hooked.
+	 * @param string $action_name       The action or filter name.
+	 * @param int    $expected_priority The priority the method should be hooked at.
 	 */
 	protected function is_function_hooked_on_action( string $class_type, string $method_name, string $action_name, int $expected_priority = 10 ): bool {
 

@@ -1,4 +1,9 @@
 <?php
+/**
+ * Identify a user from The Newsletter Plugin's tracking querystring.
+ *
+ * @package brianhenryie/bh-wp-autologin-urls
+ */
 
 namespace BrianHenryIE\WP_Autologin_URLs\API\Integrations;
 
@@ -18,6 +23,9 @@ use WP_User;
 class The_Newsletter_Plugin implements User_Finder_Interface, LoggerAwareInterface {
 	use LoggerAwareTrait;
 
+	/**
+	 * @param LoggerInterface $logger A PSR logger.
+	 */
 	public function __construct( LoggerInterface $logger ) {
 		$this->setLogger( $logger );
 	}

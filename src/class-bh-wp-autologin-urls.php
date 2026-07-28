@@ -303,6 +303,9 @@ class BH_WP_Autologin_URLs {
 		}
 	}
 
+	/**
+	 * Register the REST API routes.
+	 */
 	protected function define_rest_api_hooks(): void {
 
 		$rest_api = new REST_API( $this->api );

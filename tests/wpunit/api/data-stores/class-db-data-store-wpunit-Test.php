@@ -18,14 +18,14 @@ class DB_Data_Store_WPUnit_Test extends \lucatume\WPBrowser\TestCase\WPTestCase 
 		parent::setUp();
 
 		global $wpdb;
-		$this->originalWpdb = $wpdb;
+		$this->original_wpdb = $wpdb;
 	}
 
 	protected function tearDown(): void {
 		parent::tearDown();
 
 		global $wpdb;
-		$wpdb = $this->originalWpdb;
+		$wpdb = $this->original_wpdb;
 	}
 
 	/**
