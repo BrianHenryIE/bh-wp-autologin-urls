@@ -15,10 +15,18 @@
     ]
   },
   "autoload-dev": {
+    "psr-4": {
+      "BrianHenryIE\\WP_Autologin_URLs\\": [
+        "tests/unit",
+        "tests/wpunit",
+        "tests/integration"
+      ]
+    },
     "classmap": [
-      "tests/integration",
       "tests/unit",
-      "tests/wpunit"
+      "tests/wpunit",
+      "tests/integration",
+      "tests/_support"
     ]
   },
   "minimum-stability": "dev",
@@ -53,7 +61,11 @@
     },
     "outlandishideas/wpackagist": {
       "type": "composer",
-      "url": "https://wpackagist.org"
+      "url": "https://wpackagist.org",
+      "only": [
+        "wpackagist-plugin/*",
+        "wpackagist-theme/*"
+      ]
     },
     "brianhenryie/bh-wp-rate-limiter": {
       "url": "../bh-wp-rate-limiter",
@@ -61,41 +73,33 @@
     },
     "wordpress/wordpress": {
       "url": "https://github.com/WordPress/wordpress-develop",
-      "type": "git"
+      "type": "git",
+      "only": [
+        "wordpress/wordpress"
+      ]
     }
   },
   "require": {
     "php": ">=8.1",
     "ext-json": "*",
     "alleyinteractive/wordpress-autoloader": "^1.1",
-    "brianhenryie/bh-wp-logger": "*",
+    "brianhenryie/bh-wp-logger": "^0.3.4",
     "brianhenryie/bh-wp-rate-limiter": "dev-master",
     "klaviyo/sdk": "^1.0"
   },
   "require-dev": {
     "ext-dom": "*",
-    "10up/wp_mock": "*",
-    "antecedent/patchwork": "^2.1",
+    "10up/wp_mock": "^1.1",
+    "antecedent/patchwork": "^2.2",
     "brianhenryie/color-logger": "*",
     "brianhenryie/strauss": "0.28.1",
-    "codeception/module-asserts": "^1.0",
-    "codeception/module-cli": "^1.0",
-    "codeception/module-db": "^1.0.0",
-    "codeception/module-filesystem": "^1.0",
-    "codeception/module-phpbrowser": "^1.0.0",
-    "codeception/module-webdriver": "^1.0",
-    "codeception/util-universalframework": "^1.0",
-    "dealerdirect/phpcodesniffer-composer-installer": "*",
     "johnpbloch/wordpress": "*",
-    "lucatume/wp-browser": "*",
+    "lucatume/wp-browser": "^4.5",
     "php-stubs/woocommerce-stubs": "*",
-    "phpcompatibility/phpcompatibility-wp": "*",
     "phpstan/extension-installer": "*",
-    "phpstan/phpstan": "*",
     "phpunit/phpcov": "*",
-    "squizlabs/php_codesniffer": "*",
+    "rector/rector": "^2.3",
     "szepeviktor/phpstan-wordpress": "*",
-    "woocommerce/woocommerce-sniffs": "*",
     "wordpress/wordpress": "*",
     "wp-cli/dist-archive-command": "*",
     "wp-cli/i18n-command": "^2.4",
@@ -106,6 +110,7 @@
     "wpackagist-plugin/give": "*",
     "wpackagist-plugin/mailpoet": "*",
     "wpackagist-plugin/newsletter": "*",
+    "wpackagist-plugin/query-monitor": "*",
     "wpackagist-plugin/woocommerce": "*",
     "wpackagist-plugin/wp-mail-debugger": "*",
     "wpackagist-plugin/wp-mail-logging": "*",
@@ -115,11 +120,6 @@
     "wpackagist-theme/twentytwenty": "*"
   },
   "extra": {
-    "patches": {
-      "jaschilz/php-coverage-badger": {
-        "Allow customising the text": "https://github.com/JASchilz/PHPCoverageBadge/pull/1.patch"
-      }
-    },
     "strauss": {
       "namespace_prefix": "BrianHenryIE\\WP_Autologin_URLs\\",
       "classmap_prefix": "BH_WP_Autologin_URLs_",
@@ -139,35 +139,48 @@
     }
   },
   "scripts": {
+    "prefix-namespaces": [
+      "php -d memory_limit=1G vendor/bin/strauss --info"
+    ],
     "post-install-cmd": [
-      "strauss",
-      "@sync-composer-wpenv"
+      "@prefix-namespaces"
     ],
     "post-update-cmd": [
-      "strauss",
-      "@sync-composer-wpenv"
+      "@prefix-namespaces"
+    ],
+    "post-autoload-dump": [
+      "vendor/bin/strauss include-autoloader",
+      "php ./bin/sync-composer-wpenv.php",
+      "php ./bin/modify-autoload-patchwork.php",
+      "php ./bin/wpenv-mappings-to-phpstorm.php"
     ],
     "test": [
       "codecept run unit",
       "codecept run wpunit"
     ],
     "test-coverage": [
-      "mkdir -p tests/_output/html/phpunit",
       "codecept run unit --coverage unit.cov",
       "codecept run wpunit --coverage wpunit.cov",
-      "phpcov merge --clover tests/_output/clover.xml --html tests/_output/html/phpunit tests/_output;",
-      "open tests/_output/html/phpunit/index.html"
+      "phpcov merge --clover tests/_output/clover.xml --html tests/_output/html tests/_output;",
+      "open tests/_output/html/index.html"
+    ],
+    "cs": [
+      "phpcs || true",
+      "phpstan analyse --memory-limit 1G"
     ],
     "cs-fix": [
       "phpcbf || true",
+      "@cs"
+    ],
+    "cs-strict": [
       "phpcs || true",
-      "phpstan analyse --memory-limit 2G"
+      "phpstan analyse --level max --memory-limit 1G"
     ],
-    "cs-fix-changes": [
-      "updated_files=$( git status | grep 'modified:\\s.*.php$' | cut -c14- | awk '{ printf(\"%s \", $0) }' ); phpcbf $(echo $updated_files); phpcs $(echo $updated_files); phpstan analyse $(echo $updated_files) --memory-limit 2G"
+    "cs-changes": [
+      "updated_files=$(echo $(git diff --name-only `git merge-base origin/master HEAD` | grep \\.php | tr '\\n' '\\0' | xargs -0 ls -1df 2>/dev/null)); if [ -n \"$updated_files\" ]; then phpcbf $(echo $updated_files); phpcs $(echo $updated_files); phpstan analyse $(echo $updated_files) --memory-limit 1G; else echo \"No modified php files for phpstan.\"; fi;"
     ],
-    "php-compatibility": [
-      "phpcs -p includes templates vendor-prefixed --standard=PHPCompatibilityWP --runtime-set testVersion 8.0-"
+    "cs-changes-strict": [
+      "updated_files=$(echo $(git diff --name-only `git merge-base origin/master HEAD` | grep \\.php | tr '\\n' '\\0' | xargs -0 ls -1df 2>/dev/null)); if [ -n \"$updated_files\" ]; then phpcbf $(echo $updated_files); phpcs $(echo $updated_files); phpstan analyse $(echo $updated_files) --level max --memory-limit 1G; else echo \"No modified php files for phpstan.\"; fi;"
     ],
     "create-plugin-archive": [
       "wp i18n make-pot src languages/$(basename \"$PWD\").pot --domain=$(basename \"$PWD\")",
@@ -185,8 +198,8 @@
       "cat ./openapi/bh-wp-autologin-urls-openapi.json | jq 'del(.servers) | del(.paths.\"/\") | .jsonSchemaDialect = \"https://spec.openapis.org/oas/3.1/dialect/base\"' | sponge ./openapi/bh-wp-autologin-urls-openapi.json"
     ],
     "generate-wp-cli-docs": [
-      "npx wp-env run cli /var/www/html/wp-content/plugins/example-plugin/vendor/bin/wp handbook gen-custom example-plugin --output_dir=docs/wp-cli;",
-      "rm -rf docs/wp-cli/example-plugin/logger; rm docs/wp-cli/example-plugin/logger.md;"
+      "npx wp-env run cli /var/www/html/wp-content/plugins/bh-wp-autologin-urls/vendor/bin/wp handbook gen-custom bh-wp-autologin-urls --output_dir=docs/wp-cli;",
+      "rm -rf docs/wp-cli/bh-wp-autologin-urls/logger; rm docs/wp-cli/bh-wp-autologin-urls/logger.md;"
     ]
   }
 }
