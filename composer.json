@@ -27,27 +27,37 @@
     "allow-plugins": {
       "alleyinteractive/composer-wordpress-autoloader": true,
       "composer/installers": true,
-      "cweagans/composer-patches": true,
       "dealerdirect/phpcodesniffer-composer-installer": true,
       "johnpbloch/wordpress-core-installer": true,
-      "phpstan/extension-installer": true,
-      "brianhenryie/composer-fallback-to-git": true,
-      "brianhenryie/composer-phpstorm": true
+      "phpstan/extension-installer": true
     },
     "platform": {
-      "php": "7.4"
+      "php": "8.1"
     },
     "process-timeout": 0,
     "sort-packages": true
   },
   "repositories": {
+    "brianhenryie/strauss": {
+      "type": "package",
+      "package": {
+        "name": "brianhenryie/strauss",
+        "version": "0.28.1",
+        "dist": {
+          "url": "https://github.com/BrianHenryIE/strauss/releases/download/0.28.1/strauss.phar",
+          "type": "phar"
+        },
+        "installation-source": "dist",
+        "bin": "bin/strauss"
+      }
+    },
     "outlandishideas/wpackagist": {
       "type": "composer",
       "url": "https://wpackagist.org"
     },
-    "nikolaposa/rate-limit": {
-      "url": "https://github.com/BrianHenryIE/rate-limit",
-      "type": "git"
+    "brianhenryie/bh-wp-rate-limiter": {
+      "url": "../bh-wp-rate-limiter",
+      "type": "path"
     },
     "wordpress/wordpress": {
       "url": "https://github.com/WordPress/wordpress-develop",
@@ -55,21 +65,19 @@
     }
   },
   "require": {
-    "php": ">=7.4",
+    "php": ">=8.1",
     "ext-json": "*",
     "alleyinteractive/wordpress-autoloader": "^1.1",
-    "brianhenryie/bh-wp-logger": "^0.1.1",
+    "brianhenryie/bh-wp-logger": "*",
     "brianhenryie/bh-wp-rate-limiter": "dev-master",
     "klaviyo/sdk": "^1.0"
   },
   "require-dev": {
     "ext-dom": "*",
-    "10up/wp_mock": "dev-trunk",
+    "10up/wp_mock": "*",
     "antecedent/patchwork": "^2.1",
-    "brianhenryie/color-logger": "^1.0",
-    "brianhenryie/composer-fallback-to-git": "^0.5",
-    "brianhenryie/composer-phpstorm": "dev-master",
-    "brianhenryie/strauss": "dev-master",
+    "brianhenryie/color-logger": "*",
+    "brianhenryie/strauss": "0.28.1",
     "codeception/module-asserts": "^1.0",
     "codeception/module-cli": "^1.0",
     "codeception/module-db": "^1.0.0",
@@ -77,12 +85,9 @@
     "codeception/module-phpbrowser": "^1.0.0",
     "codeception/module-webdriver": "^1.0",
     "codeception/util-universalframework": "^1.0",
-    "cweagans/composer-patches": "*",
     "dealerdirect/phpcodesniffer-composer-installer": "*",
-    "jaschilz/php-coverage-badger": "^2.0",
-    "johnpbloch/wordpress": "^6.6",
-    "lucatume/wp-browser": "^3.5",
-    "mheap/phpunit-github-actions-printer": "dev-master",
+    "johnpbloch/wordpress": "*",
+    "lucatume/wp-browser": "*",
     "php-stubs/woocommerce-stubs": "*",
     "phpcompatibility/phpcompatibility-wp": "*",
     "phpstan/extension-installer": "*",
@@ -90,7 +95,6 @@
     "phpunit/phpcov": "*",
     "squizlabs/php_codesniffer": "*",
     "szepeviktor/phpstan-wordpress": "*",
-    "voku/portable-ascii": "dev-master",
     "woocommerce/woocommerce-sniffs": "*",
     "wordpress/wordpress": "*",
     "wp-cli/dist-archive-command": "*",
@@ -99,11 +103,11 @@
     "wp-cli/wp-cli-bundle": "*",
     "wp-coding-standards/wpcs": "*",
     "wpackagist-plugin/document-generator-for-openapi": "^1.1",
-    "wpackagist-plugin/give": "^3.12",
-    "wpackagist-plugin/mailpoet": "^3.0",
+    "wpackagist-plugin/give": "*",
+    "wpackagist-plugin/mailpoet": "*",
     "wpackagist-plugin/newsletter": "*",
     "wpackagist-plugin/woocommerce": "*",
-    "wpackagist-plugin/wp-mail-debugger": "^1.0",
+    "wpackagist-plugin/wp-mail-debugger": "*",
     "wpackagist-plugin/wp-mail-logging": "*",
     "wpackagist-plugin/wp-mail-smtp": "*",
     "wpackagist-plugin/wp-super-cache": "*",
@@ -118,7 +122,6 @@
     },
     "strauss": {
       "namespace_prefix": "BrianHenryIE\\WP_Autologin_URLs\\",
-      "target_directory": "vendor/",
       "classmap_prefix": "BH_WP_Autologin_URLs_",
       "namespace_replacement_patterns": {
         "~BrianHenryIE\\\\(.*)~" : "BrianHenryIE\\WP_Autologin_URLs\\\\$1"
@@ -133,50 +136,16 @@
           "~psr/log/Psr/Log/Test.*~"
         ]
       }
-    },
-    "symlinks": {
-      ".": "wp-content/plugins/bh-wp-autologin-urls",
-      "wp-content": "wordpress/wp-content"
-    },
-    "phpstorm": {
-      "exclude_folders": {
-        "folders": [
-          "vendor/php-stubs/woocommerce-stubs",
-          "vendor/wordpress/wordpress/src",
-          "vendor/wordpress/wordpress/build",
-          "wp-content/plugins/bh-wp-autologin-urls",
-          "wordpress/wp-content"
-        ],
-        "include_folders": [
-          "vendor/wordpress/wordpress/"
-        ],
-        "composer-symlinks": false
-      }
-    },
-    "enable-patching": "true"
+    }
   },
   "scripts": {
     "post-install-cmd": [
       "strauss",
-      "Kporras07\\ComposerSymlinks\\ScriptHandler::createSymlinks",
-      "@configure-phpstorm",
       "@sync-composer-wpenv"
     ],
     "post-update-cmd": [
       "strauss",
-      "Kporras07\\ComposerSymlinks\\ScriptHandler::createSymlinks",
-      "@configure-phpstorm",
       "@sync-composer-wpenv"
-    ],
-    "configure-phpstorm": [
-      "BrianHenryIE\\ComposerPhpStorm\\ExcludeFolders::update",
-      "BrianHenryIE\\ComposerPhpStorm\\PHPUnitRunConfigurations::update"
-    ],
-    "save-acceptance-database": [
-      "export $(grep -v '^#' .env.testing | xargs); mysqldump -u $TEST_SITE_DB_USER -p$TEST_SITE_DB_PASSWORD  $TEST_SITE_DB_NAME > tests/_data/dump.sql;"
-    ],
-    "restore-acceptance-database": [
-      "export $(grep -v '^#' .env.testing | xargs); mysql $TEST_SITE_DB_NAME < tests/_data/dump.sql"
     ],
     "test": [
       "codecept run unit",
@@ -208,8 +177,7 @@
       "act -P ubuntu-latest=shivammathur/node:latest"
     ],
     "sync-composer-wpenv": [
-      "for name in $(cat .wp-env.json | jq '.mappings | values[]' | sed -r 's/^\\\"|\\\"$//g'); do [ ! -d $name ] && [ ! -f $name ] && echo $name && jq 'del(.. | select(. ==\"'$name'\"))' .wp-env.json | sponge .wp-env.json; done; exit 0;",
-      "find wp-content/plugins -type d -depth 1 ! -type l | sort -h | jq -Rn '[inputs]' | jq 'reduce .[] as $item ({}; . + {$item:$item})' | jq '.[] |= \"./\\(.)\"' | jq '. | {mappings: .}' | jq --sort-keys -s '.[] * $existing[]' --slurpfile existing .wp-env.json | sponge .wp-env.json "
+      "@php bin/sync-composer-wpenv.php"
     ],
     "generate-openapi": [
       "npx wp-env run cli /var/www/html/wp-content/plugins/bh-wp-autologin-urls/vendor/bin/wp openapi-generator export-file bh-wp-autologin-urls/v1 --destination=./openapi/bh-wp-autologin-urls-openapi.json --extract-common-types;",

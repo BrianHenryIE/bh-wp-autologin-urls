@@ -12,7 +12,7 @@
  * Description:       Log in users via emails sent from WordPress.
  * Version:           2.5.0
  * Tested up to:      6.6
- * Requires PHP:      7.4
+ * Requires PHP:      8.1
  * Author:            BrianHenryIE
  * Author URI:        https://BrianHenry.ie
  * License:           GPL-2.0+

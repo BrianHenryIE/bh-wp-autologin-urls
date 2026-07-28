@@ -15,8 +15,8 @@ namespace BrianHenryIE\WP_Autologin_URLs;
 
 use BrianHenryIE\WP_Autologin_URLs\Alley_Interactive\Autoloader\Autoloader;
 
-// require_once __DIR__ . '/vendor-prefixed/autoload.php';
-require_once __DIR__ . '/vendor/autoload.php';
+ require_once __DIR__ . '/vendor-prefixed/autoload.php';
+//require_once __DIR__ . '/vendor/autoload.php';
 
 Autoloader::generate(
 	__NAMESPACE__,
