@@ -1,31 +1,32 @@
 {
   "name": "bh-wp-autologin-urls",
   "version": "1.0.0",
-  "description": "[![WordPress tested 6.2](https://img.shields.io/badge/WordPress-v6.2%20tested-0073aa.svg)](https://wordpress.org/plugins/bh-wp-autologin-urls) [![PHPCS WPCS](https://img.shields.io/badge/PHPCS-WordPress%20Coding%20Standards-8892BF.svg)](https://github.com/WordPress-Coding-Standards/WordPress-Coding-Standards) [![PHPUnit ](.github/coverage.svg)](https://brianhenryie.github.io/bh-wp-autologin-urls/) [![PHPStan ](https://img.shields.io/badge/PHPStan-Level%208-2a5ea7.svg)](https://github.com/szepeviktor/phpstan-wordpress) [![Active installs](https://img.shields.io/badge/Active%20Installs-30%2B-ffb900.svg)](https://wordpress.org/plugins/bh-wp-autologin-urls/advanced/)",
+  "description": "Automatically log in WordPress users from links in emails.",
   "main": "index.js",
   "directories": {
     "test": "tests"
   },
-  "scripts": {},
+  "scripts": {
+    "wp-env": "wp-env start",
+    "test:e2e": "playwright test",
+    "test:e2e:ui": "playwright test --ui",
+    "test:e2e:report": "playwright show-report"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/BrianHenryIE/BH-WP-Autologin-URLs.git"
   },
   "keywords": [],
   "author": "",
-  "license": "ISC",
+  "license": "GPL-2.0+",
   "bugs": {
     "url": "https://github.com/BrianHenryIE/BH-WP-Autologin-URLs/issues"
   },
   "homepage": "https://github.com/BrianHenryIE/BH-WP-Autologin-URLs#readme",
   "devDependencies": {
-    "@playwright/test": "^1.32.0",
-    "@woocommerce/woocommerce-rest-api": "^1.0.1",
-    "@wordpress/e2e-test-utils-playwright": "^0.19.2",
-    "@wordpress/env": "^11.11.0",
-    "@wordpress/scripts": "^27.2.5",
-    "allure-playwright": "^2.15.1",
-    "dotenv": "^16.4.5"
-  },
-  "packageManager": "pnpm@8.15.7+sha256.50783dd0fa303852de2dd1557cd4b9f07cb5b018154a6e76d0f40635d6cee019"
+    "@playwright/test": "^1.58",
+    "@wordpress/e2e-test-utils-playwright": "^1.40",
+    "@wordpress/env": "*",
+    "dotenv": "^17.3"
+  }
 }

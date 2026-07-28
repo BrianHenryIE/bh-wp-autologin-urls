@@ -27,7 +27,8 @@ export default defineConfig({
   workers: process.env.CI ? 1 : undefined,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   // override that location using the PLAYWRIGHT_HTML_REPORT environment variable
-  reporter: [['html', { outputFolder: 'tests/_output/playwright-report/' + (new Date()).toISOString() }]],
+  // A fixed folder so CI can upload it as an artifact.
+  reporter: [['html', { outputFolder: 'tests/_output/playwright-report', open: 'never' }]],
 
   timeout: 120000,
 
