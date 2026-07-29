@@ -2,7 +2,6 @@
 
 namespace BrianHenryIE\WP_Autologin_URLs\WP_Includes;
 
-use BrianHenryIE\ColorLogger\ColorLogger;
 use BrianHenryIE\WP_Autologin_URLs\API\Integrations\User_Finder_Factory;
 use BrianHenryIE\WP_Autologin_URLs\API_Interface;
 use BrianHenryIE\WP_Autologin_URLs\Settings_Interface;
@@ -11,7 +10,7 @@ use Codeception\Stub\Expected;
 /**
  * @coversDefaultClass \BrianHenryIE\WP_Autologin_URLs\WP_Includes\Login
  */
-class Login_Unit_Test extends \BrianHenryIE\WP_Autologin_URLs\Unit_TestCase {
+class Login_Unit_Test extends \BrianHenryIE\WP_Autologin_URLs\Unit_Testcase {
 
 	/**
 	 * @covers ::process

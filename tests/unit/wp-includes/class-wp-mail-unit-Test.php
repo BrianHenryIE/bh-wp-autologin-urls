@@ -16,7 +16,7 @@ use WP_User;
 /**
  * @coversDefaultClass \BrianHenryIE\WP_Autologin_URLs\WP_Includes\WP_Mail
  */
-class WP_Mail_Unit_Test extends \BrianHenryIE\WP_Autologin_URLs\Unit_TestCase {
+class WP_Mail_Unit_Test extends \BrianHenryIE\WP_Autologin_URLs\Unit_Testcase {
 
 	/**
 	 * Test constructor.

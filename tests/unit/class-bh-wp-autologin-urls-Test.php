@@ -2,7 +2,6 @@
 
 namespace BrianHenryIE\WP_Autologin_URLs;
 
-use BrianHenryIE\ColorLogger\ColorLogger;
 use BrianHenryIE\WP_Autologin_URLs\Admin\Plugins_Page;
 use BrianHenryIE\WP_Autologin_URLs\Admin\Users_List_Table;
 use BrianHenryIE\WP_Autologin_URLs\Login\Login_Ajax;
@@ -19,7 +18,7 @@ use WP_Mock\Matcher\AnyInstance;
 /**
  * @coversDefaultClass \BrianHenryIE\WP_Autologin_URLs\BH_WP_Autologin_URLs
  */
-class BH_WP_Autologin_URLs_Unit_Test extends \BrianHenryIE\WP_Autologin_URLs\Unit_TestCase {
+class BH_WP_Autologin_URLs_Unit_Test extends \BrianHenryIE\WP_Autologin_URLs\Unit_Testcase {
 
 	protected function setup(): void {
 		parent::setup();
@@ -37,8 +36,8 @@ class BH_WP_Autologin_URLs_Unit_Test extends \BrianHenryIE\WP_Autologin_URLs\Uni
 			array( new AnyInstance( I18n::class ), 'load_plugin_textdomain' )
 		);
 
-				$settings = $this->makeEmpty( Settings_Interface::class );
-		$api              = $this->makeEmpty( API_Interface::class );
+		$settings = $this->makeEmpty( Settings_Interface::class );
+		$api      = $this->makeEmpty( API_Interface::class );
 		new BH_WP_Autologin_URLs( $api, $settings, $this->logger );
 	}
 
@@ -53,8 +52,8 @@ class BH_WP_Autologin_URLs_Unit_Test extends \BrianHenryIE\WP_Autologin_URLs\Uni
 			30
 		);
 
-				$settings = $this->makeEmpty( Settings_Interface::class );
-		$api              = $this->makeEmpty( API_Interface::class );
+		$settings = $this->makeEmpty( Settings_Interface::class );
+		$api      = $this->makeEmpty( API_Interface::class );
 		new BH_WP_Autologin_URLs( $api, $settings, $this->logger );
 	}
 
@@ -72,8 +71,8 @@ class BH_WP_Autologin_URLs_Unit_Test extends \BrianHenryIE\WP_Autologin_URLs\Uni
 			array( new AnyInstance( Cron::class ), 'delete_expired_codes' )
 		);
 
-				$settings = $this->makeEmpty( Settings_Interface::class );
-		$api              = $this->makeEmpty( API_Interface::class );
+		$settings = $this->makeEmpty( Settings_Interface::class );
+		$api      = $this->makeEmpty( API_Interface::class );
 		new BH_WP_Autologin_URLs( $api, $settings, $this->logger );
 	}
 
@@ -97,16 +96,16 @@ class BH_WP_Autologin_URLs_Unit_Test extends \BrianHenryIE\WP_Autologin_URLs\Uni
 			4
 		);
 
-				$settings = $this->makeEmpty(
-					Settings_Interface::class,
-					array(
-						'get_plugin_basename' => Expected::once(
-							function () use ( $basename ) {
-								return $basename;}
-						),
-					)
-				);
-		$api              = $this->makeEmpty( API_Interface::class );
+		$settings = $this->makeEmpty(
+			Settings_Interface::class,
+			array(
+				'get_plugin_basename' => Expected::once(
+					function () use ( $basename ) {
+						return $basename;}
+				),
+			)
+		);
+		$api      = $this->makeEmpty( API_Interface::class );
 		new BH_WP_Autologin_URLs( $api, $settings, $this->logger );
 	}
 
@@ -140,8 +139,8 @@ class BH_WP_Autologin_URLs_Unit_Test extends \BrianHenryIE\WP_Autologin_URLs\Uni
 			array( new AnyInstance( Admin_Order_UI::class ), 'enqueue_styles' )
 		);
 
-				$settings = $this->makeEmpty( Settings_Interface::class );
-		$api              = $this->makeEmpty( API_Interface::class );
+		$settings = $this->makeEmpty( Settings_Interface::class );
+		$api      = $this->makeEmpty( API_Interface::class );
 		new BH_WP_Autologin_URLs( $api, $settings, $this->logger );
 	}
 
@@ -165,8 +164,8 @@ class BH_WP_Autologin_URLs_Unit_Test extends \BrianHenryIE\WP_Autologin_URLs\Uni
 			array( new AnyInstance( Login_Ajax::class ), 'email_magic_link' )
 		);
 
-				$settings = $this->makeEmpty( Settings_Interface::class );
-		$api              = $this->makeEmpty( API_Interface::class );
+		$settings = $this->makeEmpty( Settings_Interface::class );
+		$api      = $this->makeEmpty( API_Interface::class );
 		new BH_WP_Autologin_URLs( $api, $settings, $this->logger );
 	}
 
@@ -180,8 +179,8 @@ class BH_WP_Autologin_URLs_Unit_Test extends \BrianHenryIE\WP_Autologin_URLs\Uni
 			array( new AnyInstance( Login_Form::class ), 'enqueue_script' )
 		);
 
-				$settings = $this->makeEmpty( Settings_Interface::class );
-		$api              = $this->makeEmpty( API_Interface::class );
+		$settings = $this->makeEmpty( Settings_Interface::class );
+		$api      = $this->makeEmpty( API_Interface::class );
 		new BH_WP_Autologin_URLs( $api, $settings, $this->logger );
 	}
 
@@ -202,8 +201,8 @@ class BH_WP_Autologin_URLs_Unit_Test extends \BrianHenryIE\WP_Autologin_URLs\Uni
 			array( new AnyInstance( Users_List_Table::class ), 'send_magic_email_link' ),
 		);
 
-				$settings = $this->makeEmpty( Settings_Interface::class );
-		$api              = $this->makeEmpty( API_Interface::class );
+		$settings = $this->makeEmpty( Settings_Interface::class );
+		$api      = $this->makeEmpty( API_Interface::class );
 		new BH_WP_Autologin_URLs( $api, $settings, $this->logger );
 	}
 
@@ -217,8 +216,8 @@ class BH_WP_Autologin_URLs_Unit_Test extends \BrianHenryIE\WP_Autologin_URLs\Uni
 			array( new AnyInstance( REST_API::class ), 'register_routes' ),
 		);
 
-				$settings = $this->makeEmpty( Settings_Interface::class );
-		$api              = $this->makeEmpty( API_Interface::class );
+		$settings = $this->makeEmpty( Settings_Interface::class );
+		$api      = $this->makeEmpty( API_Interface::class );
 		new BH_WP_Autologin_URLs( $api, $settings, $this->logger );
 	}
 }

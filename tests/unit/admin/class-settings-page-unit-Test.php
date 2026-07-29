@@ -16,7 +16,7 @@ use BrianHenryIE\WP_Autologin_URLs\Psr\Log\NullLogger;
 /**
  * Class Admin_Test
  */
-class Settings_Page_Unit_Test extends \BrianHenryIE\WP_Autologin_URLs\Unit_TestCase {
+class Settings_Page_Unit_Test extends \BrianHenryIE\WP_Autologin_URLs\Unit_Testcase {
 
 	/**
 	 * WordPress's add_options_page should be called with 'Autologin URLs', the plugin name and the correct callback.
@@ -69,8 +69,8 @@ class Settings_Page_Unit_Test extends \BrianHenryIE\WP_Autologin_URLs\Unit_TestC
 
 		// Feed it the wrong folder name to test it includes files properly.
 
-				$settings = $this->makeEmpty( Settings_Interface::class );
-		$settings_page    = new Settings_Page( $settings, $this->logger );
+		$settings      = $this->makeEmpty( Settings_Interface::class );
+		$settings_page = new Settings_Page( $settings, $this->logger );
 
 		// The method first generates an example URL for the current user.
 		\WP_Mock::userFunction(
@@ -126,11 +126,11 @@ class Settings_Page_Unit_Test extends \BrianHenryIE\WP_Autologin_URLs\Unit_TestC
 	 */
 	public function test_setup_sections(): void {
 
-				$settings = $this->makeEmpty(
-					Settings_Interface::class,
-					array( 'get_plugin_slug' => 'bh-wp-autologin-urls' )
-				);
-		$settings_page    = new Settings_Page( $settings, $this->logger );
+		$settings      = $this->makeEmpty(
+			Settings_Interface::class,
+			array( 'get_plugin_slug' => 'bh-wp-autologin-urls' )
+		);
+		$settings_page = new Settings_Page( $settings, $this->logger );
 
 		\WP_Mock::userFunction(
 			'add_settings_section',
@@ -155,8 +155,8 @@ class Settings_Page_Unit_Test extends \BrianHenryIE\WP_Autologin_URLs\Unit_TestC
 	 */
 	public function test_setup_fields(): void {
 
-				$settings = $this->makeEmpty( Settings_Interface::class );
-		$settings_page    = new Settings_Page( $settings, $this->logger );
+		$settings      = $this->makeEmpty( Settings_Interface::class );
+		$settings_page = new Settings_Page( $settings, $this->logger );
 
 		$number_of_settings_elements = 6;
 

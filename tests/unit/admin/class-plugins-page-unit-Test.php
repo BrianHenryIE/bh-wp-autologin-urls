@@ -14,7 +14,7 @@ use Codeception\Stub\Expected;
 /**
  * @coversDefaultClass \BrianHenryIE\WP_Autologin_URLs\Admin\Plugins_Page
  */
-class Plugins_Page_Unit_Test extends \BrianHenryIE\WP_Autologin_URLs\Unit_TestCase {
+class Plugins_Page_Unit_Test extends \BrianHenryIE\WP_Autologin_URLs\Unit_Testcase {
 
 	/**
 	 * @covers ::action_links

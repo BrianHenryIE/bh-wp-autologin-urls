@@ -15,7 +15,7 @@ use BrianHenryIE\WP_Autologin_URLs\Settings_Interface;
 /**
  * @coversDefaultClass \BrianHenryIE\WP_Autologin_URLs\Admin\Admin_Assets
  */
-class Admin_Assets_Unit_Test extends \BrianHenryIE\WP_Autologin_URLs\Unit_TestCase {
+class Admin_Assets_Unit_Test extends \BrianHenryIE\WP_Autologin_URLs\Unit_Testcase {
 
 	/**
 	 * Verifies enqueue_styles() calls wp_enqueue_style() with appropriate parameters.

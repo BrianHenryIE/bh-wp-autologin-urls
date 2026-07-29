@@ -11,7 +11,7 @@ use Codeception\Stub\Expected;
  *
  * phpcs:disable Squiz.Commenting.VariableComment.Missing
  */
-class Admin_Order_UI_Unit_Test extends \BrianHenryIE\WP_Autologin_URLs\Unit_TestCase {
+class Admin_Order_UI_Unit_Test extends \BrianHenryIE\WP_Autologin_URLs\Unit_Testcase {
 
 	/**
 	 * @covers ::remove_arrow_from_link_text

@@ -11,7 +11,7 @@ namespace BrianHenryIE\WP_Autologin_URLs;
 use BrianHenryIE\WP_Autologin_URLs\API\API;
 use BrianHenryIE\WP_Autologin_URLs\WP_Logger\Logger;
 
-class Plugin_Unit_Test extends \BrianHenryIE\WP_Autologin_URLs\Unit_TestCase {
+class Plugin_Unit_Test extends \BrianHenryIE\WP_Autologin_URLs\Unit_Testcase {
 
 	/**
 	 * Verifies the plugin initialization.

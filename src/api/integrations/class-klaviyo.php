@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Links in email sent from Klaviyo each have a tracking parameter (`_kx=...`) which can be queried against
  * the Klaviyo API to get the user details, then the email address is used to find any corresponding
@@ -9,6 +8,7 @@
  *
  * @package brianhenryie/bh-wp-autologin-urls
  */
+
 namespace BrianHenryIE\WP_Autologin_URLs\API\Integrations;
 
 use BrianHenryIE\WP_Autologin_URLs\Klaviyo\ApiException;

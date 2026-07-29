@@ -2,14 +2,13 @@
 
 namespace BrianHenryIE\WP_Autologin_URLs\WP_Includes;
 
-use BrianHenryIE\ColorLogger\ColorLogger;
 use BrianHenryIE\WP_Autologin_URLs\API_Interface;
 use Codeception\Stub\Expected;
 
 /**
  * @coversDefaultClass \BrianHenryIE\WP_Autologin_URLs\WP_Includes\Cron
  */
-class Cron_Unit_Test extends \BrianHenryIE\WP_Autologin_URLs\Unit_TestCase {
+class Cron_Unit_Test extends \BrianHenryIE\WP_Autologin_URLs\Unit_Testcase {
 
 	/**
 	 * @covers ::delete_expired_codes

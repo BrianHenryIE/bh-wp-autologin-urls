@@ -18,7 +18,7 @@ use BrianHenryIE\WP_Autologin_URLs\Settings_Interface;
  *
  * phpcs:disable WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
  */
-class Expiry_Age_Unit_Test extends \BrianHenryIE\WP_Autologin_URLs\Unit_TestCase {
+class Expiry_Age_Unit_Test extends \BrianHenryIE\WP_Autologin_URLs\Unit_Testcase {
 
 	/**
 	 * Test the HTML output for the text field.

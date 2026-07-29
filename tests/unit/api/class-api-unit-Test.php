@@ -8,7 +8,6 @@
 
 namespace BrianHenryIE\WP_Autologin_URLs\API;
 
-use BrianHenryIE\ColorLogger\ColorLogger;
 use BrianHenryIE\WP_Autologin_URLs\Settings_Interface;
 use BrianHenryIE\WP_Autologin_URLs\Psr\Log\LoggerInterface;
 use Codeception\Stub\Expected;
@@ -21,7 +20,7 @@ use WP_User;
 /**
  * @coversDefaultClass \BrianHenryIE\WP_Autologin_URLs\API\API
  */
-class API_Unit_Test extends \BrianHenryIE\WP_Autologin_URLs\Unit_TestCase {
+class API_Unit_Test extends \BrianHenryIE\WP_Autologin_URLs\Unit_Testcase {
 
 	/**
 	 * Simple, successful generation of autologin code.

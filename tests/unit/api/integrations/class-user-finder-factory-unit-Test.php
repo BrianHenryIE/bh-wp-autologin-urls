@@ -2,7 +2,6 @@
 
 namespace BrianHenryIE\WP_Autologin_URLs\API\Integrations;
 
-use BrianHenryIE\ColorLogger\ColorLogger;
 use BrianHenryIE\WP_Autologin_URLs\API_Interface;
 use BrianHenryIE\WP_Autologin_URLs\Settings_Interface;
 use Codeception\Stub\Expected;
@@ -10,7 +9,7 @@ use Codeception\Stub\Expected;
 /**
  * @coversDefaultClass \BrianHenryIE\WP_Autologin_URLs\API\Integrations\User_Finder_Factory
  */
-class User_Finder_Factory_Unit_Test extends \BrianHenryIE\WP_Autologin_URLs\Unit_TestCase {
+class User_Finder_Factory_Unit_Test extends \BrianHenryIE\WP_Autologin_URLs\Unit_Testcase {
 
 	/**
 	 * @covers ::get_user_finder
@@ -18,8 +17,8 @@ class User_Finder_Factory_Unit_Test extends \BrianHenryIE\WP_Autologin_URLs\Unit
 	 */
 	public function test_get_user_finder(): void {
 
-				$settings = $this->makeEmpty( Settings_Interface::class );
-		$api              = $this->makeEmpty( API_Interface::class );
+		$settings = $this->makeEmpty( Settings_Interface::class );
+		$api      = $this->makeEmpty( API_Interface::class );
 
 		$sut = new User_Finder_Factory( $api, $settings, $this->logger );
 
@@ -37,13 +36,13 @@ class User_Finder_Factory_Unit_Test extends \BrianHenryIE\WP_Autologin_URLs\Unit
 	 */
 	public function test_nullable_default_null(): void {
 
-				$settings = $this->makeEmpty(
-					Settings_Interface::class,
-					array(
-						'get_klaviyo_private_api_key' => Expected::once( 'secret' ),
-					)
-				);
-		$api              = $this->makeEmpty( API_Interface::class );
+		$settings = $this->makeEmpty(
+			Settings_Interface::class,
+			array(
+				'get_klaviyo_private_api_key' => Expected::once( 'secret' ),
+			)
+		);
+		$api      = $this->makeEmpty( API_Interface::class );
 
 		$sut = new User_Finder_Factory( $api, $settings, $this->logger );
 

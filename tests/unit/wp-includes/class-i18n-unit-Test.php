@@ -11,7 +11,7 @@ namespace BrianHenryIE\WP_Autologin_URLs\WP_Includes;
 /**
  * @covers \BrianHenryIE\WP_Autologin_URLs\WP_Includes\I18n
  */
-class I18n_Unit_Test extends \BrianHenryIE\WP_Autologin_URLs\Unit_TestCase {
+class I18n_Unit_Test extends \BrianHenryIE\WP_Autologin_URLs\Unit_Testcase {
 
 	/**
 	 * Basic success test.

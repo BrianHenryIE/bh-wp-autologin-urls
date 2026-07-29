@@ -13,7 +13,7 @@ namespace BrianHenryIE\WP_Autologin_URLs\Admin\Settings_Fields;
 /**
  * Class BH_WP_Autologin_URLs_Admin_Display_Test
  */
-class BH_WP_Autologin_URLs_Admin_Display_Unit_Test extends \BrianHenryIE\WP_Autologin_URLs\Unit_TestCase {
+class BH_WP_Autologin_URLs_Admin_Display_Unit_Test extends \BrianHenryIE\WP_Autologin_URLs\Unit_Testcase {
 
 	/**
 	 * Test WordPress settings APIs are called when the file is included.

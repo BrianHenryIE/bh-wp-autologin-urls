@@ -16,7 +16,7 @@ use Codeception\Stub\Expected;
 /**
  * @coversDefaultClass \BrianHenryIE\WP_Autologin_URLs\WooCommerce\Login_Form
  */
-class Login_Form_Unit_Test extends \BrianHenryIE\WP_Autologin_URLs\Unit_TestCase {
+class Login_Form_Unit_Test extends \BrianHenryIE\WP_Autologin_URLs\Unit_Testcase {
 
 	/**
 	 * Verifies enqueue_scripts() calls wp_enqueue_script() with appropriate parameters.

@@ -2,14 +2,13 @@
 
 namespace BrianHenryIE\WP_Autologin_URLs\Login;
 
-use BrianHenryIE\ColorLogger\ColorLogger;
 use BrianHenryIE\WP_Autologin_URLs\API_Interface;
 use Codeception\Stub\Expected;
 
 /**
  * @coversDefaultClass \BrianHenryIE\WP_Autologin_URLs\Login\Login_Ajax
  */
-class Login_Ajax_Unit_Test extends \BrianHenryIE\WP_Autologin_URLs\Unit_TestCase {
+class Login_Ajax_Unit_Test extends \BrianHenryIE\WP_Autologin_URLs\Unit_Testcase {
 
 	/**
 	 * @covers ::email_magic_link

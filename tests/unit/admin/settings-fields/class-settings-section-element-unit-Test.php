@@ -15,7 +15,7 @@ namespace BrianHenryIE\WP_Autologin_URLs\Admin\Settings_Fields;
  *
  * @phpcs:disable Squiz.Commenting.FunctionComment.EmptyThrows
  */
-class Settings_Section_Element_Unit_Test extends \BrianHenryIE\WP_Autologin_URLs\Unit_TestCase {
+class Settings_Section_Element_Unit_Test extends \BrianHenryIE\WP_Autologin_URLs\Unit_Testcase {
 
 	/**
 	 * The plugin name. Unlikely to change.

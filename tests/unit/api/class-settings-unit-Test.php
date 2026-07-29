@@ -14,7 +14,7 @@ namespace BrianHenryIE\WP_Autologin_URLs\API;
 /**
  * @coversDefaultClass \BrianHenryIE\WP_Autologin_URLs\API\Settings
  */
-class Settings_Unit_Test extends \BrianHenryIE\WP_Autologin_URLs\Unit_TestCase {
+class Settings_Unit_Test extends \BrianHenryIE\WP_Autologin_URLs\Unit_Testcase {
 
 	/**
 	 * Verifies the getter for get_expiry_age.

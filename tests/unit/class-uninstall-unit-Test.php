@@ -11,7 +11,7 @@ namespace BrianHenryIE\WP_Autologin_URLs;
 /**
  * Class Uninstall_WP_Mock_Test
  */
-class Uninstall_Unit_Test extends \BrianHenryIE\WP_Autologin_URLs\Unit_TestCase {
+class Uninstall_Unit_Test extends \BrianHenryIE\WP_Autologin_URLs\Unit_Testcase {
 
 	/**
 	 * Verifies uninstall does not run without 'WP_UNINSTALL_PLUGIN' defined.
