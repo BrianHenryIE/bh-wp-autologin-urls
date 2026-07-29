@@ -12,11 +12,16 @@ namespace BrianHenryIE\WP_Autologin_URLs\WP_Includes;
 
 use BrianHenryIE\WP_Autologin_URLs\API_Interface;
 use BrianHenryIE\WP_Autologin_URLs\Settings_Interface;
+use Psr\Log\LoggerAwareTrait;
+use Psr\Log\LoggerInterface;
+use Psr\Log\NullLogger;
 
 /**
  * The wp_mail hooked functionality of the plugin.
  */
 class WP_Mail {
+
+	use LoggerAwareTrait;
 
 	/**
 	 * The class which adds the autologin codes to the emails.
@@ -37,8 +42,11 @@ class WP_Mail {
 	 *
 	 * @param API_Interface      $api          The API class for adding the autologin code to URLs.
 	 * @param Settings_Interface $settings     The settings to be used.
+	 * @param ?LoggerInterface   $logger       A PSR logger.
 	 */
-	public function __construct( API_Interface $api, Settings_Interface $settings ) {
+	public function __construct( API_Interface $api, Settings_Interface $settings, ?LoggerInterface $logger = null ) {
+
+		$this->setLogger( $logger ?? new NullLogger() );
 
 		$this->api      = $api;
 		$this->settings = $settings;
@@ -56,6 +64,34 @@ class WP_Mail {
 	 * @see wp_mail()
 	 */
 	public function add_autologin_links_to_email( array $wp_mail_args ): array {
+
+		// This plugin is never essential. Whatever goes wrong in here, the email must still send:
+		// an uncaught throwable would escape into `wp_mail()` and break unrelated plugins' mail.
+		try {
+			return $this->maybe_add_autologin_links_to_email( $wp_mail_args );
+		} catch ( \Throwable $e ) {
+			$this->logger->error(
+				'Failed adding autologin links to email: ' . ( '' !== $e->getMessage() ? $e->getMessage() : get_class( $e ) ),
+				array(
+					'exception' => $e,
+					'subject'   => $wp_mail_args['subject'],
+				)
+			);
+
+			return $wp_mail_args;
+		}
+	}
+
+	/**
+	 * Add autologin codes to the URLs in an email, as appropriate with the configured settings.
+	 *
+	 * @see self::add_autologin_links_to_email() for the exception handling.
+	 *
+	 * @param array{to:string|array<string>, subject:string, message:string, headers?:string|array<string>, attachments:string|array<string>} $wp_mail_args The arguments passed to wp_mail() (before processing).
+	 *
+	 * @return array{to:string|array<string>, subject:string, message:string, headers?:string|array<string>, attachments:string|array<string>}
+	 */
+	protected function maybe_add_autologin_links_to_email( array $wp_mail_args ): array {
 
 		switch ( true ) {
 			case is_string( $wp_mail_args['to'] ):

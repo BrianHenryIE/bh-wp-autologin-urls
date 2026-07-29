@@ -180,7 +180,22 @@ class API implements API_Interface {
 
 		// Although this method could return null, the checks to prevent that have already
 		// taken place in this method.
-		$autologin_code = $this->generate_code( $user, $expires_in );
+		try {
+			$autologin_code = $this->generate_code( $user, $expires_in );
+		} catch ( \Throwable $e ) {
+			// Storing the code failed, e.g. the database is unavailable. This plugin is never
+			// essential, so return the URL unchanged rather than breaking whatever was using it.
+			$this->logger->error(
+				'Failed to generate an autologin code: ' . ( '' !== $e->getMessage() ? $e->getMessage() : get_class( $e ) ),
+				array(
+					'exception' => $e,
+					'user_id'   => $user->ID,
+					'url'       => $url,
+				)
+			);
+
+			return $url;
+		}
 
 		/**
 		 * The typical `wp-login.php` can be configured to be a different URL.
@@ -295,7 +310,21 @@ class API implements API_Interface {
 		 */
 		$delete = apply_filters( 'bh_wp_autologin_urls_should_delete_code_after_use', true, $user_id );
 
-		$saved_details = $this->data_store->get_value_for_code( $password, $delete );
+		try {
+			$saved_details = $this->data_store->get_value_for_code( $password, $delete );
+		} catch ( \Throwable $e ) {
+			// Reading the code failed, e.g. the database is unavailable. Fail closed: an error
+			// here must never log anyone in.
+			$this->logger->error(
+				'Failed to read the stored autologin code: ' . ( '' !== $e->getMessage() ? $e->getMessage() : get_class( $e ) ),
+				array(
+					'exception' => $e,
+					'user_id'   => $user_id,
+				)
+			);
+
+			return false;
+		}
 
 		if ( null === $saved_details ) {
 			return false;
@@ -316,7 +345,21 @@ class API implements API_Interface {
 	 */
 	public function delete_expired_codes( ?DateTimeInterface $before = null ): array {
 		$before ??= new DateTimeImmutable( 'now', new DateTimeZone( 'UTC' ) );
-		return $this->data_store->delete_expired_codes( $before );
+
+		try {
+			return $this->data_store->delete_expired_codes( $before );
+		} catch ( \Throwable $e ) {
+			// Purging is housekeeping; a failure must not stop the cron job which called it.
+			$this->logger->error(
+				'Failed to delete expired autologin codes: ' . ( '' !== $e->getMessage() ? $e->getMessage() : get_class( $e ) ),
+				array(
+					'exception' => $e,
+					'before'    => $before->format( 'Y-m-d H:i:s' ),
+				)
+			);
+
+			return array( 'deleted_count' => null );
+		}
 	}
 
 	/**
@@ -506,6 +549,21 @@ class API implements API_Interface {
 
 		$autologin_url = $this->add_autologin_to_url( $url, $wp_user, $expires_in );
 
+		if ( $autologin_url === $url ) {
+			// The code could not be generated – `add_autologin_to_url()` logged why – so the link
+			// would not log anyone in. Better to report a failure than to email a sign-in link
+			// which does not sign the user in.
+			$result['success'] = false;
+			$result['error']   = true;
+
+			$this->logger->error(
+				"Not sending a magic link to wp_user:{$wp_user->ID}: no autologin code could be added to the URL.",
+				array( 'result' => $result )
+			);
+
+			return $result;
+		}
+
 		// Add a marker for later logging use of the email.
 		$autologin_url = add_query_arg( array( 'magic' => 'true' ), $autologin_url );
 
@@ -536,7 +594,26 @@ class API implements API_Interface {
 
 		ob_start();
 
-		include $template_email_magic_link;
+		try {
+			include $template_email_magic_link;
+		} catch ( \Throwable $e ) {
+			// A theme override of the template could throw. Close the buffer before returning,
+			// otherwise everything printed after this point is swallowed.
+			ob_end_clean();
+
+			$result['success'] = false;
+			$result['error']   = true;
+
+			$this->logger->error(
+				'Failed rendering the magic link email template: ' . ( '' !== $e->getMessage() ? $e->getMessage() : get_class( $e ) ),
+				array(
+					'exception' => $e,
+					'template'  => $template_email_magic_link,
+				)
+			);
+
+			return $result;
+		}
 
 		// NB: Do not log the message because it contains a password!
 		$message = ob_get_clean();

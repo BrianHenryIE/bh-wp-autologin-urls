@@ -82,11 +82,26 @@ class DB_Data_Store implements Data_Store_Interface {
 		) {$charset_collate};";
 
 		require_once ABSPATH . 'wp-admin/includes/upgrade.php';
-		$result = dbDelta( $sql );
+
+		// `plugins_loaded`: a throwable here would prevent every later-loading plugin from
+		// registering its hooks. Leave the version option unchanged so it is retried next request.
+		try {
+			$result = dbDelta( $sql );
+		} catch ( \Throwable $e ) {
+			$this->logger->error(
+				'Failed creating the autologin_urls table: ' . ( '' !== $e->getMessage() ? $e->getMessage() : get_class( $e ) ),
+				array(
+					'exception' => $e,
+					'table'     => $table_name,
+				)
+			);
+
+			return;
+		}
 
 		update_option( self::$db_version_option_name, self::$db_version );
 
-		$this->logger->info( 'Updated database to version ' . self::$db_version );
+		$this->logger->info( 'Updated database to version ' . self::$db_version, array( 'result' => $result ) );
 	}
 
 	/**
@@ -121,9 +136,12 @@ class DB_Data_Store implements Data_Store_Interface {
 			)
 		);
 
-		if ( ! empty( $wpdb->last_error ) ) {
-			$this->logger->error( $wpdb->last_error );
-			throw new Exception( $wpdb->last_error );
+		// Capture before logging: the logger writes to the database, and the successful query
+		// resets `$wpdb->last_error`, so re-reading it here would give an empty string.
+		$last_error = $wpdb->last_error;
+		if ( ! empty( $last_error ) ) {
+			$this->logger->error( $last_error );
+			throw new Exception( $last_error );
 		}
 
 		if ( false === $result ) {
@@ -174,9 +192,12 @@ class DB_Data_Store implements Data_Store_Interface {
 			$wpdb->prepare( 'SELECT expires_at, userhash FROM ' . $wpdb->prefix . 'autologin_urls WHERE hash = %s', $key )
 		);
 
-		if ( ! empty( $wpdb->last_error ) ) {
-			$this->logger->error( $wpdb->last_error );
-			throw new Exception( $wpdb->last_error );
+		// Capture before logging: the logger writes to the database, and the successful query
+		// resets `$wpdb->last_error`, so re-reading it here would give an empty string.
+		$last_error = $wpdb->last_error;
+		if ( ! empty( $last_error ) ) {
+			$this->logger->error( $last_error );
+			throw new Exception( $last_error );
 		}
 
 		if ( is_null( $result ) ) {
@@ -227,9 +248,12 @@ class DB_Data_Store implements Data_Store_Interface {
 		global $wpdb;
 		$result = $wpdb->query( $wpdb->prepare( 'DELETE FROM ' . $wpdb->prefix . 'autologin_urls WHERE expires_at < %s', $mysql_formatted_date ) );
 
-		if ( ! empty( $wpdb->last_error ) ) {
-			$this->logger->error( $wpdb->last_error );
-			throw new Exception( $wpdb->last_error );
+		// Capture before logging: the logger writes to the database, and the successful query
+		// resets `$wpdb->last_error`, so re-reading it here would give an empty string.
+		$last_error = $wpdb->last_error;
+		if ( ! empty( $last_error ) ) {
+			$this->logger->error( $last_error );
+			throw new Exception( $last_error );
 		}
 
 		// I think this is the number of entries deleted.

@@ -12,6 +12,12 @@ namespace BrianHenryIE\WP_Autologin_URLs\API;
 
 use DateTimeInterface;
 
+/**
+ * Implementations may be backed by a database, so every method can fail at runtime. Callers must
+ * assume these throw and degrade gracefully – this plugin is never essential to a request.
+ *
+ * @see \BrianHenryIE\WP_Autologin_URLs\API\Data_Stores\DB_Data_Store
+ */
 interface Data_Store_Interface {
 
 	/**
@@ -20,6 +26,8 @@ interface Data_Store_Interface {
 	 * @param int    $user_id The user id the code is being saved for.
 	 * @param string $code The autologin code being used in the user's URL.
 	 * @param int    $expires_in Number of seconds the code is valid for.
+	 *
+	 * @throws \Exception When the code cannot be stored.
 	 */
 	public function save( int $user_id, string $code, int $expires_in ): void;
 
@@ -30,6 +38,7 @@ interface Data_Store_Interface {
 	 * @param bool   $delete Indicate should the code be deleted after retrieving it.
 	 *
 	 * @return string|null
+	 * @throws \Exception When the stored value cannot be read.
 	 */
 	public function get_value_for_code( string $code, bool $delete = true ): ?string;
 
@@ -39,6 +48,7 @@ interface Data_Store_Interface {
 	 * @param DateTimeInterface $before The date from which to purge old codes.
 	 *
 	 * @return array{deleted_count:int|null}
+	 * @throws \Exception When the codes cannot be deleted.
 	 */
 	public function delete_expired_codes( DateTimeInterface $before ): array;
 }
