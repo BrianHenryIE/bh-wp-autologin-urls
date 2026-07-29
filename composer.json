@@ -131,7 +131,7 @@
       "namespace_prefix": "BrianHenryIE\\WP_Autologin_URLs\\",
       "classmap_prefix": "BH_WP_Autologin_URLs_",
       "namespace_replacement_patterns": {
-        "~BrianHenryIE\\\\(.*)~" : "BrianHenryIE\\WP_Autologin_URLs\\\\$1"
+        "~BrianHenryIE\\\\(.*)~": "BrianHenryIE\\WP_Autologin_URLs\\\\$1"
       },
       "exclude_from_prefix": {
         "packages": [
