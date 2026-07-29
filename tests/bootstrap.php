@@ -27,6 +27,8 @@ if ( file_exists( $env_secret ) ) {
 	$plugin_root_dir . '/src',
 )->register();
 
+require_once dirname( __DIR__ ) . '/vendor-prefixed/autoload.php';
+
 /**
  * The plugin needs to be present in WP_CONTENT_DIR/plugins for templates to resolve
  * (previously handled by brianhenryie/composer-phpstorm symlinks config in composer.json).
