@@ -11,7 +11,7 @@ namespace BrianHenryIE\WP_Autologin_URLs\API;
 /**
  * Class API_Integration_Test
  */
-class API_Integration_Test extends \Codeception\TestCase\WPTestCase {
+class API_Integration_Test extends \BrianHenryIE\WP_Autologin_URLs\WPUnit_Testcase {
 
 	public function setUp(): void {
 		parent::setUp();

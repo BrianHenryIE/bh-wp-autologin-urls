@@ -8,8 +8,8 @@
 
 namespace BrianHenryIE\WP_Autologin_URLs\WooCommerce;
 
-use Psr\Log\LoggerAwareTrait;
-use Psr\Log\LoggerInterface;
+use BrianHenryIE\WP_Autologin_URLs\Psr\Log\LoggerAwareTrait;
+use BrianHenryIE\WP_Autologin_URLs\Psr\Log\LoggerInterface;
 use WC_Order;
 
 /**

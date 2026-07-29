@@ -15,16 +15,7 @@ use BrianHenryIE\WP_Autologin_URLs\Settings_Interface;
 /**
  * @coversDefaultClass \BrianHenryIE\WP_Autologin_URLs\Admin\Admin_Assets
  */
-class Admin_Assets_Unit_Test extends \Codeception\Test\Unit {
-
-	protected function setUp(): void {
-		\WP_Mock::setUp();
-	}
-
-	protected function tearDown(): void {
-		parent::tearDown();
-		\WP_Mock::tearDown();
-	}
+class Admin_Assets_Unit_Test extends \BrianHenryIE\WP_Autologin_URLs\Unit_Testcase {
 
 	/**
 	 * Verifies enqueue_styles() calls wp_enqueue_style() with appropriate parameters.

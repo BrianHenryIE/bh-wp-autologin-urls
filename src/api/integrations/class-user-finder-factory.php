@@ -10,7 +10,7 @@ namespace BrianHenryIE\WP_Autologin_URLs\API\Integrations;
 use BrianHenryIE\WP_Autologin_URLs\API_Interface;
 use BrianHenryIE\WP_Autologin_URLs\Settings_Interface;
 use BrianHenryIE\WP_Autologin_URLs\API\User_Finder_Interface;
-use Psr\Log\LoggerInterface;
+use BrianHenryIE\WP_Autologin_URLs\Psr\Log\LoggerInterface;
 use ReflectionClass;
 use Throwable;
 

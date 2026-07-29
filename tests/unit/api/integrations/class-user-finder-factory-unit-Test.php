@@ -2,7 +2,6 @@
 
 namespace BrianHenryIE\WP_Autologin_URLs\API\Integrations;
 
-use BrianHenryIE\ColorLogger\ColorLogger;
 use BrianHenryIE\WP_Autologin_URLs\API_Interface;
 use BrianHenryIE\WP_Autologin_URLs\Settings_Interface;
 use Codeception\Stub\Expected;
@@ -10,7 +9,7 @@ use Codeception\Stub\Expected;
 /**
  * @coversDefaultClass \BrianHenryIE\WP_Autologin_URLs\API\Integrations\User_Finder_Factory
  */
-class User_Finder_Factory_Unit_Test extends \Codeception\Test\Unit {
+class User_Finder_Factory_Unit_Test extends \BrianHenryIE\WP_Autologin_URLs\Unit_Testcase {
 
 	/**
 	 * @covers ::get_user_finder
@@ -18,11 +17,10 @@ class User_Finder_Factory_Unit_Test extends \Codeception\Test\Unit {
 	 */
 	public function test_get_user_finder(): void {
 
-		$logger   = new ColorLogger();
 		$settings = $this->makeEmpty( Settings_Interface::class );
 		$api      = $this->makeEmpty( API_Interface::class );
 
-		$sut = new User_Finder_Factory( $api, $settings, $logger );
+		$sut = new User_Finder_Factory( $api, $settings, $this->logger );
 
 		$_GET[ Autologin_URLs::QUERYSTRING_PARAMETER_NAME ] = '123~abc';
 
@@ -38,7 +36,6 @@ class User_Finder_Factory_Unit_Test extends \Codeception\Test\Unit {
 	 */
 	public function test_nullable_default_null(): void {
 
-		$logger   = new ColorLogger();
 		$settings = $this->makeEmpty(
 			Settings_Interface::class,
 			array(
@@ -47,7 +44,7 @@ class User_Finder_Factory_Unit_Test extends \Codeception\Test\Unit {
 		);
 		$api      = $this->makeEmpty( API_Interface::class );
 
-		$sut = new User_Finder_Factory( $api, $settings, $logger );
+		$sut = new User_Finder_Factory( $api, $settings, $this->logger );
 
 		$_GET[ Klaviyo::QUERYSTRING_PARAMETER_NAME ] = 'whatever';
 

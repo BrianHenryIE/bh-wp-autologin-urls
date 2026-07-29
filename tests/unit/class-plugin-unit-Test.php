@@ -11,17 +11,7 @@ namespace BrianHenryIE\WP_Autologin_URLs;
 use BrianHenryIE\WP_Autologin_URLs\API\API;
 use BrianHenryIE\WP_Autologin_URLs\WP_Logger\Logger;
 
-class Plugin_Unit_Test extends \Codeception\Test\Unit {
-
-	protected function setup(): void {
-		\WP_Mock::setUp();
-	}
-
-	protected function tearDown(): void {
-		parent::tearDown();
-		\WP_Mock::tearDown();
-		\Patchwork\restoreAll();
-	}
+class Plugin_Unit_Test extends \BrianHenryIE\WP_Autologin_URLs\Unit_Testcase {
 
 	/**
 	 * Verifies the plugin initialization.

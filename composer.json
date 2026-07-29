@@ -133,12 +133,15 @@
       "namespace_replacement_patterns": {
         "~BrianHenryIE\\\\(.*)~": "BrianHenryIE\\WP_Autologin_URLs\\\\$1"
       },
-      "exclude_from_prefix": {
-        "packages": [
-          "psr/log"
-        ]
-      },
       "exclude_from_copy": {
+        "file_patterns": [
+          "nikolaposa/rate-limit/src/ApcuRateLimiter.php",
+          "nikolaposa/rate-limit/src/InMemoryRateLimiter.php",
+          "nikolaposa/rate-limit/src/MemcachedRateLimiter.php",
+          "nikolaposa/rate-limit/src/PredisRateLimiter.php",
+          "nikolaposa/rate-limit/src/RedisRateLimiter.php",
+          "nikolaposa/rate-limit/src/RuntimeConfigurableRateLimiter.php"
+        ],
         "packages": [
           "brianhenryie/bh-wp-cli-logger",
           "symfony/polyfill-php80"

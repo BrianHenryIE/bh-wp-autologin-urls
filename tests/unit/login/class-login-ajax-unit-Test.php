@@ -2,23 +2,13 @@
 
 namespace BrianHenryIE\WP_Autologin_URLs\Login;
 
-use BrianHenryIE\ColorLogger\ColorLogger;
 use BrianHenryIE\WP_Autologin_URLs\API_Interface;
 use Codeception\Stub\Expected;
 
 /**
  * @coversDefaultClass \BrianHenryIE\WP_Autologin_URLs\Login\Login_Ajax
  */
-class Login_Ajax_Unit_Test extends \Codeception\Test\Unit {
-
-	protected function setUp(): void {
-		\WP_Mock::setUp();
-	}
-
-	protected function tearDown(): void {
-		parent::tearDown();
-		\WP_Mock::tearDown();
-	}
+class Login_Ajax_Unit_Test extends \BrianHenryIE\WP_Autologin_URLs\Unit_Testcase {
 
 	/**
 	 * @covers ::email_magic_link
@@ -26,19 +16,18 @@ class Login_Ajax_Unit_Test extends \Codeception\Test\Unit {
 	 */
 	public function test_email_magic_link_happy_path(): void {
 
-		$logger = new ColorLogger();
-		$api    = $this->makeEmpty(
-			API_Interface::class,
-			array(
-				'send_magic_link' => Expected::once(
+				$api = $this->makeEmpty(
+					API_Interface::class,
 					array(
-						'expires_in' => 900,
+						'send_magic_link' => Expected::once(
+							array(
+								'expires_in' => 900,
+							)
+						),
 					)
-				),
-			)
-		);
+				);
 
-		$login_ajax = new Login_Ajax( $api, $logger );
+		$login_ajax = new Login_Ajax( $api, $this->logger );
 
 		$_POST['username'] = 'bob';
 

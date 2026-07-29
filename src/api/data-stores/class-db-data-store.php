@@ -17,8 +17,8 @@ use DateTimeImmutable;
 use DateTimeInterface;
 use DateTimeZone;
 use Exception;
-use Psr\Log\LoggerInterface;
-use Psr\Log\LoggerAwareTrait;
+use BrianHenryIE\WP_Autologin_URLs\Psr\Log\LoggerInterface;
+use BrianHenryIE\WP_Autologin_URLs\Psr\Log\LoggerAwareTrait;
 
 /**
  * Creates a custom database table via standard $wpdb functions to store and retrieve the autologin codes.

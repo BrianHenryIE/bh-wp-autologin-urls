@@ -8,8 +8,8 @@
 namespace BrianHenryIE\WP_Autologin_URLs\Admin;
 
 use BrianHenryIE\WP_Autologin_URLs\Settings_Interface;
-use Psr\Log\LoggerAwareTrait;
-use Psr\Log\LoggerInterface;
+use BrianHenryIE\WP_Autologin_URLs\Psr\Log\LoggerAwareTrait;
+use BrianHenryIE\WP_Autologin_URLs\Psr\Log\LoggerInterface;
 
 /**
  * Checks is WooCommerce active, then appends the Settings link to the "Return to plugins installer" link on the plugin update page.

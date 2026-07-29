@@ -2,7 +2,6 @@
 
 namespace BrianHenryIE\WP_Klaviyo\API\Integrations;
 
-use BrianHenryIE\ColorLogger\ColorLogger;
 use BrianHenryIE\WP_Autologin_URLs\API\Integrations\Klaviyo;
 use BrianHenryIE\WP_Autologin_URLs\Settings_Interface;
 use BrianHenryIE\WP_Autologin_URLs\Klaviyo\API\ProfilesApi;
@@ -12,7 +11,7 @@ use Codeception\Stub\Expected;
 /**
  * @coversDefaultClass \BrianHenryIE\WP_Autologin_URLs\API\Integrations\Klaviyo
  */
-class Klaviyo_WPUnit_Test extends \lucatume\WPBrowser\TestCase\WPTestCase {
+class Klaviyo_WPUnit_Test extends \BrianHenryIE\WP_Autologin_URLs\WPUnit_Testcase {
 
 	/**
 	 * @covers ::is_querystring_valid
@@ -20,15 +19,14 @@ class Klaviyo_WPUnit_Test extends \lucatume\WPBrowser\TestCase\WPTestCase {
 	 */
 	public function test_is_querystring_valid_present(): void {
 
-		$logger   = new ColorLogger();
-		$settings = $this->makeEmpty(
-			Settings_Interface::class,
-			array(
-				'get_klaviyo_private_api_key' => Expected::once( 'secret' ),
-			)
-		);
+				$settings = $this->makeEmpty(
+					Settings_Interface::class,
+					array(
+						'get_klaviyo_private_api_key' => Expected::once( 'secret' ),
+					)
+				);
 
-		$sut         = new Klaviyo( $settings, $logger );
+		$sut         = new Klaviyo( $settings, $this->logger );
 		$_GET['_kx'] = 'IgYA62x7VPCfu9FPAyNfJ12-2CkG9UW5q1bYjwNuc4E%3D.KxPkM5';
 
 		$result = $sut->is_querystring_valid();
@@ -41,15 +39,14 @@ class Klaviyo_WPUnit_Test extends \lucatume\WPBrowser\TestCase\WPTestCase {
 	 */
 	public function test_is_querystring_valid_absent(): void {
 
-		$logger   = new ColorLogger();
-		$settings = $this->makeEmpty(
-			Settings_Interface::class,
-			array(
-				'get_klaviyo_private_api_key' => Expected::once( 'secret' ),
-			)
-		);
+				$settings = $this->makeEmpty(
+					Settings_Interface::class,
+					array(
+						'get_klaviyo_private_api_key' => Expected::once( 'secret' ),
+					)
+				);
 
-		$sut = new Klaviyo( $settings, $logger );
+		$sut = new Klaviyo( $settings, $this->logger );
 
 		unset( $_GET['_kx'] );
 
@@ -64,13 +61,12 @@ class Klaviyo_WPUnit_Test extends \lucatume\WPBrowser\TestCase\WPTestCase {
 	 */
 	public function test_get_wp_user_array(): void {
 
-		$logger   = new ColorLogger();
-		$settings = $this->makeEmpty(
-			Settings_Interface::class,
-			array(
-				'get_klaviyo_private_api_key' => Expected::once( 'secret' ),
-			)
-		);
+				$settings = $this->makeEmpty(
+					Settings_Interface::class,
+					array(
+						'get_klaviyo_private_api_key' => Expected::once( 'secret' ),
+					)
+				);
 
 		$user_email = 'test@example.org';
 		$user_id    = wp_create_user( 'test-user', '123', $user_email );
@@ -94,7 +90,7 @@ class Klaviyo_WPUnit_Test extends \lucatume\WPBrowser\TestCase\WPTestCase {
 			)
 		);
 
-		$sut = new Klaviyo( $settings, $logger, $client );
+		$sut = new Klaviyo( $settings, $this->logger, $client );
 
 		$_GET['_kx'] = 'IgYA62x7VPCfu9FPAyNfJ12-2CkG9UW5q1bYjwNuc4E%3D.KxPkM5';
 

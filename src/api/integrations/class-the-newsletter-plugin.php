@@ -10,9 +10,9 @@ namespace BrianHenryIE\WP_Autologin_URLs\API\Integrations;
 use BrianHenryIE\WP_Autologin_URLs\API\User_Finder_Interface;
 use Newsletter;
 use NewsletterStatistics;
-use Psr\Log\LoggerAwareInterface;
-use Psr\Log\LoggerAwareTrait;
-use Psr\Log\LoggerInterface;
+use BrianHenryIE\WP_Autologin_URLs\Psr\Log\LoggerAwareInterface;
+use BrianHenryIE\WP_Autologin_URLs\Psr\Log\LoggerAwareTrait;
+use BrianHenryIE\WP_Autologin_URLs\Psr\Log\LoggerInterface;
 use WP_User;
 
 /**

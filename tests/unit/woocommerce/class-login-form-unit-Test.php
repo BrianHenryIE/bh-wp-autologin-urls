@@ -16,16 +16,7 @@ use Codeception\Stub\Expected;
 /**
  * @coversDefaultClass \BrianHenryIE\WP_Autologin_URLs\WooCommerce\Login_Form
  */
-class Login_Form_Unit_Test extends \Codeception\Test\Unit {
-
-	protected function setUp(): void {
-		\WP_Mock::setUp();
-	}
-
-	protected function tearDown(): void {
-		parent::tearDown();
-		\WP_Mock::tearDown();
-	}
+class Login_Form_Unit_Test extends \BrianHenryIE\WP_Autologin_URLs\Unit_Testcase {
 
 	/**
 	 * Verifies enqueue_scripts() calls wp_enqueue_script() with appropriate parameters.

@@ -8,9 +8,8 @@
 
 namespace BrianHenryIE\WP_Autologin_URLs\API;
 
-use BrianHenryIE\ColorLogger\ColorLogger;
 use BrianHenryIE\WP_Autologin_URLs\Settings_Interface;
-use Psr\Log\LoggerInterface;
+use BrianHenryIE\WP_Autologin_URLs\Psr\Log\LoggerInterface;
 use Codeception\Stub\Expected;
 use WP_Mock;
 use WP_Mock\Filter;
@@ -21,16 +20,7 @@ use WP_User;
 /**
  * @coversDefaultClass \BrianHenryIE\WP_Autologin_URLs\API\API
  */
-class API_Unit_Test extends \Codeception\Test\Unit {
-
-	protected function setUp(): void {
-		WP_Mock::setUp();
-	}
-
-	protected function tearDown(): void {
-		parent::tearDown();
-		WP_Mock::tearDown();
-	}
+class API_Unit_Test extends \BrianHenryIE\WP_Autologin_URLs\Unit_Testcase {
 
 	/**
 	 * Simple, successful generation of autologin code.
@@ -45,12 +35,11 @@ class API_Unit_Test extends \Codeception\Test\Unit {
 	public function test_generate_code() {
 
 		$settings_mock      = $this->makeEmpty( Settings_Interface::class );
-		$logger_mock        = $this->makeEmpty( LoggerInterface::class );
 		$data_store_mock    = $this->makeEmpty(
 			Data_Store_Interface::class,
 			array( 'save' => Expected::once() )
 		);
-		$autologin_urls_api = new API( $settings_mock, $logger_mock, $data_store_mock );
+		$autologin_urls_api = new API( $settings_mock, $this->logger, $data_store_mock );
 
 		$user     = $this->make( WP_User::class );
 		$user->ID = 123;
@@ -82,12 +71,11 @@ class API_Unit_Test extends \Codeception\Test\Unit {
 	public function test_generate_code_cached() {
 
 		$settings_mock      = $this->makeEmpty( Settings_Interface::class );
-		$logger_mock        = $this->makeEmpty( LoggerInterface::class );
 		$data_store_mock    = $this->makeEmpty(
 			Data_Store_Interface::class,
 			array( 'save' => Expected::once() )
 		);
-		$autologin_urls_api = new API( $settings_mock, $logger_mock, $data_store_mock );
+		$autologin_urls_api = new API( $settings_mock, $this->logger, $data_store_mock );
 
 		$user     = $this->createMock( '\WP_User' );
 		$user->ID = 123;
@@ -117,9 +105,8 @@ class API_Unit_Test extends \Codeception\Test\Unit {
 	public function test_generate_code_null_user() {
 
 		$settings_mock      = $this->makeEmpty( Settings_Interface::class );
-		$logger_mock        = $this->makeEmpty( LoggerInterface::class );
 		$data_store_mock    = $this->makeEmpty( Data_Store_Interface::class );
-		$autologin_urls_api = new API( $settings_mock, $logger_mock, $data_store_mock );
+		$autologin_urls_api = new API( $settings_mock, $this->logger, $data_store_mock );
 
 		$generated_code = $autologin_urls_api->generate_code( null, 3600 );
 
@@ -138,12 +125,11 @@ class API_Unit_Test extends \Codeception\Test\Unit {
 			Settings_Interface::class,
 			array( 'get_expiry_age' => 123456 )
 		);
-		$logger_mock        = $this->makeEmpty( LoggerInterface::class );
 		$data_store_mock    = $this->makeEmpty(
 			Data_Store_Interface::class,
 			array( 'save' => Expected::once() )
 		);
-		$autologin_urls_api = new API( $settings_mock, $logger_mock, $data_store_mock );
+		$autologin_urls_api = new API( $settings_mock, $this->logger, $data_store_mock );
 
 		/**
 		 * Inside private method.
@@ -174,12 +160,11 @@ class API_Unit_Test extends \Codeception\Test\Unit {
 	public function test_verify_autologin_password_not_found() {
 
 		$settings_mock      = $this->makeEmpty( Settings_Interface::class );
-		$logger_mock        = $this->makeEmpty( LoggerInterface::class );
 		$data_store_mock    = $this->makeEmpty(
 			Data_Store_Interface::class,
 			array( 'get_value_for_password' => false )
 		);
-		$autologin_urls_api = new API( $settings_mock, $logger_mock, $data_store_mock );
+		$autologin_urls_api = new API( $settings_mock, $this->logger, $data_store_mock );
 
 		WP_Mock::expectFilter( 'bh_wp_autologin_urls_should_delete_code_after_use', true, 123 );
 
@@ -196,12 +181,11 @@ class API_Unit_Test extends \Codeception\Test\Unit {
 	 */
 	public function test_verify_autologin_found_hash_mismatch() {
 		$settings_mock      = $this->makeEmpty( Settings_Interface::class );
-		$logger_mock        = $this->makeEmpty( LoggerInterface::class );
 		$data_store_mock    = $this->makeEmpty(
 			Data_Store_Interface::class,
 			array( 'get_value_for_password' => 'the-wrong-value' )
 		);
-		$autologin_urls_api = new API( $settings_mock, $logger_mock, $data_store_mock );
+		$autologin_urls_api = new API( $settings_mock, $this->logger, $data_store_mock );
 
 		$is_valid_autologin_password = $autologin_urls_api->verify_autologin_password( 123, 'q1w2e3r4t5y6' );
 
@@ -220,13 +204,12 @@ class API_Unit_Test extends \Codeception\Test\Unit {
 
 		$value = hash( 'sha256', "{$user_id}{$code}" );
 
-		$settings_mock      = $this->makeEmpty( Settings_Interface::class );
-		$logger             = new ColorLogger();
-		$data_store_mock    = $this->makeEmpty(
-			Data_Store_Interface::class,
-			array( 'get_value_for_code' => $value )
-		);
-		$autologin_urls_api = new API( $settings_mock, $logger, $data_store_mock );
+		$settings_mock           = $this->makeEmpty( Settings_Interface::class );
+				$data_store_mock = $this->makeEmpty(
+					Data_Store_Interface::class,
+					array( 'get_value_for_code' => $value )
+				);
+		$autologin_urls_api      = new API( $settings_mock, $this->logger, $data_store_mock );
 
 		$is_valid_autologin_password = $autologin_urls_api->verify_autologin_password( 123, 'q1w2e3r4t5y6' );
 

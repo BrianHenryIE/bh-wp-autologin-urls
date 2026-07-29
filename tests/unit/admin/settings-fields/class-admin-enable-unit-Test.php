@@ -20,16 +20,7 @@ use BrianHenryIE\WP_Autologin_URLs\Settings_Interface;
  *
  * phpcs:disable WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
  */
-class Admin_Enable_Unit_Test extends \Codeception\Test\Unit {
-
-	protected function setup(): void {
-		\WP_Mock::setUp();
-	}
-
-	protected function tearDown(): void {
-		parent::tearDown();
-		\WP_Mock::tearDown();
-	}
+class Admin_Enable_Unit_Test extends \BrianHenryIE\WP_Autologin_URLs\Unit_Testcase {
 
 	/**
 	 * The plugin name. Unlikely to change.

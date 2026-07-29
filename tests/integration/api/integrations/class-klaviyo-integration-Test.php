@@ -2,13 +2,12 @@
 
 namespace BrianHenryIE\WP_Autologin_URLs\API\Integrations;
 
-use BrianHenryIE\ColorLogger\ColorLogger;
 use BrianHenryIE\WP_Autologin_URLs\Settings_Interface;
 
 /**
  * @coversNothing
  */
-class Klaviyo_Integration_Test extends \Codeception\TestCase\WPTestCase {
+class Klaviyo_Integration_Test extends \BrianHenryIE\WP_Autologin_URLs\WPUnit_Testcase {
 
 	/**
 	 * Test a real API call to Klaviyo.
@@ -19,7 +18,6 @@ class Klaviyo_Integration_Test extends \Codeception\TestCase\WPTestCase {
 
 		$klaviyo_private_api_key = $_ENV['KLAVIYO_PRIVATE_API_KEY'];
 
-		$logger   = new ColorLogger();
 		$settings = $this->makeEmpty(
 			Settings_Interface::class,
 			array(
@@ -28,7 +26,7 @@ class Klaviyo_Integration_Test extends \Codeception\TestCase\WPTestCase {
 		);
 		$client   = null;
 
-		$sut = new Klaviyo( $settings, $logger, $client );
+		$sut = new Klaviyo( $settings, $this->logger, $client );
 
 		// Example tracking URL: https://trk.klclick.com/ls/click?upn=TpNVgfWNpAHoEcylFkjYi5tCZ2j7xCLw8j9SqiGDS-2FUQTW60oUBb5vsJzFNGiLY6C9-2BqSuTQNIDkwJvyFHeLgnuvmB1ECb6kTd4yTBlLd9s7uwWgKqkvXGscWXNVN0WrLZncvcbxEFn7QOaz2vjB9g-3D-3DZJbd_29QiiZ2K4aGQ2vLdffUQvW5Frxt4zybwdx9ysVnkeZHduhpBUuWeRxU9XdsDy5xMo5PFzr2ZEfRhlUfLOzTqYKUmfO99pdV4BbvH17u6dKaAqwf3BeIVV3Tmmfs2nZTcTV-2BHLlKTvqxVilb-2FLZVnt59UqnlW8pYu2nVtomhdsI5pd88yUbTP24h1u3oh0w2Eqp00-2F6NgOaJKBGEStPeb-2Bq4aIF4Ykq3b2-2FPxDq4feC-2B8VVbFxT7XLDfNHXFryJBenl8rh4EXSbaea42QXfEp0e-2FKRSw1VXznSsR09GEjvb0T0hkQeCU8KtqUOlA8v0NrU-2BCYfISX-2BlXKC9vjSFCvnakQeyb-2FCZuXtQhrNNhzG1OoQDEbhhVoTNKCu1XZBxbig9wc8JxKdBCXWIR14WgIIQ-3D-3D.
 		$_GET['_kx'] = '_h14GmLS1K9C377xMgncGUnbBzQJ-NY7PBSbXqnXuj-DB5k3vZNwko7QUU_yzHqz.KxHkN6'; // TODO: Use a fixture rather than a real key.

@@ -13,7 +13,7 @@ namespace BrianHenryIE\WP_Autologin_URLs\WP_Includes;
  *
  * @see I18n
  */
-class I18n_Integration_Test extends \Codeception\TestCase\WPTestCase {
+class I18n_Integration_Test extends \BrianHenryIE\WP_Autologin_URLs\WPUnit_Testcase {
 
 	/**
 	 * AFAICT, this will fail until a translation has been added.

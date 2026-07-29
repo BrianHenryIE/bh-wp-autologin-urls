@@ -71,3 +71,4 @@ languages/*.pot
 /playwright/.cache/
 
 /tests/e2e-pw/woocommerce-plugin
+languages/bh-wp-autologin-urls.pot
