@@ -35,3 +35,5 @@ package-lock.json
 /patchwork.json
 /rector.php
 /wordpresscore.playwright.config.js
+
+gh-pages
