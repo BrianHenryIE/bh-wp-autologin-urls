@@ -2,14 +2,13 @@
 
 namespace BrianHenryIE\WP_Autologin_URLs\API\Integrations;
 
-use BrianHenryIE\ColorLogger\ColorLogger;
 use BrianHenryIE\WP_Autologin_URLs\API_Interface;
 use Codeception\Stub\Expected;
 
 /**
  * @coversDefaultClass \BrianHenryIE\WP_Autologin_URLs\API\Integrations\Autologin_URLs
  */
-class Autologin_URLs_WPUnit_Test extends \lucatume\WPBrowser\TestCase\WPTestCase {
+class Autologin_URLs_WPUnit_Test extends \BrianHenryIE\WP_Autologin_URLs\WPUnit_Testcase {
 
 	/**
 	 * @covers ::is_querystring_valid
@@ -17,10 +16,9 @@ class Autologin_URLs_WPUnit_Test extends \lucatume\WPBrowser\TestCase\WPTestCase
 	 */
 	public function test_is_querystring_valid_present(): void {
 
-		$logger = new ColorLogger();
-		$api    = $this->makeEmpty( API_Interface::class );
+				$api = $this->makeEmpty( API_Interface::class );
 
-		$sut               = new Autologin_URLs( $api, $logger );
+		$sut               = new Autologin_URLs( $api, $this->logger );
 		$_GET['autologin'] = '123~abc';
 
 		$result = $sut->is_querystring_valid();
@@ -34,10 +32,9 @@ class Autologin_URLs_WPUnit_Test extends \lucatume\WPBrowser\TestCase\WPTestCase
 	 */
 	public function test_is_querystring_valid_absent(): void {
 
-		$logger = new ColorLogger();
-		$api    = $this->makeEmpty( API_Interface::class );
+				$api = $this->makeEmpty( API_Interface::class );
 
-		$sut = new Autologin_URLs( $api, $logger );
+		$sut = new Autologin_URLs( $api, $this->logger );
 
 		unset( $_GET['autologin'] );
 
@@ -54,15 +51,14 @@ class Autologin_URLs_WPUnit_Test extends \lucatume\WPBrowser\TestCase\WPTestCase
 
 		$user_id = wp_create_user( 'Autologin URLs Test User', 'test', 'user@example.org' );
 
-		$logger = new ColorLogger();
-		$api    = $this->makeEmpty(
-			API_Interface::class,
-			array(
-				'verify_autologin_password' => Expected::once( true ),
-			)
-		);
+				$api = $this->makeEmpty(
+					API_Interface::class,
+					array(
+						'verify_autologin_password' => Expected::once( true ),
+					)
+				);
 
-		$sut = new Autologin_URLs( $api, $logger );
+		$sut = new Autologin_URLs( $api, $this->logger );
 
 		$_GET['autologin'] = "{$user_id}~abcdef";
 
@@ -76,15 +72,14 @@ class Autologin_URLs_WPUnit_Test extends \lucatume\WPBrowser\TestCase\WPTestCase
 	 */
 	public function test_get_wp_user_array_no_querystring(): void {
 
-		$logger = new ColorLogger();
-		$api    = $this->makeEmpty(
-			API_Interface::class,
-			array(
-				'verify_autologin_password' => Expected::never(),
-			)
-		);
+				$api = $this->makeEmpty(
+					API_Interface::class,
+					array(
+						'verify_autologin_password' => Expected::never(),
+					)
+				);
 
-		$sut = new Autologin_URLs( $api, $logger );
+		$sut = new Autologin_URLs( $api, $this->logger );
 
 		$result = $sut->get_wp_user_array();
 
@@ -99,15 +94,14 @@ class Autologin_URLs_WPUnit_Test extends \lucatume\WPBrowser\TestCase\WPTestCase
 
 		$user_id = wp_create_user( 'Autologin URLs Test User', 'test', 'user@example.org' );
 
-		$logger = new ColorLogger();
-		$api    = $this->makeEmpty(
-			API_Interface::class,
-			array(
-				'verify_autologin_password' => Expected::once( false ),
-			)
-		);
+				$api = $this->makeEmpty(
+					API_Interface::class,
+					array(
+						'verify_autologin_password' => Expected::once( false ),
+					)
+				);
 
-		$sut = new Autologin_URLs( $api, $logger );
+		$sut = new Autologin_URLs( $api, $this->logger );
 
 		$_GET['autologin'] = "{$user_id}~abcdef";
 
@@ -124,15 +118,14 @@ class Autologin_URLs_WPUnit_Test extends \lucatume\WPBrowser\TestCase\WPTestCase
 
 		$user_id = wp_create_user( 'Autologin URLs Test User', 'test', 'user@example.org' );
 
-		$logger = new ColorLogger();
-		$api    = $this->makeEmpty(
-			API_Interface::class,
-			array(
-				'verify_autologin_password' => Expected::never(),
-			)
-		);
+				$api = $this->makeEmpty(
+					API_Interface::class,
+					array(
+						'verify_autologin_password' => Expected::never(),
+					)
+				);
 
-		$sut = new Autologin_URLs( $api, $logger );
+		$sut = new Autologin_URLs( $api, $this->logger );
 
 		$_GET['autologin'] = "{$user_id}~ab!c%def";
 

@@ -2,7 +2,6 @@
 
 namespace BrianHenryIE\WP_Autologin_URLs\API\Data_Stores;
 
-use BrianHenryIE\ColorLogger\ColorLogger;
 use Codeception\Stub\Expected;
 use DateTimeImmutable;
 use DateTimeZone;
@@ -12,7 +11,7 @@ use wpdb;
 /**
  * @coversDefaultClass \BrianHenryIE\WP_Autologin_URLs\API\Data_Stores\DB_Data_Store
  */
-class DB_Data_Store_WPUnit_Test extends \lucatume\WPBrowser\TestCase\WPTestCase {
+class DB_Data_Store_WPUnit_Test extends \BrianHenryIE\WP_Autologin_URLs\WPUnit_Testcase {
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -32,8 +31,6 @@ class DB_Data_Store_WPUnit_Test extends \lucatume\WPBrowser\TestCase\WPTestCase 
 	 * @covers ::create_db
 	 */
 	public function test_create_db(): void {
-
-		$logger = new ColorLogger();
 
 		// Assert table is absent.
 		global $wpdb;
@@ -59,11 +56,11 @@ class DB_Data_Store_WPUnit_Test extends \lucatume\WPBrowser\TestCase\WPTestCase 
 
 		assert( false === $table_exists_before );
 
-		$sut = new DB_Data_Store( $logger );
+		$sut = new DB_Data_Store( $this->logger );
 
 		$sut->create_db();
 
-		$this->assertFalse( $logger->hasErrorRecords() );
+		$this->assertFalse( $this->logger->hasErrorRecords() );
 
 		$tables_after = $wpdb->get_results( 'SHOW TABLES', ARRAY_N );
 
@@ -86,9 +83,7 @@ class DB_Data_Store_WPUnit_Test extends \lucatume\WPBrowser\TestCase\WPTestCase 
 	 */
 	public function test_save(): void {
 
-		$logger = new ColorLogger();
-
-		$sut = new DB_Data_Store( $logger );
+		$sut = new DB_Data_Store( $this->logger );
 		$sut->create_db();
 
 		$user_id    = 1;
@@ -128,9 +123,8 @@ class DB_Data_Store_WPUnit_Test extends \lucatume\WPBrowser\TestCase\WPTestCase 
 	 * @covers ::get_value_for_code
 	 */
 	public function test_get_value_for_code(): void {
-		$logger = new ColorLogger();
 
-		$sut = new DB_Data_Store( $logger );
+		$sut = new DB_Data_Store( $this->logger );
 		$sut->create_db();
 
 		$user_id    = 1;
@@ -150,9 +144,8 @@ class DB_Data_Store_WPUnit_Test extends \lucatume\WPBrowser\TestCase\WPTestCase 
 	 * @covers ::get_value_for_code
 	 */
 	public function test_get_value_for_code_delete_after(): void {
-		$logger = new ColorLogger();
 
-		$sut = new DB_Data_Store( $logger );
+		$sut = new DB_Data_Store( $this->logger );
 
 		$db_query_result             = new stdClass();
 		$db_query_result->expires_at = ( (int) gmdate( 'Y' ) + 1 ) . '-01-01 01:01:01';
@@ -176,9 +169,8 @@ class DB_Data_Store_WPUnit_Test extends \lucatume\WPBrowser\TestCase\WPTestCase 
 	 * @covers ::get_value_for_code
 	 */
 	public function test_get_value_for_code_do_not_delete_after(): void {
-		$logger = new ColorLogger();
 
-		$sut = new DB_Data_Store( $logger );
+		$sut = new DB_Data_Store( $this->logger );
 
 		$db_query_result             = new stdClass();
 		$db_query_result->expires_at = ( (int) gmdate( 'Y' ) + 1 ) . '-01-01 01:01:01';
@@ -202,9 +194,8 @@ class DB_Data_Store_WPUnit_Test extends \lucatume\WPBrowser\TestCase\WPTestCase 
 	 * @covers ::get_value_for_code
 	 */
 	public function test_get_value_for_expired_code_return_null(): void {
-		$logger = new ColorLogger();
 
-		$sut = new DB_Data_Store( $logger );
+		$sut = new DB_Data_Store( $this->logger );
 		$sut->create_db();
 
 		$user_id    = 1;
@@ -225,9 +216,7 @@ class DB_Data_Store_WPUnit_Test extends \lucatume\WPBrowser\TestCase\WPTestCase 
 	 */
 	public function test_delete_expired_codes(): void {
 
-		$logger = new ColorLogger();
-
-		$sut = new DB_Data_Store( $logger );
+		$sut = new DB_Data_Store( $this->logger );
 		$sut->create_db();
 
 		$user_id    = 1;

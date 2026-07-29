@@ -31,7 +31,7 @@ use BrianHenryIE\WP_Autologin_URLs\WP_Includes\Login;
 use BrianHenryIE\WP_Autologin_URLs\WP_Includes\REST_API;
 use BrianHenryIE\WP_Autologin_URLs\WP_Includes\WP_Mail;
 use Exception;
-use Psr\Log\LoggerInterface;
+use BrianHenryIE\WP_Autologin_URLs\Psr\Log\LoggerInterface;
 use WP_CLI;
 
 /**

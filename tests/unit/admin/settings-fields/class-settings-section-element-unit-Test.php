@@ -15,16 +15,7 @@ namespace BrianHenryIE\WP_Autologin_URLs\Admin\Settings_Fields;
  *
  * @phpcs:disable Squiz.Commenting.FunctionComment.EmptyThrows
  */
-class Settings_Section_Element_Unit_Test extends \Codeception\Test\Unit {
-
-	protected function setup(): void {
-		\WP_Mock::setUp();
-	}
-
-	protected function tearDown(): void {
-		parent::tearDown();
-		\WP_Mock::tearDown();
-	}
+class Settings_Section_Element_Unit_Test extends \BrianHenryIE\WP_Autologin_URLs\Unit_TestCase {
 
 	/**
 	 * The plugin name. Unlikely to change.

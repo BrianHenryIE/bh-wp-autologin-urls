@@ -8,14 +8,13 @@
 
 namespace BrianHenryIE\WP_Autologin_URLs\API;
 
-use BrianHenryIE\ColorLogger\ColorLogger;
 use BrianHenryIE\WP_Autologin_URLs\Settings_Interface;
 use Codeception\Stub\Expected;
 
 /**
  * @coversDefaultClass \BrianHenryIE\WP_Autologin_URLs\API\API
  */
-class API_WPUnit_Test extends \lucatume\WPBrowser\TestCase\WPTestCase {
+class API_WPUnit_Test extends \BrianHenryIE\WP_Autologin_URLs\WPUnit_Testcase {
 
 	/** @var Settings_Interface */
 	protected $settings;
@@ -74,13 +73,11 @@ class API_WPUnit_Test extends \lucatume\WPBrowser\TestCase\WPTestCase {
 	 */
 	public function test_generate_code(): void {
 
-		$logger = new ColorLogger();
-
 		$data_store_mock = $this->makeEmpty(
 			Data_Store_Interface::class,
 			array( 'save' => Expected::once() )
 		);
-		$api             = new API( $this->settings, $logger, $data_store_mock );
+		$api             = new API( $this->settings, $this->logger, $data_store_mock );
 
 		$user_id = wp_create_user( 'testuser', 'abc123', 'test@example.org' );
 		$user    = get_user_by( 'id', $user_id );
@@ -100,10 +97,8 @@ class API_WPUnit_Test extends \lucatume\WPBrowser\TestCase\WPTestCase {
 	 */
 	public function test_user_not_exist(): void {
 
-		$logger = new ColorLogger();
-
 		$data_store_mock = $this->makeEmpty( Data_Store_Interface::class );
-		$api             = new API( $this->settings, $logger, $data_store_mock );
+		$api             = new API( $this->settings, $this->logger, $data_store_mock );
 
 		$generated_code = $api->generate_code( null, 3600 );
 
@@ -123,9 +118,8 @@ class API_WPUnit_Test extends \lucatume\WPBrowser\TestCase\WPTestCase {
 
 		$expected = "{$site_url}/product/woocommerce-product/?autologin=123~mockpassw0rd";
 
-		$logger          = new ColorLogger();
-		$data_store_mock = $this->makeEmpty( Data_Store_Interface::class );
-		$api             = new API( $this->settings, $logger, $data_store_mock );
+				$data_store_mock = $this->makeEmpty( Data_Store_Interface::class );
+		$api                     = new API( $this->settings, $this->logger, $data_store_mock );
 
 		$actual = $api->add_autologin_to_url( $url, 123 );
 
@@ -142,9 +136,8 @@ class API_WPUnit_Test extends \lucatume\WPBrowser\TestCase\WPTestCase {
 		$url      = 'http://example.com/test_add_autologin_to_url/';
 		$expected = 'http://example.com/test_add_autologin_to_url/';
 
-		$logger          = new ColorLogger();
-		$data_store_mock = $this->makeEmpty( Data_Store_Interface::class );
-		$api             = new API( $this->settings, $logger, $data_store_mock );
+				$data_store_mock = $this->makeEmpty( Data_Store_Interface::class );
+		$api                     = new API( $this->settings, $this->logger, $data_store_mock );
 
 		$actual = $api->add_autologin_to_url( $url, 123 );
 
@@ -161,9 +154,8 @@ class API_WPUnit_Test extends \lucatume\WPBrowser\TestCase\WPTestCase {
 		$url      = 'http://example.org/test_add_autologin_to_url/';
 		$expected = 'http://example.org/test_add_autologin_to_url/';
 
-		$logger          = new ColorLogger();
-		$data_store_mock = $this->makeEmpty( Data_Store_Interface::class );
-		$api             = new API( $this->settings, $logger, $data_store_mock );
+				$data_store_mock = $this->makeEmpty( Data_Store_Interface::class );
+		$api                     = new API( $this->settings, $this->logger, $data_store_mock );
 
 		$actual = $api->add_autologin_to_url( $url, null );
 
@@ -180,9 +172,8 @@ class API_WPUnit_Test extends \lucatume\WPBrowser\TestCase\WPTestCase {
 		$url      = 'http://example.org/test_add_autologin_to_url/';
 		$expected = 'http://example.org/test_add_autologin_to_url/';
 
-		$logger          = new ColorLogger();
-		$data_store_mock = $this->makeEmpty( Data_Store_Interface::class );
-		$api             = new API( $this->settings, $logger, $data_store_mock );
+				$data_store_mock = $this->makeEmpty( Data_Store_Interface::class );
+		$api                     = new API( $this->settings, $this->logger, $data_store_mock );
 
 		$actual = $api->add_autologin_to_url( $url, 321 );
 
@@ -199,9 +190,8 @@ class API_WPUnit_Test extends \lucatume\WPBrowser\TestCase\WPTestCase {
 		$url      = 'http://example.org/test_add_autologin_to_url/';
 		$expected = 'http://example.org/test_add_autologin_to_url/?autologin=123~mockpassw0rd';
 
-		$logger          = new ColorLogger();
-		$data_store_mock = $this->makeEmpty( Data_Store_Interface::class );
-		$api             = new API( $this->settings, $logger, $data_store_mock );
+				$data_store_mock = $this->makeEmpty( Data_Store_Interface::class );
+		$api                     = new API( $this->settings, $this->logger, $data_store_mock );
 
 		$actual = $api->add_autologin_to_url( $url, 123 );
 
@@ -218,9 +208,8 @@ class API_WPUnit_Test extends \lucatume\WPBrowser\TestCase\WPTestCase {
 		$url      = 'http://example.org/test_add_autologin_to_url/';
 		$expected = 'http://example.org/test_add_autologin_to_url/?autologin=123~mockpassw0rd';
 
-		$logger          = new ColorLogger();
-		$data_store_mock = $this->makeEmpty( Data_Store_Interface::class );
-		$api             = new API( $this->settings, $logger, $data_store_mock );
+				$data_store_mock = $this->makeEmpty( Data_Store_Interface::class );
+		$api                     = new API( $this->settings, $this->logger, $data_store_mock );
 
 		$actual = $api->add_autologin_to_url( $url, '123' );
 
@@ -238,9 +227,8 @@ class API_WPUnit_Test extends \lucatume\WPBrowser\TestCase\WPTestCase {
 		$url      = 'http://example.org/test_add_autologin_to_url/';
 		$expected = 'http://example.org/test_add_autologin_to_url/';
 
-		$logger          = new ColorLogger();
-		$data_store_mock = $this->makeEmpty( Data_Store_Interface::class );
-		$api             = new API( $this->settings, $logger, $data_store_mock );
+				$data_store_mock = $this->makeEmpty( Data_Store_Interface::class );
+		$api                     = new API( $this->settings, $this->logger, $data_store_mock );
 
 		$actual = $api->add_autologin_to_url( $url, 'brian@example.org', null );
 
@@ -259,9 +247,8 @@ class API_WPUnit_Test extends \lucatume\WPBrowser\TestCase\WPTestCase {
 		$url      = 'http://example.org/test_add_autologin_to_url/';
 		$expected = 'http://example.org/test_add_autologin_to_url/?autologin=123~mockpassw0rd';
 
-		$logger          = new ColorLogger();
-		$data_store_mock = $this->makeEmpty( Data_Store_Interface::class );
-		$api             = new API( $this->settings, $logger, $data_store_mock );
+				$data_store_mock = $this->makeEmpty( Data_Store_Interface::class );
+		$api                     = new API( $this->settings, $this->logger, $data_store_mock );
 
 		$actual = $api->add_autologin_to_url( $url, 'brianhenryie@gmail.com' );
 
@@ -280,9 +267,8 @@ class API_WPUnit_Test extends \lucatume\WPBrowser\TestCase\WPTestCase {
 		$url      = 'http://example.org/test_add_autologin_to_url/';
 		$expected = 'http://example.org/test_add_autologin_to_url/';
 
-		$logger          = new ColorLogger();
-		$data_store_mock = $this->makeEmpty( Data_Store_Interface::class );
-		$api             = new API( $this->settings, $logger, $data_store_mock );
+				$data_store_mock = $this->makeEmpty( Data_Store_Interface::class );
+		$api                     = new API( $this->settings, $this->logger, $data_store_mock );
 
 		$actual = $api->add_autologin_to_url( $url, 'nouserpresent' );
 
@@ -299,9 +285,8 @@ class API_WPUnit_Test extends \lucatume\WPBrowser\TestCase\WPTestCase {
 		$url      = 'http://example.org/test_add_autologin_to_url/';
 		$expected = 'http://example.org/test_add_autologin_to_url/?autologin=123~mockpassw0rd';
 
-		$logger          = new ColorLogger();
-		$data_store_mock = $this->makeEmpty( Data_Store_Interface::class );
-		$api             = new API( $this->settings, $logger, $data_store_mock );
+				$data_store_mock = $this->makeEmpty( Data_Store_Interface::class );
+		$api                     = new API( $this->settings, $this->logger, $data_store_mock );
 
 		$actual = $api->add_autologin_to_url( $url, 'brian' );
 
@@ -320,9 +305,8 @@ class API_WPUnit_Test extends \lucatume\WPBrowser\TestCase\WPTestCase {
 		$url      = 'http://example.org/test_add_autologin_to_url/';
 		$expected = 'http://example.org/test_add_autologin_to_url/';
 
-		$logger          = new ColorLogger();
-		$data_store_mock = $this->makeEmpty( Data_Store_Interface::class );
-		$api             = new API( $this->settings, $logger, $data_store_mock );
+				$data_store_mock = $this->makeEmpty( Data_Store_Interface::class );
+		$api                     = new API( $this->settings, $this->logger, $data_store_mock );
 
 		$actual = $api->add_autologin_to_url( $url, new \stdClass() );
 
@@ -338,9 +322,8 @@ class API_WPUnit_Test extends \lucatume\WPBrowser\TestCase\WPTestCase {
 	 */
 	public function test_add_autologin_to_messages(): void {
 
-		$logger          = new ColorLogger();
-		$data_store_mock = $this->makeEmpty( Data_Store_Interface::class );
-		$api             = new API( $this->settings, $logger, $data_store_mock );
+				$data_store_mock = $this->makeEmpty( Data_Store_Interface::class );
+		$api                     = new API( $this->settings, $this->logger, $data_store_mock );
 
 		global $project_root_dir;
 
@@ -371,15 +354,14 @@ class API_WPUnit_Test extends \lucatume\WPBrowser\TestCase\WPTestCase {
 	 */
 	public function test_add_autologin_to_url_use_login_php(): void {
 
-		$logger          = new ColorLogger();
-		$settings        = $this->makeEmpty(
-			Settings_Interface::class,
-			array(
-				'get_should_use_wp_login' => true,
-			)
-		);
-		$data_store_mock = $this->makeEmpty( Data_Store_Interface::class );
-		$api             = new API( $settings, $logger, $data_store_mock );
+				$settings = $this->makeEmpty(
+					Settings_Interface::class,
+					array(
+						'get_should_use_wp_login' => true,
+					)
+				);
+		$data_store_mock  = $this->makeEmpty( Data_Store_Interface::class );
+		$api              = new API( $settings, $this->logger, $data_store_mock );
 
 		$url = get_site_url() . '/my-account/';
 
@@ -400,15 +382,14 @@ class API_WPUnit_Test extends \lucatume\WPBrowser\TestCase\WPTestCase {
 	 */
 	public function test_add_autologin_to_url_russian_doll(): void {
 
-		$logger          = new ColorLogger();
-		$settings        = $this->makeEmpty(
-			Settings_Interface::class,
-			array(
-				'get_should_use_wp_login' => true,
-			)
-		);
-		$data_store_mock = $this->makeEmpty( Data_Store_Interface::class );
-		$api             = new API( $settings, $logger, $data_store_mock );
+				$settings = $this->makeEmpty(
+					Settings_Interface::class,
+					array(
+						'get_should_use_wp_login' => true,
+					)
+				);
+		$data_store_mock  = $this->makeEmpty( Data_Store_Interface::class );
+		$api              = new API( $settings, $this->logger, $data_store_mock );
 
 		$url = get_site_url() . '/my-account/';
 
@@ -430,15 +411,14 @@ class API_WPUnit_Test extends \lucatume\WPBrowser\TestCase\WPTestCase {
 	 */
 	public function test_add_autologin_to_url_russian_doll_redirect_to_wp_login(): void {
 
-		$logger          = new ColorLogger();
-		$settings        = $this->makeEmpty(
-			Settings_Interface::class,
-			array(
-				'get_should_use_wp_login' => false,
-			)
-		);
-		$data_store_mock = $this->makeEmpty( Data_Store_Interface::class );
-		$api             = new API( $settings, $logger, $data_store_mock );
+				$settings = $this->makeEmpty(
+					Settings_Interface::class,
+					array(
+						'get_should_use_wp_login' => false,
+					)
+				);
+		$data_store_mock  = $this->makeEmpty( Data_Store_Interface::class );
+		$api              = new API( $settings, $this->logger, $data_store_mock );
 
 		$url = 'http://example.org/wp-login.php?redirect_to=http%3A%2F%2Fexample.org%2Fwp-login.php';
 
@@ -457,15 +437,14 @@ class API_WPUnit_Test extends \lucatume\WPBrowser\TestCase\WPTestCase {
 	 */
 	public function test_send_magic_link(): void {
 
-		$logger          = new ColorLogger();
-		$settings        = $this->makeEmpty(
-			Settings_Interface::class,
-			array(
-				'get_plugin_basename' => 'bh-wp-autologin-urls/bh-wp-autologin-urls.php',
-			)
-		);
-		$data_store_mock = $this->makeEmpty( Data_Store_Interface::class );
-		$api             = new API( $settings, $logger, $data_store_mock );
+				$settings = $this->makeEmpty(
+					Settings_Interface::class,
+					array(
+						'get_plugin_basename' => 'bh-wp-autologin-urls/bh-wp-autologin-urls.php',
+					)
+				);
+		$data_store_mock  = $this->makeEmpty( Data_Store_Interface::class );
+		$api              = new API( $settings, $this->logger, $data_store_mock );
 
 		$user_id = wp_create_user( 'brian', 'abc123', 'brianhenryie@gmail.com' );
 

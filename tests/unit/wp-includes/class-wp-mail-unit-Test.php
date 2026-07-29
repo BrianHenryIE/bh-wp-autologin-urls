@@ -16,16 +16,7 @@ use WP_User;
 /**
  * @coversDefaultClass \BrianHenryIE\WP_Autologin_URLs\WP_Includes\WP_Mail
  */
-class WP_Mail_Unit_Test extends \Codeception\Test\Unit {
-
-	protected function setup(): void {
-		\WP_Mock::setUp();
-	}
-
-	protected function tearDown(): void {
-		parent::tearDown();
-		\WP_Mock::tearDown();
-	}
+class WP_Mail_Unit_Test extends \BrianHenryIE\WP_Autologin_URLs\Unit_TestCase {
 
 	/**
 	 * Test constructor.

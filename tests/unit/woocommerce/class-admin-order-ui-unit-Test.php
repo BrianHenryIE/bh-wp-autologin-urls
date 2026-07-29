@@ -11,17 +11,7 @@ use Codeception\Stub\Expected;
  *
  * phpcs:disable Squiz.Commenting.VariableComment.Missing
  */
-class Admin_Order_UI_Unit_Test extends \Codeception\Test\Unit {
-
-	protected function setUp(): void {
-		\WP_Mock::setUp();
-	}
-
-	protected function tearDown(): void {
-		parent::tearDown();
-		\WP_Mock::tearDown();
-	}
-
+class Admin_Order_UI_Unit_Test extends \BrianHenryIE\WP_Autologin_URLs\Unit_TestCase {
 
 	/**
 	 * @covers ::remove_arrow_from_link_text

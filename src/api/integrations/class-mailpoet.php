@@ -15,9 +15,9 @@ use MailPoet\DI\ContainerWrapper;
 use MailPoet\Router\Router;
 use MailPoet\Subscribers\LinkTokens;
 use MailPoet\Subscribers\SubscribersRepository;
-use Psr\Log\LoggerAwareInterface;
-use Psr\Log\LoggerAwareTrait;
-use Psr\Log\LoggerInterface;
+use BrianHenryIE\WP_Autologin_URLs\Psr\Log\LoggerAwareInterface;
+use BrianHenryIE\WP_Autologin_URLs\Psr\Log\LoggerAwareTrait;
+use BrianHenryIE\WP_Autologin_URLs\Psr\Log\LoggerInterface;
 use WP_User;
 
 /**

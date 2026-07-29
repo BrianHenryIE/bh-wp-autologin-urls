@@ -13,7 +13,7 @@ use BrianHenryIE\WP_Autologin_URLs\RateLimit\Rate;
 /**
  * @coversDefaultClass \BrianHenryIE\WP_Autologin_URLs\API\Rate_Limiter
  */
-class Rate_Limiter_WPUnit_Test extends \Codeception\TestCase\WPTestCase {
+class Rate_Limiter_WPUnit_Test extends \BrianHenryIE\WP_Autologin_URLs\WPUnit_Testcase {
 
 	protected function get_sut(): Rate_Limiter {
 		return new Rate_Limiter( Rate::custom( 3, DAY_IN_SECONDS ), 'bh-wp-autologin-urls-test' );

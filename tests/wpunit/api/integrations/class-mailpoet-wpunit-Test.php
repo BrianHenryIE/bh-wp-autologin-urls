@@ -2,7 +2,6 @@
 
 namespace BrianHenryIE\WP_Autologin_URLs\API\Integrations;
 
-use BrianHenryIE\ColorLogger\ColorLogger;
 use MailPoet\DI\ContainerWrapper;
 use MailPoet\Entities\SubscriberEntity;
 use MailPoet\Subscribers\LinkTokens;
@@ -12,16 +11,14 @@ use MailPoet\Subscribers\SubscribersRepository;
 /**
  * @coversDefaultClass \BrianHenryIE\WP_Autologin_URLs\API\Integrations\MailPoet
  */
-class MailPoet_WPUnit_Test extends \lucatume\WPBrowser\TestCase\WPTestCase {
+class MailPoet_WPUnit_Test extends \BrianHenryIE\WP_Autologin_URLs\WPUnit_Testcase {
 
 	/**
 	 * @covers ::is_querystring_valid
 	 */
 	public function test_is_querystring_valid_present(): void {
 
-		$logger = new ColorLogger();
-
-		$sut = new MailPoet( $logger );
+		$sut = new MailPoet( $this->logger );
 
 		$_GET['mailpoet_router'] = 'abc';
 		$_GET['data']            = '123';
@@ -37,9 +34,7 @@ class MailPoet_WPUnit_Test extends \lucatume\WPBrowser\TestCase\WPTestCase {
 	 */
 	public function test_is_querystring_valid_absent(): void {
 
-		$logger = new ColorLogger();
-
-		$sut = new MailPoet( $logger );
+		$sut = new MailPoet( $this->logger );
 
 		unset( $_GET['mailpoet_router'] );
 		unset( $_GET['data'] );
@@ -111,9 +106,7 @@ class MailPoet_WPUnit_Test extends \lucatume\WPBrowser\TestCase\WPTestCase {
 		$parts = wp_parse_url( $url );
 		wp_parse_str( $parts['query'], $_GET );
 
-		$logger = new ColorLogger();
-
-		$sut = new MailPoet( $logger );
+		$sut = new MailPoet( $this->logger );
 
 		$result = $sut->get_wp_user_array();
 

@@ -22,6 +22,9 @@ if ( file_exists( $env_secret ) ) {
 	$secret_params = \Dotenv\Dotenv::createMutable( codecept_root_dir(), $env_secret_relative_path )->load();
 }
 
+require_once __DIR__ . '/unit/class-unit-testcase.php';
+require_once __DIR__ . '/wpunit/class-wpunit-testcase.php';
+
 \Alley_Interactive\Autoloader\Autoloader::generate(
 	'BrianHenryIE\\WP_Autologin_URLs',
 	$plugin_root_dir . '/src',

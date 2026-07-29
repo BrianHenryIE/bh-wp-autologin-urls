@@ -25,7 +25,7 @@ use BrianHenryIE\WP_Autologin_URLs\WP_Includes\WP_Mail;
  * @see \BrianHenryIE\WP_Autologin_URLs\WP_Includes\WP_Mail
  * @see \BrianHenryIE\WP_Autologin_URLs\WP_Includes\Login
  */
-class Never_Fatal_WPUnit_Test extends \lucatume\WPBrowser\TestCase\WPTestCase {
+class Never_Fatal_WPUnit_Test extends \BrianHenryIE\WP_Autologin_URLs\WPUnit_Testcase {
 
 	/**
 	 * Make every query touching the autologin table throw, simulating an unavailable database.
@@ -45,11 +45,11 @@ class Never_Fatal_WPUnit_Test extends \lucatume\WPBrowser\TestCase\WPTestCase {
 		);
 	}
 
-	protected function get_api( ColorLogger $logger ): API {
-		$data_store = new DB_Data_Store( $logger );
+	protected function get_api(): API {
+		$data_store = new DB_Data_Store( $this->logger );
 		$data_store->create_db();
 
-		return new API( new Settings(), $logger, $data_store );
+		return new API( new Settings(), $this->logger, $data_store );
 	}
 
 	/**
@@ -59,8 +59,7 @@ class Never_Fatal_WPUnit_Test extends \lucatume\WPBrowser\TestCase\WPTestCase {
 	 */
 	public function test_add_autologin_to_url_returns_the_url_unchanged(): void {
 
-		$logger  = new ColorLogger();
-		$api     = $this->get_api( $logger );
+		$api     = $this->get_api();
 		$user_id = $this->factory->user->create();
 
 		$this->make_the_database_fail();
@@ -71,7 +70,7 @@ class Never_Fatal_WPUnit_Test extends \lucatume\WPBrowser\TestCase\WPTestCase {
 
 		$this->assertEquals( $url, $result, 'The URL should be returned unmodified.' );
 		$this->assertStringNotContainsString( 'autologin=', $result );
-		$this->assertTrue( $logger->hasErrorRecords(), 'The failure should be logged at error level, which surfaces the admin notice.' );
+		$this->assertTrue( $this->logger->hasErrorRecords(), 'The failure should be logged at error level, which surfaces the admin notice.' );
 	}
 
 	/**
@@ -81,15 +80,14 @@ class Never_Fatal_WPUnit_Test extends \lucatume\WPBrowser\TestCase\WPTestCase {
 	 */
 	public function test_wp_mail_filter_returns_its_arguments(): void {
 
-		$logger = new ColorLogger();
-		$api    = $this->get_api( $logger );
+		$api = $this->get_api();
 
 		$user_id = $this->factory->user->create();
 		$user    = get_user_by( 'id', $user_id );
 
 		$this->make_the_database_fail();
 
-		$sut = new WP_Mail( $api, new Settings(), $logger );
+		$sut = new WP_Mail( $api, new Settings(), $this->logger );
 
 		$wp_mail_args = array(
 			'to'          => $user->user_email,
@@ -113,8 +111,7 @@ class Never_Fatal_WPUnit_Test extends \lucatume\WPBrowser\TestCase\WPTestCase {
 	 */
 	public function test_login_returns_the_incoming_user_id(): void {
 
-		$logger  = new ColorLogger();
-		$api     = $this->get_api( $logger );
+		$api     = $this->get_api();
 		$user_id = $this->factory->user->create();
 
 		// Generate a real code before breaking the database, so the querystring is well-formed.
@@ -126,7 +123,7 @@ class Never_Fatal_WPUnit_Test extends \lucatume\WPBrowser\TestCase\WPTestCase {
 		$this->go_to( $url );
 		wp_set_current_user( 0 );
 
-		$sut = new Login( $api, new Settings(), $logger );
+		$sut = new Login( $api, new Settings(), $this->logger );
 
 		$result = $sut->process( 0 );
 
@@ -140,15 +137,14 @@ class Never_Fatal_WPUnit_Test extends \lucatume\WPBrowser\TestCase\WPTestCase {
 	 */
 	public function test_delete_expired_codes_does_not_throw(): void {
 
-		$logger = new ColorLogger();
-		$api    = $this->get_api( $logger );
+		$api = $this->get_api();
 
 		$this->make_the_database_fail();
 
 		$result = $api->delete_expired_codes();
 
 		$this->assertNull( $result['deleted_count'] );
-		$this->assertTrue( $logger->hasErrorRecords() );
+		$this->assertTrue( $this->logger->hasErrorRecords() );
 	}
 
 	/**
@@ -158,8 +154,7 @@ class Never_Fatal_WPUnit_Test extends \lucatume\WPBrowser\TestCase\WPTestCase {
 	 */
 	public function test_magic_link_is_not_sent_without_a_code(): void {
 
-		$logger  = new ColorLogger();
-		$api     = $this->get_api( $logger );
+		$api     = $this->get_api();
 		$user_id = $this->factory->user->create();
 		$user    = get_user_by( 'id', $user_id );
 

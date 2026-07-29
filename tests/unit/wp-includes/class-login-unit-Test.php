@@ -11,7 +11,7 @@ use Codeception\Stub\Expected;
 /**
  * @coversDefaultClass \BrianHenryIE\WP_Autologin_URLs\WP_Includes\Login
  */
-class Login_Unit_Test extends \Codeception\Test\Unit {
+class Login_Unit_Test extends \BrianHenryIE\WP_Autologin_URLs\Unit_TestCase {
 
 	/**
 	 * @covers ::process
@@ -22,9 +22,9 @@ class Login_Unit_Test extends \Codeception\Test\Unit {
 
 		$_SERVER['HTTP_USER_AGENT'] = 'Mozilla\/5.0 (compatible; bingbot\/2.0; +http:\/\/www.bing.com\/bingbot.htm)';
 
-		$api                 = $this->makeEmpty( API_Interface::class );
-		$settings            = $this->makeEmpty( Settings_Interface::class );
-		$logger              = new ColorLogger();
+		$api      = $this->makeEmpty( API_Interface::class );
+		$settings = $this->makeEmpty( Settings_Interface::class );
+
 		$user_finder_factory = $this->makeEmpty(
 			User_Finder_Factory::class,
 			array(
@@ -32,7 +32,7 @@ class Login_Unit_Test extends \Codeception\Test\Unit {
 			)
 		);
 
-		$sut = new Login( $api, $settings, $logger, $user_finder_factory );
+		$sut = new Login( $api, $settings, $this->logger, $user_finder_factory );
 
 		$sut->process( false );
 	}

@@ -13,16 +13,7 @@ namespace BrianHenryIE\WP_Autologin_URLs\Admin\Settings_Fields;
 /**
  * Class BH_WP_Autologin_URLs_Admin_Display_Test
  */
-class BH_WP_Autologin_URLs_Admin_Display_Unit_Test extends \Codeception\Test\Unit {
-
-	protected function setup(): void {
-		\WP_Mock::setUp();
-	}
-
-	protected function tearDown(): void {
-		parent::tearDown();
-		\WP_Mock::tearDown();
-	}
+class BH_WP_Autologin_URLs_Admin_Display_Unit_Test extends \BrianHenryIE\WP_Autologin_URLs\Unit_TestCase {
 
 	/**
 	 * Test WordPress settings APIs are called when the file is included.

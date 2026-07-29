@@ -2,7 +2,6 @@
 
 namespace BrianHenryIE\WP_Autologin_URLs\WooCommerce;
 
-use BrianHenryIE\ColorLogger\ColorLogger;
 use BrianHenryIE\WP_Autologin_URLs\API_Interface;
 use BrianHenryIE\WP_Autologin_URLs\Settings_Interface;
 use BrianHenryIE\WP_Autologin_URLs\WP_Includes\Login;
@@ -10,7 +9,7 @@ use BrianHenryIE\WP_Autologin_URLs\WP_Includes\Login;
 /**
  * @coversDefaultClass \BrianHenryIE\WP_Autologin_URLs\WooCommerce\Checkout
  */
-class Checkout_WPUnit_Test extends \lucatume\WPBrowser\TestCase\WPTestCase {
+class Checkout_WPUnit_Test extends \BrianHenryIE\WP_Autologin_URLs\WPUnit_Testcase {
 
 	/**
 	 * When there is a past order associated with that email address,
@@ -25,15 +24,13 @@ class Checkout_WPUnit_Test extends \lucatume\WPBrowser\TestCase\WPTestCase {
 		$existing_order->set_billing_city( 'Sacramento' );
 		$existing_order->save();
 
-		$logger = new ColorLogger();
-
 		$user_info = array(
 			'email'      => 'test@example.org',
 			'first_name' => 'Brian',
 			'last_name'  => 'Henry',
 		);
 
-		$sut = new Checkout( $logger );
+		$sut = new Checkout( $this->logger );
 
 		$sut->prefill_checkout_fields( $user_info );
 
@@ -51,15 +48,13 @@ class Checkout_WPUnit_Test extends \lucatume\WPBrowser\TestCase\WPTestCase {
 	 */
 	public function test_woocommerce_name(): void {
 
-		$logger = new ColorLogger();
-
 		$user_info = array(
 			'email'      => 'test@example.org',
 			'first_name' => 'Brian',
 			'last_name'  => 'Henry',
 		);
 
-		$sut = new Checkout( $logger );
+		$sut = new Checkout( $this->logger );
 
 		$sut->prefill_checkout_fields( $user_info );
 

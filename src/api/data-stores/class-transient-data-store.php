@@ -12,8 +12,8 @@ namespace BrianHenryIE\WP_Autologin_URLs\API\Data_Stores;
 
 use BrianHenryIE\WP_Autologin_URLs\API\Data_Store_Interface;
 use DateTimeInterface;
-use Psr\Log\LoggerAwareTrait;
-use Psr\Log\LoggerInterface;
+use BrianHenryIE\WP_Autologin_URLs\Psr\Log\LoggerAwareTrait;
+use BrianHenryIE\WP_Autologin_URLs\Psr\Log\LoggerInterface;
 
 /**
  * Deprecated class that uses WordPress transients for storage. Less reliable than a custom database table,

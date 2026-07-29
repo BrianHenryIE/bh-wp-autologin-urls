@@ -14,16 +14,7 @@ namespace BrianHenryIE\WP_Autologin_URLs\API;
 /**
  * @coversDefaultClass \BrianHenryIE\WP_Autologin_URLs\API\Settings
  */
-class Settings_Unit_Test extends \Codeception\Test\Unit {
-
-	protected function setUp(): void {
-		\WP_Mock::setUp();
-	}
-
-	protected function tearDown(): void {
-		parent::tearDown();
-		\WP_Mock::tearDown();
-	}
+class Settings_Unit_Test extends \BrianHenryIE\WP_Autologin_URLs\Unit_TestCase {
 
 	/**
 	 * Verifies the getter for get_expiry_age.

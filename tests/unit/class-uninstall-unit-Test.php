@@ -11,16 +11,7 @@ namespace BrianHenryIE\WP_Autologin_URLs;
 /**
  * Class Uninstall_WP_Mock_Test
  */
-class Uninstall_Unit_Test extends \Codeception\Test\Unit {
-
-	protected function setup(): void {
-		\WP_Mock::setUp();
-	}
-
-	protected function tearDown(): void {
-		parent::tearDown();
-		\WP_Mock::tearDown();
-	}
+class Uninstall_Unit_Test extends \BrianHenryIE\WP_Autologin_URLs\Unit_TestCase {
 
 	/**
 	 * Verifies uninstall does not run without 'WP_UNINSTALL_PLUGIN' defined.
@@ -73,9 +64,9 @@ class Uninstall_Unit_Test extends \Codeception\Test\Unit {
 		$wpdb         = \Mockery::mock( '\wpdb' );
 		$wpdb->prefix = 'wp_';
 
-		$delete_transients_sql = "DELETE 
-            FROM wp_options 
-            WHERE option_name LIKE '\_transient\_bh_autologin_\_%' 
+		$delete_transients_sql = "DELETE
+            FROM wp_options
+            WHERE option_name LIKE '\_transient\_bh_autologin_\_%'
             OR option_name LIKE '\_transient\_timeout\_bh_autologin_\_%'";
 
 		$delete_transients_sql = str_replace( array( "\n", "\r", "\t" ), '', $delete_transients_sql );

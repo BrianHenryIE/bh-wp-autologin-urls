@@ -18,8 +18,8 @@ use BrianHenryIE\WP_Autologin_URLs\Settings_Interface;
 use BrianHenryIE\WP_Autologin_URLs\Admin\Settings_Fields\Settings_Section_Element_Abstract;
 use BrianHenryIE\WP_Autologin_URLs\Admin\Settings_Fields\Admin_Enable;
 use BrianHenryIE\WP_Autologin_URLs\Admin\Settings_Fields\Expiry_Age;
-use Psr\Log\LoggerAwareTrait;
-use Psr\Log\LoggerInterface;
+use BrianHenryIE\WP_Autologin_URLs\Psr\Log\LoggerAwareTrait;
+use BrianHenryIE\WP_Autologin_URLs\Psr\Log\LoggerInterface;
 
 /**
  * The setting page of the plugin.

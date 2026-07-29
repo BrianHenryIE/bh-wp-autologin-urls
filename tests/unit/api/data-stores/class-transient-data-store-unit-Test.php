@@ -15,21 +15,11 @@ use BrianHenryIE\WP_Autologin_URLs\WP_Includes\Settings_Interface;
 /**
  * Class Transient_Data_Store_Unit_Test
  */
-class Transient_Data_Store_Unit_Test extends \Codeception\Test\Unit {
-
-	protected function setup(): void {
-		\WP_Mock::setUp();
-	}
-
-	protected function tearDown(): void {
-		parent::tearDown();
-		\WP_Mock::tearDown();
-	}
+class Transient_Data_Store_Unit_Test extends \BrianHenryIE\WP_Autologin_URLs\Unit_TestCase {
 
 	public function test_save() {
 
-		$logger = new ColorLogger();
-		$sut    = new Transient_Data_Store( $logger );
+				$sut = new Transient_Data_Store( $this->logger );
 
 		$user_id    = 123;
 		$password   = 'abc';
@@ -53,8 +43,7 @@ class Transient_Data_Store_Unit_Test extends \Codeception\Test\Unit {
 
 	public function test_get_value_for_password() {
 
-		$logger = new ColorLogger();
-		$sut    = new Transient_Data_Store( $logger );
+				$sut = new Transient_Data_Store( $this->logger );
 
 		\WP_Mock::userFunction(
 			'get_transient',

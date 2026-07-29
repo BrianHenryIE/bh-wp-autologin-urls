@@ -19,17 +19,11 @@ use WP_Mock\Matcher\AnyInstance;
 /**
  * @coversDefaultClass \BrianHenryIE\WP_Autologin_URLs\BH_WP_Autologin_URLs
  */
-class BH_WP_Autologin_URLs_Unit_Test extends \Codeception\Test\Unit {
+class BH_WP_Autologin_URLs_Unit_Test extends \BrianHenryIE\WP_Autologin_URLs\Unit_TestCase {
 
 	protected function setup(): void {
 		parent::setup();
-		\WP_Mock::setUp();
 		require_once codecept_absolute_path( 'wordpress/wp-includes/rest-api/endpoints/class-wp-rest-controller.php' );
-	}
-
-	protected function tearDown(): void {
-		parent::tearDown();
-		\WP_Mock::tearDown();
 	}
 
 	/**
@@ -43,10 +37,9 @@ class BH_WP_Autologin_URLs_Unit_Test extends \Codeception\Test\Unit {
 			array( new AnyInstance( I18n::class ), 'load_plugin_textdomain' )
 		);
 
-		$logger   = new ColorLogger();
-		$settings = $this->makeEmpty( Settings_Interface::class );
-		$api      = $this->makeEmpty( API_Interface::class );
-		new BH_WP_Autologin_URLs( $api, $settings, $logger );
+				$settings = $this->makeEmpty( Settings_Interface::class );
+		$api              = $this->makeEmpty( API_Interface::class );
+		new BH_WP_Autologin_URLs( $api, $settings, $this->logger );
 	}
 
 	/**
@@ -60,10 +53,9 @@ class BH_WP_Autologin_URLs_Unit_Test extends \Codeception\Test\Unit {
 			30
 		);
 
-		$logger   = new ColorLogger();
-		$settings = $this->makeEmpty( Settings_Interface::class );
-		$api      = $this->makeEmpty( API_Interface::class );
-		new BH_WP_Autologin_URLs( $api, $settings, $logger );
+				$settings = $this->makeEmpty( Settings_Interface::class );
+		$api              = $this->makeEmpty( API_Interface::class );
+		new BH_WP_Autologin_URLs( $api, $settings, $this->logger );
 	}
 
 	/**
@@ -80,10 +72,9 @@ class BH_WP_Autologin_URLs_Unit_Test extends \Codeception\Test\Unit {
 			array( new AnyInstance( Cron::class ), 'delete_expired_codes' )
 		);
 
-		$logger   = new ColorLogger();
-		$settings = $this->makeEmpty( Settings_Interface::class );
-		$api      = $this->makeEmpty( API_Interface::class );
-		new BH_WP_Autologin_URLs( $api, $settings, $logger );
+				$settings = $this->makeEmpty( Settings_Interface::class );
+		$api              = $this->makeEmpty( API_Interface::class );
+		new BH_WP_Autologin_URLs( $api, $settings, $this->logger );
 	}
 
 	/**
@@ -106,18 +97,17 @@ class BH_WP_Autologin_URLs_Unit_Test extends \Codeception\Test\Unit {
 			4
 		);
 
-		$logger   = new ColorLogger();
-		$settings = $this->makeEmpty(
-			Settings_Interface::class,
-			array(
-				'get_plugin_basename' => Expected::once(
-					function () use ( $basename ) {
-						return $basename;}
-				),
-			)
-		);
-		$api      = $this->makeEmpty( API_Interface::class );
-		new BH_WP_Autologin_URLs( $api, $settings, $logger );
+				$settings = $this->makeEmpty(
+					Settings_Interface::class,
+					array(
+						'get_plugin_basename' => Expected::once(
+							function () use ( $basename ) {
+								return $basename;}
+						),
+					)
+				);
+		$api              = $this->makeEmpty( API_Interface::class );
+		new BH_WP_Autologin_URLs( $api, $settings, $this->logger );
 	}
 
 
@@ -150,10 +140,9 @@ class BH_WP_Autologin_URLs_Unit_Test extends \Codeception\Test\Unit {
 			array( new AnyInstance( Admin_Order_UI::class ), 'enqueue_styles' )
 		);
 
-		$logger   = new ColorLogger();
-		$settings = $this->makeEmpty( Settings_Interface::class );
-		$api      = $this->makeEmpty( API_Interface::class );
-		new BH_WP_Autologin_URLs( $api, $settings, $logger );
+				$settings = $this->makeEmpty( Settings_Interface::class );
+		$api              = $this->makeEmpty( API_Interface::class );
+		new BH_WP_Autologin_URLs( $api, $settings, $this->logger );
 	}
 
 	/**
@@ -176,10 +165,9 @@ class BH_WP_Autologin_URLs_Unit_Test extends \Codeception\Test\Unit {
 			array( new AnyInstance( Login_Ajax::class ), 'email_magic_link' )
 		);
 
-		$logger   = new ColorLogger();
-		$settings = $this->makeEmpty( Settings_Interface::class );
-		$api      = $this->makeEmpty( API_Interface::class );
-		new BH_WP_Autologin_URLs( $api, $settings, $logger );
+				$settings = $this->makeEmpty( Settings_Interface::class );
+		$api              = $this->makeEmpty( API_Interface::class );
+		new BH_WP_Autologin_URLs( $api, $settings, $this->logger );
 	}
 
 	/**
@@ -192,10 +180,9 @@ class BH_WP_Autologin_URLs_Unit_Test extends \Codeception\Test\Unit {
 			array( new AnyInstance( Login_Form::class ), 'enqueue_script' )
 		);
 
-		$logger   = new ColorLogger();
-		$settings = $this->makeEmpty( Settings_Interface::class );
-		$api      = $this->makeEmpty( API_Interface::class );
-		new BH_WP_Autologin_URLs( $api, $settings, $logger );
+				$settings = $this->makeEmpty( Settings_Interface::class );
+		$api              = $this->makeEmpty( API_Interface::class );
+		new BH_WP_Autologin_URLs( $api, $settings, $this->logger );
 	}
 
 	/**
@@ -215,10 +202,9 @@ class BH_WP_Autologin_URLs_Unit_Test extends \Codeception\Test\Unit {
 			array( new AnyInstance( Users_List_Table::class ), 'send_magic_email_link' ),
 		);
 
-		$logger   = new ColorLogger();
-		$settings = $this->makeEmpty( Settings_Interface::class );
-		$api      = $this->makeEmpty( API_Interface::class );
-		new BH_WP_Autologin_URLs( $api, $settings, $logger );
+				$settings = $this->makeEmpty( Settings_Interface::class );
+		$api              = $this->makeEmpty( API_Interface::class );
+		new BH_WP_Autologin_URLs( $api, $settings, $this->logger );
 	}
 
 	/**
@@ -231,9 +217,8 @@ class BH_WP_Autologin_URLs_Unit_Test extends \Codeception\Test\Unit {
 			array( new AnyInstance( REST_API::class ), 'register_routes' ),
 		);
 
-		$logger   = new ColorLogger();
-		$settings = $this->makeEmpty( Settings_Interface::class );
-		$api      = $this->makeEmpty( API_Interface::class );
-		new BH_WP_Autologin_URLs( $api, $settings, $logger );
+				$settings = $this->makeEmpty( Settings_Interface::class );
+		$api              = $this->makeEmpty( API_Interface::class );
+		new BH_WP_Autologin_URLs( $api, $settings, $this->logger );
 	}
 }

@@ -8,7 +8,6 @@
 
 namespace BrianHenryIE\WP_Autologin_URLs\WP_Includes;
 
-use BrianHenryIE\ColorLogger\ColorLogger;
 use BrianHenryIE\WP_Autologin_URLs\API_Interface;
 use BrianHenryIE\WP_Autologin_URLs\API\Integrations\User_Finder_Factory;
 use BrianHenryIE\WP_Autologin_URLs\Settings_Interface;
@@ -19,7 +18,7 @@ use WP_User;
 /**
  * @coversDefaultClass \BrianHenryIE\WP_Autologin_URLs\WP_Includes\Login
  */
-class Login_WPUnit_Test extends \lucatume\WPBrowser\TestCase\WPTestCase {
+class Login_WPUnit_Test extends \BrianHenryIE\WP_Autologin_URLs\WPUnit_Testcase {
 
 	/**
 	 * The happy path.
@@ -28,8 +27,6 @@ class Login_WPUnit_Test extends \lucatume\WPBrowser\TestCase\WPTestCase {
 	 * @covers ::__construct
 	 */
 	public function test_process_valid_user_login(): void {
-
-		$logger = new ColorLogger();
 
 		$settings = $this->makeEmpty( Settings_Interface::class );
 
@@ -68,7 +65,7 @@ class Login_WPUnit_Test extends \lucatume\WPBrowser\TestCase\WPTestCase {
 
 		$_GET['autologin'] = '1~q1w2e3r4';
 
-		$sut = new Login( $api, $settings, $logger, $user_finder_factory );
+		$sut = new Login( $api, $settings, $this->logger, $user_finder_factory );
 
 		$result = $sut->process( false );
 
@@ -79,8 +76,6 @@ class Login_WPUnit_Test extends \lucatume\WPBrowser\TestCase\WPTestCase {
 	 * @covers ::process
 	 */
 	public function test_process_user_already_logged_in(): void {
-
-		$logger = new ColorLogger();
 
 		$settings = $this->makeEmpty( Settings_Interface::class );
 
@@ -118,7 +113,7 @@ class Login_WPUnit_Test extends \lucatume\WPBrowser\TestCase\WPTestCase {
 			)
 		);
 
-		$sut = new Login( $api, $settings, $logger, $user_finder_factory );
+		$sut = new Login( $api, $settings, $this->logger, $user_finder_factory );
 
 		wp_set_current_user( $wp_user->ID, $wp_user->user_login );
 		wp_set_auth_cookie( $wp_user->ID );
@@ -134,8 +129,6 @@ class Login_WPUnit_Test extends \lucatume\WPBrowser\TestCase\WPTestCase {
 	 * @covers ::maybe_redirect
 	 */
 	public function test_maybe_redirect_happy_path(): void {
-
-		$logger = new ColorLogger();
 
 		$settings = $this->makeEmpty( Settings_Interface::class );
 
@@ -180,7 +173,7 @@ class Login_WPUnit_Test extends \lucatume\WPBrowser\TestCase\WPTestCase {
 			)
 		);
 
-		$sut = new Login( $api, $settings, $logger, $user_finder_factory );
+		$sut = new Login( $api, $settings, $this->logger, $user_finder_factory );
 
 		$redirected_to = null;
 

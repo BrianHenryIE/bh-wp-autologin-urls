@@ -21,8 +21,8 @@ use BrianHenryIE\WP_Autologin_URLs\WP_Includes\Login;
 use DateTimeImmutable;
 use DateTimeInterface;
 use DateTimeZone;
-use Psr\Log\LoggerAwareTrait;
-use Psr\Log\LoggerInterface;
+use BrianHenryIE\WP_Autologin_URLs\Psr\Log\LoggerAwareTrait;
+use BrianHenryIE\WP_Autologin_URLs\Psr\Log\LoggerInterface;
 use WC_Geolocation;
 use WP_User;
 
