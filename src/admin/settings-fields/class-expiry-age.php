@@ -79,7 +79,7 @@ class Expiry_Age extends Settings_Section_Element_Abstract {
 		$value = (string) preg_replace( '/[^0-9*]/', '', $value );
 
 		if ( ! stristr( $value, '*' ) ) {
-			return intval( abs( $value ) );
+			return intval( abs( intval( $value ) ) );
 		}
 
 		$value = explode( '*', $value );

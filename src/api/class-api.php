@@ -18,7 +18,6 @@ use BrianHenryIE\WP_Autologin_URLs\API_Interface;
 use BrianHenryIE\WP_Autologin_URLs\RateLimit\Rate;
 use BrianHenryIE\WP_Autologin_URLs\Settings_Interface;
 use BrianHenryIE\WP_Autologin_URLs\WP_Includes\Login;
-use BrianHenryIE\WP_Autologin_URLs\WP_Rate_Limiter\WordPress_Rate_Limiter;
 use DateTimeImmutable;
 use DateTimeInterface;
 use DateTimeZone;
@@ -62,7 +61,7 @@ class API implements API_Interface {
 	 * @param LoggerInterface           $logger     The logger instance.
 	 * @param Data_Store_Interface|null $data_store Class for saving, retrieving and expiring passwords.
 	 */
-	public function __construct( Settings_Interface $settings, LoggerInterface $logger, Data_Store_Interface $data_store = null ) {
+	public function __construct( Settings_Interface $settings, LoggerInterface $logger, ?Data_Store_Interface $data_store = null ) {
 
 		$this->setLogger( $logger );
 		$this->data_store = $data_store ?? new Transient_Data_Store( $logger );
@@ -128,12 +127,12 @@ class API implements API_Interface {
 		} elseif ( is_numeric( $user ) && 0 !== intval( $user ) ) {
 
 			// When string '123' is passed as the user id, convert it to an int.
-			$user = absint( $user );
-			$user = get_user_by( 'ID', $user );
+			$user_id = absint( $user );
+			$user    = get_user_by( 'ID', $user_id );
 
 			// But it is possible that the number is actually the username.
 			if ( false === $user ) {
-				$user = get_user_by( 'login', $user );
+				$user = get_user_by( 'login', (string) $user_id );
 			}
 		} elseif ( is_string( $user ) && is_email( $user ) ) {
 
@@ -161,7 +160,7 @@ class API implements API_Interface {
 	 */
 	public function add_autologin_to_url( string $url, $user, ?int $expires_in = null ): string {
 
-		if ( ! stristr( $url, get_site_url() ) ) {
+		if ( ! stristr( $url, (string) get_site_url() ) ) {
 			return $url;
 		}
 
@@ -197,7 +196,7 @@ class API implements API_Interface {
 			if ( isset( $parsed_url['query'] ) ) {
 				parse_str( $parsed_url['query'], $query_get );
 
-				if ( isset( $query_get['redirect_to'] ) ) {
+				if ( isset( $query_get['redirect_to'] ) && is_string( $query_get['redirect_to'] ) ) {
 					$url = $query_get['redirect_to'];
 				} else {
 					$url = get_site_url();
@@ -233,7 +232,7 @@ class API implements API_Interface {
 	 */
 	public function generate_code( $user, ?int $seconds_valid ): ?string {
 
-		if ( is_null( $user ) || ! ( $user instanceof WP_User ) ) {
+		if ( ! ( $user instanceof WP_User ) ) {
 			return null;
 		}
 
@@ -316,12 +315,33 @@ class API implements API_Interface {
 	 * @throws \Exception A DateTime exception when 'now' is used. I.e. never.
 	 */
 	public function delete_expired_codes( ?DateTimeInterface $before = null ): array {
-		$before = $before ?? new DateTimeImmutable( 'now', new DateTimeZone( 'UTC' ) );
+		$before ??= new DateTimeImmutable( 'now', new DateTimeZone( 'UTC' ) );
 		return $this->data_store->delete_expired_codes( $before );
 	}
 
 	/**
-	 * Records each login attempt and checks if the same user/ip/querystring has been used too many times today.
+	 * The rate limiter used to count failed login attempts.
+	 *
+	 * Memoized so the transient-backed storage is only wired up once per request.
+	 */
+	protected function get_rate_limiter(): Rate_Limiter {
+
+		static $rate_limiter;
+
+		if ( empty( $rate_limiter ) ) {
+			$rate = Rate::custom( Login::MAX_BAD_LOGIN_ATTEMPTS, Login::MAX_BAD_LOGIN_PERIOD_SECONDS );
+
+			$rate_limiter = new Rate_Limiter( $rate, 'bh-wp-autologin-urls' );
+		}
+
+		return $rate_limiter;
+	}
+
+	/**
+	 * Checks if the same user/ip has failed to log in too many times today.
+	 *
+	 * Read-only — attempts are counted by {@see self::record_failed_login_attempt()}, so a
+	 * legitimate autologin URL can be used any number of times.
 	 *
 	 * Transient e.g. `_transient_bh-wp-autologin-urls/bh-wp-autologin-urlsip-127.0.0.1-86400`.
 	 * Transient e.g. `_transient_bh-wp-autologin-urls/bh-wp-autologin-urlswp_user-1-86400`.
@@ -333,19 +353,11 @@ class API implements API_Interface {
 		$allowed_access_count = Login::MAX_BAD_LOGIN_ATTEMPTS;
 		$interval             = Login::MAX_BAD_LOGIN_PERIOD_SECONDS;
 
-		$rate = Rate::custom( $allowed_access_count, $interval );
-
-		static $rate_limiter;
-
-		if ( empty( $rate_limiter ) ) {
-			$rate_limiter = new WordPress_Rate_Limiter( $rate, 'bh-wp-autologin-urls' );
-		}
-
 		try {
-			$status = $rate_limiter->limitSilently( $identifier );
-		} catch ( \RuntimeException $e ) {
+			$is_limit_exceeded = $this->get_rate_limiter()->is_limit_exceeded( $identifier );
+		} catch ( \Throwable $e ) {
 			$this->logger->error(
-				'Rate Limiter encountered an error when storing the access count.',
+				'Rate Limiter encountered an error when reading the access count.',
 				array(
 					'exception'            => $e,
 					'identifier'           => $identifier,
@@ -358,38 +370,61 @@ class API implements API_Interface {
 			return false;
 		}
 
-		/**
-		 * TODO: Log the $_REQUEST data.
-		 */
-		if ( $status->limitExceeded() ) {
+		if ( $is_limit_exceeded ) {
 
 			$this->logger->notice(
-				"{$identifier} blocked with {$status->getRemainingAttempts()} remaining attempts for rate limit {$allowed_access_count} per {$interval} seconds.",
+				"{$identifier} blocked after {$allowed_access_count} failed attempts per {$interval} seconds.",
 				array(
 					'identifier'           => $identifier,
 					'interval'             => $interval,
 					'allowed_access_count' => $allowed_access_count,
-					'status'               => $status,
 					'_SERVER'              => $_SERVER,
 				)
 			);
 
 			return false;
-
-		} else {
-
-			$this->logger->debug(
-				"{$identifier} allowed with {$status->getRemainingAttempts()} remaining attempts for rate limit {$allowed_access_count} per {$interval} seconds.",
-				array(
-					'identifier'           => $identifier,
-					'interval'             => $interval,
-					'allowed_access_count' => $allowed_access_count,
-					'status'               => $status,
-				)
-			);
 		}
 
 		return true;
+	}
+
+	/**
+	 * Record one failed login attempt against an IP address or user.
+	 *
+	 * Only failures are counted, so that repeated legitimate use of autologin URLs is never
+	 * rate limited.
+	 *
+	 * @param string $identifier An IP address or user login name to rate limit by.
+	 */
+	public function record_failed_login_attempt( string $identifier ): void {
+
+		$allowed_access_count = Login::MAX_BAD_LOGIN_ATTEMPTS;
+		$interval             = Login::MAX_BAD_LOGIN_PERIOD_SECONDS;
+
+		try {
+			$this->get_rate_limiter()->record( $identifier );
+		} catch ( \Throwable $e ) {
+			$this->logger->error(
+				'Rate Limiter encountered an error when storing the access count.',
+				array(
+					'exception'            => $e,
+					'identifier'           => $identifier,
+					'interval'             => $interval,
+					'allowed_access_count' => $allowed_access_count,
+				)
+			);
+
+			return;
+		}
+
+		$this->logger->debug(
+			"Failed login attempt recorded for {$identifier}.",
+			array(
+				'identifier'           => $identifier,
+				'interval'             => $interval,
+				'allowed_access_count' => $allowed_access_count,
+			)
+		);
 	}
 
 	/**
@@ -407,7 +442,8 @@ class API implements API_Interface {
 		} elseif ( isset( $_SERVER['HTTP_X_REAL_IP'] ) ) {
 				$ip_address = sanitize_text_field( wp_unslash( $_SERVER['HTTP_X_REAL_IP'] ) );
 		} elseif ( isset( $_SERVER['HTTP_X_FORWARDED_FOR'] ) ) {
-			$ip_address = (string) rest_is_ip_address( trim( current( preg_split( '/,/', sanitize_text_field( wp_unslash( $_SERVER['HTTP_X_FORWARDED_FOR'] ) ) ) ) ) );
+			$forwarded_for = preg_split( '/,/', sanitize_text_field( wp_unslash( $_SERVER['HTTP_X_FORWARDED_FOR'] ) ) );
+			$ip_address    = false === $forwarded_for ? null : (string) rest_is_ip_address( trim( (string) current( $forwarded_for ) ) );
 		} elseif ( isset( $_SERVER['REMOTE_ADDR'] ) ) {
 			$ip_address = filter_var( wp_unslash( $_SERVER['REMOTE_ADDR'] ), FILTER_VALIDATE_IP );
 		}
@@ -429,7 +465,7 @@ class API implements API_Interface {
 	 */
 	public function send_magic_link( string $username_or_email_address, ?string $url = null, int $expires_in = 900 ): array {
 
-		$url = $url ?? get_site_url();
+		$url ??= get_site_url();
 
 		$expires_in_friendly = human_time_diff( time() - $expires_in );
 
@@ -507,7 +543,7 @@ class API implements API_Interface {
 
 		$headers = array( 'Content-Type: text/html; charset=UTF-8' );
 
-		$mail_success = wp_mail( $to, $subject, $message, $headers );
+		$mail_success = wp_mail( $to, $subject, (string) $message, $headers );
 
 		$result['success'] = $mail_success;
 

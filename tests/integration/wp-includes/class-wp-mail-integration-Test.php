@@ -97,6 +97,14 @@ class WP_Mail_Integration_Test extends \Codeception\TestCase\WPTestCase {
 
 		add_filter( 'autologin_urls_for_users', $should_add_password_filter, 10, 3 );
 
+		// The default From address, `wordpress@localhost`, is rejected as invalid by PHPMailer.
+		add_filter(
+			'wp_mail_from',
+			function () {
+				return 'brian@example.org';
+			}
+		);
+
 		wp_mail( $to, $subject, $message );
 
 		/** MockPHPMailer */

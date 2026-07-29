@@ -1,4 +1,9 @@
 <?php
+/**
+ * Identify a user from this plugin's own `autologin` querystring parameter.
+ *
+ * @package brianhenryie/bh-wp-autologin-urls
+ */
 
 namespace BrianHenryIE\WP_Autologin_URLs\API\Integrations;
 
@@ -19,8 +24,15 @@ class Autologin_URLs implements User_Finder_Interface, LoggerAwareInterface {
 
 	const QUERYSTRING_PARAMETER_NAME = 'autologin';
 
+	/**
+	 * Used to verify the password in the querystring.
+	 */
 	protected API_Interface $api;
 
+	/**
+	 * @param API_Interface   $api    The plugin's public API.
+	 * @param LoggerInterface $logger A PSR logger.
+	 */
 	public function __construct( API_Interface $api, LoggerInterface $logger ) {
 		$this->setLogger( $logger );
 		$this->api = $api;
@@ -43,7 +55,7 @@ class Autologin_URLs implements User_Finder_Interface, LoggerAwareInterface {
 	 * @see https://codex.wordpress.org/Plugin_API/Action_Reference
 	 * @see _wp_get_current_user()
 	 *
-	 * @return array{source:string, wp_user:WP_User|null, user_data?:array<string,string>}
+	 * @return array{source:string, wp_user:WP_User|null, user_data?:array<string,string>, user_id?:int}
 	 */
 	public function get_wp_user_array(): array {
 
@@ -61,7 +73,7 @@ class Autologin_URLs implements User_Finder_Interface, LoggerAwareInterface {
 
 		$autologin_querystring = sanitize_text_field( wp_unslash( $_GET[ self::QUERYSTRING_PARAMETER_NAME ] ) );
 
-		list( $user_id, $password ) = explode( '~', $autologin_querystring, 2 );
+		[$user_id, $password] = explode( '~', $autologin_querystring, 2 );
 
 		if ( empty( $user_id ) || empty( $password ) || ! is_numeric( $user_id ) || ! ctype_alnum( $password ) ) {
 
@@ -69,6 +81,9 @@ class Autologin_URLs implements User_Finder_Interface, LoggerAwareInterface {
 		}
 
 		$user_id = intval( $user_id );
+
+		// So a failed attempt can be rate limited against the user it was aimed at.
+		$result['user_id'] = $user_id;
 
 		if ( $this->api->verify_autologin_password( $user_id, $password ) ) {
 

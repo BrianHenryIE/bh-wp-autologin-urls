@@ -18,9 +18,16 @@ use BrianHenryIE\WP_Autologin_URLs\API\Settings;
  */
 class Use_WP_Login extends Checkbox_Setting_Element_Abstract {
 
+	/**
+	 * This is what is POSTed when the checkbox is ticked.
+	 */
 	protected function get_is_checked_value(): string {
 		return 'use_wp_login_is_enabled';
 	}
+
+	/**
+	 * This is saved when the checkbox is absent from the POSTed form.
+	 */
 	protected function get_is_not_checked_value(): string {
 		return 'use_wp_login_is_not_enabled';
 	}

@@ -30,7 +30,10 @@ interface User_Finder_Interface {
 	 * Otherwise, return user_data array for WooCommerce fields.
 	 * Return the source for logging.
 	 *
-	 * @return array{source:string, wp_user:WP_User|null, user_data?:array<string,string>}
+	 * `user_id` is the user the request was aimed at, present when the querystring identified a
+	 * user regardless of whether the credentials validated, so failures can be rate limited.
+	 *
+	 * @return array{source:string, wp_user:WP_User|null, user_data?:array<string,string>, user_id?:int}
 	 */
 	public function get_wp_user_array(): array;
 }

@@ -1,3 +1,21 @@
+### 2.6.0
+
+* Security: rate limiting never actually blocked anything – failed autologin attempts are now counted and enforced
+* Security: malformed autologin codes are recorded against the IP and user again, restoring brute-force protection lost when the failure transients were replaced by a rate limiter
+* Fix: repeated use of a valid autologin link no longer exhausts the rate limit – only failures are counted
+* Fix: don't show autologin URLs in the admin UI for administrator accounts
+* Fix: MailPoet 5.34 compatibility – the removed `MailPoet\Models\Subscriber` legacy model replaced with its Doctrine equivalents
+* Fix: usernames which are entirely numeric failed to resolve in `API::get_wp_user()`
+* Fix: fatal error when an integration's constructor has an untyped or union-typed parameter
+* Fix: fatal error prefilling the WooCommerce checkout when the session handler has no `set_customer_session_cookie()`
+* Fix: `get_ip_address()` when `HTTP_X_FORWARDED_FOR` cannot be parsed
+* Fix: REST API `expires_in` schema – `int` is not a valid type (WordPress `_doing_it_wrong` since 5.5), and it was wrongly marked `format: url`
+* Fix: PHP 8.1 deprecations – `FILTER_SANITIZE_STRING` / `FILTER_SANITIZE_STRIPPED`
+* Fix: PHP 8.4 deprecation – implicit nullable parameter
+* Add: `get_wp_user()` to `API_Interface`
+* Tested up to WordPress 7.0
+* Dev: dev environment modernized – wp-browser 4 / Codeception 5, PHPStan level 8 over `src` and `tests`, PHPCS clean, Rector, Playwright against WordPress 7.0, rebuilt GitHub Actions
+
 ### 2.5.0
 
 * Add filter `bh_wp_autologin_urls_get_wp_user`

@@ -3,8 +3,14 @@ parameters:
     paths:
         - src
         - bh-wp-autologin-urls.php
+        - autoload.php
+        - functions.php
+        - uninstall.php
+        - tests
     excludePaths:
         - vendor-prefixed
+        # Codeception-generated actor classes.
+        - tests/_support/_generated
     bootstrapFiles:
         - phpstanbootstrap.php
         - autoload.php
@@ -16,25 +22,73 @@ parameters:
         - vendor/antecedent/patchwork/Patchwork.php
     scanDirectories:
         - vendor-prefixed
+        # Enumerated rather than the whole of wp-content/plugins: scanning every plugin installed
+        # locally exhausts phpstan's memory.
         - wp-content/plugins/newsletter
         - wp-content/plugins/mailpoet
         - wp-content/plugins/woocommerce
         - vendor/wp-cli
+    reportUnmatchedIgnoredErrors: false
     ignoreErrors:
         # LoggerAwareTrait allows for null $logger, but we set it in the constructor.
         - '#LoggerInterface\|null#'
-        # PHPStan show errors when filters have more than two parameters.
-        - '#^Function apply_filters(_ref_array)? invoked with \d parameters, 2 required\.$#'
-        # Parameter #1 $message of method a expects b, c given.
-        - '/Parameter .* of .* expects .* given\./'
-        # Function add_autologin_to_url() has parameter $user with no typehint specified.
-        # The function accepts int|string|WP_User as the type.
-        - '/Function add_autologin_to_url\(\) has parameter \$user with no typehint specified\./'
-        # Setting an empty array with type associative array in the comments prints this.
-        - '/does not accept default value of type array\(\)/'
-        # The Klaviyo SDK isn't strongly typed
-        - '/Access to an undefined property BrianHenryIE\\WP_Autologin_URLs\\Klaviyo\\Client::\$Profiles\./'
+        # PHPStan shows errors when filters have more than two parameters.
+        - '#apply_filters invoked with#'
         # The public root-namespaced function add_autologin_to_url() can accept int|string|WP_User.
-        - '/Function add_autologin_to_url\(\) has parameter \$user with no type specified\./'
-        # When setting array's default value to an empty array but still type annotating, this message appears:
-        - '/.*does not accept default value of type array{}./'
+        - '/Function add_autologin_to_url\(\) has parameter \$user with no type(hint)? specified\./'
+        # The Klaviyo SDK isn't strongly typed.
+        - '/Access to an undefined property BrianHenryIE\\WP_Autologin_URLs\\Klaviyo\\Client::\$Profiles\./'
+
+        # Tests are analysed so genuine mistakes (typos, missing classes, wrong argument counts)
+        # are caught, but the identifiers below are inherent to how the test doubles work and
+        # would otherwise be ~650 unfixable errors:
+        #  * Mockery/WP_Mock return union types whose methods and properties are dynamic.
+        #  * `$this->factory->user->create()` is typed `int|WP_Error` by the WordPress stubs, so
+        #    every use of a created user id is reported.
+        #  * PHPUnit test methods are conventionally written without return types.
+        - identifier: missingType.return
+          path: tests
+        - identifier: missingType.parameter
+          path: tests
+        - identifier: missingType.iterableValue
+          path: tests
+        - identifier: missingType.property
+          path: tests
+        - identifier: missingType.generics
+          path: tests
+        - identifier: return.void
+          path: tests
+        - identifier: argument.type
+          path: tests
+        - identifier: throws.notThrowable
+          path: tests
+        - identifier: method.notFound
+          path: tests
+        - identifier: method.nonObject
+          path: tests
+        - identifier: property.notFound
+          path: tests
+        - identifier: property.nonObject
+          path: tests
+        - identifier: property.onlyWritten
+          path: tests
+        - identifier: class.notFound
+          path: tests
+        - identifier: function.notFound
+          path: tests
+        - identifier: method.alreadyNarrowedType
+          path: tests
+        - identifier: function.alreadyNarrowedType
+          path: tests
+        - identifier: encapsedStringPart.nonString
+          path: tests
+        - identifier: assign.propertyType
+          path: tests
+        - identifier: offsetAccess.nonOffsetAccessible
+          path: tests
+        # Code after markTestSkipped()/markTestIncomplete() is deliberately kept.
+        - identifier: deadCode.unreachable
+          path: tests
+        # The `wp_redirect` filter callback throws so the test can assert the redirect target.
+        - identifier: return.missing
+          path: tests/wpunit/wp-includes/class-login-wpunit-Test.php

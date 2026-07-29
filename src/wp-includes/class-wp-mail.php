@@ -61,7 +61,7 @@ class WP_Mail {
 			case is_string( $wp_mail_args['to'] ):
 				$to = $wp_mail_args['to'];
 				break;
-			case is_array( $wp_mail_args['to'] ) && count( $wp_mail_args['to'] ) === 1:
+			case 1 === count( $wp_mail_args['to'] ):
 				$to = $wp_mail_args['to'][ array_key_first( $wp_mail_args['to'] ) ];
 				break;
 			default:
@@ -76,7 +76,7 @@ class WP_Mail {
 		}
 
 		// If there are no links in the message to this site, return.
-		if ( ! stristr( $wp_mail_args['message'], get_site_url() ) ) {
+		if ( ! stristr( $wp_mail_args['message'], (string) get_site_url() ) ) {
 			return $wp_mail_args;
 		}
 

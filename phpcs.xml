@@ -15,19 +15,53 @@
     <arg name="colors"/>
 
     <exclude-pattern>/assets/</exclude-pattern>
+    <exclude-pattern>/bin/</exclude-pattern>
     <exclude-pattern>/dist-archive/</exclude-pattern>
     <exclude-pattern>/node_modules/</exclude-pattern>
-    <exclude-pattern>/tests/_data/</exclude-pattern>
     <exclude-pattern>/scratch/</exclude-pattern>
+    <exclude-pattern>/tests/_data/</exclude-pattern>
     <exclude-pattern>/tests/_output/</exclude-pattern>
     <exclude-pattern>/tests/_support/</exclude-pattern>
+    <exclude-pattern>/tests/_wp-env/</exclude-pattern>
+    <exclude-pattern>/tests/e2e-pw/</exclude-pattern>
     <exclude-pattern>/vendor/*</exclude-pattern>
     <exclude-pattern>/vendor-prefixed/*</exclude-pattern>
     <exclude-pattern>/wordpress/</exclude-pattern>
     <exclude-pattern>/wp-content/</exclude-pattern>
+    <exclude-pattern>/phpstanbootstrap.php</exclude-pattern>
 
     <!-- for abstract-name.php classes -->
     <rule ref="WordPress.Files.FileName.InvalidClassFileName">
+        <exclude-pattern>*</exclude-pattern>
+    </rule>
+
+    <!-- Do not require the object type in the comment, presuming it is strongly typed -->
+    <rule ref="Squiz.Commenting.VariableComment.MissingVar">
+        <exclude-pattern>*</exclude-pattern>
+    </rule>
+    <!-- Allow unused parameters. I find it helpful to know what is available. -->
+    <rule ref="Generic.CodeAnalysis.UnusedFunctionParameter.FoundAfterLastUsed">
+        <exclude-pattern>*</exclude-pattern>
+    </rule>
+    <rule ref="Generic.CodeAnalysis.UnusedFunctionParameter.Found">
+        <exclude-pattern>*</exclude-pattern>
+    </rule>
+
+    <!-- I'm not really sure how this is a security problem. -->
+    <rule ref="WordPress.Security.EscapeOutput.ExceptionNotEscaped">
+        <exclude-pattern>*</exclude-pattern>
+    </rule>
+    <!-- No need for comment when the purpose is to type annotate. -->
+    <rule ref="Generic.Commenting.DocComment.MissingShort">
+        <exclude-pattern>*</exclude-pattern>
+    </rule>
+
+    <rule ref="Universal.Operators.DisallowShortTernary.Found">
+        <exclude-pattern>*</exclude-pattern>
+    </rule>
+
+    <!-- Often getting an error that disagrees with PhpStorm's determination. -->
+    <rule ref="Squiz.Commenting.FunctionCommentThrowTag.WrongNumber">
         <exclude-pattern>*</exclude-pattern>
     </rule>
 
@@ -41,9 +75,6 @@
     <rule ref="PEAR.NamingConventions.ValidClassName.Invalid">
         <exclude-pattern>*/tests/*</exclude-pattern>
     </rule>
-    <rule ref="PSR2.Methods.MethodDeclaration.Underscore">
-        <exclude-pattern>*/tests/acceptance/*</exclude-pattern>
-    </rule>
     <rule ref="Squiz.Commenting.ClassComment.Missing">
         <exclude-pattern>*/tests/*</exclude-pattern>
     </rule>
@@ -54,6 +85,13 @@
         <exclude-pattern>*/tests/*</exclude-pattern>
     </rule>
     <rule ref="Squiz.Commenting.FunctionComment.EmptyThrows">
+        <exclude-pattern>*/tests/*</exclude-pattern>
+    </rule>
+    <!-- Don't report exceptions' throw tags in tests. -->
+    <rule ref="Squiz.Commenting.FunctionCommentThrowTag.Missing">
+        <exclude-pattern>*/tests/*</exclude-pattern>
+    </rule>
+    <rule ref="Squiz.Commenting.VariableComment.Missing">
         <exclude-pattern>*/tests/*</exclude-pattern>
     </rule>
     <rule ref="Squiz.PHP.DisallowMultipleAssignments.Found">
@@ -68,19 +106,19 @@
     <rule ref="WordPress.Files.FileName.NotHyphenatedLowercase">
         <exclude-pattern>*/tests/*</exclude-pattern>
     </rule>
-    <rule ref="WordPress.NamingConventions.ValidFunctionName.MethodNameInvalid">
-        <exclude-pattern>*/tests/acceptance/*</exclude-pattern>
-    </rule>
-    <rule ref="WordPress.NamingConventions.ValidVariableName.VariableNotSnakeCase">
-        <exclude-pattern>*/tests/acceptance/*</exclude-pattern>
+    <rule ref="WordPress.NamingConventions.ValidVariableName.PropertyNotSnakeCase">
+        <exclude-pattern>*/tests/*</exclude-pattern>
     </rule>
     <rule ref="WordPress.PHP.DevelopmentFunctions.error_log_set_error_handler">
+        <exclude-pattern>*/tests/*</exclude-pattern>
+    </rule>
+    <rule ref="WordPress.PHP.NoSilencedErrors">
         <exclude-pattern>*/tests/*</exclude-pattern>
     </rule>
     <rule ref="WordPress.Security">
         <exclude-pattern>*/tests/*</exclude-pattern>
     </rule>
-    <rule ref="WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents">
+    <rule ref="WordPress.WP.AlternativeFunctions">
         <exclude-pattern>*/tests/*</exclude-pattern>
     </rule>
     <rule ref="WordPress.WP.GlobalVariablesOverride.Prohibited">

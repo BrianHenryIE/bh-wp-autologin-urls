@@ -11,8 +11,10 @@
 namespace BrianHenryIE\WP_Autologin_URLs\API\Integrations;
 
 use BrianHenryIE\WP_Autologin_URLs\API\User_Finder_Interface;
-use MailPoet\Models\Subscriber;
+use MailPoet\DI\ContainerWrapper;
 use MailPoet\Router\Router;
+use MailPoet\Subscribers\LinkTokens;
+use MailPoet\Subscribers\SubscribersRepository;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
 use Psr\Log\LoggerInterface;
@@ -78,7 +80,7 @@ class MailPoet implements User_Finder_Interface, LoggerAwareInterface {
 		}
 
 		// phpcs:disable WordPress.PHP.DiscouragedPHPFunctions.obfuscation_base64_decode
-		$data = Router::decodeRequestData( filter_var( wp_unslash( $_GET['data'] ), FILTER_SANITIZE_STRIPPED ) );
+		$data = Router::decodeRequestData( sanitize_text_field( wp_unslash( $_GET['data'] ) ) );
 
 		/**
 		 * The required data from the MailPoet querystring.
@@ -89,27 +91,23 @@ class MailPoet implements User_Finder_Interface, LoggerAwareInterface {
 		$request_token = $data[1];
 
 		/**
-		 * The MailPoet subscriber object, false if none found.
+		 * The MailPoet subscriber entity, null if none found.
 		 *
-		 * @var \MailPoet\Models\Subscriber $subscriber
+		 * @var ?\MailPoet\Entities\SubscriberEntity $subscriber
 		 */
-		$subscriber = Subscriber::where( 'id', $subscriber_id )->findOne();
+		$subscriber = ContainerWrapper::getInstance()->get( SubscribersRepository::class )->findOneById( $subscriber_id );
 
-		// @phpstan-ignore-next-line
-		if ( empty( $subscriber ) ) {
+		if ( is_null( $subscriber ) ) {
 			return $result;
 		}
 
-		// phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
-		$database_token = $subscriber->linkToken;
-		$request_token  = substr( $request_token, 0, strlen( $database_token ) );
-		$valid          = hash_equals( $database_token, $request_token );
+		$valid = ContainerWrapper::getInstance()->get( LinkTokens::class )->verifyToken( $subscriber, $request_token );
 
 		if ( ! $valid ) {
 			return $result;
 		}
 
-		$user_email_address = $subscriber->email;
+		$user_email_address = $subscriber->getEmail();
 
 		$wp_user = get_user_by( 'email', $user_email_address );
 
@@ -124,10 +122,9 @@ class MailPoet implements User_Finder_Interface, LoggerAwareInterface {
 			// We have their email address but they have no account,
 			// if WooCommerce is installed, record the email address for
 			// UX and abandoned cart.
-			// phpcs:disable WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
 			$user_info = array(
-				'first_name' => $subscriber->firstName,
-				'last_name'  => $subscriber->lastName,
+				'first_name' => (string) $subscriber->getFirstName(),
+				'last_name'  => (string) $subscriber->getLastName(),
 			);
 
 			$result['user_data'] = $user_info;

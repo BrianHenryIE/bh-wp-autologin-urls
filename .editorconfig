@@ -1,0 +1,37 @@
+# EditorConfig is awesome: https://EditorConfig.org
+
+# top-most EditorConfig file
+root = true
+
+# Unix-style newlines with a newline ending every file
+[*]
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+# PHP files - WordPress coding standards use tabs
+[*.php]
+indent_style = tab
+indent_size = 4
+
+# JavaScript/TypeScript - tabs (WordPress coding standards)
+[*.{js,ts,jsx,tsx}]
+indent_style = tab
+indent_size = 4
+
+# JSON, YAML, and config files - spaces
+[*.{json,yml,yaml}]
+indent_style = space
+indent_size = 2
+
+# Markdown - preserve trailing whitespace (needed for line breaks)
+[*.md]
+trim_trailing_whitespace = false
+indent_style = space
+indent_size = 2
+
+# XML files (like phpcs.xml)
+[*.xml]
+indent_style = tab
+indent_size = 4

@@ -8,7 +8,8 @@
 
 namespace BrianHenryIE\WP_Autologin_URLs\WP_Includes;
 
-use BrianHenryIE\WP_Autologin_URLs\API\DB_Data_Store;
+use BrianHenryIE\ColorLogger\ColorLogger;
+use BrianHenryIE\WP_Autologin_URLs\API\Settings;
 
 /**
  * Class Login_Develop_Test
@@ -25,6 +26,26 @@ class Login_Integration_Test extends \Codeception\TestCase\WPTestCase {
 	}
 
 	/**
+	 * Run the real login flow.
+	 *
+	 * `Login::process()` is hooked to the `determine_current_user` filter, and removes itself from
+	 * the filter after it first runs (once during WPLoader bootstrap), so the filter cannot simply
+	 * be applied here. Instantiate `Login` with the plugin's real API instance and call it directly.
+	 *
+	 * @param int|bool $user_id The already-determined user id, or 0/false if none.
+	 * @return int|bool
+	 */
+	protected function process_login_request( $user_id = 0 ) {
+		$api      = $GLOBALS['bh-wp-autologin-urls'];
+		$settings = new Settings();
+		$logger   = new ColorLogger();
+
+		$login = new Login( $api, $settings, $logger );
+
+		return $login->process( $user_id );
+	}
+
+	/**
 	 * Simple successful login.
 	 */
 	public function test_login() {
@@ -37,10 +58,7 @@ class Login_Integration_Test extends \Codeception\TestCase\WPTestCase {
 
 		$this->go_to( $url );
 
-		do_action( 'plugins_loaded' );
-
-		// Check is user logged in.
-		$current_user_id = get_current_user_id();
+		$current_user_id = $this->process_login_request();
 
 		$this->assertEquals( $user_id, $current_user_id );
 	}
@@ -59,175 +77,51 @@ class Login_Integration_Test extends \Codeception\TestCase\WPTestCase {
 
 		$this->go_to( $url );
 
-		/**
-		 * This is needed for the test to pass... I guess because the plugin is loaded in
-		 * {@see vendor/lucatume/wp-browser/src/includes/bootstrap.php} and not by WordPress.
-		 */
-		do_action( 'plugins_loaded' );
-
-		// Check is user logged in.
-		$current_user_id = get_current_user_id();
+		$current_user_id = $this->process_login_request();
 
 		$this->assertEquals( 0, $current_user_id );
 	}
 
 	/**
-	 * Test IP address is recorded when the querystring is malformed.
+	 * Failed autologin attempts are rate limited per IP and per user.
+	 *
+	 * The previous implementation recorded failures in `bh-wp-autologin-urls-failure-{ip}` /
+	 * `-{user_id}` transients; that bookkeeping was replaced by brianhenryie/bh-wp-rate-limiter.
 	 */
-	public function test_bad_attempt_records_ip() {
-
-		$autologin_querystring = 'a~testpassword';
-
-		$url = get_home_url() . '/?autologin=' . $autologin_querystring;
-
-		$this->go_to( $url );
-
-		do_action( 'plugins_loaded' );
-
-		$ip_address = str_replace( '.', '-', $_SERVER['REMOTE_ADDR'] );
-
-		$failure_transient_name_ip = 'bh-wp-autologin-urls-failure-' . $ip_address;
-
-		$failure_transient_ip = get_transient( $failure_transient_name_ip );
-
-		$ip_failure = array(
-			'count'     => 1,
-			'malformed' => array( $autologin_querystring ),
-			'users'     => array(),
-		);
-
-		$this->assertEquals( $ip_failure, $failure_transient_ip );
-	}
-
-
-	/**
-	 * Test the user id is recorded for bad attempts to prevent an attack on a specific user.
-	 */
-	public function test_bad_user_records() {
-
-		$autologin_querystring = '123~abaspass';
-
-		$url = get_home_url() . '/?autologin=' . $autologin_querystring;
-
-		$failure_transient_name_for_user = 'bh-wp-autologin-urls-failure-123';
-
-		$failures_for_user = get_transient( $failure_transient_name_for_user );
-
-		$this->assertFalse( $failures_for_user );
-
-		$this->go_to( $url );
-
-		do_action( 'plugins_loaded' );
-
-		$failures_for_user = get_transient( $failure_transient_name_for_user );
-
-		$this->assertNotFalse( $failures_for_user );
-
-		$this->assertEquals( 1, $failures_for_user['count'] );
-
-		$this->go_to( $url );
-
-		do_action( 'plugins_loaded' );
-
-		$failures_for_user = get_transient( $failure_transient_name_for_user );
-
-		$this->assertEquals( 2, $failures_for_user['count'] );
-	}
-
-	/**
-	 * Test when recording IP address for malformed attempt, the transient is recorded.
-	 */
-	public function test_bad_code_records() {
-
-		$ip_address = str_replace( '.', '-', $_SERVER['REMOTE_ADDR'] );
-
-		$failure_transient_name_ip = 'bh-wp-autologin-urls-failure-' . $ip_address;
-
-		$url = get_home_url() . '/?autologin=a~testpassword';
-
-		$this->go_to( $url );
-
-		do_action( 'plugins_loaded' );
-
-		$failure_transient_ip = get_transient( $failure_transient_name_ip );
-
-		$this->assertNotFalse( $failure_transient_ip );
-
-		$this->assertEquals( 1, $failure_transient_ip['count'] );
-
-		$this->go_to( $url );
-
-		do_action( 'plugins_loaded' );
-
-		$failure_transient_ip = get_transient( $failure_transient_name_ip );
-
-		$this->assertEquals( 2, $failure_transient_ip['count'] );
-	}
-
-	/**
-	 * Confirm that when there are too many bad attempts from an IP, it is blocked
-	 */
-	public function test_ip_block() {
+	public function test_repeated_bad_codes_rate_limited() {
 
 		$user_id = $this->factory->user->create();
 
-		$url = get_home_url();
+		for ( $attempt = 1; $attempt <= Login::MAX_BAD_LOGIN_ATTEMPTS; $attempt++ ) {
 
-		$url = add_autologin_to_url( $url, $user_id, 3600 );
+			$this->go_to( get_site_url() . '/?autologin=' . $user_id . '~badautocode' . $attempt );
+			wp_set_current_user( 0 );
 
-		$ip_failure = array(
-			'count'     => 5,
-			'users'     => array(),
-			'malformed' => array(),
-		);
+			$this->assertEquals( 0, $this->process_login_request(), "Bad attempt {$attempt} should not have logged the user in." );
+		}
 
-		$ip_address = str_replace( '.', '-', $_SERVER['REMOTE_ADDR'] );
+		// A valid code, but the limit for both `ip:` and `wp_user:` has been reached.
+		$this->go_to( add_autologin_to_url( get_site_url(), $user_id, 3600 ) );
+		wp_set_current_user( 0 );
 
-		$failure_transient_name_ip = 'bh-wp-autologin-urls-failure-' . $ip_address;
-
-		set_transient( $failure_transient_name_ip, $ip_failure, DAY_IN_SECONDS );
-
-		$this->go_to( $url );
-
-		// This is needed for the test to pass... I guess because the
-		// plugin is loaded in bootstrap.php and not by WordPress.
-		do_action( 'plugins_loaded' );
-
-		// Check is user logged in.
-		$current_user_id = get_current_user_id();
-
-		$this->assertEquals( 0, $current_user_id );
+		$this->assertEquals( 0, $this->process_login_request(), 'Attempts above the rate limit should not log the user in.' );
 	}
 
 	/**
-	 * Test that after too many bad login attempts for a user, it won't try log them in anymore.
+	 * Only failures are counted, so a valid autologin URL can be used any number of times.
 	 */
-	public function test_user_attempts_block() {
+	public function test_repeated_successful_logins_not_rate_limited() {
 
 		$user_id = $this->factory->user->create();
 
-		$url = get_home_url();
+		for ( $attempt = 1; $attempt <= Login::MAX_BAD_LOGIN_ATTEMPTS + 1; $attempt++ ) {
 
-		$url = add_autologin_to_url( $url, $user_id, 3600 );
+			// `API::generate_code()` caches codes per `"$user_id~$seconds_valid"` per request, and
+			// each code is single-use, so vary `expires_in` to get a fresh code each time.
+			$this->go_to( add_autologin_to_url( get_site_url(), $user_id, 3600 + $attempt ) );
+			wp_set_current_user( 0 );
 
-		$user_failure = array(
-			'count' => 6,
-			'ip'    => array(),
-		);
-
-		$failure_transient_name = 'bh-wp-autologin-urls-failure-' . $user_id;
-
-		set_transient( $failure_transient_name, $user_failure, DAY_IN_SECONDS );
-
-		$this->go_to( $url );
-
-		// This is needed for the test to pass... I guess because the
-		// plugin is loaded in bootstrap.php and not by WordPress.
-		do_action( 'plugins_loaded' );
-
-		// Check is user logged in.
-		$current_user_id = get_current_user_id();
-
-		$this->assertEquals( 0, $current_user_id );
+			$this->assertEquals( $user_id, $this->process_login_request(), "Attempt {$attempt} should have logged the user in." );
+		}
 	}
 }

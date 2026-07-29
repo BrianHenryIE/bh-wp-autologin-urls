@@ -1,4 +1,9 @@
 <?php
+/**
+ * Instantiates the integrations which can identify a user from the current request's querystring.
+ *
+ * @package brianhenryie/bh-wp-autologin-urls
+ */
 
 namespace BrianHenryIE\WP_Autologin_URLs\API\Integrations;
 
@@ -9,6 +14,10 @@ use Psr\Log\LoggerInterface;
 use ReflectionClass;
 use Throwable;
 
+/**
+ * Returns the first integration whose querystring is present in the request, with its constructor
+ * dependencies resolved by reflection.
+ */
 class User_Finder_Factory {
 
 	/**
@@ -16,12 +25,23 @@ class User_Finder_Factory {
 	 */
 	protected array $dependencies = array();
 
+	/**
+	 * The objects available to be injected into the integrations' constructors.
+	 *
+	 * @param API_Interface      $api      The plugin's public API.
+	 * @param Settings_Interface $settings The plugin settings.
+	 * @param LoggerInterface    $logger   A PSR logger.
+	 */
 	public function __construct( API_Interface $api, Settings_Interface $settings, LoggerInterface $logger ) {
 		$this->dependencies[ LoggerInterface::class ]    = $logger;
 		$this->dependencies[ Settings_Interface::class ] = $settings;
 		$this->dependencies[ API_Interface::class ]      = $api;
 	}
 
+	/**
+	 * The first integration whose querystring is present, or null when this request is not an
+	 * attempt to log in.
+	 */
 	public function get_user_finder(): ?User_Finder_Interface {
 
 		/**
@@ -42,7 +62,7 @@ class User_Finder_Factory {
 
 				$integration_instance = $integration;
 
-			} elseif ( is_string( $integration ) && class_exists( $integration ) ) {
+			} elseif ( class_exists( $integration ) ) {
 
 				$class = new ReflectionClass( $integration );
 
@@ -57,7 +77,13 @@ class User_Finder_Factory {
 
 					foreach ( $parameters as $reflection_parameter ) {
 
-						$parameter_type = $reflection_parameter->getType()->getName();
+						$reflection_type = $reflection_parameter->getType();
+
+						if ( ! $reflection_type instanceof \ReflectionNamedType ) {
+							continue 2;
+						}
+
+						$parameter_type = $reflection_type->getName();
 
 						if ( isset( $this->dependencies[ $parameter_type ] ) ) {
 							$construct_params[] = $this->dependencies[ $parameter_type ];
@@ -78,9 +104,8 @@ class User_Finder_Factory {
 				}
 
 				try {
-					/** @var User_Finder_Interface $integration */
 					$integration_instance = new $integration( ...$construct_params );
-				} catch ( Throwable $exception ) {
+				} catch ( Throwable ) {
 					continue;
 				}
 

@@ -42,15 +42,6 @@ class Plugin_Unit_Test extends \Codeception\Test\Unit {
 		);
 
 		\WP_Mock::userFunction(
-			'plugin_dir_path',
-			array(
-				'times'  => 1,
-				'args'   => array( \WP_Mock\Functions::type( 'string' ) ),
-				'return' => $plugin_root_dir . '/',
-			)
-		);
-
-		\WP_Mock::userFunction(
 			'plugin_basename',
 			array(
 				'times'  => 1,

@@ -18,14 +18,14 @@ class DB_Data_Store_WPUnit_Test extends \lucatume\WPBrowser\TestCase\WPTestCase 
 		parent::setUp();
 
 		global $wpdb;
-		$this->originalWpdb = $wpdb;
+		$this->original_wpdb = $wpdb;
 	}
 
 	protected function tearDown(): void {
 		parent::tearDown();
 
 		global $wpdb;
-		$wpdb = $this->originalWpdb;
+		$wpdb = $this->original_wpdb;
 	}
 
 	/**
@@ -38,9 +38,12 @@ class DB_Data_Store_WPUnit_Test extends \lucatume\WPBrowser\TestCase\WPTestCase 
 		// Assert table is absent.
 		global $wpdb;
 
-		// Need to remove the action that adds "TEMPORARY" into queries during test.
-		remove_action( 'query', array( $this, '_drop_temporary_tables' ) );
-		remove_action( 'query', array( $this, '_create_temporary_tables' ) );
+		// Need to remove the filter that adds "TEMPORARY" into queries during test.
+		// With wp-browser 4, the filter is registered on an internal core test case instance,
+		// not `$this`, so `remove_action( 'query', array( $this, '_create_temporary_tables' ) )`
+		// no longer matches. The test framework backs up and restores `$wp_filter` around each
+		// test, so removing all `query` filters here is contained to this test.
+		remove_all_filters( 'query' );
 
 		$wpdb->query( "DROP TABLE IF EXISTS {$wpdb->prefix}autologin_urls" );
 
@@ -74,8 +77,8 @@ class DB_Data_Store_WPUnit_Test extends \lucatume\WPBrowser\TestCase\WPTestCase 
 
 		$this->assertTrue( $table_exists_after );
 
-		add_action( 'query', array( $this, '_drop_temporary_tables' ) );
-		add_action( 'query', array( $this, '_create_temporary_tables' ) );
+		// The `query` filters removed above are restored from the test framework's
+		// `$wp_filter` backup during `tear_down()`.
 	}
 
 	/**
@@ -96,7 +99,7 @@ class DB_Data_Store_WPUnit_Test extends \lucatume\WPBrowser\TestCase\WPTestCase 
 			'query',
 			function ( $query ) {
 
-				if ( false === strpos( $query, 'expires_at' ) ) {
+				if ( ! str_contains( $query, 'expires_at' ) ) {
 					return $query;
 				}
 

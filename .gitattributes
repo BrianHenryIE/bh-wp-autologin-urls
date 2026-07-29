@@ -1,0 +1,35 @@
+/.github                export-ignore
+/.run                   export-ignore
+/openapi                export-ignore
+/tests                  export-ignore
+/.distignore            export-ignore
+/.editorconfig          export-ignore
+/.env.github            export-ignore
+/.env.testing           export-ignore
+/.env.secret            export-ignore
+/.env.secret.dist       export-ignore
+/.gitattributes         export-ignore
+/.gitignore             export-ignore
+/.nvmrc                 export-ignore
+/.wp-env.json           export-ignore
+/bin                    export-ignore
+/codeception.dist.yml   export-ignore
+/composer.json          export-ignore
+/composer.lock          export-ignore
+/composeranswer.json    export-ignore
+/CONTRIBUTING.md        export-ignore
+/package.json           export-ignore
+/package-lock.json      export-ignore
+/patchwork.json         export-ignore
+/phpcs.xml              export-ignore
+/phpstan.neon           export-ignore
+/phpstanbootstrap.php   export-ignore
+/phpunit.xml.dist       export-ignore
+/playwright.config.ts   export-ignore
+/README.md              export-ignore
+/rector.php             export-ignore
+/wp-cli.wp-env.yml      export-ignore
+/wp-cli.yml             export-ignore
+
+# When merging into a branch, ignore the coverage percentage, that should be re-calculated immediately anyway.
+/.github/coverage.svg merge=ours

@@ -27,7 +27,10 @@ class Login {
 
 	use LoggerAwareTrait;
 
-	const MAX_BAD_LOGIN_ATTEMPTS       = 5;
+	const MAX_BAD_LOGIN_ATTEMPTS = 5;
+
+	// TODO: This should be a setting (particularly so it can be controlled in tests!).
+	// Recorded failures can be cleared with `wp transient delete --all`.
 	const MAX_BAD_LOGIN_PERIOD_SECONDS = 60 * 60 * 24; // Aka DAY_IN_SECONDS.
 
 	/**
@@ -92,8 +95,8 @@ class Login {
 		// Check for bots.
 		// Use the null coalescing operator to ensure $user_agent is always a string.
 		// This prevents passing null to strpos, which is deprecated in newer PHP versions.
-		$user_agent = filter_input( INPUT_SERVER, 'HTTP_USER_AGENT' ) ?? '';
-		$bot        = false !== strpos( $user_agent, 'bot' );
+		$user_agent = (string) ( filter_input( INPUT_SERVER, 'HTTP_USER_AGENT' ) ?? '' );
+		$bot        = str_contains( $user_agent, 'bot' );
 		if ( $bot ) {
 			return $user_id;
 		}
@@ -108,18 +111,27 @@ class Login {
 			return $user_id;
 		}
 
+		// This would be empty during cron jobs and WP CLI.
+		$ip_address = $this->api->get_ip_address();
+
+		// Prevent too many failed attempts by any one IP.
+		if ( ! empty( $ip_address ) && ! $this->api->should_allow_login_attempt( "ip:{$ip_address}" ) ) {
+			return $user_id;
+		}
+
 		$user_array = $user_finder->get_wp_user_array();
 
-		if ( isset( $user_array['wp_user'] ) && $user_array['wp_user'] instanceof WP_User ) {
+		if ( $user_array['wp_user'] instanceof WP_User ) {
 			$this->logger->debug( "Found `wp_user:{$user_array['wp_user']->ID}`." );
 			$wp_user = $user_array['wp_user'];
-			$user_id = $wp_user->ID;
 		} elseif ( ! empty( $user_array['user_data'] ) ) {
 			// If no WP_User account was found, but other user data was found that could be used for WooCommerce, prepopulate the checkout fields.
 			$this->logger->debug( 'No wp_user found, preloading WooCommerce fields.', $user_array );
-			$prefill_checkout_fields = function () use ( $user_array ) {
+			/** @var array{email:string, first_name:string, last_name:string} $user_data */
+			$user_data               = $user_array['user_data'];
+			$prefill_checkout_fields = function () use ( $user_data ) {
 				$woocommerce_checkout = new Checkout( $this->logger );
-				$woocommerce_checkout->prefill_checkout_fields( $user_array['user_data'] );
+				$woocommerce_checkout->prefill_checkout_fields( $user_data );
 			};
 			if ( did_action( 'woocommerce_init' ) ) {
 				$prefill_checkout_fields();
@@ -129,22 +141,20 @@ class Login {
 			return $user_id;
 		} else {
 			$this->logger->debug( 'Could not find wp_user or user data using request URL.' );
+
+			// A bad or malformed autologin code. Record it so brute-forcing is rate limited.
+			if ( ! empty( $ip_address ) ) {
+				$this->api->record_failed_login_attempt( "ip:{$ip_address}" );
+
+				if ( isset( $user_array['user_id'] ) ) {
+					$this->api->record_failed_login_attempt( "wp_user:{$user_array['user_id']}" );
+				}
+			}
+
 			return $user_id;
 		}
 
-		$ip_address = $this->api->get_ip_address();
-
-		if ( empty( $ip_address ) ) {
-			// This would be empty during cron jobs and WP CLI.
-			return $user_id;
-		}
-
-		// Log each attempt to log in, prevent too many attempts by any one IP.
-		if ( ! $this->api->should_allow_login_attempt( "ip:{$ip_address}" ) ) {
-			return $user_id;
-		}
-
-		// Rate limit too many failed attempts at logging in the one user.
+		// Prevent too many failed attempts at logging in the one user.
 		if ( ! $this->api->should_allow_login_attempt( "wp_user:{$wp_user->ID}" ) ) {
 			return $user_id;
 		}
@@ -188,7 +198,7 @@ class Login {
 
 		$this->maybe_redirect();
 
-		return $user_id;
+		return $wp_user->ID;
 	}
 
 	/**
@@ -205,7 +215,7 @@ class Login {
 
 		// Check is the requested URL wp-login.php. Otherwise we don't want to redirect.
 		$wp_login_endpoint = str_replace( get_site_url(), '', wp_login_url() );
-		if ( ! stristr( $request_uri, $wp_login_endpoint ) ) {
+		if ( ! stristr( $request_uri, (string) $wp_login_endpoint ) ) {
 			return;
 		}
 
@@ -214,12 +224,14 @@ class Login {
 		// phpcs:disable WordPress.Security.NonceVerification.Recommended
 		if ( isset( $_GET['redirect_to'] ) ) {
 
-			$url = filter_var( wp_unslash( $_GET['redirect_to'] ), FILTER_SANITIZE_STRING );
-			if ( false === $url ) {
+			// `FILTER_SANITIZE_STRING` is deprecated since PHP 8.1. `sanitize_text_field()` cannot
+			// be used here because it strips percent-encoded characters, and the value arrives
+			// percent-encoded.
+			// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- esc_url_raw() sanitizes.
+			$redirect_to = esc_url_raw( urldecode( wp_unslash( $_GET['redirect_to'] ) ) );
+			if ( '' === $redirect_to ) {
 				return;
 			}
-			$redirect_to = urldecode( $url );
-
 		} else {
 			// TODO: There's a filter determining what the destination URL should be when logging in a user.
 			$redirect_to = get_site_url();

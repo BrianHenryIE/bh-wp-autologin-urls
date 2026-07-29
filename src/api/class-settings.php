@@ -135,7 +135,7 @@ class Settings implements Settings_Interface, Logger_Settings_Interface {
 	public function get_plugin_version(): string {
 		return defined( 'BH_WP_AUTOLOGIN_URLS_VERSION' )
 			? constant( 'BH_WP_AUTOLOGIN_URLS_VERSION' )
-			: '2.5.0';
+			: '2.6.0';
 	}
 
 	/**
@@ -171,5 +171,12 @@ class Settings implements Settings_Interface, Logger_Settings_Interface {
 	 */
 	public function is_magic_link_enabled(): bool {
 		return 'magic_links_is_enabled' === get_option( self::MAGIC_LINK_ENABLED, 'magic_links_is_not_enabled' );
+	}
+
+	/**
+	 * An optional CLI command name to add commands for deleting logs.
+	 */
+	public function get_cli_base(): ?string {
+		return 'autologin-urls';
 	}
 }

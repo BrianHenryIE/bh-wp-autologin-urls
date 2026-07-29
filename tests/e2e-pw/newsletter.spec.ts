@@ -25,6 +25,30 @@ test.describe( 'The Newsletter Plugin tests', () => {
   }
 
   /**
+   * Create a newsletter whose body contains a link to the site, and advance to the send screen.
+   *
+   * The Newsletter Plugin 9.x drag-and-drop composer no longer offers the "RAW" template or an
+   * HTML source editor; raw HTML newsletters are now started from "Add new (raw HTML)" on the
+   * newsletters index, which presents a plain `#options-message` textarea.
+   */
+  async function createRawHtmlNewsletter(page: Page) {
+    await page.goto('/wp-admin/admin.php?page=newsletter_emails_index', {waitUntil: 'domcontentloaded'});
+    await page.getByRole('link', {name: 'Add new (raw HTML)'}).click();
+    await page.waitForLoadState('domcontentloaded');
+
+    // `#options-message` is hidden behind a CodeMirror instance, which the plugin exposes as the
+    // global `templateEditor` and which syncs itself back to the textarea when the form submits.
+    await page.locator('.CodeMirror').waitFor();
+    await page.evaluate(() => {
+      const doc = (window as any).templateEditor.getDoc();
+      doc.setValue(doc.getValue().replace('<body>', '<body><a href="/">A link</a>'));
+    });
+
+    await page.getByRole('button', {name: 'Next »'}).click();
+    await page.waitForLoadState('domcontentloaded');
+  }
+
+  /**
    * Immediately manually trigger sending.
    *
    * Without intervention, it won't send correctly because of the environment.
@@ -40,11 +64,14 @@ test.describe( 'The Newsletter Plugin tests', () => {
     let newsletterSystemSchedulerUrl= "/wp-admin/admin.php?page=newsletter_system_scheduler";
     await page.goto(newsletterSystemSchedulerUrl, {waitUntil: 'domcontentloaded'});
 
-    await page.evaluate(() => {
-      const form = document.getElementById('tnp-body').querySelector('form');
-      form.elements["act"].value='trigger';
-      form.submit();
-    });
+    await Promise.all([
+      page.waitForNavigation({waitUntil: 'domcontentloaded'}),
+      page.evaluate(() => {
+        const form = document.getElementById('tnp-body').querySelector('form');
+        form.elements["act"].value='trigger';
+        form.submit();
+      }),
+    ]);
   }
 
   // This should be in a do-until loop checking that the newsletter has been sent.
@@ -78,32 +105,7 @@ test.describe( 'The Newsletter Plugin tests', () => {
 
     await addNewsletterSubscriber(page, email, firstName, lastName);
 
-    let newNewsletterUrl = "/wp-admin/admin.php?page=newsletter_emails_composer";
-    await page.goto(newNewsletterUrl, {waitUntil: 'domcontentloaded'});
-    await page.waitForTimeout(200);
-
-    // Page loads with template selection dialog open.
-    await page.getByRole('img', {name: 'RAW'}).click();
-
-    const defaultContent= await page.locator('#options-message' ).inputValue();
-    const contentWithLink = defaultContent.replace(
-        '<body>',
-        '<body><a href="/">A link</a>'
-    );
-
-    const textarea= await page.locator('.CodeMirror' ).first().locator('textarea' ).first();
-    await textarea.focus();
-    await page.keyboard.press("Meta+A");
-    await page.keyboard.press("Backspace");
-    await textarea.focus();
-    await page.waitForTimeout(100);
-    await textarea.type(contentWithLink);
-    await textarea.blur();
-
-    await page.waitForTimeout(100);
-
-    // New page loads: /wp-admin/admin.php?page=newsletter_emails_editorhtml&id=2
-    await page.getByRole('button', {name: 'Next »'}).click();
+    await createRawHtmlNewsletter(page);
 
     // Click "send now"
     page.once('dialog', dialog => {
@@ -148,29 +150,7 @@ test.describe( 'The Newsletter Plugin tests', () => {
 
     await addNewsletterSubscriber(page, email, firstName, lastName);
 
-    let newNewsletterUrl = "/wp-admin/admin.php?page=newsletter_emails_composer";
-    await page.goto(newNewsletterUrl, {waitUntil: 'domcontentloaded'});
-    await page.waitForTimeout(200);
-
-    // Page loads with template selection dialog open.
-    await page.getByRole('img', {name: 'RAW'}).click();
-
-    const defaultContent= await page.locator('#options-message' ).inputValue();
-    const contentWithLink = defaultContent.replace(
-        '<body>',
-        '<body><a href="/">A link</a>'
-    );
-
-    const textarea= await page.locator('.CodeMirror' ).first().locator('textarea' ).first();
-    await textarea.focus();
-    await page.keyboard.press("Meta+A");
-    await page.keyboard.press("Backspace");
-    await textarea.focus();
-    await textarea.type(contentWithLink);
-    await textarea.blur();
-
-    // New page loads: /wp-admin/admin.php?page=newsletter_emails_editorhtml&id=2
-    await page.getByRole('button', {name: 'Next »'}).click();
+    await createRawHtmlNewsletter(page);
 
     // Click "send now"
     page.once('dialog', dialog => {

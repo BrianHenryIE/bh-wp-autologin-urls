@@ -1,4 +1,9 @@
 <?php
+/**
+ * Identify a user from The Newsletter Plugin's tracking querystring.
+ *
+ * @package brianhenryie/bh-wp-autologin-urls
+ */
 
 namespace BrianHenryIE\WP_Autologin_URLs\API\Integrations;
 
@@ -18,6 +23,9 @@ use WP_User;
 class The_Newsletter_Plugin implements User_Finder_Interface, LoggerAwareInterface {
 	use LoggerAwareTrait;
 
+	/**
+	 * @param LoggerInterface $logger A PSR logger.
+	 */
 	public function __construct( LoggerInterface $logger ) {
 		$this->setLogger( $logger );
 	}
@@ -57,8 +65,9 @@ class The_Newsletter_Plugin implements User_Finder_Interface, LoggerAwareInterfa
 
 		// This code mostly lifted from Newsletter plugin.
 
-		$input = filter_var( wp_unslash( $_GET['nltr'] ), FILTER_SANITIZE_STRIPPED );
-		if ( false === $input ) {
+		// `FILTER_SANITIZE_STRING`/`FILTER_SANITIZE_STRIPPED` is deprecated since PHP 8.1.
+		$input = sanitize_text_field( wp_unslash( $_GET['nltr'] ) );
+		if ( '' === $input ) {
 			return $result;
 		}
 

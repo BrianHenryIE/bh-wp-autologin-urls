@@ -83,7 +83,7 @@ class Log_Level extends Settings_Section_Element_Abstract {
 	 */
 	public function sanitize_callback( $value ) {
 
-		if ( is_string( $value ) ) {
+		if ( '' !== $value ) {
 
 			if ( in_array( $value, $this->log_levels, true ) ) {
 				return $value;

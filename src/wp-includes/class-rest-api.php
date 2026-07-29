@@ -14,23 +14,35 @@ use WP_REST_Response;
 use WP_REST_Server;
 use WP_User;
 
+/**
+ * Registers `bh-wp-autologin-urls/v1/autologin-codes`.
+ */
 class REST_API extends WP_REST_Controller {
 
+	const REST_NAMESPACE = 'bh-wp-autologin-urls/v1';
+	const REST_BASE      = 'autologin-codes';
+
+	/**
+	 * Used to generate the autologin URL.
+	 */
 	protected API_Interface $api;
 
+	/**
+	 * @param API_Interface $api The plugin's public API.
+	 */
 	public function __construct( API_Interface $api ) {
 		$this->api       = $api;
-		$this->namespace = 'bh-wp-autologin-urls/v1';
-		$this->rest_base = 'autologin-codes';
+		$this->namespace = self::REST_NAMESPACE;
+		$this->rest_base = self::REST_BASE;
 	}
 
 	/**
 	 * @see WP_REST_Controller::register_routes()
 	 */
-	public function register_routes() {
+	public function register_routes(): void {
 		register_rest_route(
-			$this->namespace,
-			$this->rest_base,
+			self::REST_NAMESPACE,
+			self::REST_BASE,
 			array(
 				array(
 					'methods'             => WP_REST_Server::CREATABLE,
@@ -46,7 +58,7 @@ class REST_API extends WP_REST_Controller {
 	 *
 	 * @see WP_REST_Controller::create_item()
 	 *
-	 * @param \WP_REST_Request $request
+	 * @param \WP_REST_Request $request The REST request.
 	 * @return \WP_Error|\WP_HTTP_Response|WP_REST_Response
 	 */
 	public function create_item( $request ) {
@@ -56,7 +68,7 @@ class REST_API extends WP_REST_Controller {
 		}
 
 		$url = $request->get_param( 'url' );
-		if ( ! stristr( $url, get_site_url() ) ) {
+		if ( ! stristr( (string) $url, (string) get_site_url() ) ) {
 			$url = get_site_url( $url );
 		}
 
@@ -82,6 +94,9 @@ class REST_API extends WP_REST_Controller {
 	 * Allow admins and the user themselves to create autologin codes.
 	 *
 	 * @see WP_REST_Controller::create_item_permissions_check()
+	 *
+	 * @param \WP_REST_Request $request The REST request.
+	 * @return bool
 	 */
 	public function create_item_permissions_check( $request ) {
 
@@ -96,8 +111,7 @@ class REST_API extends WP_REST_Controller {
 
 		// If the current user is creating a link for themselves.
 		if ( $user instanceof WP_User
-			&& wp_get_current_user() instanceof WP_User
-			&& $user->ID === wp_get_current_user()->ID ) {
+			&& wp_get_current_user()->ID === $user->ID ) {
 			return true;
 		}
 
@@ -108,8 +122,8 @@ class REST_API extends WP_REST_Controller {
 	/**
 	 * @see WP_REST_Controller::prepare_item_for_response()
 	 *
-	 * @param $item
-	 * @param $request
+	 * @param string           $item    The generated autologin URL.
+	 * @param \WP_REST_Request $request The REST request.
 	 * @return \WP_Error|\WP_HTTP_Response|WP_REST_Response
 	 */
 	public function prepare_item_for_response( $item, $request ) {
@@ -131,6 +145,8 @@ class REST_API extends WP_REST_Controller {
 
 	/**
 	 * @see WP_REST_Controller::get_item_schema()
+	 *
+	 * @return array<string, mixed>
 	 */
 	public function get_item_schema() {
 		return array(
@@ -147,6 +163,11 @@ class REST_API extends WP_REST_Controller {
 		);
 	}
 
+	/**
+	 * The arguments accepted by the create-item endpoint.
+	 *
+	 * @return array<string, mixed>
+	 */
 	public function get_args_schema() {
 		$args = array();
 
@@ -154,11 +175,8 @@ class REST_API extends WP_REST_Controller {
 			'description' => esc_html__( 'The user to create the code for.', 'bh-wp-autologin-urls' ),
 			'required'    => true,
 			'context'     => array( 'edit' ),
-			'oneOf'       => array( // TODO: Is this doing anything?!
-			// array(
-			// 'description' => esc_html__( 'User id.', 'bh-wp-autologin-urls' ),
-			// 'type'        => 'integer',
-			// ),
+			// TODO: Is `oneOf` doing anything?!
+			'oneOf'       => array(
 				array(
 					'description' => esc_html__( 'Username.', 'bh-wp-autologin-urls' ),
 					'type'        => 'string',
@@ -180,10 +198,10 @@ class REST_API extends WP_REST_Controller {
 		);
 
 		$args['expires_in'] = array(
-			'type'     => 'int',
-			'format'   => 'url',
-			'context'  => array( 'edit' ),
-			'required' => false,
+			'description' => esc_html__( 'Number of seconds the code should be valid for.', 'bh-wp-autologin-urls' ),
+			'type'        => 'integer',
+			'context'     => array( 'edit' ),
+			'required'    => false,
 		);
 
 		return $args;

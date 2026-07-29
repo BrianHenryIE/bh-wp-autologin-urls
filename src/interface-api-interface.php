@@ -40,6 +40,15 @@ interface API_Interface {
 	public function add_autologin_to_url( string $url, $user, ?int $expires_in = null ): string;
 
 	/**
+	 * Get the WP_User object from a user id, email, login or user object. Null when not found.
+	 *
+	 * @param null|int|string|WP_User $user A valid user id, email, login or user object.
+	 *
+	 * @return ?WP_User
+	 */
+	public function get_wp_user( $user ): ?WP_User;
+
+	/**
 	 * Establishes if the autologin password used by the user is valid to log them in.
 	 *
 	 * @param int    $user_id User id the password purports to be for.
@@ -59,13 +68,24 @@ interface API_Interface {
 	public function delete_expired_codes( ?DateTimeInterface $before = null ): array;
 
 	/**
-	 * Records each login attempt and checks if the same user/ip/querystring has been used too many times today.
+	 * Checks if the same user/ip has failed to log in too many times today.
+	 *
+	 * Read-only. Failures are counted by {@see self::record_failed_login_attempt()}.
 	 *
 	 * @param string $identifier An IP address or user login name to rate limit by.
 	 *
 	 * @return bool
 	 */
 	public function should_allow_login_attempt( string $identifier ): bool;
+
+	/**
+	 * Records one failed login attempt against an IP address or user.
+	 *
+	 * @param string $identifier An IP address or user login name to rate limit by.
+	 *
+	 * @return void
+	 */
+	public function record_failed_login_attempt( string $identifier ): void;
 
 	/**
 	 * Get the IP address for the current request.
