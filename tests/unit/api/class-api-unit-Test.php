@@ -35,12 +35,11 @@ class API_Unit_Test extends \BrianHenryIE\WP_Autologin_URLs\Unit_Testcase {
 	public function test_generate_code() {
 
 		$settings_mock      = $this->makeEmpty( Settings_Interface::class );
-		$this->logger_mock  = $this->makeEmpty( LoggerInterface::class );
 		$data_store_mock    = $this->makeEmpty(
 			Data_Store_Interface::class,
 			array( 'save' => Expected::once() )
 		);
-		$autologin_urls_api = new API( $settings_mock, $this->logger_mock, $data_store_mock );
+		$autologin_urls_api = new API( $settings_mock, $this->logger, $data_store_mock );
 
 		$user     = $this->make( WP_User::class );
 		$user->ID = 123;
@@ -72,12 +71,11 @@ class API_Unit_Test extends \BrianHenryIE\WP_Autologin_URLs\Unit_Testcase {
 	public function test_generate_code_cached() {
 
 		$settings_mock      = $this->makeEmpty( Settings_Interface::class );
-		$this->logger_mock  = $this->makeEmpty( LoggerInterface::class );
 		$data_store_mock    = $this->makeEmpty(
 			Data_Store_Interface::class,
 			array( 'save' => Expected::once() )
 		);
-		$autologin_urls_api = new API( $settings_mock, $this->logger_mock, $data_store_mock );
+		$autologin_urls_api = new API( $settings_mock, $this->logger, $data_store_mock );
 
 		$user     = $this->createMock( '\WP_User' );
 		$user->ID = 123;
@@ -107,9 +105,8 @@ class API_Unit_Test extends \BrianHenryIE\WP_Autologin_URLs\Unit_Testcase {
 	public function test_generate_code_null_user() {
 
 		$settings_mock      = $this->makeEmpty( Settings_Interface::class );
-		$this->logger_mock  = $this->makeEmpty( LoggerInterface::class );
 		$data_store_mock    = $this->makeEmpty( Data_Store_Interface::class );
-		$autologin_urls_api = new API( $settings_mock, $this->logger_mock, $data_store_mock );
+		$autologin_urls_api = new API( $settings_mock, $this->logger, $data_store_mock );
 
 		$generated_code = $autologin_urls_api->generate_code( null, 3600 );
 
@@ -128,12 +125,11 @@ class API_Unit_Test extends \BrianHenryIE\WP_Autologin_URLs\Unit_Testcase {
 			Settings_Interface::class,
 			array( 'get_expiry_age' => 123456 )
 		);
-		$this->logger_mock  = $this->makeEmpty( LoggerInterface::class );
 		$data_store_mock    = $this->makeEmpty(
 			Data_Store_Interface::class,
 			array( 'save' => Expected::once() )
 		);
-		$autologin_urls_api = new API( $settings_mock, $this->logger_mock, $data_store_mock );
+		$autologin_urls_api = new API( $settings_mock, $this->logger, $data_store_mock );
 
 		/**
 		 * Inside private method.
@@ -164,12 +160,11 @@ class API_Unit_Test extends \BrianHenryIE\WP_Autologin_URLs\Unit_Testcase {
 	public function test_verify_autologin_password_not_found() {
 
 		$settings_mock      = $this->makeEmpty( Settings_Interface::class );
-		$this->logger_mock  = $this->makeEmpty( LoggerInterface::class );
 		$data_store_mock    = $this->makeEmpty(
 			Data_Store_Interface::class,
 			array( 'get_value_for_password' => false )
 		);
-		$autologin_urls_api = new API( $settings_mock, $this->logger_mock, $data_store_mock );
+		$autologin_urls_api = new API( $settings_mock, $this->logger, $data_store_mock );
 
 		WP_Mock::expectFilter( 'bh_wp_autologin_urls_should_delete_code_after_use', true, 123 );
 
@@ -186,12 +181,11 @@ class API_Unit_Test extends \BrianHenryIE\WP_Autologin_URLs\Unit_Testcase {
 	 */
 	public function test_verify_autologin_found_hash_mismatch() {
 		$settings_mock      = $this->makeEmpty( Settings_Interface::class );
-		$this->logger_mock  = $this->makeEmpty( LoggerInterface::class );
 		$data_store_mock    = $this->makeEmpty(
 			Data_Store_Interface::class,
 			array( 'get_value_for_password' => 'the-wrong-value' )
 		);
-		$autologin_urls_api = new API( $settings_mock, $this->logger_mock, $data_store_mock );
+		$autologin_urls_api = new API( $settings_mock, $this->logger, $data_store_mock );
 
 		$is_valid_autologin_password = $autologin_urls_api->verify_autologin_password( 123, 'q1w2e3r4t5y6' );
 
