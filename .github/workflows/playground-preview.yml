@@ -1,0 +1,176 @@
+name: Playground Preview
+
+# After the E2E tests pass on a pull request, build the plugin zip, publish it to the gh-pages
+# branch, and post (or update) a sticky comment linking to WordPress Playground with the plugin
+# installed and activated.
+#
+# NB: `workflow_run` workflows only run from the copy of this file on the *default* branch, so
+# this will not run on the pull request that introduces it.
+#
+# @author BrianHenryIE
+
+on:
+  workflow_run:
+    workflows: ["E2E Tests"]
+    types: [completed]
+
+jobs:
+
+  playground-preview:
+    runs-on: ubuntu-latest
+
+    # Only for pull requests whose E2E run passed.
+    if: >-
+      github.event.workflow_run.event == 'pull_request' &&
+      github.event.workflow_run.conclusion == 'success'
+
+    permissions:
+      contents: write # To commit the zip to gh-pages.
+      pull-requests: write # To add the comment.
+
+    env:
+      PLUGIN_SLUG: ${{ github.event.repository.name }}
+      HEAD_SHA: ${{ github.event.workflow_run.head_sha }}
+
+    steps:
+
+      # `workflow_run` runs against the default branch, so check out the commit that was tested.
+      - name: Git checkout
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.workflow_run.head_sha }}
+          persist-credentials: true
+
+      - name: Checkout GitHub Pages branch
+        uses: actions/checkout@v6
+        with:
+          ref: gh-pages
+          path: gh-pages
+
+      # `github.event.workflow_run.pull_requests` is empty for pull requests from forks, so look
+      # the number up from the head SHA instead.
+      - name: Find the pull request number
+        id: pr
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          PR_NUMBER=$(gh api "repos/${{ github.repository }}/commits/${HEAD_SHA}/pulls" \
+            --jq '[.[] | select(.state == "open")][0].number // empty')
+          if [ -z "$PR_NUMBER" ]; then
+            echo "No open pull request found for ${HEAD_SHA}; nothing to comment on."
+            echo "found=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "Found pull request #${PR_NUMBER}"
+            echo "found=true" >> "$GITHUB_OUTPUT"
+            echo "number=${PR_NUMBER}" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Install PHP
+        if: ${{ steps.pr.outputs.found == 'true' }}
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+          tools: composer
+          extensions: zip
+
+      # Local path repositories point at sibling checkouts CI does not have. Rewrite them to the
+      # equivalent GitHub repository, keeping the constraint — `brianhenryie/bh-wp-rate-limiter`
+      # is not published on Packagist, so dropping the repository entirely cannot resolve.
+      - name: Replace local repository references
+        if: ${{ steps.pr.outputs.found == 'true' }}
+        run: |
+          jq '
+            .repositories |= with_entries(
+              if .value.type == "path"
+              then .value = { "type": "vcs", "url": ("https://github.com/" + .key) }
+              else . end
+            )
+          ' composer.json > composer.json.tmp
+          mv composer.json.tmp composer.json
+
+      # `composer update`, not `install`: the step above rewrote composer.json.
+      - name: Install PHP dependencies
+        if: ${{ steps.pr.outputs.found == 'true' }}
+        run: composer update --verbose
+
+      - name: Build the plugin archive
+        if: ${{ steps.pr.outputs.found == 'true' }}
+        id: archive
+        run: |
+          composer create-plugin-archive
+          ARCHIVE=$(ls -Art dist-archive/*.zip | tail -n 1)
+          echo "Built ${ARCHIVE}"
+          echo "path=${ARCHIVE}" >> "$GITHUB_OUTPUT"
+
+      # Published to gh-pages because Playground fetches the zip from the browser: GitHub Pages
+      # serves `access-control-allow-origin: *`, whereas Actions artifacts require authentication.
+      - name: Publish the zip to gh-pages
+        if: ${{ steps.pr.outputs.found == 'true' }}
+        id: publish
+        run: |
+          DEST="gh-pages/${HEAD_SHA}/playground"
+          mkdir -p "$DEST"
+          cp "${{ steps.archive.outputs.path }}" "${DEST}/${PLUGIN_SLUG}.zip"
+          echo "url=https://${{ github.repository_owner }}.github.io/${PLUGIN_SLUG}/${HEAD_SHA}/playground/${PLUGIN_SLUG}.zip" >> "$GITHUB_OUTPUT"
+
+      - name: Pre-commit `git pull gh-pages`
+        if: ${{ steps.pr.outputs.found == 'true' }}
+        run: |
+          cd gh-pages
+          # Re-fetch: the coverage job pushes to gh-pages too, so this ref may already be stale.
+          # The zip is untracked, so a force checkout keeps it.
+          git fetch origin gh-pages || true
+          (git ls-remote --heads --exit-code origin gh-pages &>/dev/null) && (git checkout --progress --force -B gh-pages refs/remotes/origin/gh-pages)
+
+      - name: Commit the zip to gh-pages
+        if: ${{ steps.pr.outputs.found == 'true' }}
+        uses: stefanzweifel/git-auto-commit-action@v7
+        with:
+          repository: gh-pages
+          branch: gh-pages
+          commit_message: "🤖 Commit Playground preview build"
+
+      - name: Build the Playground URL
+        if: ${{ steps.pr.outputs.found == 'true' }}
+        id: playground
+        env:
+          ZIP_URL: ${{ steps.publish.outputs.url }}
+        run: |
+          # The blueprint is passed in the URL fragment so it does not need hosting itself.
+          BLUEPRINT=$(jq -cn --arg url "$ZIP_URL" '{
+            "$schema": "https://playground.wordpress.net/blueprint-schema.json",
+            "landingPage": "/wp-admin/options-general.php?page=bh-wp-autologin-urls",
+            "preferredVersions": { "php": "8.2", "wp": "latest" },
+            "steps": [
+              { "step": "login", "username": "admin", "password": "password" },
+              {
+                "step": "installPlugin",
+                "pluginData": { "resource": "url", "url": $url },
+                "options": { "activate": true }
+              }
+            ]
+          }')
+          ENCODED=$(printf '%s' "$BLUEPRINT" | jq -sRr @uri)
+          echo "url=https://playground.wordpress.net/#${ENCODED}" >> "$GITHUB_OUTPUT"
+
+      - name: Comment on the pull request
+        if: ${{ steps.pr.outputs.found == 'true' }}
+        uses: mshick/add-pr-comment@v3
+        continue-on-error: true # Pull requests opened by non-members have no write permissions.
+        with:
+          issue: ${{ steps.pr.outputs.number }}
+          message-id: playground-preview
+          message: |
+            ### ▶️ [Try this branch in WordPress Playground](${{ steps.playground.outputs.url }})
+
+            A one-click sandbox with the plugin installed and activated, opened on its settings
+            page and logged in as `admin`. Nothing is installed on your machine and the site is
+            discarded when you close the tab.
+
+            | | |
+            |---|---|
+            | Commit | [`${{ github.event.workflow_run.head_sha }}`](${{ github.server_url }}/${{ github.repository }}/commit/${{ github.event.workflow_run.head_sha }}) |
+            | Zip | [`${{ github.event.repository.name }}.zip`](${{ steps.publish.outputs.url }}) |
+            | E2E run | [#${{ github.event.workflow_run.run_number }}](${{ github.event.workflow_run.html_url }}) |
+
+            <sub>Rebuilt each time the E2E tests pass.</sub>
