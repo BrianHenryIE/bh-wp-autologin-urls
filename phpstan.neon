@@ -3,7 +3,6 @@ parameters:
     paths:
         - src
         - bh-wp-autologin-urls.php
-        - autoload.php
         - functions.php
         - uninstall.php
         - tests
@@ -13,7 +12,6 @@ parameters:
         - tests/_support/_generated
     bootstrapFiles:
         - phpstanbootstrap.php
-        - autoload.php
         - vendor/php-stubs/wordpress-stubs/wordpress-stubs.php
         - vendor/wp-cli/wp-cli/php/class-wp-cli-command.php
         - vendor/php-stubs/woocommerce-stubs/woocommerce-stubs.php
