@@ -8,9 +8,10 @@ echo $(basename "$0")
 
 # This presumes the current working directory is the project root and the directory name matches the plugin slug.
 PLUGIN_SLUG=$(basename $PWD)
-echo "Building $PLUGIN_SLUG"
+#echo "Building $PLUGIN_SLUG"
 
 # Build the plugin's translation template.
+echo "Creating .pot language file"
 vendor/bin/wp i18n make-pot src languages/$PLUGIN_SLUG.pot --domain=$PLUGIN_SLUG
 
 # Detect the operating system.

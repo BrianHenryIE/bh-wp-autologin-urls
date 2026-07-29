@@ -7,8 +7,11 @@ echo "Running " $(basename "$0") " for " $PLUGIN_SLUG;
 # The scripts are mapped one level above the webroot so they are not web-servable.
 SCRIPT_DIR="$(dirname "$0")"
 
-mkdir /var/www/html/wp-content/uploads || true;
-chmod a+w /var/www/html/wp-content/uploads;
+if [ ! -d "/var/www/html/wp-content/uploads" ]; then
+  echo "Creating wp-content/uploads directory";
+  mkdir /var/www/html/wp-content/uploads || true;
+  chmod a+w /var/www/html/wp-content/uploads;
+fi
 
 echo "Maybe update WordPress core database"
 wp core update-db
@@ -17,6 +20,7 @@ echo "wp plugin activate --all"
 wp plugin activate --all
 
 # wp-super-cache serves stale pages, which breaks the autologin E2E assertions.
+echo "Deactivating wp-super-cache because its caching breaks assertions."
 wp plugin deactivate wp-super-cache
 
 echo "Set up pretty permalinks for REST API."
@@ -48,16 +52,19 @@ if [[ '[]' == $(wp wc product list --user=1 --format=json) ]]; then
   wp wc product create --user=1 --name="Test Product" --type=simple --regular_price=100 --status=publish
 fi
 
-echo "Maybe updating WooCommerce database"
+echo "Maybe updating WooCommerce database";
 wp wc update
 
 # Otherwise the storefront returns the "coming soon" page to every request.
+echo "Disabling WooCommerce comming-soon";
 wp option set woocommerce_coming_soon no
 
 # Don't let the block editor's welcome guide cover the UI the E2E tests click on.
+echo "Disabling block editor welcome guide";
 wp user meta update 1 wp_persisted_preferences '{"core/edit-post":{"welcomeGuide":false}}' --format=json
 
 # Create customer for WooCommerce e2e tests
+echo "Creating WooCommerce user customer.username, customer.password"
 if [[ '[]' == $(wp user list --login=customer.username --format=json) ]]; then
   wp user create customer.username customer.username@example.org --user_pass=customer.password
 fi

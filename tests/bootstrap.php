@@ -22,6 +22,11 @@ if ( file_exists( $env_secret ) ) {
 	$secret_params = \Dotenv\Dotenv::createMutable( codecept_root_dir(), $env_secret_relative_path )->load();
 }
 
+\Alley_Interactive\Autoloader\Autoloader::generate(
+	'BrianHenryIE\\WP_Autologin_URLs',
+	$plugin_root_dir . '/src',
+)->register();
+
 /**
  * The plugin needs to be present in WP_CONTENT_DIR/plugins for templates to resolve
  * (previously handled by brianhenryie/composer-phpstorm symlinks config in composer.json).

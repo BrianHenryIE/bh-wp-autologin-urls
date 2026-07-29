@@ -18,6 +18,7 @@
     "wp-content/plugins/mailpoet": "./wp-content/plugins/mailpoet",
     "wp-content/plugins/newsletter": "./wp-content/plugins/newsletter",
     "wp-content/plugins/query-monitor": "./wp-content/plugins/query-monitor",
+    "wp-content/plugins/user-switching": "./wp-content/plugins/user-switching",
     "wp-content/plugins/woocommerce": "./wp-content/plugins/woocommerce",
     "wp-content/plugins/wp-mail-debugger": "./wp-content/plugins/wp-mail-debugger",
     "wp-content/plugins/wp-mail-logging": "./wp-content/plugins/wp-mail-logging",

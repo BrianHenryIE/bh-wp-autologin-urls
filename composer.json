@@ -57,7 +57,10 @@
         },
         "installation-source": "dist",
         "bin": "bin/strauss"
-      }
+      },
+      "only": [
+        "brianhenryie/strauss"
+      ]
     },
     "outlandishideas/wpackagist": {
       "type": "composer",
@@ -69,7 +72,10 @@
     },
     "brianhenryie/bh-wp-rate-limiter": {
       "type": "git",
-      "url": "https://github.com/brianhenryie/bh-wp-rate-limiter.git"
+      "url": "https://github.com/brianhenryie/bh-wp-rate-limiter.git",
+      "only": [
+        "brianhenryie/bh-wp-rate-limiter"
+      ]
     },
     "wordpress/wordpress": {
       "url": "https://github.com/WordPress/wordpress-develop",
@@ -82,7 +88,6 @@
   "require": {
     "php": ">=8.1",
     "ext-json": "*",
-    "alleyinteractive/wordpress-autoloader": "^1.1",
     "brianhenryie/bh-wp-logger": "^0.3.4",
     "brianhenryie/bh-wp-rate-limiter": "dev-master",
     "klaviyo/sdk": "^1.0"
@@ -90,6 +95,7 @@
   "require-dev": {
     "ext-dom": "*",
     "10up/wp_mock": "^1.1",
+    "alleyinteractive/wordpress-autoloader": "^1.2",
     "antecedent/patchwork": "^2.2",
     "brianhenryie/color-logger": "*",
     "brianhenryie/strauss": "0.28.1",
@@ -111,6 +117,7 @@
     "wpackagist-plugin/mailpoet": "*",
     "wpackagist-plugin/newsletter": "*",
     "wpackagist-plugin/query-monitor": "*",
+    "wpackagist-plugin/user-switching": "*",
     "wpackagist-plugin/woocommerce": "*",
     "wpackagist-plugin/wp-mail-debugger": "*",
     "wpackagist-plugin/wp-mail-logging": "*",
@@ -132,10 +139,12 @@
         ]
       },
       "exclude_from_copy": {
-        "file_patterns": [
-          "~psr/log/Psr/Log/Test.*~"
+        "packages": [
+          "brianhenryie/bh-wp-cli-logger",
+          "symfony/polyfill-php80"
         ]
-      }
+      },
+      "include_root_autoload": true
     }
   },
   "scripts": {

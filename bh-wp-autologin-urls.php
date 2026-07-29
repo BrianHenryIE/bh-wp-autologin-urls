@@ -38,7 +38,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	throw new Exception();
 }
 
-require_once plugin_dir_path( __FILE__ ) . 'autoload.php';
+require_once __DIR__ . '/vendor-prefixed/autoload.php';
 
 /**
  * Currently plugin version.
