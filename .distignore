@@ -26,3 +26,12 @@ package-lock.json
 /playwright.config.ts
 /test-results
 /wp-cli.wp-env.yml
+
+# Development tooling. `bin/` in particular picks up an untracked strauss.phar,
+# which was adding ~10MB to the archive.
+/bin/
+/openapi/
+/composeranswer.json
+/patchwork.json
+/rector.php
+/wordpresscore.playwright.config.js
