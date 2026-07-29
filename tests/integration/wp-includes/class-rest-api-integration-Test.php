@@ -10,7 +10,7 @@ namespace BrianHenryIE\WP_Autologin_URLs\Includes;
 use WP_REST_Request;
 
 
-class REST_API_Integration_Test extends \Codeception\TestCase\WPTestCase {
+class REST_API_Integration_Test extends \BrianHenryIE\WP_Autologin_URLs\WPUnit_Testcase {
 
 	public function tearDown(): void {
 		wp_set_current_user( 0 );

@@ -8,7 +8,6 @@
 
 namespace BrianHenryIE\WP_Autologin_URLs\WP_Includes;
 
-use BrianHenryIE\ColorLogger\ColorLogger;
 use BrianHenryIE\WP_Autologin_URLs\API\Settings;
 
 /**
@@ -16,7 +15,7 @@ use BrianHenryIE\WP_Autologin_URLs\API\Settings;
  *
  * @see Login
  */
-class Login_Integration_Test extends \Codeception\TestCase\WPTestCase {
+class Login_Integration_Test extends \BrianHenryIE\WP_Autologin_URLs\WPUnit_Testcase {
 
 
 	public function setUp(): void {
@@ -38,9 +37,8 @@ class Login_Integration_Test extends \Codeception\TestCase\WPTestCase {
 	protected function process_login_request( $user_id = 0 ) {
 		$api      = $GLOBALS['bh-wp-autologin-urls'];
 		$settings = new Settings();
-		$logger   = new ColorLogger();
 
-		$login = new Login( $api, $settings, $logger );
+		$login = new Login( $api, $settings, $this->logger );
 
 		return $login->process( $user_id );
 	}

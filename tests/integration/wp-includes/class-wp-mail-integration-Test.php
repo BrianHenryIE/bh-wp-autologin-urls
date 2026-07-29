@@ -21,7 +21,7 @@ namespace BrianHenryIE\WP_Autologin_URLs\wp_mail;
  *
  * phpcs:disable WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
  */
-class WP_Mail_Integration_Test extends \Codeception\TestCase\WPTestCase {
+class WP_Mail_Integration_Test extends \BrianHenryIE\WP_Autologin_URLs\WPUnit_Testcase {
 
 	/**
 	 * A straightforward test where the user exists and there is a link
