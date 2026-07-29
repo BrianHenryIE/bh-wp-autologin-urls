@@ -182,19 +182,19 @@ class Login_WPUnit_Test extends \lucatume\WPBrowser\TestCase\WPTestCase {
 
 		$sut = new Login( $api, $settings, $logger, $user_finder_factory );
 
-		$exception = null;
+		$redirected_to = null;
 
 		$_SERVER['REQUEST_URI'] = 'http://example.org/wp-login.php?redirect_to=http%3A%2F%2Fexample.org%2Fmy-account%';
 		$_GET['redirect_to']    = rawurlencode( 'http://example.org/my-account' );
 
+		// Record the destination and return false so `wp_redirect()` does not `exit()`.
+		// NB: this cannot throw to capture the location – `Login::process()` catches throwables so
+		// the plugin can never fatal a request.
 		add_filter(
 			'wp_redirect',
-			/**
-			 * @return never
-			 * @throws \Exception Always, to capture the redirect target.
-			 */
-			function ( $location ) {
-				throw new \Exception( $location );
+			function ( $location ) use ( &$redirected_to ) {
+				$redirected_to = $location;
+				return false;
 			}
 		);
 
@@ -205,15 +205,8 @@ class Login_WPUnit_Test extends \lucatume\WPBrowser\TestCase\WPTestCase {
 			}
 		);
 
-		try {
-			$sut->process( false );
-		} catch ( \Exception $e ) {
-			$exception = $e;
-		}
+		$sut->process( false );
 
-		$this->assertNotNull( $exception );
-
-		/** @var \Exception $exception */
-		$this->assertEquals( 'http://example.org/my-account', $exception->getMessage() );
+		$this->assertEquals( 'http://example.org/my-account', $redirected_to );
 	}
 }

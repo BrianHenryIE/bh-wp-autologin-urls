@@ -67,6 +67,18 @@ class Cron {
 		$action_name = current_action();
 		$this->logger->debug( 'bh-wp-autologin-urls delete_expired_codes cron jobs started', array( 'action' => $action_name ) );
 
-		$this->api->delete_expired_codes();
+		// A throwable here would abort the remaining callbacks on this cron event, which may
+		// belong to other plugins.
+		try {
+			$this->api->delete_expired_codes();
+		} catch ( \Throwable $e ) {
+			$this->logger->error(
+				'Failed deleting expired autologin codes: ' . ( '' !== $e->getMessage() ? $e->getMessage() : get_class( $e ) ),
+				array(
+					'exception' => $e,
+					'action'    => $action_name,
+				)
+			);
+		}
 	}
 }

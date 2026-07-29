@@ -79,13 +79,23 @@ class REST_API extends WP_REST_Controller {
 			$expires_in = absint( $expires_in );
 		}
 
-		$url = $this->api->add_autologin_to_url(
-			$url,
-			$user,
-			$expires_in
-		);
-
-		// Check was the URL modified at all.
+		// NB: `add_autologin_to_url()` returns the URL unchanged when it cannot add a code – the
+		// user does not exist, the URL is not for this site, or storing the code failed. The
+		// response does not currently distinguish those.
+		try {
+			$url = $this->api->add_autologin_to_url(
+				(string) $url,
+				$user,
+				$expires_in
+			);
+		} catch ( \Throwable $e ) {
+			// The API logs the cause.
+			return new \WP_Error(
+				'autologin_code_failed',
+				__( 'Failed to create the autologin code.', 'bh-wp-autologin-urls' ),
+				array( 'status' => WP_Http::INTERNAL_SERVER_ERROR )
+			);
+		}
 
 		return $this->prepare_item_for_response( $url, $request );
 	}

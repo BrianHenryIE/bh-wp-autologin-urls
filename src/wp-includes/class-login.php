@@ -84,6 +84,30 @@ class Login {
 	 */
 	public function process( $user_id ) {
 
+		// `determine_current_user` runs on every request, so an uncaught throwable here would take
+		// down the whole site. Nothing this plugin does is worth that.
+		try {
+			return $this->maybe_login( $user_id );
+		} catch ( \Throwable $e ) {
+			$this->logger->error(
+				'Failed processing the autologin request: ' . ( '' !== $e->getMessage() ? $e->getMessage() : get_class( $e ) ),
+				array( 'exception' => $e )
+			);
+
+			return $user_id;
+		}
+	}
+
+	/**
+	 * Read the request querystring and log the user in when it contains a valid autologin code.
+	 *
+	 * @see self::process() for the exception handling.
+	 *
+	 * @param int|bool $user_id The already determined user ID, or false if none.
+	 * @return int|bool
+	 */
+	protected function maybe_login( $user_id ) {
+
 		remove_action( 'determine_current_user', array( $this, 'process' ), 30 );
 
 		// If we're logged in already, or there's no querystring to parse, just return.

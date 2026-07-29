@@ -69,7 +69,21 @@ class Login_Ajax {
 			}
 		}
 
-		$result = $this->api->send_magic_link( $username, $url );
+		try {
+			$result = $this->api->send_magic_link( $username, $url );
+		} catch ( \Throwable $e ) {
+			// This is a public (nopriv) endpoint; return a generic error rather than a fatal,
+			// which would render as an unhandled 500 in the login form's JS.
+			$this->logger->error(
+				'Failed sending the magic login email: ' . ( '' !== $e->getMessage() ? $e->getMessage() : get_class( $e ) ),
+				array( 'exception' => $e )
+			);
+
+			wp_send_json_error(
+				array( 'message' => __( 'An error occurred when sending the magic login email.', 'bh-wp-autologin-urls' ) ),
+				500
+			);
+		}
 
 		$response = array();
 

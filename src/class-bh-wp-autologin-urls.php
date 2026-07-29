@@ -167,7 +167,7 @@ class BH_WP_Autologin_URLs {
 		add_action( 'edit_user_profile', array( $user_edit, 'make_password_available_on_user_page' ), 1, 1 );
 		add_action( 'show_user_profile', array( $user_edit, 'make_password_available_on_user_page' ), 1, 1 );
 
-		$users_list_table = new Users_List_Table( $this->api, $this->settings );
+		$users_list_table = new Users_List_Table( $this->api, $this->settings, $this->logger );
 		add_filter( 'user_row_actions', array( $users_list_table, 'add_magic_email_link' ), 10, 2 );
 		add_action( 'admin_init', array( $users_list_table, 'send_magic_email_link' ) );
 	}
@@ -217,7 +217,7 @@ class BH_WP_Autologin_URLs {
 	 */
 	protected function define_wp_mail_hooks(): void {
 
-		$plugin_wp_mail = new WP_Mail( $this->api, $this->settings );
+		$plugin_wp_mail = new WP_Mail( $this->api, $this->settings, $this->logger );
 
 		add_filter( 'wp_mail', array( $plugin_wp_mail, 'add_autologin_links_to_email' ), 3 );
 	}

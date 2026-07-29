@@ -52,6 +52,10 @@ An API is available for developers to use autologin codes elsewhere in WordPress
 * Fix: REST API `expires_in` schema – `int` is not a valid type (WordPress `_doing_it_wrong` since 5.5), and it was wrongly marked `format: url`
 * Fix: PHP 8.1 deprecations – `FILTER_SANITIZE_STRING` / `FILTER_SANITIZE_STRIPPED`
 * Fix: PHP 8.4 deprecation – implicit nullable parameter
+* Fix: a failure storing an autologin code no longer breaks the operation it was hooked into – notably `wp_mail()`, where an uncaught exception could break other plugins' emails
+* Fix: catch throwables at every hook the plugin registers, so it can never fatal a site; failures are logged and shown as an admin notice
+* Fix: `$wpdb` error messages were lost before the exception was created, so the error admin notice had no detail
+* Fix: don't email a magic "Sign-in Link" when no autologin code could be created
 * Add: `get_wp_user()` to `API_Interface`
 * Tested up to WordPress 7.0
 * Dev: dev environment modernized – wp-browser 4 / Codeception 5, PHPStan level 8 over `src` and `tests`, PHPCS clean, Rector, Playwright against WordPress 7.0, rebuilt GitHub Actions

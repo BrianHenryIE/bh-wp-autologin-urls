@@ -9,12 +9,17 @@ namespace BrianHenryIE\WP_Autologin_URLs\Admin;
 
 use BrianHenryIE\WP_Autologin_URLs\API_Interface;
 use BrianHenryIE\WP_Autologin_URLs\Settings_Interface;
+use Psr\Log\LoggerAwareTrait;
+use Psr\Log\LoggerInterface;
+use Psr\Log\NullLogger;
 use WP_User;
 
 /**
  * Hooks into WP_User_List_Table to add the link; handles sending the link on the page load.
  */
 class Users_List_Table {
+
+	use LoggerAwareTrait;
 
 	/**
 	 * The plugin settings.
@@ -31,8 +36,11 @@ class Users_List_Table {
 	 *
 	 * @param API_Interface      $api For sending the magic link email.
 	 * @param Settings_Interface $settings The check is the setting enabled.
+	 * @param ?LoggerInterface   $logger A PSR logger.
 	 */
-	public function __construct( API_Interface $api, Settings_Interface $settings ) {
+	public function __construct( API_Interface $api, Settings_Interface $settings, ?LoggerInterface $logger = null ) {
+		$this->setLogger( $logger ?? new NullLogger() );
+
 		$this->api      = $api;
 		$this->settings = $settings;
 	}
@@ -103,7 +111,26 @@ class Users_List_Table {
 			return;
 		}
 
-		$result = $this->api->send_magic_link( $user->user_email );
+		try {
+			$result = $this->api->send_magic_link( $user->user_email );
+		} catch ( \Throwable $e ) {
+			// `admin_init`: a throwable here would white-screen the users list table.
+			$this->logger->error(
+				'Failed sending the magic login email: ' . ( '' !== $e->getMessage() ? $e->getMessage() : get_class( $e ) ),
+				array(
+					'exception' => $e,
+					'user_id'   => $user->ID,
+				)
+			);
+
+			$result = array(
+				'username_or_email_address' => $user->user_email,
+				'expires_in'                => 0,
+				'expires_in_friendly'       => '',
+				'success'                   => false,
+				'error'                     => true,
+			);
+		}
 
 		add_action(
 			'admin_notices',
