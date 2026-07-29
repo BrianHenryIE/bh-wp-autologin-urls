@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <title>Dashboard for /home/runner/work/bh-wp-autologin-urls/bh-wp-autologin-urls</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="_css/bootstrap.min.css?v=9.2.32" rel="stylesheet" type="text/css">
+  <link href="_css/nv.d3.min.css?v=9.2.32" rel="stylesheet" type="text/css">
+  <link href="_css/style.css?v=9.2.32" rel="stylesheet" type="text/css">
+  <link href="_css/custom.css" rel="stylesheet" type="text/css">
+ </head>
+ <body>
+  <header>
+   <div class="container-fluid">
+    <div class="row">
+     <div class="col-md-12">
+      <nav aria-label="breadcrumb">
+       <ol class="breadcrumb">
+         <li class="breadcrumb-item"><a href="index.html">/home/runner/work/bh-wp-autologin-urls/bh-wp-autologin-urls</a></li>
+         <li class="breadcrumb-item active">(Dashboard)</li>
+
+       </ol>
+      </nav>
+     </div>
+    </div>
+   </div>
+  </header>
+  <div class="container-fluid">
+   <div class="row">
+    <div class="col-md-12">
+     <h2>Classes</h2>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-6">
+     <h3>Coverage Distribution</h3>
+     <div id="classCoverageDistribution" style="height: 300px;">
+       <svg></svg>
+     </div>
+    </div>
+    <div class="col-md-6">
+     <h3>Complexity</h3>
+     <div id="classComplexity" style="height: 300px;">
+       <svg></svg>
+     </div>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-6">
+     <h3>Insufficient Coverage</h3>
+     <div class="scrollbox">
+      <table class="table">
+       <thead>
+        <tr>
+         <th>Class</th>
+         <th class="text-right">Coverage</th>
+        </tr>
+       </thead>
+       <tbody>
+       <tr><td><a href="src/admin/class-plugin-installer.php.html#17">BrianHenryIE\WP_Autologin_URLs\Admin\Plugin_Installer</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="src/admin/class-user-edit.php.html#22">BrianHenryIE\WP_Autologin_URLs\Admin\User_Edit</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="src/admin/class-users-list-table.php.html#20">BrianHenryIE\WP_Autologin_URLs\Admin\Users_List_Table</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="src/admin/settings-fields/class-checkbox-setting-element-abstract.php.html#13">BrianHenryIE\WP_Autologin_URLs\Admin\Settings_Fields\Checkbox_Setting_Element_Abstract</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="src/logger/class-klaviyo-logs.php.html#19">BrianHenryIE\WP_Autologin_URLs\Logger\Klaviyo_Logs</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="src/wp-includes/class-cli.php.html#22">BrianHenryIE\WP_Autologin_URLs\WP_Includes\CLI</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="src/api/integrations/class-the-newsletter-plugin.php.html#23">BrianHenryIE\WP_Autologin_URLs\API\Integrations\The_Newsletter_Plugin</a></td><td class="text-right">1%</td></tr>
+       <tr><td><a href="src/admin/settings-fields/class-klaviyo-private-key.php.html#18">BrianHenryIE\WP_Autologin_URLs\Admin\Settings_Fields\Klaviyo_Private_Key</a></td><td class="text-right">30%</td></tr>
+       <tr><td><a href="src/admin/settings-fields/class-log-level.php.html#20">BrianHenryIE\WP_Autologin_URLs\Admin\Settings_Fields\Log_Level</a></td><td class="text-right">40%</td></tr>
+       <tr><td><a href="src/login/class-login-ajax.php.html#20">BrianHenryIE\WP_Autologin_URLs\Login\Login_Ajax</a></td><td class="text-right">44%</td></tr>
+       <tr><td><a href="src/wp-includes/class-cron.php.html#20">BrianHenryIE\WP_Autologin_URLs\WP_Includes\Cron</a></td><td class="text-right">52%</td></tr>
+       <tr><td><a href="src/api/integrations/class-mailpoet.php.html#29">BrianHenryIE\WP_Autologin_URLs\API\Integrations\MailPoet</a></td><td class="text-right">65%</td></tr>
+       <tr><td><a href="src/admin/settings-fields/class-enable-magic-links.php.html#19">BrianHenryIE\WP_Autologin_URLs\Admin\Settings_Fields\Enable_Magic_Links</a></td><td class="text-right">66%</td></tr>
+       <tr><td><a href="src/api/data-stores/class-transient-data-store.php.html#22">BrianHenryIE\WP_Autologin_URLs\API\Data_Stores\Transient_Data_Store</a></td><td class="text-right">66%</td></tr>
+       <tr><td><a href="src/admin/class-settings-page.php.html#27">BrianHenryIE\WP_Autologin_URLs\Admin\Settings_Page</a></td><td class="text-right">69%</td></tr>
+       <tr><td><a href="src/class-bh-wp-autologin-urls.php.html#46">BrianHenryIE\WP_Autologin_URLs\BH_WP_Autologin_URLs</a></td><td class="text-right">70%</td></tr>
+       <tr><td><a href="src/wp-includes/class-login.php.html#26">BrianHenryIE\WP_Autologin_URLs\WP_Includes\Login</a></td><td class="text-right">70%</td></tr>
+       <tr><td><a href="src/api/data-stores/class-db-data-store.php.html#28">BrianHenryIE\WP_Autologin_URLs\API\Data_Stores\DB_Data_Store</a></td><td class="text-right">72%</td></tr>
+       <tr><td><a href="src/api/class-api.php.html#32">BrianHenryIE\WP_Autologin_URLs\API\API</a></td><td class="text-right">74%</td></tr>
+       <tr><td><a href="src/api/integrations/class-user-finder-factory.php.html#21">BrianHenryIE\WP_Autologin_URLs\API\Integrations\User_Finder_Factory</a></td><td class="text-right">77%</td></tr>
+       <tr><td><a href="src/admin/settings-fields/class-use-wp-login.php.html#19">BrianHenryIE\WP_Autologin_URLs\Admin\Settings_Fields\Use_WP_Login</a></td><td class="text-right">81%</td></tr>
+       <tr><td><a href="src/api/integrations/class-klaviyo.php.html#30">BrianHenryIE\WP_Autologin_URLs\API\Integrations\Klaviyo</a></td><td class="text-right">82%</td></tr>
+       <tr><td><a href="src/wp-includes/class-wp-mail.php.html#22">BrianHenryIE\WP_Autologin_URLs\WP_Includes\WP_Mail</a></td><td class="text-right">86%</td></tr>
+       <tr><td><a href="src/wp-includes/class-rest-api.php.html#20">BrianHenryIE\WP_Autologin_URLs\WP_Includes\REST_API</a></td><td class="text-right">87%</td></tr>
+       <tr><td><a href="src/api/class-settings.php.html#23">BrianHenryIE\WP_Autologin_URLs\API\Settings</a></td><td class="text-right">88%</td></tr>
+
+       </tbody>
+      </table>
+     </div>
+    </div>
+    <div class="col-md-6">
+     <h3>Project Risks</h3>
+     <div class="scrollbox">
+      <table class="table">
+       <thead>
+        <tr>
+         <th>Class</th>
+         <th class="text-right"><abbr title="Change Risk Anti-Patterns (CRAP) Index">CRAP</abbr></th>
+        </tr>
+       </thead>
+       <tbody>
+       <tr><td><a href="src/admin/class-users-list-table.php.html#20">BrianHenryIE\WP_Autologin_URLs\Admin\Users_List_Table</a></td><td class="text-right">342</td></tr>
+       <tr><td><a href="src/api/class-api.php.html#32">BrianHenryIE\WP_Autologin_URLs\API\API</a></td><td class="text-right">121</td></tr>
+       <tr><td><a href="src/wp-includes/class-cli.php.html#22">BrianHenryIE\WP_Autologin_URLs\WP_Includes\CLI</a></td><td class="text-right">90</td></tr>
+       <tr><td><a href="src/api/integrations/class-the-newsletter-plugin.php.html#23">BrianHenryIE\WP_Autologin_URLs\API\Integrations\The_Newsletter_Plugin</a></td><td class="text-right">85</td></tr>
+       <tr><td><a href="src/admin/class-user-edit.php.html#22">BrianHenryIE\WP_Autologin_URLs\Admin\User_Edit</a></td><td class="text-right">56</td></tr>
+       <tr><td><a href="src/wp-includes/class-login.php.html#26">BrianHenryIE\WP_Autologin_URLs\WP_Includes\Login</a></td><td class="text-right">36</td></tr>
+       <tr><td><a href="src/admin/settings-fields/class-checkbox-setting-element-abstract.php.html#13">BrianHenryIE\WP_Autologin_URLs\Admin\Settings_Fields\Checkbox_Setting_Element_Abstract</a></td><td class="text-right">30</td></tr>
+       <tr><td><a href="src/class-bh-wp-autologin-urls.php.html#46">BrianHenryIE\WP_Autologin_URLs\BH_WP_Autologin_URLs</a></td><td class="text-right">24</td></tr>
+       <tr><td><a href="src/login/class-login-ajax.php.html#20">BrianHenryIE\WP_Autologin_URLs\Login\Login_Ajax</a></td><td class="text-right">22</td></tr>
+       <tr><td><a href="src/api/data-stores/class-db-data-store.php.html#28">BrianHenryIE\WP_Autologin_URLs\API\Data_Stores\DB_Data_Store</a></td><td class="text-right">19</td></tr>
+       <tr><td><a href="src/wp-includes/class-wp-mail.php.html#22">BrianHenryIE\WP_Autologin_URLs\WP_Includes\WP_Mail</a></td><td class="text-right">19</td></tr>
+       <tr><td><a href="src/api/class-settings.php.html#23">BrianHenryIE\WP_Autologin_URLs\API\Settings</a></td><td class="text-right">18</td></tr>
+       <tr><td><a href="src/admin/settings-fields/class-log-level.php.html#20">BrianHenryIE\WP_Autologin_URLs\Admin\Settings_Fields\Log_Level</a></td><td class="text-right">17</td></tr>
+       <tr><td><a href="src/wp-includes/class-rest-api.php.html#20">BrianHenryIE\WP_Autologin_URLs\WP_Includes\REST_API</a></td><td class="text-right">16</td></tr>
+       <tr><td><a href="src/api/integrations/class-user-finder-factory.php.html#21">BrianHenryIE\WP_Autologin_URLs\API\Integrations\User_Finder_Factory</a></td><td class="text-right">16</td></tr>
+       <tr><td><a href="src/api/integrations/class-mailpoet.php.html#29">BrianHenryIE\WP_Autologin_URLs\API\Integrations\MailPoet</a></td><td class="text-right">14</td></tr>
+       <tr><td><a href="src/api/integrations/class-klaviyo.php.html#30">BrianHenryIE\WP_Autologin_URLs\API\Integrations\Klaviyo</a></td><td class="text-right">13</td></tr>
+       <tr><td><a href="src/admin/class-plugin-installer.php.html#17">BrianHenryIE\WP_Autologin_URLs\Admin\Plugin_Installer</a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="src/logger/class-klaviyo-logs.php.html#19">BrianHenryIE\WP_Autologin_URLs\Logger\Klaviyo_Logs</a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="src/admin/class-settings-page.php.html#27">BrianHenryIE\WP_Autologin_URLs\Admin\Settings_Page</a></td><td class="text-right">11</td></tr>
+       <tr><td><a href="src/wp-includes/class-cron.php.html#20">BrianHenryIE\WP_Autologin_URLs\WP_Includes\Cron</a></td><td class="text-right">9</td></tr>
+       <tr><td><a href="src/admin/settings-fields/class-enable-magic-links.php.html#19">BrianHenryIE\WP_Autologin_URLs\Admin\Settings_Fields\Enable_Magic_Links</a></td><td class="text-right">7</td></tr>
+       <tr><td><a href="src/api/data-stores/class-transient-data-store.php.html#22">BrianHenryIE\WP_Autologin_URLs\API\Data_Stores\Transient_Data_Store</a></td><td class="text-right">7</td></tr>
+       <tr><td><a href="src/admin/settings-fields/class-use-wp-login.php.html#19">BrianHenryIE\WP_Autologin_URLs\Admin\Settings_Fields\Use_WP_Login</a></td><td class="text-right">4</td></tr>
+
+       </tbody>
+      </table>
+     </div>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-12">
+     <h2>Methods</h2>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-6">
+     <h3>Coverage Distribution</h3>
+     <div id="methodCoverageDistribution" style="height: 300px;">
+       <svg></svg>
+     </div>
+    </div>
+    <div class="col-md-6">
+     <h3>Complexity</h3>
+     <div id="methodComplexity" style="height: 300px;">
+       <svg></svg>
+     </div>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-6">
+     <h3>Insufficient Coverage</h3>
+     <div class="scrollbox">
+      <table class="table">
+       <thead>
+        <tr>
+         <th>Method</th>
+         <th class="text-right">Coverage</th>
+        </tr>
+       </thead>
+       <tbody>
+       <tr><td><a href="src/admin/class-plugin-installer.php.html#36"><abbr title="BrianHenryIE\WP_Autologin_URLs\Admin\Plugin_Installer::__construct">__construct</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="src/admin/class-plugin-installer.php.html#57"><abbr title="BrianHenryIE\WP_Autologin_URLs\Admin\Plugin_Installer::add_settings_link">add_settings_link</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="src/admin/class-settings-page.php.html#69"><abbr title="BrianHenryIE\WP_Autologin_URLs\Admin\Settings_Page::display_plugin_admin_page">display_plugin_admin_page</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="src/admin/class-user-edit.php.html#42"><abbr title="BrianHenryIE\WP_Autologin_URLs\Admin\User_Edit::__construct">__construct</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="src/admin/class-user-edit.php.html#58"><abbr title="BrianHenryIE\WP_Autologin_URLs\Admin\User_Edit::make_password_available_on_user_page">make_password_available_on_user_page</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="src/admin/class-users-list-table.php.html#41"><abbr title="BrianHenryIE\WP_Autologin_URLs\Admin\Users_List_Table::__construct">__construct</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="src/admin/class-users-list-table.php.html#60"><abbr title="BrianHenryIE\WP_Autologin_URLs\Admin\Users_List_Table::add_magic_email_link">add_magic_email_link</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="src/admin/class-users-list-table.php.html#87"><abbr title="BrianHenryIE\WP_Autologin_URLs\Admin\Users_List_Table::send_magic_email_link">send_magic_email_link</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="src/admin/class-users-list-table.php.html#149"><abbr title="BrianHenryIE\WP_Autologin_URLs\Admin\Users_List_Table::print_admin_notice">print_admin_notice</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="src/admin/settings-fields/class-checkbox-setting-element-abstract.php.html#30"><abbr title="BrianHenryIE\WP_Autologin_URLs\Admin\Settings_Fields\Checkbox_Setting_Element_Abstract::print_field_callback">print_field_callback</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="src/admin/settings-fields/class-checkbox-setting-element-abstract.php.html#61"><abbr title="BrianHenryIE\WP_Autologin_URLs\Admin\Settings_Fields\Checkbox_Setting_Element_Abstract::sanitize_callback">sanitize_callback</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="src/admin/settings-fields/class-enable-magic-links.php.html#24"><abbr title="BrianHenryIE\WP_Autologin_URLs\Admin\Settings_Fields\Enable_Magic_Links::get_is_checked_value">get_is_checked_value</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="src/admin/settings-fields/class-enable-magic-links.php.html#30"><abbr title="BrianHenryIE\WP_Autologin_URLs\Admin\Settings_Fields\Enable_Magic_Links::get_is_not_checked_value">get_is_not_checked_value</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="src/admin/settings-fields/class-klaviyo-private-key.php.html#46"><abbr title="BrianHenryIE\WP_Autologin_URLs\Admin\Settings_Fields\Klaviyo_Private_Key::print_field_callback">print_field_callback</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="src/admin/settings-fields/class-klaviyo-private-key.php.html#76"><abbr title="BrianHenryIE\WP_Autologin_URLs\Admin\Settings_Fields\Klaviyo_Private_Key::sanitize_callback">sanitize_callback</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="src/admin/settings-fields/class-log-level.php.html#57"><abbr title="BrianHenryIE\WP_Autologin_URLs\Admin\Settings_Fields\Log_Level::print_field_callback">print_field_callback</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="src/admin/settings-fields/class-log-level.php.html#84"><abbr title="BrianHenryIE\WP_Autologin_URLs\Admin\Settings_Fields\Log_Level::sanitize_callback">sanitize_callback</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="src/admin/settings-fields/class-use-wp-login.php.html#24"><abbr title="BrianHenryIE\WP_Autologin_URLs\Admin\Settings_Fields\Use_WP_Login::get_is_checked_value">get_is_checked_value</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="src/admin/settings-fields/class-use-wp-login.php.html#31"><abbr title="BrianHenryIE\WP_Autologin_URLs\Admin\Settings_Fields\Use_WP_Login::get_is_not_checked_value">get_is_not_checked_value</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="src/api/class-settings.php.html#165"><abbr title="BrianHenryIE\WP_Autologin_URLs\API\Settings::get_klaviyo_private_api_key">get_klaviyo_private_api_key</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="src/api/class-settings.php.html#172"><abbr title="BrianHenryIE\WP_Autologin_URLs\API\Settings::is_magic_link_enabled">is_magic_link_enabled</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="src/api/data-stores/class-transient-data-store.php.html#89"><abbr title="BrianHenryIE\WP_Autologin_URLs\API\Data_Stores\Transient_Data_Store::delete_expired_codes">delete_expired_codes</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="src/api/integrations/class-mailpoet.php.html#37"><abbr title="BrianHenryIE\WP_Autologin_URLs\API\Integrations\MailPoet::__construct">__construct</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="src/api/integrations/class-the-newsletter-plugin.php.html#29"><abbr title="BrianHenryIE\WP_Autologin_URLs\API\Integrations\The_Newsletter_Plugin::__construct">__construct</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="src/api/integrations/class-the-newsletter-plugin.php.html#50"><abbr title="BrianHenryIE\WP_Autologin_URLs\API\Integrations\The_Newsletter_Plugin::get_wp_user_array">get_wp_user_array</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="src/class-bh-wp-autologin-urls.php.html#131"><abbr title="BrianHenryIE\WP_Autologin_URLs\BH_WP_Autologin_URLs::setup_api">setup_api</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="src/class-bh-wp-autologin-urls.php.html#206"><abbr title="BrianHenryIE\WP_Autologin_URLs\BH_WP_Autologin_URLs::define_plugin_installer_hooks">define_plugin_installer_hooks</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="src/class-bh-wp-autologin-urls.php.html#218"><abbr title="BrianHenryIE\WP_Autologin_URLs\BH_WP_Autologin_URLs::define_wp_mail_hooks">define_wp_mail_hooks</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="src/class-bh-wp-autologin-urls.php.html#280"><abbr title="BrianHenryIE\WP_Autologin_URLs\BH_WP_Autologin_URLs::define_logger_hooks">define_logger_hooks</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="src/class-bh-wp-autologin-urls.php.html#290"><abbr title="BrianHenryIE\WP_Autologin_URLs\BH_WP_Autologin_URLs::define_cli_hooks">define_cli_hooks</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="src/logger/class-klaviyo-logs.php.html#38"><abbr title="BrianHenryIE\WP_Autologin_URLs\Logger\Klaviyo_Logs::link_to_klaviyo_profile_search">link_to_klaviyo_profile_search</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="src/woocommerce/class-checkout.php.html#26"><abbr title="BrianHenryIE\WP_Autologin_URLs\WooCommerce\Checkout::__construct">__construct</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="src/wp-includes/class-cli.php.html#34"><abbr title="BrianHenryIE\WP_Autologin_URLs\WP_Includes\CLI::__construct">__construct</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="src/wp-includes/class-cli.php.html#68"><abbr title="BrianHenryIE\WP_Autologin_URLs\WP_Includes\CLI::add_autologin_to_url">add_autologin_to_url</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="src/wp-includes/class-cli.php.html#124"><abbr title="BrianHenryIE\WP_Autologin_URLs\WP_Includes\CLI::send_magic_link">send_magic_link</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="src/wp-includes/class-rest-api.php.html#33"><abbr title="BrianHenryIE\WP_Autologin_URLs\WP_Includes\REST_API::__construct">__construct</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="src/wp-includes/class-login.php.html#85"><abbr title="BrianHenryIE\WP_Autologin_URLs\WP_Includes\Login::process">process</abbr></a></td><td class="text-right">14%</td></tr>
+       <tr><td><a href="src/wp-includes/class-cron.php.html#65"><abbr title="BrianHenryIE\WP_Autologin_URLs\WP_Includes\Cron::delete_expired_codes">delete_expired_codes</abbr></a></td><td class="text-right">27%</td></tr>
+       <tr><td><a href="src/api/class-api.php.html#481"><abbr title="BrianHenryIE\WP_Autologin_URLs\API\API::get_ip_address">get_ip_address</abbr></a></td><td class="text-right">30%</td></tr>
+       <tr><td><a href="src/login/class-login-ajax.php.html#49"><abbr title="BrianHenryIE\WP_Autologin_URLs\Login\Login_Ajax::email_magic_link">email_magic_link</abbr></a></td><td class="text-right">40%</td></tr>
+       <tr><td><a href="src/api/class-api.php.html#442"><abbr title="BrianHenryIE\WP_Autologin_URLs\API\API::record_failed_login_attempt">record_failed_login_attempt</abbr></a></td><td class="text-right">50%</td></tr>
+       <tr><td><a href="src/api/data-stores/class-db-data-store.php.html#63"><abbr title="BrianHenryIE\WP_Autologin_URLs\API\Data_Stores\DB_Data_Store::create_db">create_db</abbr></a></td><td class="text-right">52%</td></tr>
+       <tr><td><a href="src/api/class-api.php.html#394"><abbr title="BrianHenryIE\WP_Autologin_URLs\API\API::should_allow_login_attempt">should_allow_login_attempt</abbr></a></td><td class="text-right">57%</td></tr>
+       <tr><td><a href="src/api/data-stores/class-db-data-store.php.html#117"><abbr title="BrianHenryIE\WP_Autologin_URLs\API\Data_Stores\DB_Data_Store::save">save</abbr></a></td><td class="text-right">63%</td></tr>
+       <tr><td><a href="src/wp-includes/class-rest-api.php.html#64"><abbr title="BrianHenryIE\WP_Autologin_URLs\WP_Includes\REST_API::create_item">create_item</abbr></a></td><td class="text-right">63%</td></tr>
+       <tr><td><a href="src/api/class-api.php.html#509"><abbr title="BrianHenryIE\WP_Autologin_URLs\API\API::send_magic_link">send_magic_link</abbr></a></td><td class="text-right">65%</td></tr>
+       <tr><td><a href="src/api/class-settings.php.html#135"><abbr title="BrianHenryIE\WP_Autologin_URLs\API\Settings::get_plugin_version">get_plugin_version</abbr></a></td><td class="text-right">66%</td></tr>
+       <tr><td><a href="src/api/integrations/class-mailpoet.php.html#63"><abbr title="BrianHenryIE\WP_Autologin_URLs\API\Integrations\MailPoet::get_wp_user_array">get_wp_user_array</abbr></a></td><td class="text-right">66%</td></tr>
+       <tr><td><a href="src/login/class-login-assets.php.html#43"><abbr title="BrianHenryIE\WP_Autologin_URLs\Login\Login_Assets::enqueue_styles">enqueue_styles</abbr></a></td><td class="text-right">66%</td></tr>
+       <tr><td><a href="src/wp-includes/class-login.php.html#231"><abbr title="BrianHenryIE\WP_Autologin_URLs\WP_Includes\Login::maybe_redirect">maybe_redirect</abbr></a></td><td class="text-right">69%</td></tr>
+       <tr><td><a href="src/api/class-api.php.html#110"><abbr title="BrianHenryIE\WP_Autologin_URLs\API\API::get_wp_user">get_wp_user</abbr></a></td><td class="text-right">73%</td></tr>
+       <tr><td><a href="src/api/integrations/class-klaviyo.php.html#79"><abbr title="BrianHenryIE\WP_Autologin_URLs\API\Integrations\Klaviyo::get_wp_user_array">get_wp_user_array</abbr></a></td><td class="text-right">75%</td></tr>
+       <tr><td><a href="src/woocommerce/class-admin-order-ui.php.html#66"><abbr title="BrianHenryIE\WP_Autologin_URLs\WooCommerce\Admin_Order_UI::add_to_payment_url">add_to_payment_url</abbr></a></td><td class="text-right">75%</td></tr>
+       <tr><td><a href="src/api/integrations/class-user-finder-factory.php.html#45"><abbr title="BrianHenryIE\WP_Autologin_URLs\API\Integrations\User_Finder_Factory::get_user_finder">get_user_finder</abbr></a></td><td class="text-right">75%</td></tr>
+       <tr><td><a href="src/wp-includes/class-login.php.html#109"><abbr title="BrianHenryIE\WP_Autologin_URLs\WP_Includes\Login::maybe_login">maybe_login</abbr></a></td><td class="text-right">75%</td></tr>
+       <tr><td><a href="src/admin/settings-fields/class-enable-magic-links.php.html#40"><abbr title="BrianHenryIE\WP_Autologin_URLs\Admin\Settings_Fields\Enable_Magic_Links::__construct">__construct</abbr></a></td><td class="text-right">76%</td></tr>
+       <tr><td><a href="src/api/data-stores/class-db-data-store.php.html#243"><abbr title="BrianHenryIE\WP_Autologin_URLs\API\Data_Stores\DB_Data_Store::delete_expired_codes">delete_expired_codes</abbr></a></td><td class="text-right">77%</td></tr>
+       <tr><td><a href="src/wp-includes/class-wp-mail.php.html#94"><abbr title="BrianHenryIE\WP_Autologin_URLs\WP_Includes\WP_Mail::maybe_add_autologin_links_to_email">maybe_add_autologin_links_to_email</abbr></a></td><td class="text-right">81%</td></tr>
+       <tr><td><a href="src/api/integrations/class-klaviyo.php.html#135"><abbr title="BrianHenryIE\WP_Autologin_URLs\API\Integrations\Klaviyo::get_user_data">get_user_data</abbr></a></td><td class="text-right">83%</td></tr>
+       <tr><td><a href="src/api/data-stores/class-transient-data-store.php.html#65"><abbr title="BrianHenryIE\WP_Autologin_URLs\API\Data_Stores\Transient_Data_Store::get_value_for_code">get_value_for_code</abbr></a></td><td class="text-right">85%</td></tr>
+       <tr><td><a href="src/wp-includes/class-rest-api.php.html#111"><abbr title="BrianHenryIE\WP_Autologin_URLs\WP_Includes\REST_API::create_item_permissions_check">create_item_permissions_check</abbr></a></td><td class="text-right">87%</td></tr>
+
+       </tbody>
+      </table>
+     </div>
+    </div>
+    <div class="col-md-6">
+     <h3>Project Risks</h3>
+     <div class="scrollbox">
+      <table class="table">
+       <thead>
+        <tr>
+         <th>Method</th>
+         <th class="text-right"><abbr title="Change Risk Anti-Patterns (CRAP) Index">CRAP</abbr></th>
+        </tr>
+       </thead>
+       <tbody>
+       <tr><td><a href="src/admin/class-users-list-table.php.html#87"><abbr title="BrianHenryIE\WP_Autologin_URLs\Admin\Users_List_Table::send_magic_email_link">send_magic_email_link</abbr></a></td><td class="text-right">72</td></tr>
+       <tr><td><a href="src/api/integrations/class-the-newsletter-plugin.php.html#50"><abbr title="BrianHenryIE\WP_Autologin_URLs\API\Integrations\The_Newsletter_Plugin::get_wp_user_array">get_wp_user_array</abbr></a></td><td class="text-right">56</td></tr>
+       <tr><td><a href="src/admin/class-user-edit.php.html#58"><abbr title="BrianHenryIE\WP_Autologin_URLs\Admin\User_Edit::make_password_available_on_user_page">make_password_available_on_user_page</abbr></a></td><td class="text-right">42</td></tr>
+       <tr><td><a href="src/admin/class-users-list-table.php.html#60"><abbr title="BrianHenryIE\WP_Autologin_URLs\Admin\Users_List_Table::add_magic_email_link">add_magic_email_link</abbr></a></td><td class="text-right">42</td></tr>
+       <tr><td><a href="src/wp-includes/class-cli.php.html#68"><abbr title="BrianHenryIE\WP_Autologin_URLs\WP_Includes\CLI::add_autologin_to_url">add_autologin_to_url</abbr></a></td><td class="text-right">30</td></tr>
+       <tr><td><a href="src/api/class-api.php.html#481"><abbr title="BrianHenryIE\WP_Autologin_URLs\API\API::get_ip_address">get_ip_address</abbr></a></td><td class="text-right">23</td></tr>
+       <tr><td><a href="src/login/class-login-ajax.php.html#49"><abbr title="BrianHenryIE\WP_Autologin_URLs\Login\Login_Ajax::email_magic_link">email_magic_link</abbr></a></td><td class="text-right">21</td></tr>
+       <tr><td><a href="src/admin/class-settings-page.php.html#69"><abbr title="BrianHenryIE\WP_Autologin_URLs\Admin\Settings_Page::display_plugin_admin_page">display_plugin_admin_page</abbr></a></td><td class="text-right">20</td></tr>
+       <tr><td><a href="src/wp-includes/class-wp-mail.php.html#94"><abbr title="BrianHenryIE\WP_Autologin_URLs\WP_Includes\WP_Mail::maybe_add_autologin_links_to_email">maybe_add_autologin_links_to_email</abbr></a></td><td class="text-right">16</td></tr>
+       <tr><td><a href="src/api/integrations/class-user-finder-factory.php.html#45"><abbr title="BrianHenryIE\WP_Autologin_URLs\API\Integrations\User_Finder_Factory::get_user_finder">get_user_finder</abbr></a></td><td class="text-right">15</td></tr>
+       <tr><td><a href="src/wp-includes/class-login.php.html#109"><abbr title="BrianHenryIE\WP_Autologin_URLs\WP_Includes\Login::maybe_login">maybe_login</abbr></a></td><td class="text-right">15</td></tr>
+       <tr><td><a href="src/api/class-api.php.html#509"><abbr title="BrianHenryIE\WP_Autologin_URLs\API\API::send_magic_link">send_magic_link</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="src/admin/class-users-list-table.php.html#149"><abbr title="BrianHenryIE\WP_Autologin_URLs\Admin\Users_List_Table::print_admin_notice">print_admin_notice</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="src/admin/settings-fields/class-checkbox-setting-element-abstract.php.html#61"><abbr title="BrianHenryIE\WP_Autologin_URLs\Admin\Settings_Fields\Checkbox_Setting_Element_Abstract::sanitize_callback">sanitize_callback</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="src/admin/settings-fields/class-log-level.php.html#57"><abbr title="BrianHenryIE\WP_Autologin_URLs\Admin\Settings_Fields\Log_Level::print_field_callback">print_field_callback</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="src/admin/settings-fields/class-log-level.php.html#84"><abbr title="BrianHenryIE\WP_Autologin_URLs\Admin\Settings_Fields\Log_Level::sanitize_callback">sanitize_callback</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="src/class-bh-wp-autologin-urls.php.html#290"><abbr title="BrianHenryIE\WP_Autologin_URLs\BH_WP_Autologin_URLs::define_cli_hooks">define_cli_hooks</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="src/logger/class-klaviyo-logs.php.html#38"><abbr title="BrianHenryIE\WP_Autologin_URLs\Logger\Klaviyo_Logs::link_to_klaviyo_profile_search">link_to_klaviyo_profile_search</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="src/wp-includes/class-cli.php.html#124"><abbr title="BrianHenryIE\WP_Autologin_URLs\WP_Includes\CLI::send_magic_link">send_magic_link</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="src/api/class-api.php.html#110"><abbr title="BrianHenryIE\WP_Autologin_URLs\API\API::get_wp_user">get_wp_user</abbr></a></td><td class="text-right">11</td></tr>
+       <tr><td><a href="src/api/integrations/class-mailpoet.php.html#63"><abbr title="BrianHenryIE\WP_Autologin_URLs\API\Integrations\MailPoet::get_wp_user_array">get_wp_user_array</abbr></a></td><td class="text-right">8</td></tr>
+       <tr><td><a href="src/wp-includes/class-login.php.html#85"><abbr title="BrianHenryIE\WP_Autologin_URLs\WP_Includes\Login::process">process</abbr></a></td><td class="text-right">8</td></tr>
+       <tr><td><a href="src/wp-includes/class-rest-api.php.html#64"><abbr title="BrianHenryIE\WP_Autologin_URLs\WP_Includes\REST_API::create_item">create_item</abbr></a></td><td class="text-right">7</td></tr>
+       <tr><td><a href="src/wp-includes/class-login.php.html#231"><abbr title="BrianHenryIE\WP_Autologin_URLs\WP_Includes\Login::maybe_redirect">maybe_redirect</abbr></a></td><td class="text-right">7</td></tr>
+       <tr><td><a href="src/wp-includes/class-cron.php.html#65"><abbr title="BrianHenryIE\WP_Autologin_URLs\WP_Includes\Cron::delete_expired_codes">delete_expired_codes</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="src/api/integrations/class-klaviyo.php.html#135"><abbr title="BrianHenryIE\WP_Autologin_URLs\API\Integrations\Klaviyo::get_user_data">get_user_data</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="src/admin/class-plugin-installer.php.html#57"><abbr title="BrianHenryIE\WP_Autologin_URLs\Admin\Plugin_Installer::add_settings_link">add_settings_link</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="src/admin/settings-fields/class-checkbox-setting-element-abstract.php.html#30"><abbr title="BrianHenryIE\WP_Autologin_URLs\Admin\Settings_Fields\Checkbox_Setting_Element_Abstract::print_field_callback">print_field_callback</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="src/api/data-stores/class-db-data-store.php.html#63"><abbr title="BrianHenryIE\WP_Autologin_URLs\API\Data_Stores\DB_Data_Store::create_db">create_db</abbr></a></td><td class="text-right">5</td></tr>
+       <tr><td><a href="src/api/integrations/class-klaviyo.php.html#79"><abbr title="BrianHenryIE\WP_Autologin_URLs\API\Integrations\Klaviyo::get_wp_user_array">get_wp_user_array</abbr></a></td><td class="text-right">4</td></tr>
+       <tr><td><a href="src/admin/settings-fields/class-enable-magic-links.php.html#40"><abbr title="BrianHenryIE\WP_Autologin_URLs\Admin\Settings_Fields\Enable_Magic_Links::__construct">__construct</abbr></a></td><td class="text-right">4</td></tr>
+       <tr><td><a href="src/wp-includes/class-rest-api.php.html#111"><abbr title="BrianHenryIE\WP_Autologin_URLs\WP_Includes\REST_API::create_item_permissions_check">create_item_permissions_check</abbr></a></td><td class="text-right">4</td></tr>
+       <tr><td><a href="src/api/class-api.php.html#394"><abbr title="BrianHenryIE\WP_Autologin_URLs\API\API::should_allow_login_attempt">should_allow_login_attempt</abbr></a></td><td class="text-right">3</td></tr>
+       <tr><td><a href="src/api/data-stores/class-db-data-store.php.html#117"><abbr title="BrianHenryIE\WP_Autologin_URLs\API\Data_Stores\DB_Data_Store::save">save</abbr></a></td><td class="text-right">3</td></tr>
+       <tr><td><a href="src/api/data-stores/class-transient-data-store.php.html#65"><abbr title="BrianHenryIE\WP_Autologin_URLs\API\Data_Stores\Transient_Data_Store::get_value_for_code">get_value_for_code</abbr></a></td><td class="text-right">3</td></tr>
+       <tr><td><a href="src/api/class-api.php.html#442"><abbr title="BrianHenryIE\WP_Autologin_URLs\API\API::record_failed_login_attempt">record_failed_login_attempt</abbr></a></td><td class="text-right">2</td></tr>
+       <tr><td><a href="src/api/class-settings.php.html#135"><abbr title="BrianHenryIE\WP_Autologin_URLs\API\Settings::get_plugin_version">get_plugin_version</abbr></a></td><td class="text-right">2</td></tr>
+       <tr><td><a href="src/login/class-login-assets.php.html#43"><abbr title="BrianHenryIE\WP_Autologin_URLs\Login\Login_Assets::enqueue_styles">enqueue_styles</abbr></a></td><td class="text-right">2</td></tr>
+       <tr><td><a href="src/woocommerce/class-admin-order-ui.php.html#66"><abbr title="BrianHenryIE\WP_Autologin_URLs\WooCommerce\Admin_Order_UI::add_to_payment_url">add_to_payment_url</abbr></a></td><td class="text-right">2</td></tr>
+       <tr><td><a href="src/api/data-stores/class-db-data-store.php.html#243"><abbr title="BrianHenryIE\WP_Autologin_URLs\API\Data_Stores\DB_Data_Store::delete_expired_codes">delete_expired_codes</abbr></a></td><td class="text-right">2</td></tr>
+
+       </tbody>
+      </table>
+     </div>
+    </div>
+   </div>
+   <footer>
+    <hr/>
+    <p>
+     <small>Generated by <a href="https://github.com/sebastianbergmann/php-code-coverage" target="_top">php-code-coverage 9.2.32</a> using <a href="https://secure.php.net/" target="_top">PHP 8.4.24</a> at Wed Jul 29 16:37:40 UTC 2026.</small>
+    </p>
+   </footer>
+  </div>
+  <script src="_js/jquery.min.js?v=9.2.32" type="text/javascript"></script>
+  <script src="_js/d3.min.js?v=9.2.32" type="text/javascript"></script>
+  <script src="_js/nv.d3.min.js?v=9.2.32" type="text/javascript"></script>
+  <script type="text/javascript">
+$(document).ready(function() {
+  nv.addGraph(function() {
+    var chart = nv.models.multiBarChart();
+    chart.tooltips(false)
+      .showControls(false)
+      .showLegend(false)
+      .reduceXTicks(false)
+      .staggerLabels(true)
+      .yAxis.tickFormat(d3.format('d'));
+
+    d3.select('#classCoverageDistribution svg')
+      .datum(getCoverageDistributionData([6,1,0,0,1,2,1,4,5,5,5,7], "Class Coverage"))
+      .transition().duration(500).call(chart);
+
+    nv.utils.windowResize(chart.update);
+
+    return chart;
+  });
+
+  nv.addGraph(function() {
+    var chart = nv.models.multiBarChart();
+    chart.tooltips(false)
+      .showControls(false)
+      .showLegend(false)
+      .reduceXTicks(false)
+      .staggerLabels(true)
+      .yAxis.tickFormat(d3.format('d'));
+
+    d3.select('#methodCoverageDistribution svg')
+      .datum(getCoverageDistributionData([36,0,1,1,1,1,3,7,7,4,8,82], "Method Coverage"))
+      .transition().duration(500).call(chart);
+
+    nv.utils.windowResize(chart.update);
+
+    return chart;
+  });
+
+  function getCoverageDistributionData(data, label) {
+    var labels = [
+      '0%',
+      '0-10%',
+      '10-20%',
+      '20-30%',
+      '30-40%',
+      '40-50%',
+      '50-60%',
+      '60-70%',
+      '70-80%',
+      '80-90%',
+      '90-100%',
+      '100%'
+    ];
+    var values = [];
+    $.each(labels, function(key) {
+      values.push({x: labels[key], y: data[key]});
+    });
+
+    return [
+      {
+        key: label,
+        values: values,
+        color: "#4572A7"
+      }
+    ];
+  }
+  nv.addGraph(function() {
+    var chart = nv.models.scatterChart()
+      .showDistX(true)
+      .showDistY(true)
+      .showLegend(false)
+      .forceX([0, 100]);
+    chart.tooltipContent(function(graph) {
+      return '<p>' + graph.point.class + '</p>';
+    });
+
+    chart.xAxis.axisLabel('Code Coverage (in percent)');
+    chart.yAxis.axisLabel('Cyclomatic Complexity');
+
+    d3.select('#classComplexity svg')
+      .datum(getComplexityData([[100,3,"<a href=\"src\/admin\/class-admin-assets.php.html#18\">BrianHenryIE\\WP_Autologin_URLs\\Admin\\Admin_Assets<\/a>"],[0,3,"<a href=\"src\/admin\/class-plugin-installer.php.html#17\">BrianHenryIE\\WP_Autologin_URLs\\Admin\\Plugin_Installer<\/a>"],[100,4,"<a href=\"src\/admin\/class-plugins-page.php.html#18\">BrianHenryIE\\WP_Autologin_URLs\\Admin\\Plugins_Page<\/a>"],[69.23076923076923,9,"<a href=\"src\/admin\/class-settings-page.php.html#27\">BrianHenryIE\\WP_Autologin_URLs\\Admin\\Settings_Page<\/a>"],[0,7,"<a href=\"src\/admin\/class-user-edit.php.html#22\">BrianHenryIE\\WP_Autologin_URLs\\Admin\\User_Edit<\/a>"],[0,18,"<a href=\"src\/admin\/class-users-list-table.php.html#20\">BrianHenryIE\\WP_Autologin_URLs\\Admin\\Users_List_Table<\/a>"],[100,7,"<a href=\"src\/admin\/settings-fields\/class-admin-enable.php.html#19\">BrianHenryIE\\WP_Autologin_URLs\\Admin\\Settings_Fields\\Admin_Enable<\/a>"],[0,5,"<a href=\"src\/admin\/settings-fields\/class-checkbox-setting-element-abstract.php.html#13\">BrianHenryIE\\WP_Autologin_URLs\\Admin\\Settings_Fields\\Checkbox_Setting_Element_Abstract<\/a>"],[66.66666666666666,6,"<a href=\"src\/admin\/settings-fields\/class-enable-magic-links.php.html#19\">BrianHenryIE\\WP_Autologin_URLs\\Admin\\Settings_Fields\\Enable_Magic_Links<\/a>"],[100,5,"<a href=\"src\/admin\/settings-fields\/class-expiry-age.php.html#20\">BrianHenryIE\\WP_Autologin_URLs\\Admin\\Settings_Fields\\Expiry_Age<\/a>"],[30.434782608695656,3,"<a href=\"src\/admin\/settings-fields\/class-klaviyo-private-key.php.html#18\">BrianHenryIE\\WP_Autologin_URLs\\Admin\\Settings_Fields\\Klaviyo_Private_Key<\/a>"],[40,7,"<a href=\"src\/admin\/settings-fields\/class-log-level.php.html#20\">BrianHenryIE\\WP_Autologin_URLs\\Admin\\Settings_Fields\\Log_Level<\/a>"],[100,3,"<a href=\"src\/admin\/settings-fields\/class-settings-section-element-abstract.php.html#22\">BrianHenryIE\\WP_Autologin_URLs\\Admin\\Settings_Fields\\Settings_Section_Element_Abstract<\/a>"],[81.81818181818183,4,"<a href=\"src\/admin\/settings-fields\/class-use-wp-login.php.html#19\">BrianHenryIE\\WP_Autologin_URLs\\Admin\\Settings_Fields\\Use_WP_Login<\/a>"],[74.66666666666667,61,"<a href=\"src\/api\/class-api.php.html#32\">BrianHenryIE\\WP_Autologin_URLs\\API\\API<\/a>"],[100,2,"<a href=\"src\/api\/class-rate-limiter.php.html#19\">BrianHenryIE\\WP_Autologin_URLs\\API\\Rate_Limiter<\/a>"],[88,18,"<a href=\"src\/api\/class-settings.php.html#23\">BrianHenryIE\\WP_Autologin_URLs\\API\\Settings<\/a>"],[72,15,"<a href=\"src\/api\/data-stores\/class-db-data-store.php.html#28\">BrianHenryIE\\WP_Autologin_URLs\\API\\Data_Stores\\DB_Data_Store<\/a>"],[66.66666666666666,6,"<a href=\"src\/api\/data-stores\/class-transient-data-store.php.html#22\">BrianHenryIE\\WP_Autologin_URLs\\API\\Data_Stores\\Transient_Data_Store<\/a>"],[95.45454545454545,11,"<a href=\"src\/api\/integrations\/class-autologin-urls.php.html#22\">BrianHenryIE\\WP_Autologin_URLs\\API\\Integrations\\Autologin_URLs<\/a>"],[82.25806451612904,13,"<a href=\"src\/api\/integrations\/class-klaviyo.php.html#30\">BrianHenryIE\\WP_Autologin_URLs\\API\\Integrations\\Klaviyo<\/a>"],[65.625,10,"<a href=\"src\/api\/integrations\/class-mailpoet.php.html#29\">BrianHenryIE\\WP_Autologin_URLs\\API\\Integrations\\MailPoet<\/a>"],[1.694915254237288,9,"<a href=\"src\/api\/integrations\/class-the-newsletter-plugin.php.html#23\">BrianHenryIE\\WP_Autologin_URLs\\API\\Integrations\\The_Newsletter_Plugin<\/a>"],[77.5,14,"<a href=\"src\/api\/integrations\/class-user-finder-factory.php.html#21\">BrianHenryIE\\WP_Autologin_URLs\\API\\Integrations\\User_Finder_Factory<\/a>"],[70.88607594936708,17,"<a href=\"src\/class-bh-wp-autologin-urls.php.html#46\">BrianHenryIE\\WP_Autologin_URLs\\BH_WP_Autologin_URLs<\/a>"],[0,3,"<a href=\"src\/logger\/class-klaviyo-logs.php.html#19\">BrianHenryIE\\WP_Autologin_URLs\\Logger\\Klaviyo_Logs<\/a>"],[44.827586206896555,9,"<a href=\"src\/login\/class-login-ajax.php.html#20\">BrianHenryIE\\WP_Autologin_URLs\\Login\\Login_Ajax<\/a>"],[90.47619047619048,5,"<a href=\"src\/login\/class-login-assets.php.html#18\">BrianHenryIE\\WP_Autologin_URLs\\Login\\Login_Assets<\/a>"],[95,13,"<a href=\"src\/woocommerce\/class-admin-order-ui.php.html#22\">BrianHenryIE\\WP_Autologin_URLs\\WooCommerce\\Admin_Order_UI<\/a>"],[93.47826086956522,9,"<a href=\"src\/woocommerce\/class-checkout.php.html#18\">BrianHenryIE\\WP_Autologin_URLs\\WooCommerce\\Checkout<\/a>"],[94.73684210526315,3,"<a href=\"src\/woocommerce\/class-login-form.php.html#16\">BrianHenryIE\\WP_Autologin_URLs\\WooCommerce\\Login_Form<\/a>"],[0,9,"<a href=\"src\/wp-includes\/class-cli.php.html#22\">BrianHenryIE\\WP_Autologin_URLs\\WP_Includes\\CLI<\/a>"],[52.94117647058824,6,"<a href=\"src\/wp-includes\/class-cron.php.html#20\">BrianHenryIE\\WP_Autologin_URLs\\WP_Includes\\Cron<\/a>"],[100,1,"<a href=\"src\/wp-includes\/class-i18n.php.html#22\">BrianHenryIE\\WP_Autologin_URLs\\WP_Includes\\I18n<\/a>"],[70.93023255813954,23,"<a href=\"src\/wp-includes\/class-login.php.html#26\">BrianHenryIE\\WP_Autologin_URLs\\WP_Includes\\Login<\/a>"],[87.62886597938144,16,"<a href=\"src\/wp-includes\/class-rest-api.php.html#20\">BrianHenryIE\\WP_Autologin_URLs\\WP_Includes\\REST_API<\/a>"],[86.95652173913044,19,"<a href=\"src\/wp-includes\/class-wp-mail.php.html#22\">BrianHenryIE\\WP_Autologin_URLs\\WP_Includes\\WP_Mail<\/a>"]], 'Class Complexity'))
+      .transition()
+      .duration(500)
+      .call(chart);
+
+    nv.utils.windowResize(chart.update);
+
+    return chart;
+  });
+
+  nv.addGraph(function() {
+    var chart = nv.models.scatterChart()
+      .showDistX(true)
+      .showDistY(true)
+      .showLegend(false)
+      .forceX([0, 100]);
+    chart.tooltipContent(function(graph) {
+      return '<p>' + graph.point.class + '</p>';
+    });
+
+    chart.xAxis.axisLabel('Code Coverage (in percent)');
+    chart.yAxis.axisLabel('Method Complexity');
+
+    d3.select('#methodComplexity svg')
+      .datum(getComplexityData([[100,1,"<a href=\"src\/admin\/class-admin-assets.php.html#32\">BrianHenryIE\\WP_Autologin_URLs\\Admin\\Admin_Assets::__construct<\/a>"],[100,1,"<a href=\"src\/admin\/class-admin-assets.php.html#43\">BrianHenryIE\\WP_Autologin_URLs\\Admin\\Admin_Assets::enqueue_styles<\/a>"],[100,1,"<a href=\"src\/admin\/class-admin-assets.php.html#55\">BrianHenryIE\\WP_Autologin_URLs\\Admin\\Admin_Assets::enqueue_scripts<\/a>"],[0,1,"<a href=\"src\/admin\/class-plugin-installer.php.html#36\">BrianHenryIE\\WP_Autologin_URLs\\Admin\\Plugin_Installer::__construct<\/a>"],[0,2,"<a href=\"src\/admin\/class-plugin-installer.php.html#57\">BrianHenryIE\\WP_Autologin_URLs\\Admin\\Plugin_Installer::add_settings_link<\/a>"],[100,1,"<a href=\"src\/admin\/class-plugins-page.php.html#32\">BrianHenryIE\\WP_Autologin_URLs\\Admin\\Plugins_Page::__construct<\/a>"],[100,1,"<a href=\"src\/admin\/class-plugins-page.php.html#47\">BrianHenryIE\\WP_Autologin_URLs\\Admin\\Plugins_Page::action_links<\/a>"],[100,2,"<a href=\"src\/admin\/class-plugins-page.php.html#70\">BrianHenryIE\\WP_Autologin_URLs\\Admin\\Plugins_Page::row_meta<\/a>"],[100,1,"<a href=\"src\/admin\/class-settings-page.php.html#43\">BrianHenryIE\\WP_Autologin_URLs\\Admin\\Settings_Page::__construct<\/a>"],[100,1,"<a href=\"src\/admin\/class-settings-page.php.html#55\">BrianHenryIE\\WP_Autologin_URLs\\Admin\\Settings_Page::add_settings_page<\/a>"],[0,4,"<a href=\"src\/admin\/class-settings-page.php.html#69\">BrianHenryIE\\WP_Autologin_URLs\\Admin\\Settings_Page::display_plugin_admin_page<\/a>"],[100,1,"<a href=\"src\/admin\/class-settings-page.php.html#102\">BrianHenryIE\\WP_Autologin_URLs\\Admin\\Settings_Page::setup_sections<\/a>"],[100,2,"<a href=\"src\/admin\/class-settings-page.php.html#123\">BrianHenryIE\\WP_Autologin_URLs\\Admin\\Settings_Page::setup_fields<\/a>"],[0,1,"<a href=\"src\/admin\/class-user-edit.php.html#42\">BrianHenryIE\\WP_Autologin_URLs\\Admin\\User_Edit::__construct<\/a>"],[0,6,"<a href=\"src\/admin\/class-user-edit.php.html#58\">BrianHenryIE\\WP_Autologin_URLs\\Admin\\User_Edit::make_password_available_on_user_page<\/a>"],[0,1,"<a href=\"src\/admin\/class-users-list-table.php.html#41\">BrianHenryIE\\WP_Autologin_URLs\\Admin\\Users_List_Table::__construct<\/a>"],[0,6,"<a href=\"src\/admin\/class-users-list-table.php.html#60\">BrianHenryIE\\WP_Autologin_URLs\\Admin\\Users_List_Table::add_magic_email_link<\/a>"],[0,8,"<a href=\"src\/admin\/class-users-list-table.php.html#87\">BrianHenryIE\\WP_Autologin_URLs\\Admin\\Users_List_Table::send_magic_email_link<\/a>"],[0,3,"<a href=\"src\/admin\/class-users-list-table.php.html#149\">BrianHenryIE\\WP_Autologin_URLs\\Admin\\Users_List_Table::print_admin_notice<\/a>"],[100,2,"<a href=\"src\/admin\/settings-fields\/class-admin-enable.php.html#27\">BrianHenryIE\\WP_Autologin_URLs\\Admin\\Settings_Fields\\Admin_Enable::__construct<\/a>"],[100,2,"<a href=\"src\/admin\/settings-fields\/class-admin-enable.php.html#46\">BrianHenryIE\\WP_Autologin_URLs\\Admin\\Settings_Fields\\Admin_Enable::print_field_callback<\/a>"],[100,3,"<a href=\"src\/admin\/settings-fields\/class-admin-enable.php.html#67\">BrianHenryIE\\WP_Autologin_URLs\\Admin\\Settings_Fields\\Admin_Enable::sanitize_callback<\/a>"],[100,0,"<a href=\"src\/admin\/settings-fields\/class-checkbox-setting-element-abstract.php.html#18\">BrianHenryIE\\WP_Autologin_URLs\\Admin\\Settings_Fields\\Checkbox_Setting_Element_Abstract::get_is_checked_value<\/a>"],[100,0,"<a href=\"src\/admin\/settings-fields\/class-checkbox-setting-element-abstract.php.html#23\">BrianHenryIE\\WP_Autologin_URLs\\Admin\\Settings_Fields\\Checkbox_Setting_Element_Abstract::get_is_not_checked_value<\/a>"],[0,2,"<a href=\"src\/admin\/settings-fields\/class-checkbox-setting-element-abstract.php.html#30\">BrianHenryIE\\WP_Autologin_URLs\\Admin\\Settings_Fields\\Checkbox_Setting_Element_Abstract::print_field_callback<\/a>"],[0,3,"<a href=\"src\/admin\/settings-fields\/class-checkbox-setting-element-abstract.php.html#61\">BrianHenryIE\\WP_Autologin_URLs\\Admin\\Settings_Fields\\Checkbox_Setting_Element_Abstract::sanitize_callback<\/a>"],[0,1,"<a href=\"src\/admin\/settings-fields\/class-enable-magic-links.php.html#24\">BrianHenryIE\\WP_Autologin_URLs\\Admin\\Settings_Fields\\Enable_Magic_Links::get_is_checked_value<\/a>"],[0,1,"<a href=\"src\/admin\/settings-fields\/class-enable-magic-links.php.html#30\">BrianHenryIE\\WP_Autologin_URLs\\Admin\\Settings_Fields\\Enable_Magic_Links::get_is_not_checked_value<\/a>"],[76.92307692307693,4,"<a href=\"src\/admin\/settings-fields\/class-enable-magic-links.php.html#40\">BrianHenryIE\\WP_Autologin_URLs\\Admin\\Settings_Fields\\Enable_Magic_Links::__construct<\/a>"],[100,1,"<a href=\"src\/admin\/settings-fields\/class-expiry-age.php.html#28\">BrianHenryIE\\WP_Autologin_URLs\\Admin\\Settings_Fields\\Expiry_Age::__construct<\/a>"],[100,1,"<a href=\"src\/admin\/settings-fields\/class-expiry-age.php.html#51\">BrianHenryIE\\WP_Autologin_URLs\\Admin\\Settings_Fields\\Expiry_Age::print_field_callback<\/a>"],[100,3,"<a href=\"src\/admin\/settings-fields\/class-expiry-age.php.html#69\">BrianHenryIE\\WP_Autologin_URLs\\Admin\\Settings_Fields\\Expiry_Age::sanitize_callback<\/a>"],[100,1,"<a href=\"src\/admin\/settings-fields\/class-klaviyo-private-key.php.html#26\">BrianHenryIE\\WP_Autologin_URLs\\Admin\\Settings_Fields\\Klaviyo_Private_Key::__construct<\/a>"],[0,1,"<a href=\"src\/admin\/settings-fields\/class-klaviyo-private-key.php.html#46\">BrianHenryIE\\WP_Autologin_URLs\\Admin\\Settings_Fields\\Klaviyo_Private_Key::print_field_callback<\/a>"],[0,1,"<a href=\"src\/admin\/settings-fields\/class-klaviyo-private-key.php.html#76\">BrianHenryIE\\WP_Autologin_URLs\\Admin\\Settings_Fields\\Klaviyo_Private_Key::sanitize_callback<\/a>"],[100,1,"<a href=\"src\/admin\/settings-fields\/class-log-level.php.html#35\">BrianHenryIE\\WP_Autologin_URLs\\Admin\\Settings_Fields\\Log_Level::__construct<\/a>"],[0,3,"<a href=\"src\/admin\/settings-fields\/class-log-level.php.html#57\">BrianHenryIE\\WP_Autologin_URLs\\Admin\\Settings_Fields\\Log_Level::print_field_callback<\/a>"],[0,3,"<a href=\"src\/admin\/settings-fields\/class-log-level.php.html#84\">BrianHenryIE\\WP_Autologin_URLs\\Admin\\Settings_Fields\\Log_Level::sanitize_callback<\/a>"],[100,1,"<a href=\"src\/admin\/settings-fields\/class-settings-section-element-abstract.php.html#79\">BrianHenryIE\\WP_Autologin_URLs\\Admin\\Settings_Fields\\Settings_Section_Element_Abstract::__construct<\/a>"],[100,1,"<a href=\"src\/admin\/settings-fields\/class-settings-section-element-abstract.php.html#92\">BrianHenryIE\\WP_Autologin_URLs\\Admin\\Settings_Fields\\Settings_Section_Element_Abstract::add_settings_field<\/a>"],[100,1,"<a href=\"src\/admin\/settings-fields\/class-settings-section-element-abstract.php.html#107\">BrianHenryIE\\WP_Autologin_URLs\\Admin\\Settings_Fields\\Settings_Section_Element_Abstract::register_setting<\/a>"],[100,0,"<a href=\"src\/admin\/settings-fields\/class-settings-section-element-abstract.php.html#121\">BrianHenryIE\\WP_Autologin_URLs\\Admin\\Settings_Fields\\Settings_Section_Element_Abstract::print_field_callback<\/a>"],[100,0,"<a href=\"src\/admin\/settings-fields\/class-settings-section-element-abstract.php.html#132\">BrianHenryIE\\WP_Autologin_URLs\\Admin\\Settings_Fields\\Settings_Section_Element_Abstract::sanitize_callback<\/a>"],[0,1,"<a href=\"src\/admin\/settings-fields\/class-use-wp-login.php.html#24\">BrianHenryIE\\WP_Autologin_URLs\\Admin\\Settings_Fields\\Use_WP_Login::get_is_checked_value<\/a>"],[0,1,"<a href=\"src\/admin\/settings-fields\/class-use-wp-login.php.html#31\">BrianHenryIE\\WP_Autologin_URLs\\Admin\\Settings_Fields\\Use_WP_Login::get_is_not_checked_value<\/a>"],[100,2,"<a href=\"src\/admin\/settings-fields\/class-use-wp-login.php.html#41\">BrianHenryIE\\WP_Autologin_URLs\\Admin\\Settings_Fields\\Use_WP_Login::__construct<\/a>"],[100,1,"<a href=\"src\/api\/class-api.php.html#64\">BrianHenryIE\\WP_Autologin_URLs\\API\\API::__construct<\/a>"],[90.9090909090909,2,"<a href=\"src\/api\/class-api.php.html#81\">BrianHenryIE\\WP_Autologin_URLs\\API\\API::add_autologin_to_message<\/a>"],[73.33333333333333,10,"<a href=\"src\/api\/class-api.php.html#110\">BrianHenryIE\\WP_Autologin_URLs\\API\\API::get_wp_user<\/a>"],[93.75,13,"<a href=\"src\/api\/class-api.php.html#161\">BrianHenryIE\\WP_Autologin_URLs\\API\\API::add_autologin_to_url<\/a>"],[100,4,"<a href=\"src\/api\/class-api.php.html#248\">BrianHenryIE\\WP_Autologin_URLs\\API\\API::generate_code<\/a>"],[100,1,"<a href=\"src\/api\/class-api.php.html#281\">BrianHenryIE\\WP_Autologin_URLs\\API\\API::generate_password<\/a>"],[100,4,"<a href=\"src\/api\/class-api.php.html#301\">BrianHenryIE\\WP_Autologin_URLs\\API\\API::verify_autologin_password<\/a>"],[100,3,"<a href=\"src\/api\/class-api.php.html#346\">BrianHenryIE\\WP_Autologin_URLs\\API\\API::delete_expired_codes<\/a>"],[100,2,"<a href=\"src\/api\/class-api.php.html#370\">BrianHenryIE\\WP_Autologin_URLs\\API\\API::get_rate_limiter<\/a>"],[57.692307692307686,3,"<a href=\"src\/api\/class-api.php.html#394\">BrianHenryIE\\WP_Autologin_URLs\\API\\API::should_allow_login_attempt<\/a>"],[50,2,"<a href=\"src\/api\/class-api.php.html#442\">BrianHenryIE\\WP_Autologin_URLs\\API\\API::record_failed_login_attempt<\/a>"],[30,7,"<a href=\"src\/api\/class-api.php.html#481\">BrianHenryIE\\WP_Autologin_URLs\\API\\API::get_ip_address<\/a>"],[65.57377049180327,9,"<a href=\"src\/api\/class-api.php.html#509\">BrianHenryIE\\WP_Autologin_URLs\\API\\API::send_magic_link<\/a>"],[100,1,"<a href=\"src\/api\/class-rate-limiter.php.html#28\">BrianHenryIE\\WP_Autologin_URLs\\API\\Rate_Limiter::is_limit_exceeded<\/a>"],[100,1,"<a href=\"src\/api\/class-rate-limiter.php.html#39\">BrianHenryIE\\WP_Autologin_URLs\\API\\Rate_Limiter::record<\/a>"],[100,1,"<a href=\"src\/api\/class-settings.php.html#47\">BrianHenryIE\\WP_Autologin_URLs\\API\\Settings::__construct<\/a>"],[100,2,"<a href=\"src\/api\/class-settings.php.html#62\">BrianHenryIE\\WP_Autologin_URLs\\API\\Settings::get_expiry_age<\/a>"],[100,1,"<a href=\"src\/api\/class-settings.php.html#72\">BrianHenryIE\\WP_Autologin_URLs\\API\\Settings::get_add_autologin_for_admins_is_enabled<\/a>"],[100,1,"<a href=\"src\/api\/class-settings.php.html#83\">BrianHenryIE\\WP_Autologin_URLs\\API\\Settings::get_disallowed_subjects_regex_array<\/a>"],[100,2,"<a href=\"src\/api\/class-settings.php.html#92\">BrianHenryIE\\WP_Autologin_URLs\\API\\Settings::get_disallowed_subjects_regex_dictionary<\/a>"],[100,1,"<a href=\"src\/api\/class-settings.php.html#106\">BrianHenryIE\\WP_Autologin_URLs\\API\\Settings::get_should_use_wp_login<\/a>"],[100,1,"<a href=\"src\/api\/class-settings.php.html#115\">BrianHenryIE\\WP_Autologin_URLs\\API\\Settings::get_log_level<\/a>"],[100,1,"<a href=\"src\/api\/class-settings.php.html#128\">BrianHenryIE\\WP_Autologin_URLs\\API\\Settings::get_plugin_slug<\/a>"],[66.66666666666666,2,"<a href=\"src\/api\/class-settings.php.html#135\">BrianHenryIE\\WP_Autologin_URLs\\API\\Settings::get_plugin_version<\/a>"],[100,1,"<a href=\"src\/api\/class-settings.php.html#147\">BrianHenryIE\\WP_Autologin_URLs\\API\\Settings::get_plugin_name<\/a>"],[100,2,"<a href=\"src\/api\/class-settings.php.html#158\">BrianHenryIE\\WP_Autologin_URLs\\API\\Settings::get_plugin_basename<\/a>"],[0,1,"<a href=\"src\/api\/class-settings.php.html#165\">BrianHenryIE\\WP_Autologin_URLs\\API\\Settings::get_klaviyo_private_api_key<\/a>"],[0,1,"<a href=\"src\/api\/class-settings.php.html#172\">BrianHenryIE\\WP_Autologin_URLs\\API\\Settings::is_magic_link_enabled<\/a>"],[100,1,"<a href=\"src\/api\/class-settings.php.html#179\">BrianHenryIE\\WP_Autologin_URLs\\API\\Settings::get_cli_base<\/a>"],[100,1,"<a href=\"src\/api\/data-stores\/class-db-data-store.php.html#36\">BrianHenryIE\\WP_Autologin_URLs\\API\\Data_Stores\\DB_Data_Store::__construct<\/a>"],[52.38095238095239,4,"<a href=\"src\/api\/data-stores\/class-db-data-store.php.html#63\">BrianHenryIE\\WP_Autologin_URLs\\API\\Data_Stores\\DB_Data_Store::create_db<\/a>"],[63.1578947368421,3,"<a href=\"src\/api\/data-stores\/class-db-data-store.php.html#117\">BrianHenryIE\\WP_Autologin_URLs\\API\\Data_Stores\\DB_Data_Store::save<\/a>"],[93.33333333333333,5,"<a href=\"src\/api\/data-stores\/class-db-data-store.php.html#181\">BrianHenryIE\\WP_Autologin_URLs\\API\\Data_Stores\\DB_Data_Store::get_value_for_code<\/a>"],[77.77777777777779,2,"<a href=\"src\/api\/data-stores\/class-db-data-store.php.html#243\">BrianHenryIE\\WP_Autologin_URLs\\API\\Data_Stores\\DB_Data_Store::delete_expired_codes<\/a>"],[100,1,"<a href=\"src\/api\/data-stores\/class-transient-data-store.php.html#30\">BrianHenryIE\\WP_Autologin_URLs\\API\\Data_Stores\\Transient_Data_Store::__construct<\/a>"],[100,1,"<a href=\"src\/api\/data-stores\/class-transient-data-store.php.html#43\">BrianHenryIE\\WP_Autologin_URLs\\API\\Data_Stores\\Transient_Data_Store::save<\/a>"],[85.71428571428571,3,"<a href=\"src\/api\/data-stores\/class-transient-data-store.php.html#65\">BrianHenryIE\\WP_Autologin_URLs\\API\\Data_Stores\\Transient_Data_Store::get_value_for_code<\/a>"],[0,1,"<a href=\"src\/api\/data-stores\/class-transient-data-store.php.html#89\">BrianHenryIE\\WP_Autologin_URLs\\API\\Data_Stores\\Transient_Data_Store::delete_expired_codes<\/a>"],[100,1,"<a href=\"src\/api\/integrations\/class-autologin-urls.php.html#36\">BrianHenryIE\\WP_Autologin_URLs\\API\\Integrations\\Autologin_URLs::__construct<\/a>"],[100,1,"<a href=\"src\/api\/integrations\/class-autologin-urls.php.html#44\">BrianHenryIE\\WP_Autologin_URLs\\API\\Integrations\\Autologin_URLs::is_querystring_valid<\/a>"],[94.73684210526315,9,"<a href=\"src\/api\/integrations\/class-autologin-urls.php.html#60\">BrianHenryIE\\WP_Autologin_URLs\\API\\Integrations\\Autologin_URLs::get_wp_user_array<\/a>"],[90,2,"<a href=\"src\/api\/integrations\/class-klaviyo.php.html#49\">BrianHenryIE\\WP_Autologin_URLs\\API\\Integrations\\Klaviyo::__construct<\/a>"],[100,1,"<a href=\"src\/api\/integrations\/class-klaviyo.php.html#70\">BrianHenryIE\\WP_Autologin_URLs\\API\\Integrations\\Klaviyo::is_querystring_valid<\/a>"],[75,4,"<a href=\"src\/api\/integrations\/class-klaviyo.php.html#79\">BrianHenryIE\\WP_Autologin_URLs\\API\\Integrations\\Klaviyo::get_wp_user_array<\/a>"],[83.87096774193549,6,"<a href=\"src\/api\/integrations\/class-klaviyo.php.html#135\">BrianHenryIE\\WP_Autologin_URLs\\API\\Integrations\\Klaviyo::get_user_data<\/a>"],[0,1,"<a href=\"src\/api\/integrations\/class-mailpoet.php.html#37\">BrianHenryIE\\WP_Autologin_URLs\\API\\Integrations\\MailPoet::__construct<\/a>"],[100,2,"<a href=\"src\/api\/integrations\/class-mailpoet.php.html#44\">BrianHenryIE\\WP_Autologin_URLs\\API\\Integrations\\MailPoet::is_querystring_valid<\/a>"],[66.66666666666666,7,"<a href=\"src\/api\/integrations\/class-mailpoet.php.html#63\">BrianHenryIE\\WP_Autologin_URLs\\API\\Integrations\\MailPoet::get_wp_user_array<\/a>"],[0,1,"<a href=\"src\/api\/integrations\/class-the-newsletter-plugin.php.html#29\">BrianHenryIE\\WP_Autologin_URLs\\API\\Integrations\\The_Newsletter_Plugin::__construct<\/a>"],[100,1,"<a href=\"src\/api\/integrations\/class-the-newsletter-plugin.php.html#36\">BrianHenryIE\\WP_Autologin_URLs\\API\\Integrations\\The_Newsletter_Plugin::is_querystring_valid<\/a>"],[0,7,"<a href=\"src\/api\/integrations\/class-the-newsletter-plugin.php.html#50\">BrianHenryIE\\WP_Autologin_URLs\\API\\Integrations\\The_Newsletter_Plugin::get_wp_user_array<\/a>"],[100,1,"<a href=\"src\/api\/integrations\/class-user-finder-factory.php.html#35\">BrianHenryIE\\WP_Autologin_URLs\\API\\Integrations\\User_Finder_Factory::__construct<\/a>"],[75.67567567567568,13,"<a href=\"src\/api\/integrations\/class-user-finder-factory.php.html#45\">BrianHenryIE\\WP_Autologin_URLs\\API\\Integrations\\User_Finder_Factory::get_user_finder<\/a>"],[100,1,"<a href=\"src\/class-bh-wp-autologin-urls.php.html#82\">BrianHenryIE\\WP_Autologin_URLs\\BH_WP_Autologin_URLs::__construct<\/a>"],[100,1,"<a href=\"src\/class-bh-wp-autologin-urls.php.html#121\">BrianHenryIE\\WP_Autologin_URLs\\BH_WP_Autologin_URLs::set_locale<\/a>"],[0,1,"<a href=\"src\/class-bh-wp-autologin-urls.php.html#131\">BrianHenryIE\\WP_Autologin_URLs\\BH_WP_Autologin_URLs::setup_api<\/a>"],[100,1,"<a href=\"src\/class-bh-wp-autologin-urls.php.html#153\">BrianHenryIE\\WP_Autologin_URLs\\BH_WP_Autologin_URLs::define_admin_ui_hooks<\/a>"],[100,1,"<a href=\"src\/class-bh-wp-autologin-urls.php.html#178\">BrianHenryIE\\WP_Autologin_URLs\\BH_WP_Autologin_URLs::define_login_ui_hooks<\/a>"],[100,1,"<a href=\"src\/class-bh-wp-autologin-urls.php.html#193\">BrianHenryIE\\WP_Autologin_URLs\\BH_WP_Autologin_URLs::define_plugins_page_hooks<\/a>"],[0,1,"<a href=\"src\/class-bh-wp-autologin-urls.php.html#206\">BrianHenryIE\\WP_Autologin_URLs\\BH_WP_Autologin_URLs::define_plugin_installer_hooks<\/a>"],[0,1,"<a href=\"src\/class-bh-wp-autologin-urls.php.html#218\">BrianHenryIE\\WP_Autologin_URLs\\BH_WP_Autologin_URLs::define_wp_mail_hooks<\/a>"],[100,1,"<a href=\"src\/class-bh-wp-autologin-urls.php.html#231\">BrianHenryIE\\WP_Autologin_URLs\\BH_WP_Autologin_URLs::define_wp_login_hooks<\/a>"],[100,1,"<a href=\"src\/class-bh-wp-autologin-urls.php.html#241\">BrianHenryIE\\WP_Autologin_URLs\\BH_WP_Autologin_URLs::define_cron_hooks<\/a>"],[100,1,"<a href=\"src\/class-bh-wp-autologin-urls.php.html#252\">BrianHenryIE\\WP_Autologin_URLs\\BH_WP_Autologin_URLs::define_woocommerce_admin_order_ui_hooks<\/a>"],[100,1,"<a href=\"src\/class-bh-wp-autologin-urls.php.html#267\">BrianHenryIE\\WP_Autologin_URLs\\BH_WP_Autologin_URLs::define_woocommerce_login_form_hooks<\/a>"],[0,1,"<a href=\"src\/class-bh-wp-autologin-urls.php.html#280\">BrianHenryIE\\WP_Autologin_URLs\\BH_WP_Autologin_URLs::define_logger_hooks<\/a>"],[0,3,"<a href=\"src\/class-bh-wp-autologin-urls.php.html#290\">BrianHenryIE\\WP_Autologin_URLs\\BH_WP_Autologin_URLs::define_cli_hooks<\/a>"],[100,1,"<a href=\"src\/class-bh-wp-autologin-urls.php.html#309\">BrianHenryIE\\WP_Autologin_URLs\\BH_WP_Autologin_URLs::define_rest_api_hooks<\/a>"],[0,3,"<a href=\"src\/logger\/class-klaviyo-logs.php.html#38\">BrianHenryIE\\WP_Autologin_URLs\\Logger\\Klaviyo_Logs::link_to_klaviyo_profile_search<\/a>"],[100,1,"<a href=\"src\/login\/class-login-ajax.php.html#38\">BrianHenryIE\\WP_Autologin_URLs\\Login\\Login_Ajax::__construct<\/a>"],[40.74074074074074,8,"<a href=\"src\/login\/class-login-ajax.php.html#49\">BrianHenryIE\\WP_Autologin_URLs\\Login\\Login_Ajax::email_magic_link<\/a>"],[100,1,"<a href=\"src\/login\/class-login-assets.php.html#32\">BrianHenryIE\\WP_Autologin_URLs\\Login\\Login_Assets::__construct<\/a>"],[66.66666666666666,2,"<a href=\"src\/login\/class-login-assets.php.html#43\">BrianHenryIE\\WP_Autologin_URLs\\Login\\Login_Assets::enqueue_styles<\/a>"],[94.11764705882352,2,"<a href=\"src\/login\/class-login-assets.php.html#59\">BrianHenryIE\\WP_Autologin_URLs\\Login\\Login_Assets::enqueue_scripts<\/a>"],[100,1,"<a href=\"src\/woocommerce\/class-admin-order-ui.php.html#48\">BrianHenryIE\\WP_Autologin_URLs\\WooCommerce\\Admin_Order_UI::__construct<\/a>"],[75,2,"<a href=\"src\/woocommerce\/class-admin-order-ui.php.html#66\">BrianHenryIE\\WP_Autologin_URLs\\WooCommerce\\Admin_Order_UI::add_to_payment_url<\/a>"],[100,2,"<a href=\"src\/woocommerce\/class-admin-order-ui.php.html#89\">BrianHenryIE\\WP_Autologin_URLs\\WooCommerce\\Admin_Order_UI::remove_arrow_from_link_text<\/a>"],[100,2,"<a href=\"src\/woocommerce\/class-admin-order-ui.php.html#105\">BrianHenryIE\\WP_Autologin_URLs\\WooCommerce\\Admin_Order_UI::enqueue_script<\/a>"],[100,2,"<a href=\"src\/woocommerce\/class-admin-order-ui.php.html#121\">BrianHenryIE\\WP_Autologin_URLs\\WooCommerce\\Admin_Order_UI::enqueue_styles<\/a>"],[100,4,"<a href=\"src\/woocommerce\/class-admin-order-ui.php.html#136\">BrianHenryIE\\WP_Autologin_URLs\\WooCommerce\\Admin_Order_UI::is_on_shop_order_edit_screen<\/a>"],[0,1,"<a href=\"src\/woocommerce\/class-checkout.php.html#26\">BrianHenryIE\\WP_Autologin_URLs\\WooCommerce\\Checkout::__construct<\/a>"],[95.55555555555556,8,"<a href=\"src\/woocommerce\/class-checkout.php.html#42\">BrianHenryIE\\WP_Autologin_URLs\\WooCommerce\\Checkout::prefill_checkout_fields<\/a>"],[100,1,"<a href=\"src\/woocommerce\/class-login-form.php.html#30\">BrianHenryIE\\WP_Autologin_URLs\\WooCommerce\\Login_Form::__construct<\/a>"],[94.44444444444444,2,"<a href=\"src\/woocommerce\/class-login-form.php.html#42\">BrianHenryIE\\WP_Autologin_URLs\\WooCommerce\\Login_Form::enqueue_script<\/a>"],[0,1,"<a href=\"src\/wp-includes\/class-cli.php.html#34\">BrianHenryIE\\WP_Autologin_URLs\\WP_Includes\\CLI::__construct<\/a>"],[0,5,"<a href=\"src\/wp-includes\/class-cli.php.html#68\">BrianHenryIE\\WP_Autologin_URLs\\WP_Includes\\CLI::add_autologin_to_url<\/a>"],[0,3,"<a href=\"src\/wp-includes\/class-cli.php.html#124\">BrianHenryIE\\WP_Autologin_URLs\\WP_Includes\\CLI::send_magic_link<\/a>"],[100,1,"<a href=\"src\/wp-includes\/class-cron.php.html#38\">BrianHenryIE\\WP_Autologin_URLs\\WP_Includes\\Cron::__construct<\/a>"],[100,2,"<a href=\"src\/wp-includes\/class-cron.php.html#48\">BrianHenryIE\\WP_Autologin_URLs\\WP_Includes\\Cron::schedule_job<\/a>"],[27.27272727272727,3,"<a href=\"src\/wp-includes\/class-cron.php.html#65\">BrianHenryIE\\WP_Autologin_URLs\\WP_Includes\\Cron::delete_expired_codes<\/a>"],[100,1,"<a href=\"src\/wp-includes\/class-i18n.php.html#31\">BrianHenryIE\\WP_Autologin_URLs\\WP_Includes\\I18n::load_plugin_textdomain<\/a>"],[100,1,"<a href=\"src\/wp-includes\/class-login.php.html#68\">BrianHenryIE\\WP_Autologin_URLs\\WP_Includes\\Login::__construct<\/a>"],[14.285714285714285,3,"<a href=\"src\/wp-includes\/class-login.php.html#85\">BrianHenryIE\\WP_Autologin_URLs\\WP_Includes\\Login::process<\/a>"],[75.80645161290323,13,"<a href=\"src\/wp-includes\/class-login.php.html#109\">BrianHenryIE\\WP_Autologin_URLs\\WP_Includes\\Login::maybe_login<\/a>"],[69.23076923076923,6,"<a href=\"src\/wp-includes\/class-login.php.html#231\">BrianHenryIE\\WP_Autologin_URLs\\WP_Includes\\Login::maybe_redirect<\/a>"],[0,1,"<a href=\"src\/wp-includes\/class-rest-api.php.html#33\">BrianHenryIE\\WP_Autologin_URLs\\WP_Includes\\REST_API::__construct<\/a>"],[100,1,"<a href=\"src\/wp-includes\/class-rest-api.php.html#42\">BrianHenryIE\\WP_Autologin_URLs\\WP_Includes\\REST_API::register_routes<\/a>"],[63.63636363636363,6,"<a href=\"src\/wp-includes\/class-rest-api.php.html#64\">BrianHenryIE\\WP_Autologin_URLs\\WP_Includes\\REST_API::create_item<\/a>"],[87.5,4,"<a href=\"src\/wp-includes\/class-rest-api.php.html#111\">BrianHenryIE\\WP_Autologin_URLs\\WP_Includes\\REST_API::create_item_permissions_check<\/a>"],[100,2,"<a href=\"src\/wp-includes\/class-rest-api.php.html#139\">BrianHenryIE\\WP_Autologin_URLs\\WP_Includes\\REST_API::prepare_item_for_response<\/a>"],[100,1,"<a href=\"src\/wp-includes\/class-rest-api.php.html#161\">BrianHenryIE\\WP_Autologin_URLs\\WP_Includes\\REST_API::get_item_schema<\/a>"],[100,1,"<a href=\"src\/wp-includes\/class-rest-api.php.html#181\">BrianHenryIE\\WP_Autologin_URLs\\WP_Includes\\REST_API::get_args_schema<\/a>"],[100,1,"<a href=\"src\/wp-includes\/class-wp-mail.php.html#47\">BrianHenryIE\\WP_Autologin_URLs\\WP_Includes\\WP_Mail::__construct<\/a>"],[100,3,"<a href=\"src\/wp-includes\/class-wp-mail.php.html#66\">BrianHenryIE\\WP_Autologin_URLs\\WP_Includes\\WP_Mail::add_autologin_links_to_email<\/a>"],[81.81818181818183,15,"<a href=\"src\/wp-includes\/class-wp-mail.php.html#94\">BrianHenryIE\\WP_Autologin_URLs\\WP_Includes\\WP_Mail::maybe_add_autologin_links_to_email<\/a>"]], 'Method Complexity'))
+      .transition()
+      .duration(500)
+      .call(chart);
+
+    nv.utils.windowResize(chart.update);
+
+    return chart;
+  });
+
+  function getComplexityData(data, label) {
+    var values = [];
+    $.each(data, function(key) {
+      var value = Math.round(data[key][0]*100) / 100;
+      values.push({
+        x: value,
+        y: data[key][1],
+        class: data[key][2],
+        size: 0.05,
+        shape: 'diamond'
+      });
+    });
+
+    return [
+      {
+        key: label,
+        values: values,
+        color: "#4572A7"
+      }
+    ];
+  }
+});
+  </script>
+ </body>
+</html>
