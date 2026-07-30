@@ -196,7 +196,8 @@
     ],
     "create-plugin-archive": [
       "wp i18n make-pot src languages/$(basename \"$PWD\").pot --domain=$(basename \"$PWD\")",
-      "wp dist-archive . ./dist-archive --plugin-dirname=$(basename \"$PWD\") --create-target-dir"
+      "wp dist-archive . ./dist-archive --plugin-dirname=$(basename \"$PWD\") --create-target-dir",
+      "@sync-composer-wpenv"
     ],
     "github-actions": [
       "act -P ubuntu-latest=shivammathur/node:latest"
