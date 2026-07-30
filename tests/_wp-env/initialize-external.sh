@@ -29,7 +29,7 @@ if [ "$MODE" = "ci" ]; then
 
   ZIP=$(ls -Art "$PROJECT_DIR"/dist-archive/*.zip 2>/dev/null | tail -n 1)
   if [ -z "$ZIP" ]; then
-    echo "No zip found in dist-archive. Run \`composer dist-archive\` first." >&2
+    echo "No zip found in dist-archive. Run \`composer create-plugin-archive\` first." >&2
     exit 1
   fi
 
