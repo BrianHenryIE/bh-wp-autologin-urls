@@ -1,8 +1,6 @@
 .*
 codeception.dist.yml
 tests/
-composer.json
-vendor-dev/
 composer.lock
 /wordpress
 README.md
