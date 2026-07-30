@@ -7,12 +7,12 @@
  * 1. Remove mappings whose values point to files/directories that no longer exist.
  * 2. Add directories found in wp-content/plugins to mappings (preserving existing custom values).
  * 3. Update the WordPress core version from the johnpbloch/wordpress-core entry in composer.lock.
- * 4. For .wp-env.ci.json only: point the plugins key at the newest zip in dist-archive.
+ * 4. For .wp-env.ci.json only: keep the plugins key empty. CI installs the built zip via
+ *    tests/_wp-env/initialize-internal.sh instead of mounting the working directory.
  */
 
 $wpEnvPaths       = array( '.wp-env.json', '.wp-env.ci.json' );
 $composerLockPath = 'composer.lock';
-$distArchiveDir   = 'dist-archive';
 
 // Read the WordPress core version from composer.lock once, it is the same for every target file.
 $composerLockFileContents = file_get_contents( $composerLockPath );
@@ -31,17 +31,6 @@ foreach ( $composerLock['packages-dev'] ?? array() as $package ) {
 		$version = preg_replace( '/\.0$/', '', $package['version'] );
 		$core    = 'WordPress/WordPress#' . $version;
 		break;
-	}
-}
-
-// The newest zip in dist-archive, used for the CI environment's plugins key.
-$newestZip     = null;
-$newestZipTime = -1;
-foreach ( glob( $distArchiveDir . '/*.zip' ) ?: array() as $zip ) {
-	$time = filemtime( $zip );
-	if ( $time > $newestZipTime ) {
-		$newestZip     = $zip;
-		$newestZipTime = $time;
 	}
 }
 
@@ -91,14 +80,10 @@ foreach ( $wpEnvPaths as $wpEnvPath ) {
 		$wpEnv['core'] = $core;
 	}
 
-	// 4. CI runs against the built zip rather than the working directory.
+	// 4. CI runs against the built zip, which tests/_wp-env/initialize-internal.sh installs with
+	// `wp plugin install`. wp-env must not also mount the working directory over the same slug.
 	if ( $wpEnvPath === '.wp-env.ci.json' ) {
-		if ( $newestZip === null ) {
-			fwrite( STDERR, "No zip files found in {$distArchiveDir}, leaving {$wpEnvPath} plugins unchanged\n" );
-		} else {
-			echo "Setting {$wpEnvPath} plugins to {$newestZip}\n";
-			$wpEnv['plugins'] = array( $newestZip );
-		}
+		$wpEnv['plugins'] = array();
 	}
 
 	$json = json_encode( $wpEnv, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_THROW_ON_ERROR );

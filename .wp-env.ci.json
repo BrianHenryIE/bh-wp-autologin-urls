@@ -7,7 +7,7 @@
   },
   "core": "WordPress/WordPress#7.0.2",
   "lifecycleScripts": {
-    "afterStart": "bash 'tests/_wp-env/initialize-external.sh'"
+    "afterStart": "bash 'tests/_wp-env/initialize-external.sh' ci"
   },
   "mappings": {
     "../setup": "./tests/_wp-env",
@@ -25,10 +25,7 @@
     "wp-content/plugins/wp-mail-smtp": "./wp-content/plugins/wp-mail-smtp",
     "wp-content/plugins/wp-super-cache": "./wp-content/plugins/wp-super-cache"
   },
-  "mysqlPort": 33066,
   "phpVersion": "8.1",
-  "plugins": [
-    "dist-archive/bh-wp-autologin-urls.2.6.0.zip"
-  ],
+  "plugins": [],
   "testsEnvironment": false
 }
