@@ -19,7 +19,8 @@ export default defineConfig({
   // grep: /(spec|test)/,
   /* The specs share one WordPress install and mutate its users, newsletters and mail log, so
    * they cannot safely run in parallel: concurrent workers also overload the single wp-env
-   * container enough for admin pages to time out. The whole suite takes ~2 minutes serially. */
+   * container enough for admin pages to time out. The whole suite takes ~25 minutes serially across
+   * the three browser projects, most of it in newsletter.spec.ts. */
   fullyParallel: false,
   /* Fail the build on CI if you accidentally left test.only in the source code. */
   forbidOnly: !!process.env.CI,
