@@ -71,4 +71,7 @@ languages/*.pot
 /playwright/.cache/
 
 /tests/e2e-pw/woocommerce-plugin
+
+# Copied from dist-archive by tests/_wp-env/initialize-external.sh for the CI environment.
+/tests/_wp-env/*.zip
 languages/bh-wp-autologin-urls.pot
