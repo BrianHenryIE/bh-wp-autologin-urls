@@ -25,6 +25,9 @@ export default defineConfig({
   forbidOnly: !!process.env.CI,
   /* Retry on CI only */
   retries: process.env.CI ? 2 : 0,
+  /* Retries exist to surface flakiness, not to hide it: a test that only passes on retry still
+   * fails the build. Without this, Playwright exits 0 and CI goes green on a flaky run. */
+  failOnFlakyTests: !!process.env.CI,
   workers: 1,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   // override that location using the PLAYWRIGHT_HTML_REPORT environment variable
