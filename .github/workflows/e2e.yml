@@ -1,7 +1,10 @@
 name: E2E Tests
 
-# Runs Playwright end-to-end tests against wp-env.
+# Builds the distributable plugin zip, then runs Playwright end-to-end tests against it via
+# .wp-env.ci.json — so the tests exercise the artifact users install, not the working directory.
 #
+# composer create-plugin-archive
+# npx wp-env start --config .wp-env.ci.json
 # npx playwright test
 #
 # @author BrianHenryIE
@@ -29,6 +32,15 @@ jobs:
           node-version-file: '.nvmrc'
           cache: 'npm'
 
+      # `wp dist-archive` needs the zip extension. Matches .github/workflows/release.yml, which
+      # builds the archive the same way.
+      - name: Install PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+          tools: composer
+          extensions: zip
+
       # Local path repositories point at sibling checkouts CI does not have. Rewrite them to the
       # equivalent GitHub repository, keeping the constraint — `brianhenryie/bh-wp-rate-limiter`
       # is not published on Packagist, so dropping the repository entirely cannot resolve.
@@ -53,10 +65,17 @@ jobs:
       - name: Install Playwright browsers
         run: npx playwright install --with-deps
 
-      # `wp-env start` runs tests/_wp-env/initialize-external.sh, which activates the plugins,
-      # sets the permalink structure and creates the WooCommerce fixtures.
+      # The zip the tests run against. Also refreshes .wp-env.ci.json via the script's
+      # `@sync-composer-wpenv` step.
+      - name: Build plugin archive
+        run: composer create-plugin-archive
+
+      # `wp-env start` runs tests/_wp-env/initialize-external.sh with the "ci" argument, which
+      # copies the newest dist-archive zip to tests/_wp-env/ and installs it with
+      # `wp plugin install`, then activates the plugins, sets the permalink structure and creates
+      # the WooCommerce fixtures.
       - name: Start wp-env
-        run: npx wp-env start
+        run: npx wp-env start --config .wp-env.ci.json
 
       - name: Wait for WordPress to be ready
         run: |
@@ -70,8 +89,9 @@ jobs:
             sleep 2
           done
 
+      # Records the installed version, confirming the tests ran against the built zip.
       - name: List plugins
-        run: npx wp-env run cli wp plugin list
+        run: npx wp-env run --config .wp-env.ci.json cli wp plugin list
 
       - name: Run Playwright tests
         run: npx playwright test --reporter=github
