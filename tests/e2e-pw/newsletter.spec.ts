@@ -4,6 +4,11 @@ import {getMostRecentEmailContent} from './utilities/mail';
 
 test.describe( 'The Newsletter Plugin tests', () => {
 
+  /* These are far slower than the rest of the suite and exceeded the 120s default: each test creates
+   * a subscriber and a newsletter, then `waitForNewsletterSendComplete()` walks the send queue four
+   * times, before reading the mail log. Measured 90s–240s per test locally, the slowest on Firefox. */
+  test.describe.configure({ timeout: 420_000 });
+
   let page: Page;
 
   // async function beforeEach() {
