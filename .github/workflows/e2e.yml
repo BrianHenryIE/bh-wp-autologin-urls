@@ -156,8 +156,11 @@ jobs:
       - name: List plugins
         run: npx wp-env run --config .wp-env.ci.json cli wp plugin list
 
+      # `github` for inline PR annotations, `html` because `--reporter` replaces rather than adds to
+      # the config's reporters — omitting it leaves tests/_output/playwright-report/ empty and the
+      # upload below finds nothing.
       - name: Run Playwright tests
-        run: npx playwright test --reporter=github
+        run: npx playwright test --reporter=github,html
         env:
           CI: true
 
