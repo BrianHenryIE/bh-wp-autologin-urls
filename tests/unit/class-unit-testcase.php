@@ -12,7 +12,8 @@ class Unit_Testcase extends Unit {
 
 	protected LoggerInterface $logger;
 
-	protected function setup(): void {
+	protected function setUp(): void {
+		parent::setUp();
 		WP_Mock::setUp();
 
 		// Use the Strauss-prefixed logger interface for this project.
