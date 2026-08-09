@@ -4,7 +4,7 @@
 	$(function() {
 
 		var input = $('<button type="button" class="woocommerce button woocommerce-button button woocommerce-form-login__send_magic_link " name="send-magic-link" id="autologin-magic-link" value="Send Magic Link">Email Magic Link</button>');
-		input.insertBefore($('#woocommerce-login-nonce'));
+		input.insertBefore($('input[name="woocommerce-login-nonce"]'));
 
 		var usernameInput = $('#username');
 		var magicLinkButton = $('#autologin-magic-link');
