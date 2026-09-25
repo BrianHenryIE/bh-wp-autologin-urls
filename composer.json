@@ -36,8 +36,8 @@
       "alleyinteractive/composer-wordpress-autoloader": true,
       "composer/installers": true,
       "dealerdirect/phpcodesniffer-composer-installer": true,
-      "johnpbloch/wordpress-core-installer": true,
-      "phpstan/extension-installer": true
+      "phpstan/extension-installer": true,
+      "roots/wordpress-core-installer": true
     },
     "platform": {
       "php": "8.1"
@@ -50,9 +50,9 @@
       "type": "package",
       "package": {
         "name": "brianhenryie/strauss",
-        "version": "0.28.1",
+        "version": "0.30.0",
         "dist": {
-          "url": "https://github.com/BrianHenryIE/strauss/releases/download/0.28.1/strauss.phar",
+          "url": "https://github.com/BrianHenryIE/strauss/releases/download/0.30.0/strauss.phar",
           "type": "phar"
         },
         "installation-source": "dist",
@@ -76,19 +76,12 @@
       "only": [
         "brianhenryie/bh-wp-rate-limiter"
       ]
-    },
-    "wordpress/wordpress": {
-      "url": "https://github.com/WordPress/wordpress-develop",
-      "type": "git",
-      "only": [
-        "wordpress/wordpress"
-      ]
     }
   },
   "require": {
     "php": ">=8.1",
     "ext-json": "*",
-    "brianhenryie/bh-wp-logger": "^0.3.4",
+    "brianhenryie/bh-wp-logger": "^0.4.0",
     "brianhenryie/bh-wp-rate-limiter": "dev-master",
     "klaviyo/sdk": "^1.0"
   },
@@ -98,15 +91,15 @@
     "alleyinteractive/wordpress-autoloader": "^1.2",
     "antecedent/patchwork": "^2.2",
     "brianhenryie/color-logger": "*",
-    "brianhenryie/strauss": "0.28.1",
-    "johnpbloch/wordpress": "*",
+    "brianhenryie/strauss": "0.30.0",
+    "roots/wordpress-core-installer": "^4.0",
+    "roots/wordpress-no-content": "^7.1",
     "lucatume/wp-browser": "^4.5",
     "php-stubs/woocommerce-stubs": "*",
     "phpstan/extension-installer": "*",
     "phpunit/phpcov": "*",
     "rector/rector": "^2.3",
     "szepeviktor/phpstan-wordpress": "*",
-    "wordpress/wordpress": "*",
     "wp-cli/dist-archive-command": "*",
     "wp-cli/i18n-command": "^2.4",
     "wp-cli/profile-command": "^2.1",
@@ -195,8 +188,8 @@
       "updated_files=$(echo $(git diff --name-only `git merge-base origin/master HEAD` | grep \\.php | tr '\\n' '\\0' | xargs -0 ls -1df 2>/dev/null)); if [ -n \"$updated_files\" ]; then phpcbf $(echo $updated_files); phpcs $(echo $updated_files); phpstan analyse $(echo $updated_files) --level max --memory-limit 1G; else echo \"No modified php files for phpstan.\"; fi;"
     ],
     "create-plugin-archive": [
-      "wp i18n make-pot src languages/$(basename \"$PWD\").pot --domain=$(basename \"$PWD\")",
-      "wp dist-archive . ./dist-archive --plugin-dirname=$(basename \"$PWD\") --create-target-dir"
+      "vendor/bin/wp i18n make-pot src languages/$(basename \"$PWD\").pot --domain=$(basename \"$PWD\")",
+      "vendor/bin/wp dist-archive . ./dist-archive --plugin-dirname=$(basename \"$PWD\") --create-target-dir"
     ],
     "github-actions": [
       "act -P ubuntu-latest=shivammathur/node:latest"

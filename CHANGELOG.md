@@ -1,3 +1,7 @@
+### 2.6.1 September 2026
+
+* Update dependencies
+
 ### 2.6.0
 
 * Security: rate limiting never actually blocked anything – failed autologin attempts are now counted and enforced

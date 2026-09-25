@@ -10,4 +10,4 @@ WP_Mock::setUsePatchwork( true );
 WP_Mock::bootstrap();
 
 global $project_root_dir;
-require_once $project_root_dir . '/vendor/wordpress/wordpress/src/wp-includes/class-wp-user.php';
+require_once $project_root_dir . '/wordpress/wp-includes/class-wp-user.php';
