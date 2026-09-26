@@ -215,4 +215,49 @@ class API_Unit_Test extends \BrianHenryIE\WP_Autologin_URLs\Unit_Testcase {
 
 		$this->assertTrue( $is_valid_autologin_password );
 	}
+
+	/**
+	 * @covers ::get_request_details
+	 * @covers ::get_browser_from_user_agent
+	 * @dataProvider user_agent_provider
+	 *
+	 * @param string  $user_agent The HTTP User-Agent header.
+	 * @param ?string $expected The friendly browser name expected.
+	 */
+	public function test_get_request_details_browser( string $user_agent, ?string $expected ): void {
+
+		$settings_mock      = $this->makeEmpty( Settings_Interface::class );
+		$data_store_mock    = $this->makeEmpty( Data_Store_Interface::class );
+		$autologin_urls_api = new API( $settings_mock, $this->logger, $data_store_mock );
+
+		$_SERVER['HTTP_USER_AGENT'] = $user_agent;
+		$_SERVER['REMOTE_ADDR']     = '203.0.113.7';
+
+		WP_Mock::passthruFunction( 'wp_unslash' );
+		WP_Mock::passthruFunction( 'sanitize_text_field' );
+
+		$result = $autologin_urls_api->get_request_details();
+
+		unset( $_SERVER['HTTP_USER_AGENT'], $_SERVER['REMOTE_ADDR'] );
+
+		$this->assertSame( $expected, $result['browser'] );
+		$this->assertSame( '203.0.113.7', $result['ip_address'] );
+		// No WooCommerce in unit tests, so no geolocation.
+		$this->assertNull( $result['location'] );
+	}
+
+	/**
+	 * @return array<string, array{0:string, 1:?string}>
+	 */
+	public function user_agent_provider(): array {
+		return array(
+			'chrome mac'     => array( 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36', 'Chrome on macOS' ),
+			'safari iphone'  => array( 'Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Mobile/15E148 Safari/604.1', 'Safari on iPhone' ),
+			'firefox win'    => array( 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:130.0) Gecko/20100101 Firefox/130.0', 'Firefox on Windows' ),
+			'edge win'       => array( 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36 Edg/128.0.0.0', 'Edge on Windows' ),
+			'chrome android' => array( 'Mozilla/5.0 (Linux; Android 14; Pixel 8) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Mobile Safari/537.36', 'Chrome on Android' ),
+			'unknown'        => array( 'curl/8.4.0', 'curl/8.4.0' ),
+			'empty'          => array( '', null ),
+		);
+	}
 }

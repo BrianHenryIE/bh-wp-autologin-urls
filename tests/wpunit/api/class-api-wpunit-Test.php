@@ -449,21 +449,30 @@ class API_WPUnit_Test extends \BrianHenryIE\WP_Autologin_URLs\WPUnit_Testcase {
 		$user_id = wp_create_user( 'brian', 'abc123', 'brianhenryie@gmail.com' );
 
 		$email_sent = false;
+		$email_body = '';
 
 		add_filter(
 			'wp_mail',
-			function ( array $args ) use ( &$email_sent ): array {
+			function ( array $args ) use ( &$email_sent, &$email_body ): array {
 
 				if ( 'Sign-in Link' === $args['subject'] ) {
 					$email_sent = true;
+					$email_body = $args['message'];
 				}
 
 				return $args;
 			}
 		);
 
+		$_SERVER['HTTP_USER_AGENT'] = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36';
+		$_SERVER['REMOTE_ADDR']     = '203.0.113.7';
+
 		$result = $api->send_magic_link( 'brian' );
 
+		unset( $_SERVER['HTTP_USER_AGENT'], $_SERVER['REMOTE_ADDR'] );
+
 		$this->assertTrue( $email_sent );
+		$this->assertStringContainsString( 'Browser: Chrome on macOS', $email_body );
+		$this->assertStringContainsString( 'IP address: 203.0.113.7', $email_body );
 	}
 }
