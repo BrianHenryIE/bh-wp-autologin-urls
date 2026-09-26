@@ -1,3 +1,7 @@
+### Unreleased
+
+* Add: browser, IP address and location (when WooCommerce geolocation is available) of the request in magic link emails, so recipients can tell if it wasn't them
+
 ### 2.6.1 September 2026
 
 * Update dependencies

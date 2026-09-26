@@ -97,6 +97,13 @@ interface API_Interface {
 	public function get_ip_address(): ?string;
 
 	/**
+	 * Describe the request that is asking for a magic link, for inclusion in the email.
+	 *
+	 * @return array{ip_address:?string, browser:?string, location:?string}
+	 */
+	public function get_request_details(): array;
+
+	/**
 	 * Maybe send email to the wp_user with a "magic link" to log in.
 	 *
 	 * @param string  $username_or_email_address The username or email as entered by the user in the login form.

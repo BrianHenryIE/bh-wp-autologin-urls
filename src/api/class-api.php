@@ -496,6 +496,109 @@ class API implements API_Interface {
 	}
 
 	/**
+	 * Describe the request that is asking for a magic link, for inclusion in the email so the
+	 * recipient can judge whether it was them.
+	 *
+	 * Location requires WooCommerce's geolocation (which uses the free MaxMind database).
+	 *
+	 * @return array{ip_address:?string, browser:?string, location:?string}
+	 */
+	public function get_request_details(): array {
+
+		$ip_address = $this->get_ip_address();
+
+		$user_agent = isset( $_SERVER['HTTP_USER_AGENT'] ) ? sanitize_text_field( wp_unslash( $_SERVER['HTTP_USER_AGENT'] ) ) : '';
+		$browser    = $this->get_browser_from_user_agent( $user_agent );
+
+		$location = null;
+
+		if ( ! is_null( $ip_address ) && class_exists( WC_Geolocation::class ) ) {
+			$geolocation = WC_Geolocation::geolocate_ip( $ip_address, false, false );
+
+			$country = $geolocation['country'] ?? '';
+			$state   = $geolocation['state'] ?? '';
+
+			if ( '' !== $country && function_exists( 'WC' ) ) {
+				$countries = WC()->countries;
+				$country   = $countries->countries[ $country ] ?? $country;
+				$states    = $countries->get_states( $geolocation['country'] );
+				$state     = ( is_array( $states ) && isset( $states[ $state ] ) ) ? $states[ $state ] : $state;
+			}
+
+			$location = trim( implode( ', ', array_filter( array( $state, $country ) ) ) );
+			$location = '' === $location ? null : $location;
+		}
+
+		return array(
+			'ip_address' => $ip_address,
+			'browser'    => $browser,
+			'location'   => $location,
+		);
+	}
+
+	/**
+	 * Reduce a user agent string to something friendly, e.g. "Chrome on Windows".
+	 *
+	 * @param string $user_agent The HTTP User-Agent header.
+	 *
+	 * @return ?string Null when the user agent is empty.
+	 */
+	protected function get_browser_from_user_agent( string $user_agent ): ?string {
+
+		if ( '' === trim( $user_agent ) ) {
+			return null;
+		}
+
+		// Order matters: many browsers include "Chrome" and "Safari" in their user agent.
+		$browsers = array(
+			'Edg/'           => 'Edge',
+			'OPR/'           => 'Opera',
+			'Opera'          => 'Opera',
+			'SamsungBrowser' => 'Samsung Internet',
+			'Firefox/'       => 'Firefox',
+			'FxiOS/'         => 'Firefox',
+			'CriOS/'         => 'Chrome',
+			'Chrome/'        => 'Chrome',
+			'Safari/'        => 'Safari',
+			'MSIE '          => 'Internet Explorer',
+			'Trident/'       => 'Internet Explorer',
+		);
+
+		$browser = null;
+		foreach ( $browsers as $needle => $name ) {
+			if ( str_contains( $user_agent, $needle ) ) {
+				$browser = $name;
+				break;
+			}
+		}
+
+		$platforms = array(
+			'iPhone'    => 'iPhone',
+			'iPad'      => 'iPad',
+			'Android'   => 'Android',
+			'Windows'   => 'Windows',
+			'Macintosh' => 'macOS',
+			'CrOS'      => 'ChromeOS',
+			'Linux'     => 'Linux',
+		);
+
+		$platform = null;
+		foreach ( $platforms as $needle => $name ) {
+			if ( str_contains( $user_agent, $needle ) ) {
+				$platform = $name;
+				break;
+			}
+		}
+
+		if ( is_null( $browser ) && is_null( $platform ) ) {
+			// Unrecognised; show the raw string rather than nothing, but keep it short.
+			return mb_substr( $user_agent, 0, 80 );
+		}
+
+		return implode( ' on ', array_filter( array( $browser, $platform ) ) );
+	}
+
+	/**
 	 * Maybe send email to the wp_user with a "magic link" to log in.
 	 *
 	 * TODO: Add settings options: enable/disable feature, configure subject, configure expiry time.
@@ -567,6 +670,9 @@ class API implements API_Interface {
 		// Add a marker for later logging use of the email.
 		$autologin_url = add_query_arg( array( 'magic' => 'true' ), $autologin_url );
 
+		// Who is asking for the link? Shown in the email so the recipient can tell if it wasn't them.
+		$request_details = $this->get_request_details();
+
 		/**
 		 * Short-circuit email sending.
 		 *
@@ -587,6 +693,7 @@ class API implements API_Interface {
 		 *
 		 * @var string $autologin_url The URL which will log the user in.
 		 * @var string $expires_in_friendly Human-readable form of the number of seconds until expiry.
+		 * @var array{ip_address:?string, browser:?string, location:?string} $request_details Details of the request asking for the link; all null when e.g. sent from CLI.
 		 */
 		$template_email_magic_link = apply_filters( 'bh_wp_autologin_urls_magic_link_email_template', $template_email_magic_link );
 
