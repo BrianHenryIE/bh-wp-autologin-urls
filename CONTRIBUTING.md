@@ -31,6 +31,10 @@ npx playwright test --config ./playwright.config.ts
 ```
 
 ```
+npx wp-env start --config .wp-env.ci.json
+```
+
+```
 npx playwright test --config ./wordpresscore.playwright.config.js
 
 # Error: Cannot find module '@wordpress/scripts/config/playwright.config'

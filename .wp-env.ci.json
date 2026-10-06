@@ -1,0 +1,31 @@
+{
+  "config": {
+    "WP_DEBUG_LOG": "/var/www/html/wp-content/debug.log",
+    "WP_DEBUG_DISPLAY": false,
+    "WP_MEMORY_LIMIT": "512M",
+    "WP_MAX_MEMORY_LIMIT": "512M"
+  },
+  "core": "WordPress/WordPress#7.0.2",
+  "lifecycleScripts": {
+    "afterStart": "bash 'tests/_wp-env/initialize-external.sh' ci"
+  },
+  "mappings": {
+    "../setup": "./tests/_wp-env",
+    "openapi": "./openapi",
+    "wp-cli.yml": "./wp-cli.wp-env.yml",
+    "wp-content/plugins/document-generator-for-openapi": "./wp-content/plugins/document-generator-for-openapi",
+    "wp-content/plugins/give": "./wp-content/plugins/give",
+    "wp-content/plugins/mailpoet": "./wp-content/plugins/mailpoet",
+    "wp-content/plugins/newsletter": "./wp-content/plugins/newsletter",
+    "wp-content/plugins/query-monitor": "./wp-content/plugins/query-monitor",
+    "wp-content/plugins/user-switching": "./wp-content/plugins/user-switching",
+    "wp-content/plugins/woocommerce": "./wp-content/plugins/woocommerce",
+    "wp-content/plugins/wp-mail-debugger": "./wp-content/plugins/wp-mail-debugger",
+    "wp-content/plugins/wp-mail-logging": "./wp-content/plugins/wp-mail-logging",
+    "wp-content/plugins/wp-mail-smtp": "./wp-content/plugins/wp-mail-smtp",
+    "wp-content/plugins/wp-super-cache": "./wp-content/plugins/wp-super-cache"
+  },
+  "phpVersion": "8.1",
+  "plugins": [],
+  "testsEnvironment": false
+}

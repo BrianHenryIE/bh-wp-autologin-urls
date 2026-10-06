@@ -1,7 +1,11 @@
 name: E2E Tests
 
-# Runs Playwright end-to-end tests against wp-env.
+# Builds the distributable plugin zip once, then runs the Playwright end-to-end tests against that
+# zip via .wp-env.ci.json — so the tests exercise the artifact users install, not the working
+# directory — across a matrix of WordPress container PHP versions.
 #
+# composer create-plugin-archive
+# WP_ENV_PHP_VERSION=8.4 npx wp-env start --config .wp-env.ci.json
 # npx playwright test
 #
 # @author BrianHenryIE
@@ -15,7 +19,9 @@ on:
 
 jobs:
 
-  e2e:
+  # Build the zip once and share it with every matrix leg, so all of them test identical bytes.
+  build:
+    name: Build plugin archive
     runs-on: ubuntu-latest
 
     steps:
@@ -23,11 +29,14 @@ jobs:
       - name: Git checkout
         uses: actions/checkout@v6
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v6
+      # `wp dist-archive` needs the zip extension. Matches .github/workflows/release.yml, which
+      # builds the archive the same way.
+      - name: Install PHP
+        uses: shivammathur/setup-php@v2
         with:
-          node-version-file: '.nvmrc'
-          cache: 'npm'
+          php-version: '8.4'
+          tools: composer
+          extensions: zip
 
       # Local path repositories point at sibling checkouts CI does not have. Rewrite them to the
       # equivalent GitHub repository, keeping the constraint — `brianhenryie/bh-wp-rate-limiter`
@@ -47,16 +56,89 @@ jobs:
       - name: Install PHP dependencies
         run: composer update --verbose
 
+      - name: Build plugin archive
+        run: composer create-plugin-archive
+
+      - name: Upload plugin archive
+        uses: actions/upload-artifact@v7
+        with:
+          name: plugin-archive
+          path: dist-archive/*.zip
+          retention-days: 1
+          if-no-files-found: error
+
+  e2e:
+    name: E2E PHP ${{ matrix.php }}
+    runs-on: ubuntu-latest
+    needs: build
+
+    strategy:
+      # One PHP version failing should not hide the results of the others.
+      fail-fast: false
+      matrix:
+        # 8.6 is omitted until the `wordpress:php8.6` / `wordpress:cli-php8.6` images exist.
+        php: [ '8.1', '8.2', '8.3', '8.4', '8.5' ]
+
+    env:
+      # Overrides the `phpVersion` in .wp-env.ci.json, i.e. the PHP the plugin runs on inside
+      # WordPress. The host PHP below stays fixed so dependency resolution does not vary too.
+      WP_ENV_PHP_VERSION: ${{ matrix.php }}
+
+    steps:
+
+      - name: Git checkout
+        uses: actions/checkout@v6
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version-file: '.nvmrc'
+          cache: 'npm'
+
+      - name: Install PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+          tools: composer
+          extensions: zip
+
+      # Local path repositories point at sibling checkouts CI does not have. Rewrite them to the
+      # equivalent GitHub repository, keeping the constraint — `brianhenryie/bh-wp-rate-limiter`
+      # is not published on Packagist, so dropping the repository entirely cannot resolve.
+      - name: Replace local repository references
+        run: |
+          jq '
+            .repositories |= with_entries(
+              if .value.type == "path"
+              then .value = { "type": "vcs", "url": ("https://github.com/" + .key) }
+              else . end
+            )
+          ' composer.json > composer.json.tmp
+          mv composer.json.tmp composer.json
+
+      # Still needed although the zip is prebuilt: wp-env's mappings point at the WordPress plugins
+      # composer installs into wp-content/plugins, and initialize-external.sh runs vendor/bin/wp.
+      - name: Install PHP dependencies
+        run: composer update --verbose
+
       - name: Install dependencies
         run: npm ci
 
       - name: Install Playwright browsers
         run: npx playwright install --with-deps
 
-      # `wp-env start` runs tests/_wp-env/initialize-external.sh, which activates the plugins,
-      # sets the permalink structure and creates the WooCommerce fixtures.
+      - name: Download plugin archive
+        uses: actions/download-artifact@v7
+        with:
+          name: plugin-archive
+          path: dist-archive
+
+      # `wp-env start` runs tests/_wp-env/initialize-external.sh with the "ci" argument, which
+      # copies the newest dist-archive zip to tests/_wp-env/ and installs it with
+      # `wp plugin install`, then activates the plugins, sets the permalink structure and creates
+      # the WooCommerce fixtures.
       - name: Start wp-env
-        run: npx wp-env start
+        run: npx wp-env start --config .wp-env.ci.json
 
       - name: Wait for WordPress to be ready
         run: |
@@ -70,11 +152,15 @@ jobs:
             sleep 2
           done
 
+      # Records the installed version, confirming the tests ran against the built zip.
       - name: List plugins
-        run: npx wp-env run cli wp plugin list
+        run: npx wp-env run --config .wp-env.ci.json cli wp plugin list
 
+      # `github` for inline PR annotations, `html` because `--reporter` replaces rather than adds to
+      # the config's reporters — omitting it leaves tests/_output/playwright-report/ empty and the
+      # upload below finds nothing.
       - name: Run Playwright tests
-        run: npx playwright test --reporter=github
+        run: npx playwright test --reporter=github,html
         env:
           CI: true
 
@@ -82,7 +168,7 @@ jobs:
         uses: actions/upload-artifact@v7
         if: ${{ !cancelled() }}
         with:
-          name: playwright-report
+          name: playwright-report-php-${{ matrix.php }}
           path: tests/_output/playwright-report/
           retention-days: 30
 
@@ -90,6 +176,6 @@ jobs:
         uses: actions/upload-artifact@v7
         if: ${{ !cancelled() }}
         with:
-          name: test-results
+          name: test-results-php-${{ matrix.php }}
           path: tests/_output/playwright-results/
           retention-days: 30
