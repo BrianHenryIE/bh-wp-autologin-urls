@@ -54,11 +54,7 @@ jobs:
         with:
           php-version: ${{ matrix.php }}
           coverage: ${{ matrix.php == env.COVERAGE_PHP_VERSION && 'xdebug' || 'none' }}
-          # register_argc_argv – 8.5: PHP Fatal error: Uncaught Codeception\Exception\ConfigurationException: register_argc_argv must be set to On for running Codeception
-          # display_errors – 8.6: Codeception calls the newly deprecated `spl_object_hash()`. Printed to
-          # stdout, the deprecation counts as output, so WooCommerce's session cookie "cannot be set -
-          # headers already sent" and the checkout tests error. On stderr it is still in the log.
-          ini-values: register_argc_argv=on, display_errors=stderr
+          ini-values: register_argc_argv=on # 8.5: PHP Fatal error: Uncaught Codeception\Exception\ConfigurationException: register_argc_argv must be set to On for running Codeception
 
       - name: Update .env.testing config for GitHub Actions
         env:
