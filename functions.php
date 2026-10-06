@@ -5,6 +5,10 @@
  * @package brianhenryie/bh-wp-autologin-urls
  */
 
+if ( ! defined( 'ABSPATH' ) ) {
+	return;
+}
+
 /**
  * This file is hooked early on plugins_loaded so other plugins can define the function first.
  *

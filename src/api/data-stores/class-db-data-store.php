@@ -76,7 +76,7 @@ class DB_Data_Store implements Data_Store_Interface {
 		$sql = "CREATE TABLE {$table_name} (
 		  expires_at datetime DEFAULT '0000-00-00 00:00:00' NOT NULL,
 		  hash varchar(64) NOT NULL,
-		  userhash varchar(64) NOT NULL, 
+		  userhash varchar(64) NOT NULL,
 		  PRIMARY KEY  (hash),
 		  KEY expires_at (expires_at)
 		) {$charset_collate};";
@@ -141,7 +141,7 @@ class DB_Data_Store implements Data_Store_Interface {
 		$last_error = $wpdb->last_error;
 		if ( ! empty( $last_error ) ) {
 			$this->logger->error( $last_error );
-			throw new Exception( $last_error );
+			throw new Exception( esc_html( $last_error ) );
 		}
 
 		if ( false === $result ) {
@@ -197,7 +197,7 @@ class DB_Data_Store implements Data_Store_Interface {
 		$last_error = $wpdb->last_error;
 		if ( ! empty( $last_error ) ) {
 			$this->logger->error( $last_error );
-			throw new Exception( $last_error );
+			throw new Exception( esc_html( $last_error ) );
 		}
 
 		if ( is_null( $result ) ) {
@@ -253,7 +253,7 @@ class DB_Data_Store implements Data_Store_Interface {
 		$last_error = $wpdb->last_error;
 		if ( ! empty( $last_error ) ) {
 			$this->logger->error( $last_error );
-			throw new Exception( $last_error );
+			throw new Exception( esc_html( $last_error ) );
 		}
 
 		// I think this is the number of entries deleted.

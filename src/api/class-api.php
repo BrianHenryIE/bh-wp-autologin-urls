@@ -671,7 +671,7 @@ class API implements API_Interface {
 		$autologin_url = add_query_arg( array( 'magic' => 'true' ), $autologin_url );
 
 		// Who is asking for the link? Shown in the email so the recipient can tell if it wasn't them.
-		$request_details = $this->get_request_details();
+		$request_details = array_filter( $this->get_request_details() );
 
 		/**
 		 * Short-circuit email sending.

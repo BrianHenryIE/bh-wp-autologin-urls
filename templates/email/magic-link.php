@@ -13,11 +13,12 @@
  *
  * @var string $autologin_url The magic login URL.
  * @var string $expires_in_friendly The length of time the link is valid for, e.g. "15 mins".
- * @var array{ip_address:?string, browser:?string, location:?string} $request_details Details of the request that asked for the link, e.g. "Chrome on macOS", "1.2.3.4", "Dublin, Ireland". Each is null when unknown.
+ * @var array{ip_address:string|null, browser:string|null, location:string|null} $request_details Details of the request that asked for the link, e.g. "Chrome on macOS", "1.2.3.4", "Dublin, Ireland". Each is null when unknown.
  */
 
-$request_details ??= array();
-$request_details   = array_filter( $request_details );
+if ( ! defined( 'ABSPATH' ) ) {
+	return;
+}
 
 ?>
 

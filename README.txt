@@ -1,11 +1,11 @@
 === Magic Emails & Autologin URLs ===
 Contributors: BrianHenryIE
 Donate link: https://BrianHenry.ie
-Tags: login, email, links, users, newsletter, notification, simple, wp_mail
+Tags: magic-link, email, login, newsletter, wp_mail
 Requires at least: 6.8
 Tested up to: 7.1
 Requires PHP: 8.1
-Stable tag: trunk
+Stable tag: 2.7.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 

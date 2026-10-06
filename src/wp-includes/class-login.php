@@ -214,6 +214,12 @@ class Login {
 		add_action(
 			'init',
 			function () use ( $wp_user ) {
+				/**
+				 * We are authenticating before the typical `init` so need to still run the `wp_login` at that time.
+				 *
+				 * @see wp_signon()
+				 */
+				// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
 				do_action( 'wp_login', $wp_user->user_login, $wp_user );
 			}
 		);

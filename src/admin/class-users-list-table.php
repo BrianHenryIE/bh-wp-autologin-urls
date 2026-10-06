@@ -68,7 +68,7 @@ class Users_List_Table {
 				! in_array( 'administrator', $user_object->roles, true )
 				|| $this->settings->get_add_autologin_for_admins_is_enabled()
 			) {
-				$actions['sendmagiclink'] = "<a class='sendmagiclink' href='" . wp_nonce_url( "users.php?action=sendmagiclink&amp;user=$user_object->ID", self::class ) . "'>" . __( 'Send magic login email' ) . '</a>';
+				$actions['sendmagiclink'] = "<a class='sendmagiclink' href='" . wp_nonce_url( "users.php?action=sendmagiclink&amp;user=$user_object->ID", self::class ) . "'>" . __( 'Send magic login email', 'bh-wp-autologin-urls' ) . '</a>';
 			}
 		}
 
