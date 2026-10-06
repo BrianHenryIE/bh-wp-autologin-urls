@@ -27,6 +27,9 @@ if ( ! function_exists( 'add_autologin_to_url' ) ) {
 	 * @param ?int               $expires_in  The number of seconds the code will work for.
 	 *
 	 * @return string
+	 *
+	 * The public API was defined a few years ago
+	 * phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound
 	 */
 	function add_autologin_to_url( string $url, $user, ?int $expires_in = null ): string {
 
