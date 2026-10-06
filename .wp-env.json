@@ -12,7 +12,6 @@
   "mappings": {
     "../setup": "./tests/_wp-env",
     "openapi": "./openapi",
-    "wp-cli.yml": "./wp-cli.wp-env.yml",
     "wp-content/plugins/document-generator-for-openapi": "./wp-content/plugins/document-generator-for-openapi",
     "wp-content/plugins/give": "./wp-content/plugins/give",
     "wp-content/plugins/mailpoet": "./wp-content/plugins/mailpoet",
@@ -30,5 +29,6 @@
   "plugins": [
     "."
   ],
+  "port": 8882,
   "testsEnvironment": false
 }

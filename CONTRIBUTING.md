@@ -26,9 +26,30 @@ composer test
 ### E2E testing with wp-env and Playwright
 
 ```bash
-npx playwright install
-npx playwright test --config ./playwright.config.ts
+npm install
+npm run test:e2e:setup    # Download Playwright's browsers. Repeat after Playwright is updated.
+npm run wp-env            # Start WordPress. Docker must be running.
+
+npm run test:e2e:chromium # One browser, a few minutes.
+npm run test:e2e          # Chromium, Firefox and WebKit.
+npm run test:e2e:ui       # Playwright's interactive runner.
+npm run test:e2e:report   # Open the HTML report of the last run.
+
+# A single spec, or a single test by name.
+npx playwright test tests/e2e-pw/autologin.spec.ts --project=chromium
+npx playwright test -g "verify plugin is active"
 ```
+
+The tests run against the site wp-env starts. The URL is read from the `port` in `.wp-env.json`, so
+changing the port there is enough; set `BASE_URL` to test a different site:
+
+```bash
+BASE_URL=http://localhost:8882 npm run test:e2e
+```
+
+`tests/e2e-pw/global-setup.ts` logs in as `admin` / `password` once, over HTTP, and every browser
+starts with that session (saved under `tests/_output/storage-states/`). Set `WP_USERNAME` and
+`WP_PASSWORD` to use a different administrator.
 
 ```
 npx wp-env start --config .wp-env.ci.json
@@ -98,9 +119,9 @@ npm install -g pnpm@8
 pnpm install
 pnpm build
 npx playwright install --with-deps chromium
-BASE_URL=http://localhost:8889 npx playwright test --config  plugins/woocommerce/tests/e2e-pw/playwright.config.js
+BASE_URL=http://localhost:8882 npx playwright test --config  plugins/woocommerce/tests/e2e-pw/playwright.config.js
 
-COREPACK_ENABLE_STRICT=0 BASE_URL=http://localhost:8889 USE_WP_ENV=1 pnpm playwright test --config=tests/e2e-pw/woocommerce/playwright.config.js 
+COREPACK_ENABLE_STRICT=0 BASE_URL=http://localhost:8882 USE_WP_ENV=1 pnpm playwright test --config=tests/e2e-pw/woocommerce/playwright.config.js 
 ```
 
 
@@ -122,14 +143,11 @@ open http://localhost:8888
 8890
 
 # is used for automated tests.
-open http://localhost:8889
+open http://localhost:8882
 
 # Start the playwright test runner UI and return to the Terminal (otherwise Terminal is unavailable until the application is exited).
 npx playwright test --ui &;
 
-We do this because 8889 is the port used for the tests instance which has the plugin zip installed, and 8888 is the 
-port used for development work, so if the intent is to edit code as we re-run tests, we need to use the 8888 port.
-BASEURL=http://localhost:8889 npx playwright test --ui &;
 
 # Start browser and record Playwright steps
 npx playwright codegen -o tests/e2e-pw/example.spec.js

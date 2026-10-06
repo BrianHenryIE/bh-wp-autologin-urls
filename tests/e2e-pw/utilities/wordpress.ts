@@ -1,53 +1,44 @@
-import {expect, Page} from "@playwright/test";
+import {Page} from "@playwright/test";
+import {RequestUtils} from "@wordpress/e2e-test-utils-playwright";
 
-async function loginAsAdmin( page: Page ) {
-    await page.goto('/wp-login.php?redirect_to=%2Fwp-admin%2F&reauth=1');
-    await page.getByLabel('Username or Email Address').fill('admin');
-    // It was filling "password" into the username field.
-    await page.locator('#user_pass').focus();
-    await page.locator('#user_pass').fill('password');
-    await page.getByLabel('Password', {exact: true}).press('Enter');
-    await page.waitForLoadState( 'networkidle' );
+/**
+ * Give the page's browser context the administrator session saved by `global-setup.ts`.
+ *
+ * Pages start out with it (`use.storageState` in `playwright.config.ts`), so this is only needed
+ * after `logout()`, or after an autologin URL has logged the page in as somebody else.
+ */
+async function loginAsAdmin(page: Page, requestUtils: RequestUtils) {
+    await page.context().clearCookies();
+    await page.context().addCookies(requestUtils.storageState.cookies);
 }
 
-async function createUser(page: Page, username: string = null, email: string = null, role: string = null) {
+async function createUser(requestUtils: RequestUtils, username: string = null, email: string = null, role: string = null) {
 
     const clean = (value: string) => value.replace(/^[@\W]*/g, '').replace(/[:]/g, '');
 
     username = clean(username ?? ('bob' + Math.random()));
     email = clean(email ?? (username + '@example.org'));
 
-    await page.goto('/wp-admin/user-new.php', {waitUntil: 'domcontentloaded'});
-
-    await page.locator('#user_login').fill(username);
-    await page.locator('#email').fill(email);
-
-    await page.locator('#send_user_notification').uncheck();
-
-    // default role is "Subscriber"
-    // <select id="role" name="role">
-    if(role) {
-        await page.selectOption('select#role', {value: role});
-    }
-
-    // WordPress 7.0 renamed the button from "Add New User" to "Add User"; the id is stable.
-    await page.locator('#createusersub').click();
-    await page.waitForLoadState( 'domcontentloaded' ); // "New user created."
+    await requestUtils.createUser({
+        username,
+        email,
+        // The REST API requires a password; nothing logs in with it.
+        password: 'password' + Math.random(),
+        // WordPress's default role is "Subscriber".
+        roles: role ? [role] : undefined,
+    });
 
     return username;
 }
 
+/**
+ * Forget the session in this browser only.
+ *
+ * Not WordPress's logout link: that destroys the session on the server, and it is the one
+ * administrator session shared by every spec.
+ */
 async function logout(page: Page) {
-
-    await page.goto('/wp-admin/', {waitUntil:'domcontentloaded'});
-
-    let logoutLink = await page.evaluate(async() => {
-        return document.getElementById('wp-admin-bar-logout').firstChild.getAttribute("href");
-    });
-
-    await page.goto(logoutLink, {waitUntil:'domcontentloaded'});
-
-    await expect(page.locator('#login')).toContainText("logged out");
+    await page.context().clearCookies();
 }
 
 export {loginAsAdmin, createUser, logout};

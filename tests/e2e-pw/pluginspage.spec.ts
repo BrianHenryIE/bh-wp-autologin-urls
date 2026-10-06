@@ -1,6 +1,6 @@
-import { test, Page, expect } from '@playwright/test';
+import { Page } from '@playwright/test';
+import { test, expect } from '@wordpress/e2e-test-utils-playwright';
 import {Locator} from "playwright-core";
-import {loginAsAdmin} from "./utilities/wordpress";
 
 test.describe( 'Plugins page tests', () => {
 
@@ -11,10 +11,8 @@ test.describe( 'Plugins page tests', () => {
   let pluginTableRow: Locator
 
   test.beforeAll(async ({ browser }) => {
-    // Create page once and sign in.
+    // Create page once; it starts logged in as the administrator.
     page = await browser.newPage();
-
-    await loginAsAdmin(page);
 
     await page.goto('/wp-admin/plugins.php', {waitUntil:'domcontentloaded'});
 

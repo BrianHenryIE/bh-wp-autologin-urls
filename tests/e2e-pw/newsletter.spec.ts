@@ -1,14 +1,34 @@
-import {test, expect, Page} from '@playwright/test';
+import {Locator, Page} from '@playwright/test';
+import {test, expect} from '@wordpress/e2e-test-utils-playwright';
 import {loginAsAdmin, createUser, logout} from './utilities/wordpress';
 import {getMostRecentEmailContent} from './utilities/mail';
 
 test.describe( 'The Newsletter Plugin tests', () => {
+
+  /* These are far slower than the rest of the suite and exceeded the 120s default: each test creates
+   * a subscriber and a newsletter, then `waitForNewsletterSendComplete()` walks the send queue until
+   * the email is sent, before reading the mail log. */
+  test.describe.configure({ timeout: 420_000 });
 
   let page: Page;
 
   // async function beforeEach() {
   //   // TODO: Delete all transients.
   // }
+
+  /**
+   * Click a button which submits a form, and wait for the page the POST returns.
+   *
+   * `click()` resolves as soon as the click is dispatched. When the next step is a `page.goto()`, it
+   * can abort the form's POST while it is still in flight, so the subscriber is never saved or the
+   * newsletter never queued – seen on WebKit as an email which never arrives.
+   */
+  async function clickAndWaitForNavigation(page: Page, locator: Locator) {
+    await Promise.all([
+      page.waitForNavigation({waitUntil: 'domcontentloaded'}),
+      locator.click(),
+    ]);
+  }
 
   async function addNewsletterSubscriber(page: Page, email: string, firstName: string, lastName: string) {
     await page.goto('/wp-admin/admin.php?page=newsletter_users_new', {waitUntil: 'domcontentloaded'});
@@ -21,7 +41,7 @@ test.describe( 'The Newsletter Plugin tests', () => {
     await page.locator('#options-surname').fill(lastName);
 
     await page.waitForTimeout(100);
-    await page.getByRole('button', {name: ' Save'}).click();
+    await clickAndWaitForNavigation(page, page.getByRole('button', {name: ' Save'}));
   }
 
   /**
@@ -74,34 +94,34 @@ test.describe( 'The Newsletter Plugin tests', () => {
     ]);
   }
 
-  // This should be in a do-until loop checking that the newsletter has been sent.
-  async function waitForNewsletterSendComplete(page: Page) {
-
-    // # TODO: add a check for "newsletter has actually been sent"
-    let times = 3;
-
-    let newslettersListUrl = "/wp-admin/admin.php?page=newsletter_emails_index";
-    do{
-      await page.goto(newslettersListUrl, {waitUntil: 'domcontentloaded'});
+  /**
+   * Keep triggering the send queue until the subscriber's email is in WP Mail Logging's log.
+   *
+   * Each run of the queue only sends a batch of 8, and the newsletter goes to every subscriber, so
+   * the number of runs needed grows with the subscribers left behind by earlier test runs.
+   */
+  async function waitForNewsletterSendComplete(page: Page, email: string) {
+    await expect(async () => {
       await manuallyTriggerNewsletterSend(page);
-      times--;
-    } while (times >= 0);
+      await page.goto('/wp-admin/admin.php?page=wpml_plugin_log', {waitUntil: 'domcontentloaded'});
+      await expect(page.locator('tr:has-text("' + email + '")').first()).toBeVisible({timeout: 2000});
+    }).toPass({timeout: 180_000});
   }
 
   test.beforeAll(async ({ browser }) => {
-    // Create page once and sign in.
+    // Create page once; it starts logged in as the administrator.
     page = await browser.newPage();
-    await loginAsAdmin(page);
   });
 
-  test('test_logs_in_wpuser', async () => {
+  test('test_logs_in_wpuser', async ({ requestUtils }) => {
     let firstName = 'bob' + Math.random();
     let lastName = 'lastname';
     let email = firstName + '@example.com';
 
-    await loginAsAdmin(page);
+    // The previous test, or a retry of this one, leaves the page logged out or logged in as a subscriber.
+    await loginAsAdmin(page, requestUtils);
 
-    await createUser( page, firstName, email );
+    await createUser( requestUtils, firstName, email );
 
     await addNewsletterSubscriber(page, email, firstName, lastName);
 
@@ -113,9 +133,9 @@ test.describe( 'The Newsletter Plugin tests', () => {
       // Click OK.
       dialog.accept();
     });
-    await page.getByRole('button', {name: 'Send now'}).click();
+    await clickAndWaitForNavigation(page, page.getByRole('button', {name: 'Send now'}));
 
-    await waitForNewsletterSendComplete(page);
+    await waitForNewsletterSendComplete(page, email);
 
     // This is flaky – returning an empty string. TODO: try a different mail logging plugin.
     let emailContent = await getMostRecentEmailContent(page, email, '');
@@ -141,12 +161,13 @@ test.describe( 'The Newsletter Plugin tests', () => {
   });
 
 
-  test('test_fills_in_woocommerce_checkout_without_wpuser', async () => {
+  test('test_fills_in_woocommerce_checkout_without_wpuser', async ({ requestUtils }) => {
     let firstName = 'bob' + Math.random();
     let lastName = 'lastname';
     let email = firstName + '@example.com';
 
-    await loginAsAdmin(page);
+    // The previous test, or a retry of this one, leaves the page logged out or logged in as a subscriber.
+    await loginAsAdmin(page, requestUtils);
 
     await addNewsletterSubscriber(page, email, firstName, lastName);
 
@@ -158,9 +179,9 @@ test.describe( 'The Newsletter Plugin tests', () => {
       // Click OK.
       dialog.accept();
     });
-    await page.getByRole('button', {name: 'Send now'}).click();
+    await clickAndWaitForNavigation(page, page.getByRole('button', {name: 'Send now'}));
 
-    await waitForNewsletterSendComplete(page);
+    await waitForNewsletterSendComplete(page, email);
 
     // This is flaky – returning an empty string. TODO: try a different mail logging plugin.
     let emailContent = await getMostRecentEmailContent(page, email, '');

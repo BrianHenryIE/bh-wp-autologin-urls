@@ -143,8 +143,9 @@ jobs:
       - name: Wait for WordPress to be ready
         run: |
           echo "Waiting for WordPress to be ready..."
+          WP_ENV_PORT=$(jq -r '.port // 8888' .wp-env.ci.json)
           for i in {1..30}; do
-            if curl -s http://localhost:8888 > /dev/null; then
+            if curl -s "http://localhost:$WP_ENV_PORT" > /dev/null; then
               echo "WordPress is ready!"
               break
             fi

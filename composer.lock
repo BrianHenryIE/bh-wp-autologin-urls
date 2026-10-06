@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3c597c26dfe442afbde35c5373403906",
+    "content-hash": "5def08bb149d7f1ea90641e01b2ec1f5",
     "packages": [
         {
             "name": "beberlei/assert",
@@ -183,16 +183,16 @@
         },
         {
             "name": "brianhenryie/bh-wp-logger",
-            "version": "0.4.0",
+            "version": "0.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/BrianHenryIE/bh-wp-logger.git",
-                "reference": "25049bf71785aa55195beb793b2b757a0876d6d8"
+                "reference": "40ef62c20cad114bc8ef76fbf3a5ebf1e8cc6035"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/BrianHenryIE/bh-wp-logger/zipball/25049bf71785aa55195beb793b2b757a0876d6d8",
-                "reference": "25049bf71785aa55195beb793b2b757a0876d6d8",
+                "url": "https://api.github.com/repos/BrianHenryIE/bh-wp-logger/zipball/40ef62c20cad114bc8ef76fbf3a5ebf1e8cc6035",
+                "reference": "40ef62c20cad114bc8ef76fbf3a5ebf1e8cc6035",
                 "shasum": ""
             },
             "require": {
@@ -213,7 +213,7 @@
                 "brianhenryie/php-codecoverage-markdown": "*",
                 "ext-curl": "*",
                 "johnpbloch/wordpress": "*",
-                "lucatume/wp-browser": "^4.5",
+                "lucatume/wp-browser": "^4.7",
                 "php-stubs/woocommerce-stubs": "*",
                 "phpstan/extension-installer": "*",
                 "phpstan/phpstan-phpunit": "^2.0",
@@ -247,9 +247,9 @@
             "description": "A PSR logger for WordPress plugins, with a nice WP_List_Table UI.",
             "support": {
                 "issues": "https://github.com/BrianHenryIE/bh-wp-logger/issues",
-                "source": "https://github.com/BrianHenryIE/bh-wp-logger/tree/0.4.0"
+                "source": "https://github.com/BrianHenryIE/bh-wp-logger/tree/0.5.0"
             },
-            "time": "2026-09-03T16:59:55+00:00"
+            "time": "2026-09-30T12:19:39+00:00"
         },
         {
             "name": "brianhenryie/bh-wp-private-uploads",

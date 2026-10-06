@@ -1,5 +1,6 @@
-import {test, expect, Page} from '@playwright/test';
-import {loginAsAdmin, createUser, logout} from './utilities/wordpress';
+import {Page} from '@playwright/test';
+import {test, expect} from '@wordpress/e2e-test-utils-playwright';
+import {createUser, logout} from './utilities/wordpress';
 
 test.describe( 'Autologin link tests', () => {
 
@@ -8,10 +9,8 @@ test.describe( 'Autologin link tests', () => {
   let page: Page;
 
   test.beforeAll(async ({ browser }) => {
-    // Create page once and sign in.
+    // Create page once; it starts logged in as the administrator.
     page = await browser.newPage();
-
-    await loginAsAdmin(page);
 
     await page.goto(loginRedirectUrl, {waitUntil:'domcontentloaded'});
   });
@@ -33,8 +32,8 @@ test.describe( 'Autologin link tests', () => {
   }
 
 
-  test('Get link from users.php and verify it works to login', async () => {
-    let username = await createUser(page);
+  test('Get link from users.php and verify it works to login', async ({ requestUtils }) => {
+    let username = await createUser(requestUtils);
 
     let autologinUrl = await getAutoLoginUrlFromUserEditPage( username );
 
