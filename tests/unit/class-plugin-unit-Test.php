@@ -59,8 +59,8 @@ class Plugin_Unit_Test extends \BrianHenryIE\WP_Autologin_URLs\Unit_Testcase {
 
 		$this->assertEmpty( $printed_output );
 
-		$this->assertArrayHasKey( 'bh-wp-autologin-urls', $GLOBALS );
+		$this->assertArrayHasKey( 'bh_wp_autologin_urls', $GLOBALS );
 
-		$this->assertInstanceOf( API::class, $GLOBALS['bh-wp-autologin-urls'] );
+		$this->assertInstanceOf( API::class, $GLOBALS['bh_wp_autologin_urls'] );
 	}
 }
