@@ -6,8 +6,8 @@ import {getMostRecentEmailContent} from './utilities/mail';
 test.describe( 'The Newsletter Plugin tests', () => {
 
   /* These are far slower than the rest of the suite and exceeded the 120s default: each test creates
-   * a subscriber and a newsletter, then `waitForNewsletterSendComplete()` walks the send queue four
-   * times, before reading the mail log. Measured 90s–240s per test locally, the slowest on Firefox. */
+   * a subscriber and a newsletter, then `waitForNewsletterSendComplete()` walks the send queue until
+   * the email is sent, before reading the mail log. */
   test.describe.configure({ timeout: 420_000 });
 
   let page: Page;
@@ -80,18 +80,18 @@ test.describe( 'The Newsletter Plugin tests', () => {
     ]);
   }
 
-  // This should be in a do-until loop checking that the newsletter has been sent.
-  async function waitForNewsletterSendComplete(page: Page) {
-
-    // # TODO: add a check for "newsletter has actually been sent"
-    let times = 3;
-
-    let newslettersListUrl = "/wp-admin/admin.php?page=newsletter_emails_index";
-    do{
-      await page.goto(newslettersListUrl, {waitUntil: 'domcontentloaded'});
+  /**
+   * Keep triggering the send queue until the subscriber's email is in WP Mail Logging's log.
+   *
+   * Each run of the queue only sends a batch of 8, and the newsletter goes to every subscriber, so
+   * the number of runs needed grows with the subscribers left behind by earlier test runs.
+   */
+  async function waitForNewsletterSendComplete(page: Page, email: string) {
+    await expect(async () => {
       await manuallyTriggerNewsletterSend(page);
-      times--;
-    } while (times >= 0);
+      await page.goto('/wp-admin/admin.php?page=wpml_plugin_log', {waitUntil: 'domcontentloaded'});
+      await expect(page.locator('tr:has-text("' + email + '")').first()).toBeVisible({timeout: 2000});
+    }).toPass({timeout: 180_000});
   }
 
   test.beforeAll(async ({ browser }) => {
@@ -121,7 +121,7 @@ test.describe( 'The Newsletter Plugin tests', () => {
     });
     await page.getByRole('button', {name: 'Send now'}).click();
 
-    await waitForNewsletterSendComplete(page);
+    await waitForNewsletterSendComplete(page, email);
 
     // This is flaky – returning an empty string. TODO: try a different mail logging plugin.
     let emailContent = await getMostRecentEmailContent(page, email, '');
@@ -167,7 +167,7 @@ test.describe( 'The Newsletter Plugin tests', () => {
     });
     await page.getByRole('button', {name: 'Send now'}).click();
 
-    await waitForNewsletterSendComplete(page);
+    await waitForNewsletterSendComplete(page, email);
 
     // This is flaky – returning an empty string. TODO: try a different mail logging plugin.
     let emailContent = await getMostRecentEmailContent(page, email, '');
