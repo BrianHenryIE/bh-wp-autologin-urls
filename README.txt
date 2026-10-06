@@ -41,11 +41,7 @@ An API is available for developers to use autologin codes elsewhere in WordPress
 = 2.7.0 =
 
 * Add: browser, IP address and location (when WooCommerce geolocation is available) of the request in magic link emails, so recipients can tell if it wasn't them
-* Add: `get_request_details()` to `API_Interface`
-* Fix: The Newsletter Plugin 9.3.7+ compatibility – its tracking links are signed in a new format, so they were rejected and each click counted as a failed login attempt
 * Update dependencies
-* Requires WordPress 6.8
-* Tested up to WordPress 7.1
 
 = 2.6.0 =
 
