@@ -21,9 +21,9 @@ class Plugin_Develop_Test extends \BrianHenryIE\WP_Autologin_URLs\WPUnit_Testcas
 	 */
 	public function test_plugin_instantiated() {
 
-		$this->assertArrayHasKey( 'bh-wp-autologin-urls', $GLOBALS );
+		$this->assertArrayHasKey( 'bh_wp_autologin_urls', $GLOBALS );
 
-		$this->assertInstanceOf( API::class, $GLOBALS['bh-wp-autologin-urls'] );
+		$this->assertInstanceOf( API::class, $GLOBALS['bh_wp_autologin_urls'] );
 	}
 
 
