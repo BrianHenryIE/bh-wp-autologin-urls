@@ -80,7 +80,6 @@ xdebug.sh
 7.4linux.sh
 /specstodo.md
 /CONTRIBUTING.md
-/src
 /CODE_COVERAGE.md
 /INTEGRATIONS_API.md
 /rector.php
