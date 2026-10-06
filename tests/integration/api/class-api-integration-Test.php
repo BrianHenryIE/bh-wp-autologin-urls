@@ -8,6 +8,8 @@
 
 namespace BrianHenryIE\WP_Autologin_URLs\API;
 
+use wpdb;
+
 /**
  * Class API_Integration_Test
  */
@@ -37,6 +39,7 @@ class API_Integration_Test extends \BrianHenryIE\WP_Autologin_URLs\WPUnit_Testca
 
 		// Specify the user id for later comparing.
 
+		/** @var wpdb $wpdb */
 		global $wpdb;
 
 		$wpdb->get_results( $wpdb->prepare( 'UPDATE ' . $wpdb->users . ' SET ID = 123 WHERE ID = %d', $user_id ) );

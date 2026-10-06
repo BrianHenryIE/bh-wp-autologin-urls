@@ -71,7 +71,7 @@ class Login_Integration_Test extends \BrianHenryIE\WP_Autologin_URLs\WPUnit_Test
 
 		$user_id = $this->factory->user->create();
 
-		$url = get_site_url() . '/?autologin=' . $user_id . '~badautco';
+		$url = get_site_url( path: sprintf( 'autologin=%d~badautco', $user_id ) );
 
 		$this->go_to( $url );
 
@@ -92,7 +92,7 @@ class Login_Integration_Test extends \BrianHenryIE\WP_Autologin_URLs\WPUnit_Test
 
 		for ( $attempt = 1; $attempt <= Login::MAX_BAD_LOGIN_ATTEMPTS; $attempt++ ) {
 
-			$this->go_to( get_site_url() . '/?autologin=' . $user_id . '~badautocode' . $attempt );
+			$this->go_to( get_site_url( path: sprintf( '?autologin=%d~badautocode%d', $user_id, $attempt ) ) );
 			wp_set_current_user( 0 );
 
 			$this->assertEquals( 0, $this->process_login_request(), "Bad attempt {$attempt} should not have logged the user in." );

@@ -17,6 +17,7 @@ use BrianHenryIE\WP_Autologin_URLs\Admin\Plugins_Page;
 class BH_WP_Autologin_URLs_Integration_Test extends \BrianHenryIE\WP_Autologin_URLs\WPUnit_Testcase {
 
 	public function hooks() {
+		/** @var string $plugin_basename */
 		global $plugin_basename;
 		$hooks = array(
 			array( 'init', I18n::class, 'load_plugin_textdomain' ),
@@ -39,6 +40,7 @@ class BH_WP_Autologin_URLs_Integration_Test extends \BrianHenryIE\WP_Autologin_U
 	 */
 	protected function is_function_hooked_on_action( string $class_type, string $method_name, string $action_name, int $expected_priority = 10 ): bool {
 
+		/** @var array<string, array<int, array{accepted_args:int,function:callable}>> $wp_filter */
 		global $wp_filter;
 
 		$this->assertArrayHasKey( $action_name, $wp_filter, "$method_name definitely not hooked to $action_name" );

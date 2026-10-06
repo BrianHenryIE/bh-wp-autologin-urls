@@ -24,6 +24,7 @@ class Plugin_Unit_Test extends \BrianHenryIE\WP_Autologin_URLs\Unit_Testcase {
 			function ( $api, $settings, $logger ) {}
 		);
 
+		/** @var string $plugin_root_dir */
 		global $plugin_root_dir;
 
 		\Patchwork\redefine(

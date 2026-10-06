@@ -20,6 +20,7 @@ class BH_WP_Autologin_URLs_Admin_Display_Unit_Test extends \BrianHenryIE\WP_Auto
 	 */
 	public function test_including_file_calls_wordpress_functions() {
 
+		/** @var string $plugin_root_dir */
 		global $plugin_root_dir;
 
 		\WP_Mock::userFunction(

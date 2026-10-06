@@ -10,6 +10,7 @@ namespace BrianHenryIE\WP_Autologin_URLs\API;
 
 use BrianHenryIE\WP_Autologin_URLs\Settings_Interface;
 use Codeception\Stub\Expected;
+use wpdb;
 
 /**
  * @coversDefaultClass \BrianHenryIE\WP_Autologin_URLs\API\API
@@ -52,6 +53,7 @@ class API_WPUnit_Test extends \BrianHenryIE\WP_Autologin_URLs\WPUnit_Testcase {
 
 		// Specify the user id for later comparing.
 
+		/** @var wpdb $wpdb */
 		global $wpdb;
 
 		$wpdb->get_results( $wpdb->prepare( 'UPDATE ' . $wpdb->users . ' SET ID = 123 WHERE ID = %d', $user_id ) );
@@ -325,6 +327,7 @@ class API_WPUnit_Test extends \BrianHenryIE\WP_Autologin_URLs\WPUnit_Testcase {
 				$data_store_mock = $this->makeEmpty( Data_Store_Interface::class );
 		$api                     = new API( $this->settings, $this->logger, $data_store_mock );
 
+		/** @var string $project_root_dir */
 		global $project_root_dir;
 
 		$test_data_path   = $project_root_dir . '/tests/_data/testdata/';

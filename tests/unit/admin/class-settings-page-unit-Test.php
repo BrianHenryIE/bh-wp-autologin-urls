@@ -54,6 +54,7 @@ class Settings_Page_Unit_Test extends \BrianHenryIE\WP_Autologin_URLs\Unit_Testc
 	 */
 	public function tests_display_plugin_admin_page_file_exists(): void {
 
+		/** @var string $plugin_root_dir */
 		global $plugin_root_dir;
 
 		// Verify the actual file exists.

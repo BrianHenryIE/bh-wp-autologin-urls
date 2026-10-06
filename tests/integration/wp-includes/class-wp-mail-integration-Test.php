@@ -9,6 +9,8 @@
 
 namespace BrianHenryIE\WP_Autologin_URLs\wp_mail;
 
+use MockPHPMailer;
+
 /**
  * Class WP_Mail_Test
  *
@@ -48,7 +50,7 @@ class WP_Mail_Integration_Test extends \BrianHenryIE\WP_Autologin_URLs\WPUnit_Te
 
 		wp_mail( $to, $subject, $message );
 
-		/** MockPHPMailer */
+		/** @var MockPHPMailer $phpmailer */
 		global $phpmailer;
 
 		$phpmailer_message = $phpmailer->Body;
@@ -107,7 +109,7 @@ class WP_Mail_Integration_Test extends \BrianHenryIE\WP_Autologin_URLs\WPUnit_Te
 
 		wp_mail( $to, $subject, $message );
 
-		/** MockPHPMailer */
+		/** @var MockPHPMailer $phpmailer */
 		global $phpmailer;
 
 		$phpmailer_message = $phpmailer->Body;

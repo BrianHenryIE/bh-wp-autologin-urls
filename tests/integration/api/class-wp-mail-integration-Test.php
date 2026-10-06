@@ -9,6 +9,8 @@
 
 namespace BrianHenryIE\WP_Autologin_URLs\WP_Includes;
 
+use MockPHPMailer;
+
 /**
  * Class WP_Mail_Test
  *
@@ -42,7 +44,7 @@ class WP_Mail_2_Integration_Test extends \BrianHenryIE\WP_Autologin_URLs\WPUnit_
 
 		wp_mail( $to, $subject, $message );
 
-		/** MockPHPMailer */
+		/** @var MockPHPMailer $phpmailer */
 		global $phpmailer;
 
 		$phpmailer_message = $phpmailer->Body;
@@ -75,7 +77,7 @@ class WP_Mail_2_Integration_Test extends \BrianHenryIE\WP_Autologin_URLs\WPUnit_
 
 		wp_mail( $to, $subject, $message );
 
-		/** MockPHPMailer */
+		/** @var MockPHPMailer $phpmailer */
 		global $phpmailer;
 
 		$phpmailer_message = $phpmailer->Body;
@@ -111,7 +113,7 @@ class WP_Mail_2_Integration_Test extends \BrianHenryIE\WP_Autologin_URLs\WPUnit_
 
 		wp_mail( $to, $subject, $message );
 
-		/** MockPHPMailer */
+		/** @var MockPHPMailer $phpmailer */
 		global $phpmailer;
 
 		$phpmailer_message = $phpmailer->Body;
@@ -159,7 +161,7 @@ class WP_Mail_2_Integration_Test extends \BrianHenryIE\WP_Autologin_URLs\WPUnit_
 
 		wp_mail( $to, $subject, $message );
 
-		/** MockPHPMailer */
+		/** @var MockPHPMailer $phpmailer */
 		global $phpmailer;
 
 		$phpmailer_message = $phpmailer->Body;
@@ -193,13 +195,14 @@ class WP_Mail_2_Integration_Test extends \BrianHenryIE\WP_Autologin_URLs\WPUnit_
 			}
 		);
 
+		/** @var string $project_root_dir */
 		global $project_root_dir;
 
 		$unchanged_data_path = $project_root_dir . '/tests/_data/unchanged/';
 
 		$files = array_diff( scandir( $unchanged_data_path ), array( '.', '..' ) );
 
-		/** MockPHPMailer */
+		/** @var MockPHPMailer $phpmailer */
 		global $phpmailer;
 
 		foreach ( $files as $file ) {

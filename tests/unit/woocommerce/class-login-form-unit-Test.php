@@ -30,6 +30,7 @@ class Login_Form_Unit_Test extends \BrianHenryIE\WP_Autologin_URLs\Unit_Testcase
 	 */
 	public function test_enqueue_scripts(): void {
 
+		/** @var string $plugin_root_dir */
 		global $plugin_root_dir;
 
 		// Return any old url.

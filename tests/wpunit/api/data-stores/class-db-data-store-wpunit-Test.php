@@ -16,6 +16,7 @@ class DB_Data_Store_WPUnit_Test extends \BrianHenryIE\WP_Autologin_URLs\WPUnit_T
 	protected function setUp(): void {
 		parent::setUp();
 
+		/** @var wpdb $wpdb */
 		global $wpdb;
 		$this->original_wpdb = $wpdb;
 	}
@@ -23,6 +24,7 @@ class DB_Data_Store_WPUnit_Test extends \BrianHenryIE\WP_Autologin_URLs\WPUnit_T
 	protected function tearDown(): void {
 		parent::tearDown();
 
+		/** @var wpdb $wpdb */
 		global $wpdb;
 		$wpdb = $this->original_wpdb;
 	}
@@ -33,6 +35,7 @@ class DB_Data_Store_WPUnit_Test extends \BrianHenryIE\WP_Autologin_URLs\WPUnit_T
 	public function test_create_db(): void {
 
 		// Assert table is absent.
+		/** @var wpdb $wpdb */
 		global $wpdb;
 
 		// Need to remove the filter that adds "TEMPORARY" into queries during test.
@@ -151,6 +154,7 @@ class DB_Data_Store_WPUnit_Test extends \BrianHenryIE\WP_Autologin_URLs\WPUnit_T
 		$db_query_result->expires_at = ( (int) gmdate( 'Y' ) + 1 ) . '-01-01 01:01:01';
 		$db_query_result->userhash   = 'not_relevant_to_this_test';
 
+		/** @var wpdb $wpdb */
 		global $wpdb;
 		$wpdb             = $this->make(
 			wpdb::class,
@@ -176,6 +180,7 @@ class DB_Data_Store_WPUnit_Test extends \BrianHenryIE\WP_Autologin_URLs\WPUnit_T
 		$db_query_result->expires_at = ( (int) gmdate( 'Y' ) + 1 ) . '-01-01 01:01:01';
 		$db_query_result->userhash   = 'not_relevant_to_this_test';
 
+		/** @var wpdb $wpdb */
 		global $wpdb;
 		$wpdb             = $this->make(
 			wpdb::class,
