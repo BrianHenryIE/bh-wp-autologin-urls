@@ -142,11 +142,13 @@ class WP_Mail {
 		 * To add or remove regex filters for message subjects:
 		 * `add_filter( 'autologin_urls_disallowed_subject_regexes', 'my_function', 10, 3 )`
 		 *
-		 * @param array    $disallowed_subjects_regex_array
+		 * @param array<string> $disallowed_subjects_regex_array
 		 * @param \WP_User  $user The WordPress user the email is being sent to.
 		 * @param array    $wp_mail_args The array of values wp_mail() functions uses: subject, message etc.
 		 */
 		$disallowed_subjects_regex_array = apply_filters( 'autologin_urls_disallowed_subject_regexes', $disallowed_subjects_regex_array, $user, $wp_mail_args );
+
+		$disallowed_subjects_regex_array = array_filter( $disallowed_subjects_regex_array, 'is_string' );
 
 		foreach ( $disallowed_subjects_regex_array as $disallowed_subject_regex ) {
 

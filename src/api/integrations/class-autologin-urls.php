@@ -67,7 +67,7 @@ class Autologin_URLs implements User_Finder_Interface, LoggerAwareInterface {
 		// This input is not coming from a WordPress page so cannot have a nonce.
 		// phpcs:disable WordPress.Security.NonceVerification.Recommended
 
-		if ( ! isset( $_GET[ self::QUERYSTRING_PARAMETER_NAME ] ) ) {
+		if ( ! isset( $_GET[ self::QUERYSTRING_PARAMETER_NAME ] ) || ! is_string( $_GET[ self::QUERYSTRING_PARAMETER_NAME ] ) || '' === $_GET[ self::QUERYSTRING_PARAMETER_NAME ] ) {
 			return $result;
 		}
 

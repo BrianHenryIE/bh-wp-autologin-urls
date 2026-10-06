@@ -194,6 +194,7 @@ class Login {
 		add_action(
 			'set_auth_cookie',
 			function ( $auth_cookie ) {
+				/** @var array<string, string> $_COOKIE */
 				global $_COOKIE;
 				$_COOKIE[ AUTH_COOKIE ]        = $auth_cookie;
 				$_COOKIE[ SECURE_AUTH_COOKIE ] = $auth_cookie;
@@ -203,6 +204,7 @@ class Login {
 		add_action(
 			'set_logged_in_cookie',
 			function ( $logged_in_cookie ) {
+				/** @var array<string, string> $_COOKIE */
 				global $_COOKIE;
 				$_COOKIE[ LOGGED_IN_COOKIE ] = $logged_in_cookie;
 			}
@@ -236,7 +238,7 @@ class Login {
 	 */
 	protected function maybe_redirect(): void {
 
-		if ( ! isset( $_SERVER['REQUEST_URI'] ) ) {
+		if ( ! isset( $_SERVER['REQUEST_URI'] ) || ! is_string( $_SERVER['REQUEST_URI'] ) || '' === $_SERVER['REQUEST_URI'] ) {
 			// Cron, WP CLI.
 			return;
 		}
@@ -252,7 +254,7 @@ class Login {
 		// Check we're on wp-login.php?redirect_to=...
 		// We won't have a nonce here if the link is from an email.
 		// phpcs:disable WordPress.Security.NonceVerification.Recommended
-		if ( isset( $_GET['redirect_to'] ) ) {
+		if ( isset( $_GET['redirect_to'] ) && is_string( $_GET['redirect_to'] ) && '' !== $_GET['redirect_to'] ) {
 
 			// `FILTER_SANITIZE_STRING` is deprecated since PHP 8.1. `sanitize_text_field()` cannot
 			// be used here because it strips percent-encoded characters, and the value arrives

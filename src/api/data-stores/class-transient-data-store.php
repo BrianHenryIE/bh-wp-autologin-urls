@@ -68,7 +68,7 @@ class Transient_Data_Store implements Data_Store_Interface {
 
 		$value = get_transient( $transient_name );
 
-		if ( false === $value ) {
+		if ( ! is_string( $value ) ) {
 			return null;
 		}
 
