@@ -2,8 +2,8 @@
 Contributors: BrianHenryIE
 Donate link: https://BrianHenry.ie
 Tags: login, email, links, users, newsletter, notification, simple, wp_mail
-Requires at least: 4.5.0
-Tested up to: 7.0
+Requires at least: 6.8
+Tested up to: 7.1
 Requires PHP: 8.1
 Stable tag: trunk
 License: GPLv2 or later
@@ -37,6 +37,11 @@ An API is available for developers to use autologin codes elsewhere in WordPress
 2. The settings interface.
 
 == Changelog ==
+
+= 2.7.0 =
+
+* Add: browser, IP address and location (when WooCommerce geolocation is available) of the request in magic link emails, so recipients can tell if it wasn't them
+* Update dependencies
 
 = 2.6.0 =
 

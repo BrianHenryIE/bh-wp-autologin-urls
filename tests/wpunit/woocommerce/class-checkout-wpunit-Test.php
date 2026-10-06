@@ -11,6 +11,15 @@ use BrianHenryIE\WP_Autologin_URLs\WP_Includes\Login;
  */
 class Checkout_WPUnit_Test extends \BrianHenryIE\WP_Autologin_URLs\WPUnit_Testcase {
 
+	protected function setUp(): void {
+		parent::setUp();
+
+		// No cookie can be set under the CLI, and once anything has been printed – e.g. a deprecation
+		// notice from the test tooling on a new PHP version – WooCommerce raises a "cookie cannot be
+		// set - headers already sent" notice for trying, which fails the test.
+		add_filter( 'woocommerce_set_cookie_enabled', '__return_false' );
+	}
+
 	/**
 	 * When there is a past order associated with that email address,
 	 * use its billing details in the checkout fields.

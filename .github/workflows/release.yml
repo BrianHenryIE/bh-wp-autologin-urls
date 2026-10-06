@@ -70,6 +70,8 @@ jobs:
       - name: Unzip release archive for SVN deployment
         run: unzip ${{ steps.create-plugin-archive.outputs.DIST_ARCHIVE_ABSOLUTE_FILEPATH }}
 
+      # https://profiles.wordpress.org/brianhenryie/profile/edit/group/3/?screen=svn-password
+      # gh secret set SVN_PASSWORD
       - name: WordPress Plugin Deploy
         uses: 10up/action-wordpress-plugin-deploy@stable
         env:
