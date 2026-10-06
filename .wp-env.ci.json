@@ -26,5 +26,6 @@
   },
   "phpVersion": "8.1",
   "plugins": [],
+  "port": 8882,
   "testsEnvironment": false
 }

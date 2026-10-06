@@ -8,7 +8,9 @@
   },
   "scripts": {
     "wp-env": "wp-env start",
+    "test:e2e:setup": "playwright install",
     "test:e2e": "playwright test",
+    "test:e2e:chromium": "playwright test --project=chromium",
     "test:e2e:ui": "playwright test --ui",
     "test:e2e:report": "playwright show-report"
   },

@@ -6,7 +6,18 @@ import { defineConfig, devices } from '@playwright/test';
  */
 require('dotenv').config();
 
-const BASE_URL = process.env.BASEURL;
+// The site under test is wp-env's, so default to the port in `.wp-env.json` (which `.wp-env.ci.json`
+// matches) rather than repeating it here. `WP_BASE_URL` is the name WordPress's own tooling uses.
+const wpEnvPort = require('./.wp-env.json').port ?? 8888;
+const BASE_URL = process.env.BASE_URL ?? process.env.BASEURL ?? process.env.WP_BASE_URL ?? `http://localhost:${wpEnvPort}`;
+
+// `@wordpress/e2e-test-utils-playwright` discovers the REST API from this variable alone, ignoring
+// Playwright's `baseURL`, and otherwise assumes port 8889.
+process.env.WP_BASE_URL = BASE_URL;
+
+// Where `global-setup.ts` saves the administrator's session, and where the `requestUtils` fixture of
+// `@wordpress/e2e-test-utils-playwright` reads it from.
+process.env.STORAGE_STATE_PATH ??= 'tests/_output/storage-states/admin.json';
 
 // "test:e2e": "wp-scripts test-playwright
 /**
@@ -14,6 +25,8 @@ const BASE_URL = process.env.BASEURL;
  */
 export default defineConfig({
   testDir: './tests/e2e-pw',
+  /* Logs in as the administrator once, over HTTP, rather than through wp-login.php in each spec. */
+  globalSetup: require.resolve('./tests/e2e-pw/global-setup.ts'),
   // testDir: './vendor/wordpress/wordpress/tests/e2e',
   /* Pattern to match test files. `.spec.[j|t]s` is Playwright default; WordPress uses `.test.[j|t]s` */
   // grep: /(spec|test)/,
@@ -40,9 +53,12 @@ export default defineConfig({
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Base URL to use in actions like `await page.goto('/')`. */
-    // Port 8888 is wp-env's development environment. `.wp-env.json` sets
-    // `testsEnvironment: false`, so there is nothing on 8889.
-    baseURL: BASE_URL ?? 'http://localhost:8888',
+    // wp-env's development environment. `.wp-env.json` sets `testsEnvironment: false`, so there is
+    // no separate tests instance.
+    baseURL: BASE_URL,
+
+    /* Every browser context starts logged in as the administrator. */
+    storageState: process.env.STORAGE_STATE_PATH,
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
@@ -51,9 +67,6 @@ export default defineConfig({
   // Folder for test artifacts such as screenshots, videos, traces, etc.
   outputDir: './tests/_output/playwright-results',
 
-  // // path to the global setup files.
-  // globalSetup: require.resolve('./global-setup'),
-  //
   // // path to the global teardown files.
   // globalTeardown: require.resolve('./global-teardown'),
   //

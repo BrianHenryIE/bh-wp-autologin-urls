@@ -29,5 +29,6 @@
   "plugins": [
     "."
   ],
+  "port": 8882,
   "testsEnvironment": false
 }
