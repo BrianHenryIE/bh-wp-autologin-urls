@@ -38,7 +38,7 @@ if ( ! function_exists( 'add_autologin_to_url' ) ) {
 		 *
 		 * @var API_Interface $plugin_api
 		 */
-		$plugin_api = $GLOBALS['bh-wp-autologin-urls'];
+		$plugin_api = $GLOBALS['bh_wp_autologin_urls'];
 
 		return $plugin_api->add_autologin_to_url( $url, $user, $expires_in );
 	}

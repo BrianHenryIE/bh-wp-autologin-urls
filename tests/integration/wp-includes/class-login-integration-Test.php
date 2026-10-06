@@ -35,7 +35,7 @@ class Login_Integration_Test extends \BrianHenryIE\WP_Autologin_URLs\WPUnit_Test
 	 * @return int|bool
 	 */
 	protected function process_login_request( $user_id = 0 ) {
-		$api      = $GLOBALS['bh-wp-autologin-urls'];
+		$api      = $GLOBALS['bh_wp_autologin_urls'];
 		$settings = new Settings();
 
 		$login = new Login( $api, $settings, $this->logger );
