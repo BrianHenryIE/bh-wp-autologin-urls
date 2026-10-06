@@ -3,8 +3,9 @@
 // * Emails to admins do not contain autologin urls
 // * Magic login button does not work for admins
 
-import {test, expect, Page} from '@playwright/test';
-import {loginAsAdmin, createUser, logout} from './utilities/wordpress';
+import {Page} from '@playwright/test';
+import {test, expect, RequestUtils} from '@wordpress/e2e-test-utils-playwright';
+import {createUser} from './utilities/wordpress';
 
 test.describe( 'Autologin link tests', () => {
 
@@ -13,23 +14,21 @@ test.describe( 'Autologin link tests', () => {
     let page: Page;
 
     test.beforeAll(async ({ browser }) => {
-        // Create page once and sign in.
+        // Create page once; it starts logged in as the administrator.
         page = await browser.newPage();
-
-        await loginAsAdmin(page);
 
         await page.goto(loginRedirectUrl, {waitUntil:'domcontentloaded'});
     });
 
-    async function createAdminUser( username ) {
+    async function createAdminUser( requestUtils: RequestUtils, username ) {
         let uidUsernme = username + new Date().toISOString().slice(0,19).replace('T', '-');
-        return await createUser(page, uidUsernme, uidUsernme + '@example.com', 'administrator');
+        return await createUser(requestUtils, uidUsernme, uidUsernme + '@example.com', 'administrator');
     }
 
     // ::is_magic_link_enabled()
-    test('Admin magic url is not present on users.php', async () => {
+    test('Admin magic url is not present on users.php', async ({ requestUtils }) => {
 
-        let username = await createAdminUser('bobadmin');
+        let username = await createAdminUser(requestUtils, 'bobadmin');
 
         await page.goto('/wp-admin/users.php?s=' + username, {waitUntil:'domcontentloaded'});
 
@@ -42,8 +41,8 @@ test.describe( 'Autologin link tests', () => {
         await expect(page.locator('.sendmagiclink').first()).not.toBeAttached()
     });
 
-    test('Admin magic url is not present on individual users profile', async () => {
-        let username = await createAdminUser('bobadmin');
+    test('Admin magic url is not present on individual users profile', async ({ requestUtils }) => {
+        let username = await createAdminUser(requestUtils, 'bobadmin');
 
         await page.goto('/wp-admin/users.php?s=' + username, {waitUntil:'domcontentloaded'});
 

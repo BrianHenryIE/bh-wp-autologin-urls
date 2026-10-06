@@ -1,4 +1,5 @@
-import {test, expect, Page} from '@playwright/test';
+import {Page} from '@playwright/test';
+import {test, expect} from '@wordpress/e2e-test-utils-playwright';
 import {loginAsAdmin, createUser, logout} from './utilities/wordpress';
 import {getMostRecentEmailContent} from './utilities/mail';
 
@@ -94,19 +95,19 @@ test.describe( 'The Newsletter Plugin tests', () => {
   }
 
   test.beforeAll(async ({ browser }) => {
-    // Create page once and sign in.
+    // Create page once; it starts logged in as the administrator.
     page = await browser.newPage();
-    await loginAsAdmin(page);
   });
 
-  test('test_logs_in_wpuser', async () => {
+  test('test_logs_in_wpuser', async ({ requestUtils }) => {
     let firstName = 'bob' + Math.random();
     let lastName = 'lastname';
     let email = firstName + '@example.com';
 
-    await loginAsAdmin(page);
+    // The previous test, or a retry of this one, leaves the page logged out or logged in as a subscriber.
+    await loginAsAdmin(page, requestUtils);
 
-    await createUser( page, firstName, email );
+    await createUser( requestUtils, firstName, email );
 
     await addNewsletterSubscriber(page, email, firstName, lastName);
 
@@ -146,12 +147,13 @@ test.describe( 'The Newsletter Plugin tests', () => {
   });
 
 
-  test('test_fills_in_woocommerce_checkout_without_wpuser', async () => {
+  test('test_fills_in_woocommerce_checkout_without_wpuser', async ({ requestUtils }) => {
     let firstName = 'bob' + Math.random();
     let lastName = 'lastname';
     let email = firstName + '@example.com';
 
-    await loginAsAdmin(page);
+    // The previous test, or a retry of this one, leaves the page logged out or logged in as a subscriber.
+    await loginAsAdmin(page, requestUtils);
 
     await addNewsletterSubscriber(page, email, firstName, lastName);
 
