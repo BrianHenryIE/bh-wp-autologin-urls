@@ -24,9 +24,8 @@
   },
   "homepage": "https://github.com/BrianHenryIE/BH-WP-Autologin-URLs#readme",
   "devDependencies": {
-    "@playwright/test": "^1.58",
-    "@wordpress/e2e-test-utils-playwright": "^1.40",
-    "@wordpress/env": "*",
-    "dotenv": "^17.3"
+    "@wordpress/e2e-test-utils-playwright": "^2.1.0",
+    "@wordpress/env": "^11.16.0",
+    "dotenv": "^18.0.5"
   }
 }

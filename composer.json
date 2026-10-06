@@ -76,6 +76,10 @@
       "only": [
         "brianhenryie/bh-wp-rate-limiter"
       ]
+    },
+    "wordpress/wordpress": {
+      "url": "https://github.com/WordPress/wordpress-develop.git",
+      "type": "vcs"
     }
   },
   "require": {
@@ -92,14 +96,15 @@
     "antecedent/patchwork": "^2.2",
     "brianhenryie/color-logger": "*",
     "brianhenryie/strauss": "0.30.0",
-    "roots/wordpress-core-installer": "^4.0",
-    "roots/wordpress-no-content": "^7.1",
     "lucatume/wp-browser": "^4.5",
     "php-stubs/woocommerce-stubs": "*",
     "phpstan/extension-installer": "*",
     "phpunit/phpcov": "*",
     "rector/rector": "^2.3",
+    "roots/wordpress-core-installer": "^4.0",
+    "roots/wordpress-no-content": "^7.1",
     "szepeviktor/phpstan-wordpress": "*",
+    "wordpress/wordpress": "7.1.2",
     "wp-cli/dist-archive-command": "*",
     "wp-cli/i18n-command": "^2.4",
     "wp-cli/profile-command": "^2.1",
