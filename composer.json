@@ -76,10 +76,6 @@
       "only": [
         "brianhenryie/bh-wp-rate-limiter"
       ]
-    },
-    "wordpress/wordpress": {
-      "url": "https://github.com/WordPress/wordpress-develop.git",
-      "type": "vcs"
     }
   },
   "require": {
@@ -104,7 +100,6 @@
     "roots/wordpress-core-installer": "^4.0",
     "roots/wordpress-no-content": "^7.1",
     "szepeviktor/phpstan-wordpress": "*",
-    "wordpress/wordpress": "7.1.2",
     "wp-cli/dist-archive-command": "*",
     "wp-cli/i18n-command": "^2.4",
     "wp-cli/profile-command": "^2.1",
