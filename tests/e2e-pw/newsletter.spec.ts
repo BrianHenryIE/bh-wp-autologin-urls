@@ -1,4 +1,4 @@
-import {Page} from '@playwright/test';
+import {Locator, Page} from '@playwright/test';
 import {test, expect} from '@wordpress/e2e-test-utils-playwright';
 import {loginAsAdmin, createUser, logout} from './utilities/wordpress';
 import {getMostRecentEmailContent} from './utilities/mail';
@@ -16,6 +16,20 @@ test.describe( 'The Newsletter Plugin tests', () => {
   //   // TODO: Delete all transients.
   // }
 
+  /**
+   * Click a button which submits a form, and wait for the page the POST returns.
+   *
+   * `click()` resolves as soon as the click is dispatched. When the next step is a `page.goto()`, it
+   * can abort the form's POST while it is still in flight, so the subscriber is never saved or the
+   * newsletter never queued – seen on WebKit as an email which never arrives.
+   */
+  async function clickAndWaitForNavigation(page: Page, locator: Locator) {
+    await Promise.all([
+      page.waitForNavigation({waitUntil: 'domcontentloaded'}),
+      locator.click(),
+    ]);
+  }
+
   async function addNewsletterSubscriber(page: Page, email: string, firstName: string, lastName: string) {
     await page.goto('/wp-admin/admin.php?page=newsletter_users_new', {waitUntil: 'domcontentloaded'});
 
@@ -27,7 +41,7 @@ test.describe( 'The Newsletter Plugin tests', () => {
     await page.locator('#options-surname').fill(lastName);
 
     await page.waitForTimeout(100);
-    await page.getByRole('button', {name: ' Save'}).click();
+    await clickAndWaitForNavigation(page, page.getByRole('button', {name: ' Save'}));
   }
 
   /**
@@ -119,7 +133,7 @@ test.describe( 'The Newsletter Plugin tests', () => {
       // Click OK.
       dialog.accept();
     });
-    await page.getByRole('button', {name: 'Send now'}).click();
+    await clickAndWaitForNavigation(page, page.getByRole('button', {name: 'Send now'}));
 
     await waitForNewsletterSendComplete(page, email);
 
@@ -165,7 +179,7 @@ test.describe( 'The Newsletter Plugin tests', () => {
       // Click OK.
       dialog.accept();
     });
-    await page.getByRole('button', {name: 'Send now'}).click();
+    await clickAndWaitForNavigation(page, page.getByRole('button', {name: 'Send now'}));
 
     await waitForNewsletterSendComplete(page, email);
 
