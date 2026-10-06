@@ -15,6 +15,10 @@
  * @package    brianhenryie/bh-wp-autologin-urls
  */
 
+if ( ! defined( 'ABSPATH' ) ) {
+	return;
+}
+
 ?>
 
 <div class="wrap bh-wp-autologin-urls">

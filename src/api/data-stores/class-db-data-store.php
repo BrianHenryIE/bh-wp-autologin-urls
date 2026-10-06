@@ -19,6 +19,7 @@ use DateTimeZone;
 use Exception;
 use BrianHenryIE\WP_Autologin_URLs\Psr\Log\LoggerInterface;
 use BrianHenryIE\WP_Autologin_URLs\Psr\Log\LoggerAwareTrait;
+use wpdb;
 
 /**
  * Creates a custom database table via standard $wpdb functions to store and retrieve the autologin codes.
@@ -68,6 +69,7 @@ class DB_Data_Store implements Data_Store_Interface {
 			return;
 		}
 
+		/** @var wpdb $wpdb */
 		global $wpdb;
 
 		$table_name      = $wpdb->prefix . 'autologin_urls';
@@ -76,7 +78,7 @@ class DB_Data_Store implements Data_Store_Interface {
 		$sql = "CREATE TABLE {$table_name} (
 		  expires_at datetime DEFAULT '0000-00-00 00:00:00' NOT NULL,
 		  hash varchar(64) NOT NULL,
-		  userhash varchar(64) NOT NULL, 
+		  userhash varchar(64) NOT NULL,
 		  PRIMARY KEY  (hash),
 		  KEY expires_at (expires_at)
 		) {$charset_collate};";
@@ -121,6 +123,7 @@ class DB_Data_Store implements Data_Store_Interface {
 		// Concatenate $user_id and $password so the database cannot be searched by username.
 		$value = hash( 'sha256', $user_id . $code );
 
+		/** @var wpdb $wpdb */
 		global $wpdb;
 
 		$datetime = new DateTime( 'now', new DateTimeZone( 'UTC' ) );
@@ -141,7 +144,7 @@ class DB_Data_Store implements Data_Store_Interface {
 		$last_error = $wpdb->last_error;
 		if ( ! empty( $last_error ) ) {
 			$this->logger->error( $last_error );
-			throw new Exception( $last_error );
+			throw new Exception( esc_html( $last_error ) );
 		}
 
 		if ( false === $result ) {
@@ -180,6 +183,7 @@ class DB_Data_Store implements Data_Store_Interface {
 	 */
 	public function get_value_for_code( string $code, bool $delete = true ): ?string {
 
+		/** @var wpdb $wpdb */
 		global $wpdb;
 
 		$key = hash( 'sha256', $code );
@@ -197,7 +201,7 @@ class DB_Data_Store implements Data_Store_Interface {
 		$last_error = $wpdb->last_error;
 		if ( ! empty( $last_error ) ) {
 			$this->logger->error( $last_error );
-			throw new Exception( $last_error );
+			throw new Exception( esc_html( $last_error ) );
 		}
 
 		if ( is_null( $result ) ) {
@@ -245,6 +249,7 @@ class DB_Data_Store implements Data_Store_Interface {
 		// get current datetime in mysql format.
 		$mysql_formatted_date = $before->format( 'Y-m-d H:i:s' );
 
+		/** @var wpdb $wpdb */
 		global $wpdb;
 		$result = $wpdb->query( $wpdb->prepare( 'DELETE FROM ' . $wpdb->prefix . 'autologin_urls WHERE expires_at < %s', $mysql_formatted_date ) );
 
@@ -253,7 +258,7 @@ class DB_Data_Store implements Data_Store_Interface {
 		$last_error = $wpdb->last_error;
 		if ( ! empty( $last_error ) ) {
 			$this->logger->error( $last_error );
-			throw new Exception( $last_error );
+			throw new Exception( esc_html( $last_error ) );
 		}
 
 		// I think this is the number of entries deleted.

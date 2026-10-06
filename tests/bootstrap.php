@@ -47,6 +47,7 @@ $is_integration_test = array_reduce(
 	false
 );
 if ( $is_integration_test ) {
+	/** @var array<string> $arbitrary_plugins */
 	global $arbitrary_plugins;
 	$arbitrary_plugins = array(
 		dirname( __DIR__, 1 ) . '/bh-wp-autologin-urls.php',

@@ -8,6 +8,8 @@
 
 namespace BrianHenryIE\WP_Autologin_URLs;
 
+use wpdb;
+
 /**
  * Class Uninstall_WP_Mock_Test
  */
@@ -20,8 +22,10 @@ class Uninstall_Unit_Test extends \BrianHenryIE\WP_Autologin_URLs\Unit_Testcase 
 
 		$this->markTestIncomplete( 'Needs runInSeparateProcess' );
 
+		/** @var string $plugin_root_dir */
 		global $plugin_root_dir;
 
+		/** @var wpdb $wpdb */
 		global $wpdb;
 
 		// phpcs:disable WordPress.WP.GlobalVariablesOverride.Prohibited
@@ -48,6 +52,7 @@ class Uninstall_Unit_Test extends \BrianHenryIE\WP_Autologin_URLs\Unit_Testcase 
 
 		define( 'WP_UNINSTALL_PLUGIN', 'WP_UNINSTALL_PLUGIN' );
 
+		/** @var string $plugin_root_dir */
 		global $plugin_root_dir;
 
 		\WP_Mock::userFunction(
@@ -58,6 +63,7 @@ class Uninstall_Unit_Test extends \BrianHenryIE\WP_Autologin_URLs\Unit_Testcase 
 		);
 
 		// Make the mock available globally to be used in uninstall.php.
+		/** @var wpdb $wpdb */
 		global $wpdb;
 
 		// phpcs:disable WordPress.WP.GlobalVariablesOverride.P

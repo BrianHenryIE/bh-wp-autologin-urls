@@ -56,9 +56,7 @@ class Login_Form {
 		);
 		$ajax_data_json = wp_json_encode( $ajax_data, JSON_PRETTY_PRINT );
 
-		$script = <<<EOD
-var bh_wp_autologin_urls = $ajax_data_json;
-EOD;
+		$script = PHP_EOL . "var bh_wp_autologin_urls = $ajax_data_json;" . PHP_EOL;
 
 		wp_add_inline_script(
 			$handle,

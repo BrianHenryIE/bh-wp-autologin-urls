@@ -142,7 +142,7 @@ class REST_API extends WP_REST_Controller {
 			'autologin_url' => $item,
 		);
 
-		$context = ! empty( $request['context'] ) ? $request['context'] : 'view';
+		$context = is_string( $request['context'] ) && '' !== $request['context'] ? $request['context'] : 'view';
 		$data    = $this->add_additional_fields_to_object( $data, $request );
 		$data    = $this->filter_response_by_context( $data, $context );
 

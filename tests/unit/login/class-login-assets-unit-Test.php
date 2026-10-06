@@ -29,6 +29,7 @@ class Login_Assets_Unit_Test extends \BrianHenryIE\WP_Autologin_URLs\Unit_Testca
 	 */
 	public function test_enqueue_styles(): void {
 
+		/** @var string $plugin_root_dir */
 		global $plugin_root_dir;
 
 		// Return any old url.
@@ -76,6 +77,7 @@ class Login_Assets_Unit_Test extends \BrianHenryIE\WP_Autologin_URLs\Unit_Testca
 	 */
 	public function test_enqueue_scripts(): void {
 
+		/** @var string $plugin_root_dir */
 		global $plugin_root_dir;
 
 		// Return any old url.

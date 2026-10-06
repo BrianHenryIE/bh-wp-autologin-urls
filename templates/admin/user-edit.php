@@ -10,6 +10,10 @@
  * @var string $autologin_url The generated URL.
  */
 
+if ( ! defined( 'ABSPATH' ) ) {
+	return;
+}
+
 ?>
 
 <table class="form-table bh-wp-autologin-urls" role="presentation">

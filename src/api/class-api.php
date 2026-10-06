@@ -80,7 +80,8 @@ class API implements API_Interface {
 	 */
 	public function add_autologin_to_message( string $message, $user, ?int $expires_in = null ): string {
 
-		$replace_with = function ( $matches ) use ( $user, $expires_in ) {
+		$replace_with = function ( array $matches ) use ( $user, $expires_in ) {
+			/** @var array<int|string, string> $matches */
 
 			$url = $matches[0];
 
@@ -369,6 +370,7 @@ class API implements API_Interface {
 	 */
 	protected function get_rate_limiter(): Rate_Limiter {
 
+		/** @var Rate_Limiter $rate_limiter */
 		static $rate_limiter;
 
 		if ( empty( $rate_limiter ) ) {
@@ -482,12 +484,12 @@ class API implements API_Interface {
 
 		if ( class_exists( WC_Geolocation::class ) ) {
 			$ip_address = WC_Geolocation::get_ip_address();
-		} elseif ( isset( $_SERVER['HTTP_X_REAL_IP'] ) ) {
+		} elseif ( isset( $_SERVER['HTTP_X_REAL_IP'] ) && is_string( $_SERVER['HTTP_X_REAL_IP'] ) && '' !== $_SERVER['HTTP_X_REAL_IP'] ) {
 				$ip_address = sanitize_text_field( wp_unslash( $_SERVER['HTTP_X_REAL_IP'] ) );
-		} elseif ( isset( $_SERVER['HTTP_X_FORWARDED_FOR'] ) ) {
+		} elseif ( isset( $_SERVER['HTTP_X_FORWARDED_FOR'] ) && is_string( $_SERVER['HTTP_X_FORWARDED_FOR'] ) && '' !== $_SERVER['HTTP_X_FORWARDED_FOR'] ) {
 			$forwarded_for = preg_split( '/,/', sanitize_text_field( wp_unslash( $_SERVER['HTTP_X_FORWARDED_FOR'] ) ) );
 			$ip_address    = false === $forwarded_for ? null : (string) rest_is_ip_address( trim( (string) current( $forwarded_for ) ) );
-		} elseif ( isset( $_SERVER['REMOTE_ADDR'] ) ) {
+		} elseif ( isset( $_SERVER['REMOTE_ADDR'] ) && is_string( $_SERVER['REMOTE_ADDR'] ) && '' !== $_SERVER['REMOTE_ADDR'] ) {
 			$ip_address = filter_var( wp_unslash( $_SERVER['REMOTE_ADDR'] ), FILTER_VALIDATE_IP );
 		}
 
@@ -671,7 +673,7 @@ class API implements API_Interface {
 		$autologin_url = add_query_arg( array( 'magic' => 'true' ), $autologin_url );
 
 		// Who is asking for the link? Shown in the email so the recipient can tell if it wasn't them.
-		$request_details = $this->get_request_details();
+		$request_details = array_filter( $this->get_request_details() );
 
 		/**
 		 * Short-circuit email sending.
@@ -693,7 +695,7 @@ class API implements API_Interface {
 		 *
 		 * @var string $autologin_url The URL which will log the user in.
 		 * @var string $expires_in_friendly Human-readable form of the number of seconds until expiry.
-		 * @var array{ip_address:?string, browser:?string, location:?string} $request_details Details of the request asking for the link; all null when e.g. sent from CLI.
+		 * @var array{ip_address:string|null, browser:string|null, location:string|null} $request_details Details of the request asking for the link; all null when e.g. sent from CLI.
 		 */
 		$template_email_magic_link = apply_filters( 'bh_wp_autologin_urls_magic_link_email_template', $template_email_magic_link );
 

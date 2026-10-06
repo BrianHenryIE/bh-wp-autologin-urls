@@ -30,6 +30,8 @@ class I18n {
 	 */
 	public function load_plugin_textdomain(): void {
 
+		// This is not exclusively distributed via WordPress.org (also via GitHub).
+		// phpcs:ignore PluginCheck.CodeAnalysis.DiscouragedFunctions.load_plugin_textdomainFound
 		load_plugin_textdomain(
 			'bh-wp-autologin-urls',
 			false,

@@ -56,10 +56,14 @@ class Login_Ajax {
 			wp_send_json_error( 'No username provided.', 400 );
 		}
 
+		if ( ! is_string( $_POST['username'] ) ) {
+			wp_send_json_error( 'Invalid username provided.', 400 );
+		}
+
 		$username = sanitize_user( wp_unslash( $_POST['username'] ) );
 
 		$url = null;
-		if ( ! empty( $_POST['url'] ) ) {
+		if ( ! empty( $_POST['url'] ) && is_string( $_POST['url'] ) ) {
 			$url = esc_url_raw( wp_unslash( $_POST['url'] ) );
 
 			// WooCommerce `_wp_http_referer` is relative to the server root (rather than the site url).

@@ -75,7 +75,7 @@ interface Settings_Interface {
 	 * @used-by Admin::enqueue_scripts()
 	 * @used-by Admin::enqueue_styles()
 	 *
-	 * @return string
+	 * @return non-empty-string
 	 */
 	public function get_plugin_version(): string;
 

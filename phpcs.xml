@@ -30,6 +30,11 @@
     <exclude-pattern>/wp-content/</exclude-pattern>
     <exclude-pattern>/phpstanbootstrap.php</exclude-pattern>
 
+    <!-- The public API was defined a few years ago. -->
+    <rule ref="WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound">
+        <exclude-pattern>functions.phps</exclude-pattern>
+    </rule>
+
     <!-- for abstract-name.php classes -->
     <rule ref="WordPress.Files.FileName.InvalidClassFileName">
         <exclude-pattern>*</exclude-pattern>

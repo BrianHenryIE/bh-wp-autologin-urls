@@ -25,6 +25,7 @@ class I18n_Integration_Test extends \BrianHenryIE\WP_Autologin_URLs\WPUnit_Testc
 
 		$this->markTestSkipped( 'Needs translation.' );
 
+		/** @var string $plugin_root_dir */
 		global $plugin_root_dir;
 
 		$this->assertTrue( file_exists( $plugin_root_dir . '/languages/' ), '/languages/ folder does not exist.' );
