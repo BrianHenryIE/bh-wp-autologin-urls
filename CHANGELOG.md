@@ -4,7 +4,6 @@
 * Add: `get_request_details()` to `API_Interface`
 * Fix: The Newsletter Plugin 9.3.7+ compatibility – its tracking links are signed in a new format, so they were rejected and each click counted as a failed login attempt
 * Update dependencies
-* Requires WordPress 6.8
 * Tested up to WordPress 7.1
 * Dev: E2E tests run against the built plugin zip across PHP 8.1–8.5, and log in using `@wordpress/e2e-test-utils-playwright`
 
